@@ -4,13 +4,11 @@ import com.ssafy.dksl.model.dto.UserDto;
 import com.ssafy.dksl.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin
 public class UserController {
 
     private UserService userService;
@@ -20,9 +18,8 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("create")
-    private ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        System.out.println(userDto);
-        return ResponseEntity.ok(userDto);
+    @PostMapping("register")
+    private ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+        return ResponseEntity.ok(userService.registerUser(userDto));
     }
 }
