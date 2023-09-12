@@ -1,14 +1,14 @@
-// import { useState } from 'react';
 import HeaderComponent from "../components/common/HeaderComponent";
+import RankingComponent from "../components/main/RankingComponent";
 import SearchComponent from "../components/main/SearchComponent";
-// import * as S from '../styles/main.style';
 
 const MainContainer = () => {
 
   return (
     <>
-      <HeaderComponent></HeaderComponent>
-      <SearchComponent></SearchComponent>
+      <HeaderComponent />
+      <SearchComponent />
+      <RankingComponent />
     </>
   );
 };

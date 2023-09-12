@@ -1,12 +1,13 @@
 import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 15vh;
   position: fixed;
   background-color: #FFFFFF;
   filter: drop-shadow(0 .5mm .75rem gray);
   display: flex;
+  z-index: 99;
 `;
 
 export const LogoBox = styled.div`
