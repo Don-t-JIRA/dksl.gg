@@ -34,7 +34,7 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 600;
   font-family: inherit;
   color: #ffffff;
@@ -47,13 +47,13 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  /* outline: 4px auto -webkit-focus-ring-color; */
 }
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #242424;
+    background-color: #f5f5f5;
   }
   a:hover {
     color: #747bff;
