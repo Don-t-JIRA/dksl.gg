@@ -22,5 +22,3 @@ INSERT INTO `tier`(`id`, `name`) VALUES ('challengerr', '챌린저');
 
 -- Temp User
 INSERT INTO `team`(`name`) VALUES ('SSAFY');
-INSERT INTO `user`(`client_id`, `password`, `name`, `puuid`) VALUES ('dbdud1999', '1234', '유 용', 'bm1Qsq2s55EjroxetG56685iGGbDlfnXxHZO1NgrQBsHej_80OaGRSgnhbcI2Jq_0XX4F2Yy5Ek3og');
-INSERT INTO `user_team`(`user_id`, `team_id`) VALUES ('1', '1');
