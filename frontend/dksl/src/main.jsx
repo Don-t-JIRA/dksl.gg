@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.jsx';
 import TestContainer from './pages/TestContainer.jsx';
-import './index.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'jotai';
+import GlobalStyle from './styles/globalStyle.js';
+import MainContainer from './pages/MainContainer.jsx';
 
 const router = createBrowserRouter([
-  { path: '/', element: <App /> },
+  { path: '/', element: <MainContainer /> },
   { path: '/test', element: <TestContainer /> },
 ]);
 
@@ -16,6 +16,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
-    ,
+    <GlobalStyle />
   </Provider>
 );

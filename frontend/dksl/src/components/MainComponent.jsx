@@ -13,6 +13,9 @@ const MainComponent = ({ count, setCount }) => {
         </a>
       </div>
       <h1>dkslgg</h1>
+      <p>
+        Count가 9보다 커진다면 무언가가!
+      </p>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
