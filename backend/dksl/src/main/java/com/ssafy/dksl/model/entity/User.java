@@ -6,16 +6,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Entity
 public class User {
     @JsonIgnore
@@ -41,9 +45,12 @@ public class User {
     @Comment("PUUID")
     private String puuid;
 
-    @ManyToMany
-    @JoinTable(name = "user_team", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "id")})
-    private Set<Team> teams;
+//    @ManyToMany
+//    @JoinTable(name = "user_team", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "id")})
+//    private Set<Team> teams;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserTeam> teams = new ArrayList<>();
 
     @JsonIgnore
     @Comment("삭제일")

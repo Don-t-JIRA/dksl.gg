@@ -3,6 +3,8 @@ package com.ssafy.dksl.model.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Comment;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -15,7 +17,7 @@ public class Team {
     @Comment("이름")
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "user_team", joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private Set<User> users;
+
+    @OneToMany(mappedBy = "team")
+    private List<UserTeam> users = new ArrayList<>();
 }
