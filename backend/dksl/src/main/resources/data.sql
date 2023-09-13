@@ -19,3 +19,6 @@ INSERT INTO `tier`(`id`, `name`) VALUES ('diamond', '다이아몬드');
 INSERT INTO `tier`(`id`, `name`) VALUES ('master', '마스터');
 INSERT INTO `tier`(`id`, `name`) VALUES ('grandmaster', '그랜드마스터');
 INSERT INTO `tier`(`id`, `name`) VALUES ('challengerr', '챌린저');
+
+-- Temp User
+INSERT INTO `team`(`name`) VALUES ('SSAFY');
