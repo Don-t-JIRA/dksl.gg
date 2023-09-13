@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.security.auth.login.LoginException;
+
 @RestController
 @RequestMapping("user")
 @CrossOrigin
@@ -21,10 +23,19 @@ public class UserController {
     }
 
     @PostMapping("register")
-    private ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
+    private ResponseEntity<?> register(@RequestBody UserDto userDto) {
         try {
-            return ResponseEntity.ok(userService.registerUser(userDto));
+            return ResponseEntity.ok(userService.register(userDto));
         } catch (RegisterException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
+        }
+    }
+
+    @PostMapping("login")
+    private ResponseEntity<?> login(@RequestBody UserDto userDto) {
+        try {
+            return ResponseEntity.ok(userService.login(userDto));
+        } catch (LoginException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }

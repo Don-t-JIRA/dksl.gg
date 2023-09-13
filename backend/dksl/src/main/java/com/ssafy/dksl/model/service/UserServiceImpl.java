@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.LoginException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean registerUser(UserDto userDto) throws RegisterException {
+    public boolean register(UserDto userDto) throws RegisterException {
         // 가입되어 있는 아이디인지 확인
         if(userRepository.findByClientId(userDto.getClientId()).isPresent()) {
             throw new RegisterException("해당 아이디를 가진 회원이 이미 존재합니다.");
@@ -47,22 +47,43 @@ public class UserServiceImpl implements UserService {
             throw new RegisterException("해당 닉네임을 가진 회원이 이미 존재합니다.");
         }
 
-        SummonerDto summonerDto = callApi(userDto.getName());
-
         try {
+            SummonerDto summonerDto = callApi(userDto.getName());
+
             User user = User.builder()
                     .clientId(userDto.getClientId())
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .name(summonerDto.getName())
                     .puuid(summonerDto.getPuuid())
                     .build();
+
             userRepository.save(user);
+
+            return true;
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new RegisterException("회원 생성에 실패하였습니다.");
         }
+    }
 
-        return true;
+    @Override
+    public UserDto login(UserDto userDto) throws LoginException {
+        // 가입되어 있는 아이디인지 확인
+        User user = userRepository.findByClientId(userDto.getClientId()).orElseThrow(() -> new LoginException("아이디 혹은 비밀번호를 틀렸습니다."));
+
+        if(!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
+            System.out.println("입력 password : " + passwordEncoder.encode(userDto.getPassword().trim()));
+            System.out.println("원래 password : " + user.getPassword().trim());
+            throw new LoginException("아이디 혹은 비밀번호를 틀렸습니다.");
+        }
+
+        /*
+            TO DO :: Redis에 토큰 넣기
+         */
+
+        return UserDto.builder()
+                .name(user.getName())
+                .build();
     }
 
     private SummonerDto callApi(String name) throws RegisterException {
