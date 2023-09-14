@@ -1,6 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
+
 #root {
   width: 100%;
   height: 100vh;
@@ -50,6 +51,15 @@ button:focus-visible {
   /* outline: 4px auto -webkit-focus-ring-color; */
 }
 
+a {
+  text-decoration: none;
+  color: black;
+  transition: all .2s;
+}
+
+a:link { color: black; }
+a:visited { color: black; }
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -59,7 +69,6 @@ button:focus-visible {
     color: #747bff;
   }
 }
-
 `
 
-export default GlobalStyle;
+export default GlobalStyles;

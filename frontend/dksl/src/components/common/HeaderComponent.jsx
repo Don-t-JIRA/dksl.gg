@@ -1,24 +1,31 @@
 import * as S from "@/styles/common/header.style"
 import dkslLogo from '/src/assets/dkslhead.svg'
+import { useNavigate } from "react-router-dom"
 
 const HeaderComponent = () => {
+  const navigate = useNavigate();
+
+  const setNavigate = (url) => {
+    navigate(url);
+  }
+
   return (
     <S.HeaderLayout>
-      <S.LogoBox>
+      <div className="logoBox">
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <S.Logo src={dkslLogo} className="logo" alt="Dksl logo" />
+          <img src={dkslLogo} className="logo" alt="Dksl logo" />
         </a>
-      </S.LogoBox>
+      </div>
       <S.MenuContainer>
-        <S.MenuItem>소속</S.MenuItem>
-        <S.MenuItem>투기장</S.MenuItem>
-        <S.MenuItem>매칭</S.MenuItem>
-        <S.MenuItem>리뷰</S.MenuItem>
+        <a>소속</a>
+        <a>투기장</a>
+        <a>매칭</a>
+        <a>리뷰</a>
       </S.MenuContainer>
       <S.LogInConatiner>
-        <S.LoginBtn>
+        <button onClick={() => setNavigate('/user/signin')}>
           로그인
-        </S.LoginBtn>
+        </button>
       </S.LogInConatiner>
     </S.HeaderLayout>
   )

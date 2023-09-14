@@ -6,31 +6,23 @@ export const RankingLayout = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
-`
 
-export const HOFContainer = styled.div`
-  width: 25vw;
-  height: 50%;
-  background-color: white;
-  margin: 2rem;
-  border: .5px solid gray;
-`
+  & .container {
+    width: 25vw;
+    height: 50%;
+    background-color: white;
+    margin: 2rem;
+    border: .5px solid gray;
+  }
 
-export const RankContainer = styled.div`
-  width: 25vw;
-  height: 50%;
-  background-color: white;
-  margin: 2rem;
-  border: .5px solid gray;
-`
-
-export const SectionTitle = styled.p`
-  margin-top: 0;
-  padding: 1rem 0;
-  padding-left: 1rem;
-  border-bottom: .5px solid gray;
-  font-size: medium;
-  font-weight: bolder;
+  & .title {
+    margin-top: 0;
+    padding: 1rem 0;
+    padding-left: 1rem;
+    border-bottom: .5px solid gray;
+    font-size: medium;
+    font-weight: bolder;
+  }
 `
 
 export const TabBox = styled.div`
@@ -46,9 +38,34 @@ export const TabItem = styled.button`
   font-size: small;
   padding: 3px;
   border-radius: 4px;
-  font-weight: ${(props) => props.isActive ? (`bold`) : (`500`)};
+  font-weight: ${(props) => props.istab == 1 ? (`bold`) : (`500`)};
   /* font-weight: 400; */
   color: #000;
-  background-color: ${(props) => props.isActive ? (`#D7F0F4`) : (`#F5F5F5`)};
+  background-color: ${(props) => props.istab == 1 ? (`#D7F0F4`) : (`#F5F5F5`)};
   transition: all .25s;
+`
+
+export const ContentTable = styled.table`
+  width: 100%;
+`
+
+export const ContentItem = styled.tr`
+  display: flex;
+  margin: 1rem;
+
+  & .idx {
+
+  }
+
+  & .image {
+
+  }
+
+  & .name {
+
+  }
+
+  & .tier {
+
+  }
 `
