@@ -4,10 +4,7 @@ import SigninComponent from '../components/user/SigninComponent';
 import SignupComponent from '../components/user/SignupComponent';
 
 const UserContainer = () => {
-  const [signin, setSignin] = useState({
-    id: '',
-    pw: ''
-  });
+  const [signin, setSignin] = useState({});
   const [path, setPath] = useState(null);
   const url = useLocation();
 

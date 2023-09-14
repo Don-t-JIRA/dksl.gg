@@ -6,14 +6,14 @@ export const SignupLayout = styled.div`
   background-image: 
     linear-gradient(rgba(0, 0, 0, .5), 
     rgba(0, 0, 0, .5)), 
-    url('../../src/assets/bg/signup_bg_${Math.floor(Math.random() * 5)+1}.jpg');
+    url('../../src/assets/bg/signup_bg_${(props) => props.bgnum}.jpg');
   background-size: 100%;
   justify-content: center;
   align-items: center;
   display: flex;
 
   & hr {
-    width: .2rem;
+    width: .1rem;
     background-color: gray;
     border-radius: 1rem;
   }
@@ -63,6 +63,7 @@ export const SignupInputBox = styled.div`
     padding-left: .5rem;
     background-color: #F2F2F2;
     border: none;
+    border-radius: .25rem;
   }
 `
 

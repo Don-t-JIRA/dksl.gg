@@ -6,7 +6,7 @@ export const SigninLayout = styled.div`
   background-image: 
     linear-gradient(rgba(0, 0, 0, .5), 
     rgba(0, 0, 0, .5)), 
-    url('../../src/assets/bg/login_bg_${Math.floor(Math.random() * 5)+1}.jpg');
+    url('../../src/assets/bg/login_bg_${(props) => props.bgnum}.jpg');
   background-size: 100%;
   justify-content: center;
   align-items: center;
@@ -56,6 +56,7 @@ export const SigninInputBox = styled.div`
     padding-left: .5rem;
     background-color: #F2F2F2;
     border: none;
+    border-radius: .25rem;
   }
 `
 

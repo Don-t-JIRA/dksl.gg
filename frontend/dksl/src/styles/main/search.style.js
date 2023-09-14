@@ -7,7 +7,7 @@ export const SearchLayout = styled.div`
   background-image: 
     linear-gradient(rgba(0, 0, 0, .5), 
     rgba(0, 0, 0, .5)), 
-    url('src/assets/bg/main_bg_${Math.floor(Math.random() * 10)+1}.jpg');
+    url('src/assets/bg/main_bg_${(props) => props.bgnum}.jpg');
   background-size: 100% 90vh;
   display: flex;
 
@@ -33,7 +33,7 @@ export const SearchLayout = styled.div`
 
   & .container .box input {
     width: 90%;
-    height: 2rem;
+    height: 2.25rem;
     padding: 5px 5%;
     border-radius: 3px;
     filter: drop-shadow(2px 4px 4px hsl(0deg 0% 0% / 0.38));
@@ -41,7 +41,8 @@ export const SearchLayout = styled.div`
 
   & .container .box input:focus {
     transition: all 0.5s;
-    height: 2.1rem;
+    height: 2.25rem;
+    outline: 2px solid gray;
     filter: drop-shadow(4px 8px 8px hsl(0deg 0% 0% / 0.25));
   }
 

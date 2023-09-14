@@ -1,9 +1,11 @@
 import * as S from '../../styles/main/search.style';
 
 const SearchComponent = () => {
+  const num = Math.floor(Math.random() * 10) + 1;
+
   return (
     <>
-      <S.SearchLayout>
+      <S.SearchLayout bgnum={num}>
         <div className='container'>
           <div className='title'>나의 전적을 분석해보세요.</div>
           <div className='box'>

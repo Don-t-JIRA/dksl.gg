@@ -1,8 +1,10 @@
 import * as S from '@/styles/user/signup.style';
 
 const SignupComponent = () => {
+  const num = Math.floor(Math.random() * 5)+1; 
+
   return (
-    <S.SignupLayout>
+    <S.SignupLayout bgnum={num}>
       <S.SignupContainer>
         <div className="box">
           <img className="logo" src="../../src/assets/dkslhead.svg" />

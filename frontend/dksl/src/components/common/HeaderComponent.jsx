@@ -3,6 +3,8 @@ import dkslLogo from '/src/assets/dkslhead.svg'
 import { useNavigate } from "react-router-dom"
 
 const HeaderComponent = () => {
+  // const []
+
   const navigate = useNavigate();
 
   const setNavigate = (url) => {

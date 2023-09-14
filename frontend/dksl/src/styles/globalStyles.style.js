@@ -48,7 +48,7 @@ button:hover {
 }
 button:focus,
 button:focus-visible {
-  /* outline: 4px auto -webkit-focus-ring-color; */
+  outline: 4px auto #0FA0B8;
 }
 
 a {
@@ -59,6 +59,10 @@ a {
 
 a:link { color: black; }
 a:visited { color: black; }
+
+input:focus {
+  outline: none;
+}
 
 @media (prefers-color-scheme: light) {
   :root {

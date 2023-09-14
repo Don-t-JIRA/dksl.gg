@@ -1,6 +1,9 @@
 import * as S from '@/styles/user/signin.style';
+import { useEffect } from 'react';
 
 const SigninComponent = ({ getter, setter }) => {
+  const num = Math.floor(Math.random() * 5)+1;
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setter({
@@ -8,6 +11,10 @@ const SigninComponent = ({ getter, setter }) => {
       [name]: value,
     });
   };
+
+  useEffect(() => {
+    console.log(getter);
+  }, [getter])
 
   /**
    * @value 
@@ -25,7 +32,7 @@ const SigninComponent = ({ getter, setter }) => {
   */
 
   return (
-    <S.SigninLayout>
+    <S.SigninLayout bgnum={num}>
       <S.SigninContainer>
         <div className="box">
           <img className="logo" src="../../src/assets/dkslhead.svg" />
