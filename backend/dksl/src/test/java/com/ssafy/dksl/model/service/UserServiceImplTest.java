@@ -41,6 +41,7 @@ class UserServiceImplTest {
                 .password("testPassword")
                 .name("testName")
                 .puuid("testPUUID")
+                .build();
 
         // when
 
