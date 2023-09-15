@@ -1,8 +1,14 @@
+// React
+import { useEffect, useMemo } from 'react';
+// Styled
 import * as S from '@/styles/user/signin.style';
-import { useEffect } from 'react';
 
+/**
+ * @param getter // 로그인 시 서버에 전송할 유저 객체
+ * @param setter // 유저 객체에 값 저장할 Setter 메서드
+ */
 const SigninComponent = ({ getter, setter }) => {
-  const num = Math.floor(Math.random() * 5)+1;
+  const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
 
   const onChange = (e) => {
     const { name, value } = e.target;

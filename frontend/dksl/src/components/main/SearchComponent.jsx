@@ -1,7 +1,18 @@
+// React
+import { useMemo } from 'react';
+// Styled
 import * as S from '../../styles/main/search.style';
+import { useNavigate } from 'react-router-dom';
 
 const SearchComponent = () => {
-  const num = Math.floor(Math.random() * 10) + 1;
+  // 하단 랭킹의 탭 state가 변경되어도 값이 바뀌지 않게 하기 위해
+  const num = useMemo(() => Math.floor(Math.random() * 10) + 1, []);
+
+  const navigate = useNavigate();
+
+  const onSearch = () => {
+    navigate('/record');
+  }
 
   return (
     <>
@@ -10,7 +21,7 @@ const SearchComponent = () => {
           <div className='title'>나의 전적을 분석해보세요.</div>
           <div className='box'>
             <input placeholder='소환사명 입력하기' />
-            <img src='/src/assets/search.svg' />
+            <img src='/src/assets/search.svg' onClick={() => onSearch()} />
           </div>
         </div>
       </S.SearchLayout>

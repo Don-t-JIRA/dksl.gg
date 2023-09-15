@@ -1,23 +1,34 @@
+// React, router
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import TestContainer from './pages/TestContainer.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ErrorBoundary from 'react-error-boundary';
+// Jotai
 import { Provider } from 'jotai';
-import GlobalStyles from './styles/globalStyles.style.js';
+// Container
+import TestContainer from './pages/TestContainer.jsx';
 import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
+import RecordContainer from './pages/RecordContainer.jsx';
+// Styled
+import GlobalStyles from './styles/globalStyles.style.js';
 
+// Routing 설정
 const router = createBrowserRouter([
   { path: '/', element: <MainContainer /> },
   { path: '/user/:type', element: <UserContainer /> },
+  { path: '/record', element: <RecordContainer /> },
   { path: '/test', element: <TestContainer /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <ErrorBoundary FallbackComponent={} >
+
   <Provider>
     <GlobalStyles />
     <React.StrictMode>
       <RouterProvider router={router} />
     </React.StrictMode>
   </Provider>
+  </ErrorBoundary>
 );
