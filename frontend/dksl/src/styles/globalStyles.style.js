@@ -73,6 +73,16 @@ input:focus {
     color: #747bff;
   }
 }
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 `
 
 export default GlobalStyles;

@@ -42,6 +42,12 @@ export const SignupContainer = styled.div`
     margin-top: 2rem;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    .logo {
+      animation: logo-spin infinite 20s linear;
+    }
+  }
+
   & hr {
     margin: 1rem;
   }
