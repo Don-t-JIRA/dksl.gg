@@ -2,9 +2,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorBoundary from 'react-error-boundary';
+import { ErrorBoundary } from 'react-error-boundary';
 // Jotai
 import { Provider } from 'jotai';
+// Component
+import ErrorComponent from './components/common/ErrorComponent.jsx';
 // Container
 import TestContainer from './pages/TestContainer.jsx';
 import MainContainer from './pages/MainContainer.jsx';
@@ -22,13 +24,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <ErrorBoundary FallbackComponent={} >
-
-  <Provider>
-    <GlobalStyles />
-    <React.StrictMode>
-      <RouterProvider router={router} />
-    </React.StrictMode>
-  </Provider>
+  <ErrorBoundary FallbackComponent={ErrorComponent}>
+    <Provider>
+      <GlobalStyles />
+      <React.StrictMode>
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </Provider>
   </ErrorBoundary>
 );

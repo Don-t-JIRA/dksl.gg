@@ -1,14 +1,14 @@
 // React
-import React from 'react';
+// import React from 'react';
 // Component
-import RecordProfileComponent from '../components/record/RecordProfileComponent';
+import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
 
 const RecordContainer = () => {
   return (
     <>
       <HeaderComponent />
-      <RecordProfileComponent />
+      <ProfileComponent />
     </>
   );
 }
