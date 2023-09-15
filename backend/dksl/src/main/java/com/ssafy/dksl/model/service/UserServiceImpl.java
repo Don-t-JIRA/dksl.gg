@@ -5,10 +5,14 @@ import com.ssafy.dksl.model.dto.SummonerDto;
 import com.ssafy.dksl.model.dto.UserDto;
 import com.ssafy.dksl.model.entity.User;
 import com.ssafy.dksl.model.repository.UserRepository;
+import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.RegisterException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +28,7 @@ import java.net.http.HttpResponse;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Value("${riot.summoner.api.key}")
     private String RIOT_SUMMONER_API_KEY;
@@ -31,11 +36,14 @@ public class UserServiceImpl implements UserService {
     @Value("${riot.summoner.api.uri}")
     private String RIOT_SUMMONER_API_URI;
 
+    private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
 
     @Autowired
-    UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository){
+    UserServiceImpl(PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, JwtUtil jwtUtil, UserRepository userRepository){
         this.passwordEncoder = passwordEncoder;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
     }
 
@@ -76,6 +84,10 @@ public class UserServiceImpl implements UserService {
             System.out.println("원래 password : " + user.getPassword().trim());
             throw new LoginException("아이디 혹은 비밀번호를 틀렸습니다.");
         }
+
+        System.out.println("인증 : " + jwtUtil.getAuthentication(user.getClientId()));
+        // String token = jwtUtil.generateToken(jwtUtil.getAuthentication(user.getClientId()), user.getClientId());
+        // System.out.println("토큰 정보 : " + token);
 
         /*
             TO DO :: Redis에 토큰 넣기
