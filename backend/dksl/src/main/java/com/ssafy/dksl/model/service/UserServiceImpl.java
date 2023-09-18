@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService {
             throw new LoginException("중복 로그인 하였습니다.");
         }
 
-         String token = jwtUtil.generateToken(user.getClientId(), "USER");
+         String token = jwtUtil.generateToken(user.getClientId(), "ROLE_USER");
          System.out.println("토큰 정보 : " + token);
 
         // Redis에 토큰 넣기
