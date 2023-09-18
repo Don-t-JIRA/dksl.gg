@@ -1,7 +1,5 @@
 package com.ssafy.dksl.util;
 
-import com.ssafy.dksl.model.entity.User;
-import com.ssafy.dksl.model.repository.UserRepository;
 import com.ssafy.dksl.util.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -11,11 +9,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
@@ -23,17 +21,16 @@ import static org.springframework.security.core.authority.AuthorityUtils.createA
 @Component
 public class JwtUtil implements InitializingBean {
 
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final long validityInSeconds;  // token 유효 기간
     private final String secret;
     private Key key;
 
-    private final UserRepository userRepository;
 
-    @Autowired
-    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds, UserRepository userRepository) {
+    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.secret = secret;
         this.validityInSeconds = validityInSeconds;  // application.properties에 설정
-        this.userRepository = userRepository;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
     // Bean 주입 받은 후 할당
@@ -43,10 +40,10 @@ public class JwtUtil implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    // 토큰 생성
-    public String generateToken(Authentication authentication, String clientId) {
+    // 토큰 정보
+    public String generateToken(String clientId, String role) {
         Claims claims = Jwts.claims().setSubject(clientId);  // 사용하는 클레임 세트
-        claims.put("role",authentication.getAuthorities().stream().findFirst().get().toString());  // 임의 역할 부여
+        claims.put("role", role);  // 임의 역할 부여
         key = Keys.hmacShaKeyFor(secret.getBytes());
 
         return Jwts.builder().setClaims(claims).setIssuedAt(new Date()).setExpiration(new Date(new Date().getTime() + validityInSeconds)) // 해당 옵션 없으면 expire X
