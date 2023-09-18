@@ -1,7 +1,6 @@
 package com.ssafy.dksl.config;
 
 import com.ssafy.dksl.filter.AuthenticationFilter;
-import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

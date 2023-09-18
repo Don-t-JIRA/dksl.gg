@@ -56,7 +56,7 @@ public class JwtUtil implements InitializingBean {
         return new UsernamePasswordAuthenticationToken(getClientId(accessToken), "", createAuthorityList(getRole(accessToken)));
     }
 
-    // 토큰 검즘
+    // 토큰 검증
     public boolean validateToken(String token) throws InvalidTokenException {
         try {
             return Jwts.parser()

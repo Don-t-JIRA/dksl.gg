@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -33,7 +34,15 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 Authentication authentication = jwtUtil.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (InvalidTokenException e) { }
+        } catch (InvalidTokenException e) {
+            errorResponse(request, response, e);
+        }
         filterChain.doFilter(request, response);
+    }
+
+    private void errorResponse(HttpServletRequest request, HttpServletResponse response, InvalidTokenException e) throws IOException {
+        response.setStatus(HttpStatus.SC_BAD_REQUEST);
+        response.setContentType("application/json; charset=UTF-8");
+        response.getWriter().write(e.getMessage());
     }
 }
