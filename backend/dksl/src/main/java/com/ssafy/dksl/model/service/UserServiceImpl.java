@@ -4,15 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.dksl.model.dto.SummonerDto;
 import com.ssafy.dksl.model.dto.UserDto;
 import com.ssafy.dksl.model.entity.User;
+import com.ssafy.dksl.model.entity.UserRedis;
+import com.ssafy.dksl.model.repository.UserRedisRepository;
 import com.ssafy.dksl.model.repository.UserRepository;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.RegisterException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,13 +38,16 @@ public class UserServiceImpl implements UserService {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final UserRedisRepository userRedisRepository;
 
     @Autowired
-    UserServiceImpl(PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, JwtUtil jwtUtil, UserRepository userRepository){
+    UserServiceImpl(PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, JwtUtil jwtUtil, UserRepository userRepository, UserRedisRepository userRedisRepository){
         this.passwordEncoder = passwordEncoder;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
+
         this.userRepository = userRepository;
+        this.userRedisRepository = userRedisRepository;
     }
 
     public boolean register(UserDto userDto) throws RegisterException {
@@ -80,18 +83,22 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByClientId(userDto.getClientId()).orElseThrow(() -> new LoginException("아이디 혹은 비밀번호를 틀렸습니다."));
 
         if(!passwordEncoder.matches(userDto.getPassword(), user.getPassword())) {
-            System.out.println("입력 password : " + passwordEncoder.encode(userDto.getPassword().trim()));
-            System.out.println("원래 password : " + user.getPassword().trim());
             throw new LoginException("아이디 혹은 비밀번호를 틀렸습니다.");
         }
 
-        System.out.println("인증 : " + jwtUtil.getAuthentication(user.getClientId()));
-        // String token = jwtUtil.generateToken(jwtUtil.getAuthentication(user.getClientId()), user.getClientId());
-        // System.out.println("토큰 정보 : " + token);
+        if(userRedisRepository.findById(user.getPuuid()).isPresent()) {
+            throw new LoginException("중복 로그인 하였습니다.");
+        }
 
-        /*
-            TO DO :: Redis에 토큰 넣기
-         */
+         String token = jwtUtil.generateToken(user.getClientId(), "USER");
+         System.out.println("토큰 정보 : " + token);
+
+        // Redis에 토큰 넣기
+        UserRedis userRedis = UserRedis.builder()
+                .puuid(user.getPuuid())
+                .refreshToken(token)
+                .build();
+        userRedisRepository.save(userRedis);
 
         return UserDto.builder()
                 .name(user.getName())
