@@ -20,9 +20,9 @@
 
 ## 프로젝트 구조
 - `config` : jest 포맷팅 설정파일
-- `src/container` : 하나의 라우트, (하나의 페이지)를 담당하는 컴포넌트. 컨테이너에서 데이터 요청 및 처리 로직 구현
+- `src/pages` : 하나의 라우트, (하나의 페이지)를 담당하는 컴포넌트. 컨테이너에서 데이터 요청 로직 구현
 - `src/components` : 컨테이너를 구성하는 기능 단위의 컴포넌트들.
-UI나 데이터 출력 및 구조화는 여기서 담당.
+UI나 데이터 가공 및 처리와 UI는 여기서 담당.
 - `src/jotai` : Jotai 상태관리 로직 구현한 파일들 모아놓는 디렉
 - `src/services` : API 요청 및 Jotai를 활용한 데이터 가공 등 데이터 처리에 대한 로직 들 모으자!
 - `src/__mocks__` : svgr 목업을 위한 파일
@@ -41,12 +41,14 @@ UI나 데이터 출력 및 구조화는 여기서 담당.
  ┃ ┣ 📂assets
  ┃ ┃ ┣ 📜react.svg
  ┃ ┃ ┗ 📜vite.svg
+ ┃ ┣ 📂atoms
+ ┃ ┃ ┗ 📜InputAtom.jsx
  ┃ ┣ 📂components
  ┃ ┃ ┣ 📜CalendarComponent.jsx
  ┃ ┃ ┣ 📜MainComponent.jsx
  ┃ ┃ ┣ 📜TestChartComponent.jsx
  ┃ ┃ ┗ 📜TestComponent.jsx
- ┃ ┣ 📂container
+ ┃ ┣ 📂pages
  ┃ ┃ ┣ 📜MainContainer.jsx
  ┃ ┃ ┗ 📜TestContainer.jsx
  ┃ ┣ 📂services
@@ -84,7 +86,7 @@ UI나 데이터 출력 및 구조화는 여기서 담당.
 ## package.json
 ```JSON
 {
-  "name": "projectName",
+  "name": "dksl",
   "private": true,
   "version": "0.0.0",
   "type": "module",
