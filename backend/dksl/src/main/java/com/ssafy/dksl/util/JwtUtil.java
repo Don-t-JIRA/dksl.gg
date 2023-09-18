@@ -6,10 +6,8 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -21,16 +19,14 @@ import static org.springframework.security.core.authority.AuthorityUtils.createA
 @Component
 public class JwtUtil implements InitializingBean {
 
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final long validityInSeconds;  // token 유효 기간
     private final String secret;
     private Key key;
 
 
-    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds) {
         this.secret = secret;
         this.validityInSeconds = validityInSeconds;  // application.properties에 설정
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
     // Bean 주입 받은 후 할당
