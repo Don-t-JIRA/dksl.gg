@@ -35,7 +35,7 @@ public class UserDto {
     @NotNull
     private String puuid;
 
-    private List<Integer> teams;
+    private List<Long> teams;
 
 
 }
