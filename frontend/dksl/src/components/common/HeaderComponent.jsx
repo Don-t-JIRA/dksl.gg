@@ -15,7 +15,7 @@ const HeaderComponent = () => {
   return (
     <S.HeaderLayout>
       <div className="logoBox">
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+        <a href="/" target="_blank" rel="noreferrer">
           <img src={dkslLogo} className="logo" alt="Dksl logo" />
         </a>
       </div>

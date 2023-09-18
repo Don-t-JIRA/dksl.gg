@@ -45,6 +45,7 @@ button {
 }
 button:hover {
   border-color: white;
+  filter: drop-shadow(0 0 .25rem #0BC4E2);
 }
 button:focus,
 button:focus-visible {
