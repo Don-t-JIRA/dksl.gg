@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const HeaderLayout = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 12.5vh;
   position: fixed;
   background-color: #FFFFFF;

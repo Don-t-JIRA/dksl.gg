@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+// import React from 'react';
 // Styled
 import * as S from '@/styles/record/body.style';
 import TabMainComponent from './tabContent/TabMainComponent';
@@ -46,7 +46,7 @@ const RecordBodyComponent = (props) => {
           </div>
         </div>
         <div className="tab-body">
-          <TabMainComponent />
+          <TabMainComponent data={props.data} />
         </div>
       </S.TabLayout>
     </S.RecordLayout>

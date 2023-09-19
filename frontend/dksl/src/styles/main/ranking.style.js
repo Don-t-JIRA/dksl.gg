@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Card } from '../globalStyles.style';
 
 export const RankingLayout = styled.div`
   width: 100%;
@@ -8,20 +9,10 @@ export const RankingLayout = styled.div`
   justify-content: center;
 
   & .container {
+    ${Card}
     width: 25vw;
     height: 50%;
-    background-color: white;
     margin: 2rem;
-    border: 0.5px solid gray;
-  }
-
-  & .title {
-    margin-top: 0;
-    padding: 1rem 0;
-    padding-left: 1rem;
-    border-bottom: 0.5px solid gray;
-    font-size: medium;
-    font-weight: bolder;
   }
 `;
 
@@ -63,8 +54,9 @@ export const ContentItem = styled.div`
 
   & .image {
     flex-basis: 10%;
-    max-width: 2rem;
-    max-height: 2rem;
+    max-width: 1.5rem;
+    max-height: 1.5rem;
+    border-radius: 50%;
     margin-top: 0;
     margin-bottom: 0;
     margin: auto;

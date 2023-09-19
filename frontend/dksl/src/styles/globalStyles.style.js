@@ -1,10 +1,10 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 
 #root {
-  width: 100%;
-  height: 100vh;
+  width: 100vw;
+  height: 100%;
 }
 
 :root {
@@ -84,6 +84,24 @@ input:focus {
   }
 }
 
+`
+
+export const Card = css`
+  background-color: #fff;
+  margin: .5rem;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #DFDFDF;
+  border-radius: 10px;
+
+  & .title {
+    margin-top: 0;
+    padding: 1rem 0;
+    padding-left: 1rem;
+    border-bottom: 1px solid #DFDFDF;
+    font-size: medium;
+    font-weight: bolder;
+  }
 `
 
 export default GlobalStyles;

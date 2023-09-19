@@ -29,7 +29,7 @@ export const TabLayout = styled.div`
   }
 
   & .tab-body {
-    width: 60%;
+    width: 75%;
     height: 100%;
     margin-left: auto;
     margin-right: auto;
