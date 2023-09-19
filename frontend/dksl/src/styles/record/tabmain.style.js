@@ -235,6 +235,10 @@ export const RecentCard = styled.div`
       display: flex;
       justify-content: space-around;
       text-align: center;
+      
+      & .line {
+        width: 15%;
+      }
     }
   }
 `;

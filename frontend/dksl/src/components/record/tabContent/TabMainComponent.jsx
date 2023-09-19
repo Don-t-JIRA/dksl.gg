@@ -157,35 +157,35 @@ const TabMainComponent = ({ data }) => {
             <div className="favo-position">
               <p className="sub-title">선호 포지션&nbsp;(랭크)</p>
               <div className="position-area">
-                <div className="top">
+                <div className="line">
                   <S.LineGraph gray={90} blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>TOP</p>
                 </div>
-                <div className="jug">
+                <div className="line">
                   <S.LineGraph gray={90} blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>JUG</p>
                 </div>
-                <div className="mid">
+                <div className="line">
                   <S.LineGraph gray={30} blue={70}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>MID</p>
                 </div>
-                <div className="ad">
+                <div className="line">
                   <S.LineGraph gray={100} blue={0}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>AD</p>
                 </div>
-                <div className="sup">
+                <div className="line">
                   <S.LineGraph gray={90} blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
@@ -196,7 +196,9 @@ const TabMainComponent = ({ data }) => {
             </div>
           </div>
         </S.RecentCard>
-        <S.RecordTable></S.RecordTable>
+        <S.RecordTable>
+          
+        </S.RecordTable>
       </S.RightLayout>
     </S.TabMainLayout>
   );
