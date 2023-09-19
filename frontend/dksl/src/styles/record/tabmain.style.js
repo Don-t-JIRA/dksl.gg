@@ -139,8 +139,8 @@ export const RecentCard = styled.div`
   font-size: small;
 
   & .sub-title {
-    font-size: medium;
-    font-weight: 500;
+    font-size: 12pt;
+    font-weight: 600;
   }
 
   & .title {
@@ -153,6 +153,8 @@ export const RecentCard = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
+    padding: 1rem;
+    padding-top: 0;
   }
 
   & .card-body .circle-graph {
@@ -205,7 +207,7 @@ export const RecentCard = styled.div`
       display: flex;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       align-items: center;
 
       & .image {
@@ -217,22 +219,43 @@ export const RecentCard = styled.div`
 
       & p {
         margin: 0;
-        margin-left: .5rem;
+        margin-left: 0.5rem;
       }
     }
   }
 
   & .card-body .favo-position {
-    flex-basis: 33%;
-  
+    flex-basis: 30%;
+
     & .position-area {
+      width: 90%;
+      height: 70%;
+      margin-left: auto;
+      margin-right: auto;
       display: flex;
+      justify-content: space-around;
+      text-align: center;
     }
   }
 `;
 
 export const LineGraph = styled.div`
+  width: 70%;
+  height: 75%;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
 
-`
+  & .gray-area {
+    flex-basis: ${(props) => props.gray}%;
+    background-color: #dbe0e4;
+  }
+
+  & .blue-area {
+    flex-basis: ${(props) => props.blue}%;
+    background-color: #5383e8;
+  }
+`;
 
 export const RecordTable = styled.div``;
