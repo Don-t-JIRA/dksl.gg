@@ -44,7 +44,6 @@ const SigninComponent = ({ getter, setter }) => {
           <img className="logo" src="../../src/assets/dkslhead.svg" />
           <h1> 로그인 </h1>
         </div>
-        <hr />
         <S.SigninInputBox>
           <input
             type="text"

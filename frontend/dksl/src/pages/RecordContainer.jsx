@@ -10,7 +10,7 @@ const data = [
     "id": "승리",
     "label": "승리",
     "value": 9,
-    "color": "#5757ff"
+    "color": "#5393CA"
   },
   {
     "id": "패배",

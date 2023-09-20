@@ -25,13 +25,12 @@ const SignupComponent = ({ getter, setter }) => {
           <img className="logo" src="../../src/assets/dkslhead.svg" />
           <h1> 회원가입 </h1>
         </div>
-        <hr />
         <S.SignupInputBox>
           <input
             type="text"
             name="name"
             onChange={(e) => onChange(e)}
-            placeholder="이름를 입력하세요."
+            placeholder="리그오브레전드 닉네임을 입력하세요."
           />
           <input
             type="text"

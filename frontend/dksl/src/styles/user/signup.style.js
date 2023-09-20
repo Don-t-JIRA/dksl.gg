@@ -20,8 +20,8 @@ export const SignupLayout = styled.div`
 `
 
 export const SignupContainer = styled.div`
-  min-width: 50vw;
-  max-width: 80vw;
+  min-width: 40vw;
+  max-width: fit-content;
   min-height: 50vh;
   padding: 1rem;
   background-color: white;
@@ -31,7 +31,7 @@ export const SignupContainer = styled.div`
   display: flex;
 
   & .box {
-    flex-basis: 30%;
+    flex-basis: 50%;
     align-self: center;
     margin-bottom: 3rem;
   }
@@ -54,15 +54,16 @@ export const SignupContainer = styled.div`
 `
 
 export const SignupInputBox = styled.div`
-  width: 100%;
+  width: 30vw;
   display: flex;
   flex-direction: column;
-  flex-basis: 60%;
+  flex-basis: 50%;
   align-items: center;
-  margin: 2rem;
+  margin: 4rem 6rem;
+  margin-left: .5rem;
 
   & input {
-    width: 70%;
+    width: 100%;
     height: 2rem;
     margin: .5rem;
     padding: .25rem;
@@ -77,6 +78,6 @@ export const SignupBtnBox = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 1.25rem;
-  margin-bottom: 2rem;
+  margin-top: 2rem;
+  ;
 `

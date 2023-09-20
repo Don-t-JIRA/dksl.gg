@@ -262,4 +262,165 @@ export const LineGraph = styled.div`
   }
 `;
 
-export const RecordTable = styled.div``;
+export const RecordTable = styled.div`
+  width: 95%;
+  height: fit-content;
+  margin: .5rem auto;
+`;
+
+export const RecordCard = styled.div`
+  ${Card}
+  height: 14vh;
+  display: flex;
+  border-radius: 0;
+  background-color: ${(props) => props.win ? `#5393CA` : `#ED6767`};
+
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  &:last-child {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  & .record-info {
+    width: 94%;
+    height: 100%;
+    display: flex;
+    margin-left: 2%;
+    background-color: ${(props) => props.win ? `#F9FBFD` : `#FEF9F9`};
+    font-size: x-small;
+
+    & p {
+      margin: 2px;
+    }
+
+    & .left-section {
+      display: flex;
+      flex-basis: 70%;
+      text-align: center;
+
+      & .area-1 {
+        flex-basis: 20%;
+        align-self: center;
+        & .win{
+          font-size: small;
+          font-weight: 600;
+          color: ${(props) => props.win ? `#5393CA` : `#ED6767`};
+        }
+      }
+
+      & .area-2 {
+        display: flex;
+        flex-basis: 20%;
+        align-self: center;
+
+        & .champ {
+          flex-basis: 50%;
+
+          & .image {
+            width: 90%;
+          }
+        }
+
+        & .another {
+          display: flex;
+          flex-wrap: wrap;
+          flex-basis: 50%;
+
+          & .image {
+            width: 40%;
+            height: 50%;
+          }
+        }
+      }
+
+      & .area-3 {
+        flex-basis: 20%;
+        justify-content: center;
+        align-self: center;
+
+        & .kda {
+          display: flex;
+          justify-content: center;
+          font-size: small;
+          font-weight: 600;
+        }
+
+        & .red {
+          color: red;
+        }
+
+        & .tag {
+          margin: 1px 0;
+        }
+      }
+
+      & .area-4 {
+        flex-basis: 20%;
+        justify-content: center;
+        align-self: center;
+      }
+
+      & .area-5 {
+        display: flex;
+        flex-basis: 20%;
+        flex-wrap: wrap;
+        justify-content: content;
+        align-self: center;
+        
+        & .image {
+          width: 25%;
+          height: 30%;
+        }
+      }
+    }
+
+    & .right-section {
+      display: flex;
+      flex-basis: 30%;
+      margin-left: 2rem;
+      align-self: center;
+
+      & .team-1 {
+        flex-basis: 50%;
+
+        & .image {
+          width: 15%;
+          height: 90%;
+        }
+      }
+
+      & .team-2 {
+        flex-basis: 50%;
+
+        & .image {
+          width: 15%;
+          height: 90%;
+        }
+      }
+
+      & .summoner {
+        display: flex;
+      }
+
+      & p {
+        margin: 1px 0;
+      }
+    }
+  }
+
+  & .arrow-area {
+    width: 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+
+    & .image {
+      width: 90%;
+    }
+  }
+`

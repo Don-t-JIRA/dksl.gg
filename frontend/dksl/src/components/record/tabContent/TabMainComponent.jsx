@@ -1,3 +1,5 @@
+// React
+import { useState } from 'react';
 // Styled
 import * as S from '@/styles/record/tabmain.style';
 // Select
@@ -11,6 +13,7 @@ const options = [{ value: 'default', label: '큐 타입' }];
 const animatedComponent = makeAnimated();
 
 const TabMainComponent = ({ data }) => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <S.TabMainLayout>
       <S.LeftLayout>
@@ -114,7 +117,7 @@ const TabMainComponent = ({ data }) => {
                   innerRadius={0.75}
                   padAngle={0.7}
                   cornerRadius={1}
-                  colors={['#5858ffd2', '#ff5858']}
+                  colors={['#5393CA', '#ff5858']}
                   activeOuterRadiusOffset={3}
                   borderWidth={1}
                   borderColor={{
@@ -197,7 +200,145 @@ const TabMainComponent = ({ data }) => {
           </div>
         </S.RecentCard>
         <S.RecordTable>
-          
+          <S.RecordCard win>
+            <div className="record-info">
+              <div className="left-section">
+                <div className="area-1">
+                  <p className="win">승리</p>
+                  <p>솔로랭크</p>
+                  <p>26:09</p>
+                  <p>1시간 전</p>
+                </div>
+                <div className="area-2">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="kda">
+                    <p>9</p>/<p className="red">1</p>/<p>4</p>
+                  </div>
+                  <p className="red">
+                    <b>13.00</b> 평점
+                  </p>
+                  <p className="tag">
+                    <b>더블킬</b>
+                  </p>
+                </div>
+                <div className="area-4">
+                  <p>
+                    킬 관여 <b>62</b>%
+                  </p>
+                  <p>
+                    CS <b>279</b>
+                  </p>
+                  <p>
+                    시야점수 <b>31</b>
+                  </p>
+                </div>
+                <div className="area-5">
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="src/assets/dkslhead.svg" />
+                </div>
+              </div>
+              <div className="right-section">
+                <div className="team-1">
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                </div>
+                <div className="team-2">
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                  <div className="summoner">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                    <p>nickname</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="arrow-area">
+              <img className="image" src="src/assets/arrow_down.svg" />
+            </div>
+          </S.RecordCard>
+          <S.RecordCard>
+            <div className="record-info"></div>
+          </S.RecordCard>
         </S.RecordTable>
       </S.RightLayout>
     </S.TabMainLayout>

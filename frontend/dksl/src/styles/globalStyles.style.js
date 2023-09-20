@@ -43,13 +43,10 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: white;
   filter: drop-shadow(0 0 .25rem #0BC4E2);
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto #0FA0B8;
 }
 
 a {
