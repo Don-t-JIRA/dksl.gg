@@ -7,7 +7,7 @@ import mysql
 from os import environ
 from dotenv.main import load_dotenv
 
-from common.config import settings
+from app.common.config import settings
 
 engine = create_engine(settings.DB_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
