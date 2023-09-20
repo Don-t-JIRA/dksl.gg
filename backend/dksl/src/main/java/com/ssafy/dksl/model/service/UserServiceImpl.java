@@ -9,6 +9,7 @@ import com.ssafy.dksl.model.repository.UserRedisRepository;
 import com.ssafy.dksl.model.repository.UserRepository;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.RegisterException;
+import com.ssafy.dksl.util.exception.UpdateUserException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .name(summonerDto.getName())
                     .puuid(summonerDto.getPuuid())
+                    .email(userDto.getEmail())
                     .build();
 
             userRepository.save(user);
@@ -73,7 +75,7 @@ public class UserServiceImpl implements UserService {
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RegisterException("회원 생성에 실패하였습니다.");
+            throw new RegisterException();
         }
     }
 
@@ -95,14 +97,50 @@ public class UserServiceImpl implements UserService {
 
         // Redis에 토큰 넣기
         UserRedis userRedis = UserRedis.builder()
-                .puuid(user.getPuuid())
+                .clientId(user.getClientId())
                 .refreshToken(token)
                 .build();
+
         userRedisRepository.save(userRedis);
 
         return UserDto.builder()
                 .name(user.getName())
+                .refreshToken(token)
                 .build();
+    }
+
+    @Override
+    public boolean updateUser(String token, UserDto userDto) throws UpdateUserException {
+        System.out.println("토큰 정보 : " + token);
+        UserRedis userRedis = userRedisRepository.findById(userDto.getClientId()).orElseThrow(() -> new UpdateUserException("회원정보가 존재하지 않습니다."));
+        if (!jwtUtil.getClientId(userRedis.getRefreshToken()).equals(jwtUtil.getClientId(token))) {
+            throw new UpdateUserException("회원 정보가 일치하지 않습니다..");
+        }
+
+        User user = userRepository.findByClientId(jwtUtil.getClientId(token)).orElseThrow(() -> new UpdateUserException("회원정보가 존재하지 않습니다."));
+        /*
+            TO DO : 소속 추가
+         */
+
+        try {
+            user = User.builder()
+                    .id(user.getId())
+                    .clientId(user.getClientId())
+                    .password(user.getPassword())
+                    .name(userDto.getName())
+                    .puuid(user.getPuuid())
+                    .email(userDto.getEmail())
+                    .teams(user.getTeams())
+                    .build();
+
+            userRepository.save(user);
+
+            return true;
+
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new UpdateUserException();
+        }
     }
 
     private SummonerDto callApi(String name) throws RegisterException {

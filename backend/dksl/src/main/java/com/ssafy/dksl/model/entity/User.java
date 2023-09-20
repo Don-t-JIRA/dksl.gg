@@ -37,6 +37,10 @@ public class User {
     @Comment("계정 닉네임")
     private String name;
 
+    @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Comment("이메일")
+    private String email;
+
     @Column(name = "puuid", nullable = false, unique = true, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("PUUID")
     private String puuid;
