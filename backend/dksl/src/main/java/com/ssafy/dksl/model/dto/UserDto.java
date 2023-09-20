@@ -10,7 +10,6 @@ import lombok.ToString;
 import java.util.List;
 
 // 회원가입 시 필요한 정보
-
 @Builder
 @Getter
 @ToString
@@ -18,6 +17,7 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 3, max = 255)
     private String clientId;
@@ -31,10 +31,19 @@ public class UserDto {
     @Size(min = 3, max = 255)
     private String name;
 
+    @NotNull
+    @Size(min = 3, max = 255)
+    private String email;
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     private String puuid;
 
+    @JsonProperty
+    @NotNull
+    private String refreshToken;
+
+    @JsonProperty
     private List<Long> teams;
 
 

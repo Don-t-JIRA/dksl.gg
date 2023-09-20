@@ -3,12 +3,14 @@ package com.ssafy.dksl.controller;
 import com.ssafy.dksl.model.dto.UserDto;
 import com.ssafy.dksl.model.service.UserServiceImpl;
 import com.ssafy.dksl.util.exception.RegisterException;
+import com.ssafy.dksl.util.exception.UpdateUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.security.auth.login.LoginException;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -36,6 +38,16 @@ public class UserController {
         try {
             return ResponseEntity.ok(userService.login(userDto));
         } catch (LoginException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
+        }
+    }
+
+    @PostMapping("update")
+    private ResponseEntity<?> updateUser(@RequestHeader("Authorization") String token, @RequestBody UserDto userDto) {
+        try {
+            System.out.println(userService.updateUser(token, userDto));
+            return ResponseEntity.ok("");
+        } catch(UpdateUserException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }

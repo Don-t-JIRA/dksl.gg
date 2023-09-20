@@ -5,6 +5,6 @@ public class RegisterException extends Exception {
         super("회원가입을 실패하였습니다.");
     }
     public RegisterException(String message) {
-        super(message);
+        super("회원가입 오류 :: " + message);
     }
 }
