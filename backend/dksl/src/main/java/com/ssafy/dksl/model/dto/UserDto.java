@@ -10,7 +10,6 @@ import lombok.ToString;
 import java.util.List;
 
 // 회원가입 시 필요한 정보
-
 @Builder
 @Getter
 @ToString
@@ -30,6 +29,10 @@ public class UserDto {
     @NotNull
     @Size(min = 3, max = 255)
     private String name;
+
+    @NotNull
+    @Size(min = 3, max = 255)
+    private String email;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
