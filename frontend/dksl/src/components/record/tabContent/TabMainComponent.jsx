@@ -162,16 +162,520 @@ const RecordCardComponent = (props) => {
         </div>
       </S.RecordCard>
       <div className={`start ${isOpen && `end`}`}>
-      {isOpen && (
-        <S.RecordDetail>
-          <S.TeamDetail win>
-            <div className="title">승리</div>
-          </S.TeamDetail>
-          <S.TeamDetail>
-            <div className="title">패배</div>
-          </S.TeamDetail>
-        </S.RecordDetail>
-      )}
+        {isOpen && (
+          <S.RecordDetail>
+            <S.TeamDetail win>
+              <div className="title">
+                <p>승리</p>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+            </S.TeamDetail>
+            <S.TeamDetail>
+              <div className="title">
+                <p>패배</p>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+              <div className="detail-body">
+                <div className="area-1">
+                  <div className="champ">
+                    <img
+                      className="image"
+                      src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                    />
+                  </div>
+                  <div className="another">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                  <div className="summoner">
+                    <p className="tier"><b>Silver1</b></p>
+                    <p className="name">바보개</p>
+                  </div>
+                </div>
+                <div className="area-2">
+                  <div className="desc">
+                    <div className="kda">
+                      <p>5</p>/<p className="red">4</p>/<p>2</p>
+                    </div>
+                    <p className="score">1.75</p>
+                  </div>
+                  <div className="result">
+                    <div className="text">
+                      <p><b>C</b>:201</p>
+                      <p><b>G</b>:1.2만</p>
+                      <p><b>W</b>:6</p>
+                    </div>
+                    <S.HorizenGraph red={30} gray={70}>
+                      <div className="red"></div>
+                      <div className="gray"></div>
+                    </S.HorizenGraph>
+                  </div>
+                </div>
+                <div className="area-3">
+                  <div className="item-list">
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="src/assets/dkslhead.svg" />
+                  </div>
+                </div>
+              </div>
+            </S.TeamDetail>
+          </S.RecordDetail>
+        )}
       </div>
     </>
   );

@@ -424,23 +424,24 @@ export const RecordCard = styled.div`
     }
   }
 
-&:first-child {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+  &:first-child {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
 
-&:nth-last-child(2) {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
+  &:nth-last-child(2) {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 `;
 
 export const RecordDetail = styled.div`
   ${Card}
   width: 100%;
-  height: 30vh;
+  height: fit-content;
   display: flex;
   margin-top: 0;
+  padding-bottom: 1.5rem;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   transition: all 1s;
@@ -451,15 +452,145 @@ export const TeamDetail = styled.div`
   background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
 
   & .title {
-    widtH: 100%;
+    width: 100%;
     height: 12.5%;
+    display: table;
     margin: 0;
     padding: 0;
-    padding-left: 1rem;
-    justify-content: center;
-    font-size: small;
-    font-weight: bold;
     background-color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
 
+    & p {
+      width: auto;
+      height: fit-content;
+      margin: auto 0;
+      display: table-cell;
+      color: white;
+      font-size: small;
+      font-weight: bold;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  & .detail-body {
+    width: 94%;
+    height: 19.5%;
+    display: flex;
+    margin: 0 3%;
+    border-bottom: 1px solid #dfdfdf;
+
+    & .area-1 {
+      display: flex;
+      flex-basis: 33%;
+      align-self: center;
+
+      & .champ {
+        flex-basis: 25%;
+
+        & .image {
+          width: 90%;
+        }
+      }
+
+      & .another {
+        display: flex;
+        flex-wrap: wrap;
+        flex-basis: 25%;
+
+        & .image {
+          width: 40%;
+          height: 50%;
+        }
+      }
+
+      & .summoner {
+        & p {
+          margin: 0;
+          font-size: xx-small;
+        }
+      }
+    }
+
+    & .area-2 {
+      display: flex;
+      flex-basis: 33%;
+
+      & .desc {
+        width: 30%;
+        font-size: x-small;
+        justify-content: center;
+        align-self: center;
+
+        & .kda {
+          margin: 0 auto;
+          display: flex;
+          font-weight: bold;
+          justify-content: center;
+
+          & p { margin: 0; }
+        }
+
+        & .score {
+          margin: 0;
+          text-align: center;
+          font-size: xx-small;
+        }
+
+        & .red { color: red; }
+      }
+
+      & .result {
+        width: 67%;
+        height: 100%;
+        margin-right: 3%;
+
+        & .text {
+          display: flex;
+          font-size: xx-small;
+          justify-content: space-between;
+
+          & p {
+            margin: 0;
+            margin-top: .3rem;
+          }
+        }
+      }
+    }
+
+    & .area-3 {
+      flex-basis: 33%;
+
+      & .item-list {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        margin-left: 2%;
+        align-items: center;
+        justify-content: space-around;
+
+        & .image {
+          width: 12.5%;
+          height: fit-content;
+        }
+      }
+    }
   }
 `;
+
+export const HorizenGraph = styled.div`
+  width: 100%;
+  height: 30%;
+  display: flex;
+
+  & .red {
+    width: ${(props) => props.red}%;
+    height: 100%;
+    background-color: red;
+  }
+
+  & .gray {
+    width: ${(props) => props.gray}%;
+    height: 100%;
+    background-color: gray;
+  }
+`
