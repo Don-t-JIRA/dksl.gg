@@ -17,6 +17,7 @@ public class UserDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull
     @Size(min = 3, max = 255)
     private String clientId;
@@ -38,6 +39,11 @@ public class UserDto {
     @NotNull
     private String puuid;
 
+    @JsonProperty
+    @NotNull
+    private String refreshToken;
+
+    @JsonProperty
     private List<Long> teams;
 
 
