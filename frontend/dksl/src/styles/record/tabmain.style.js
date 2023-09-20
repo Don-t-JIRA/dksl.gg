@@ -272,6 +272,7 @@ export const RecordCard = styled.div`
   ${Card}
   height: 14vh;
   display: flex;
+  margin-bottom: 0;
   border-radius: 0;
   background-color: ${(props) => props.win ? `#5393CA` : `#ED6767`};
 
@@ -423,4 +424,15 @@ export const RecordCard = styled.div`
       width: 90%;
     }
   }
+`
+
+export const RecordDetail = styled.div`
+  ${Card}
+  width: 100%;
+  height: 30vh;
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  transition: all 1s;
+
 `

@@ -2,6 +2,10 @@
 import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/user/signup.style';
+// Service
+import { register } from '../../services/UserService';
+// Sweetalert
+import Swal from 'sweetalert2';
 
 /**
  * @param getter // 회원가입 시 서버에 전송할 유저 객체
@@ -17,6 +21,14 @@ const SignupComponent = ({ getter, setter }) => {
       [name]: value,
     });
   };
+
+  const onSubmit = () => {
+    const data = register(getter);
+    if (data.status == 200) {
+      Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
+
+    }
+  }
 
   return (
     <S.SignupLayout bgnum={num}>
@@ -34,13 +46,13 @@ const SignupComponent = ({ getter, setter }) => {
           />
           <input
             type="text"
-            name="id"
+            name="clientId"
             onChange={(e) => onChange(e)}
             placeholder="아이디를 입력하세요."
           />
           <input
             type="password"
-            name="pw"
+            name="password"
             onChange={(e) => onChange(e)}
             placeholder="비밀번호를 입력하세요."
           />
@@ -57,7 +69,7 @@ const SignupComponent = ({ getter, setter }) => {
             placeholder="이메일을 입력하세요."
           />
           <S.SignupBtnBox>
-            <button>회원가입</button>
+            <button onClick={onSubmit}>회원가입</button>
           </S.SignupBtnBox>
         </S.SignupInputBox>
       </S.SignupContainer>

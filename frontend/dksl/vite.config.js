@@ -6,6 +6,12 @@ import path from 'node:path';
 export default defineConfig({
   server: {
     port: 3000,
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://70.12.247.95:8080',
+    //     rewrite: (path) => path.replace(/^\/api/, ''),
+    //   }
+    // }
   },
   resolve: {
     alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
