@@ -31,7 +31,6 @@ export const RightLayout = styled.div`
     border-radius: 50%;
     width: 1.25em;
     height: 1.25em;
-    transition: 0.25s;
   }
 
   & input:checked {
@@ -283,14 +282,14 @@ export const RecordCard = styled.div`
   display: flex;
   margin-bottom: 0;
   border-radius: 0;
-  background-color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
+  background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
 
   & .record-info {
     width: 94%;
     height: 100%;
     display: flex;
     margin-left: 2%;
-    background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
+    background-color: ${(props) => (props.win ? `#bedaf7` : `#f9c6c6`)};
     font-size: x-small;
 
     & p {
@@ -307,8 +306,8 @@ export const RecordCard = styled.div`
         align-self: center;
         & .win {
           font-size: small;
-          font-weight: 600;
-          color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
+          font-weight: bold;
+          color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
         }
       }
 
@@ -457,7 +456,7 @@ export const TeamDetail = styled.div`
     display: table;
     margin: 0;
     padding: 0;
-    background-color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
+    background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
 
     & p {
       width: auto;
@@ -585,12 +584,12 @@ export const HorizenGraph = styled.div`
   & .red {
     width: ${(props) => props.red}%;
     height: 100%;
-    background-color: red;
+    background-color: #ef3d3d;
   }
 
   & .gray {
     width: ${(props) => props.gray}%;
     height: 100%;
-    background-color: gray;
+    background-color: #dbe0e4;
   }
 `
