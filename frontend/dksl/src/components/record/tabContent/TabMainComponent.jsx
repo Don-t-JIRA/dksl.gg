@@ -17,156 +17,162 @@ const RecordCardComponent = (props) => {
 
   const openDetail = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   return (
     <>
-    <S.RecordCard win={props.win}>
-      <div className="record-info">
-        <div className="left-section">
-          <div className="area-1">
-            <p className="win">승리</p>
-            <p>솔로랭크</p>
-            <p>26:09</p>
-            <p>1시간 전</p>
-          </div>
-          <div className="area-2">
-            <div className="champ">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
+      <S.RecordCard win={props.win}>
+        <div className="record-info">
+          <div className="left-section">
+            <div className="area-1">
+              <p className="win">승리</p>
+              <p>솔로랭크</p>
+              <p>26:09</p>
+              <p>1시간 전</p>
             </div>
-            <div className="another">
+            <div className="area-2">
+              <div className="champ">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+              </div>
+              <div className="another">
+                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="src/assets/dkslhead.svg" />
+              </div>
+            </div>
+            <div className="area-3">
+              <div className="kda">
+                <p>9</p>/<p className="red">1</p>/<p>4</p>
+              </div>
+              <p className="red">
+                <b>13.00</b> 평점
+              </p>
+              <p className="tag">
+                <b>더블킬</b>
+              </p>
+            </div>
+            <div className="area-4">
+              <p>
+                킬 관여 <b>62</b>%
+              </p>
+              <p>
+                CS <b>279</b>
+              </p>
+              <p>
+                시야점수 <b>31</b>
+              </p>
+            </div>
+            <div className="area-5">
+              <img className="image" src="src/assets/dkslhead.svg" />
+              <img className="image" src="src/assets/dkslhead.svg" />
+              <img className="image" src="src/assets/dkslhead.svg" />
               <img className="image" src="src/assets/dkslhead.svg" />
               <img className="image" src="src/assets/dkslhead.svg" />
               <img className="image" src="src/assets/dkslhead.svg" />
               <img className="image" src="src/assets/dkslhead.svg" />
             </div>
           </div>
-          <div className="area-3">
-            <div className="kda">
-              <p>9</p>/<p className="red">1</p>/<p>4</p>
+          <div className="right-section">
+            <div className="team-1">
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
             </div>
-            <p className="red">
-              <b>13.00</b> 평점
-            </p>
-            <p className="tag">
-              <b>더블킬</b>
-            </p>
-          </div>
-          <div className="area-4">
-            <p>
-              킬 관여 <b>62</b>%
-            </p>
-            <p>
-              CS <b>279</b>
-            </p>
-            <p>
-              시야점수 <b>31</b>
-            </p>
-          </div>
-          <div className="area-5">
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <img className="image" src="src/assets/dkslhead.svg" />
+            <div className="team-2">
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+              <div className="summoner">
+                <img
+                  className="image"
+                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                />
+                <p>nickname</p>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="right-section">
-          <div className="team-1">
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-          </div>
-          <div className="team-2">
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-            <div className="summoner">
-              <img
-                className="image"
-                src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-              />
-              <p>nickname</p>
-            </div>
-          </div>
+        <div className="arrow-area">
+          <img
+            className="image"
+            src={`src/assets/arrow_${isOpen ? 'up' : 'down'}.svg`}
+            onClick={openDetail}
+          />
         </div>
+      </S.RecordCard>
+      <div className={`start ${isOpen && `end`}`}>
+      {isOpen && (
+        <S.RecordDetail>
+          <S.TeamDetail win>
+            <div className="title">승리</div>
+          </S.TeamDetail>
+          <S.TeamDetail>
+            <div className="title">패배</div>
+          </S.TeamDetail>
+        </S.RecordDetail>
+      )}
       </div>
-      <div className="arrow-area">
-        <img className="image" src={`src/assets/arrow_${isOpen ? 'up' : 'down'}.svg`} onClick={openDetail} />
-      </div>
-    </S.RecordCard>
-    {isOpen && (
-      <S.RecordDetail>
-        <S.TeamDetail win>
-          
-        </S.TeamDetail>
-        <S.TeamDetail>
-
-        </S.TeamDetail>
-      </S.RecordDetail>
-    )}
     </>
   );
 };

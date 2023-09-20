@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
 
@@ -80,25 +80,43 @@ input:focus {
     transform: rotate(360deg);
   }
 }
+@keyframes loadEffect {
+    0% {
+      opacity: 0;
+      transform: scale(0.7);
+    }
+    65% {
+      opacity: 0.65;
+      transform: scale(1.01);
+    }
+    85% {
+      opacity: 0.85;
+      transform: scale(0.97);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 
-`
+`;
 
 export const Card = css`
   background-color: #fff;
-  margin: .5rem;
+  margin: 0.5rem;
   margin-left: auto;
   margin-right: auto;
-  border: 2px solid #DFDFDF;
+  border: 2px solid #dfdfdf;
   border-radius: 10px;
 
   & .title {
     margin-top: 0;
     padding: 1rem 0;
     padding-left: 1rem;
-    border-bottom: 1px solid #DFDFDF;
+    border-bottom: 1px solid #dfdfdf;
     font-size: medium;
     font-weight: bolder;
   }
-`
+`;
 
 export default GlobalStyles;

@@ -25,7 +25,7 @@ const signIn = async (data) => {
     JSON.stringify(data),
     {
       headers: {
-        "Content-Type": "application/json;",
+        "Content-Type": "application/json;charset=UTF-8",
         "Access-Control-Allow-Origin": `http://localhost:3000/`,
       },
     }

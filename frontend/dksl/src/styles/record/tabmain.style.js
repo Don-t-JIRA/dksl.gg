@@ -235,7 +235,7 @@ export const RecentCard = styled.div`
       display: flex;
       justify-content: space-around;
       text-align: center;
-      
+
       & .line {
         width: 15%;
       }
@@ -265,7 +265,16 @@ export const LineGraph = styled.div`
 export const RecordTable = styled.div`
   width: 95%;
   height: fit-content;
-  margin: .5rem auto;
+  margin: 0.5rem auto;
+
+  & .start {
+    opacity: 0;
+  }
+
+  & .end {
+    opacity: 1;
+    animation: 0.6s ease-in-out loadEffect;
+  }
 `;
 
 export const RecordCard = styled.div`
@@ -274,24 +283,14 @@ export const RecordCard = styled.div`
   display: flex;
   margin-bottom: 0;
   border-radius: 0;
-  background-color: ${(props) => props.win ? `#5393CA` : `#ED6767`};
-
-  &:first-child {
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-  }
-
-  &:last-child {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
+  background-color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
 
   & .record-info {
     width: 94%;
     height: 100%;
     display: flex;
     margin-left: 2%;
-    background-color: ${(props) => props.win ? `#F9FBFD` : `#FEF9F9`};
+    background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
     font-size: x-small;
 
     & p {
@@ -306,10 +305,10 @@ export const RecordCard = styled.div`
       & .area-1 {
         flex-basis: 20%;
         align-self: center;
-        & .win{
+        & .win {
           font-size: small;
           font-weight: 600;
-          color: ${(props) => props.win ? `#5393CA` : `#ED6767`};
+          color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
         }
       }
 
@@ -371,7 +370,7 @@ export const RecordCard = styled.div`
         flex-wrap: wrap;
         justify-content: content;
         align-self: center;
-        
+
         & .image {
           width: 25%;
           height: 30%;
@@ -424,15 +423,43 @@ export const RecordCard = styled.div`
       width: 90%;
     }
   }
-`
+
+&:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+&:nth-last-child(2) {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+`;
 
 export const RecordDetail = styled.div`
   ${Card}
   width: 100%;
   height: 30vh;
+  display: flex;
   margin-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   transition: all 1s;
+`;
 
-`
+export const TeamDetail = styled.div`
+  width: 50%;
+  background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
+
+  & .title {
+    widtH: 100%;
+    height: 12.5%;
+    margin: 0;
+    padding: 0;
+    padding-left: 1rem;
+    justify-content: center;
+    font-size: small;
+    font-weight: bold;
+    background-color: ${(props) => (props.win ? `#5393CA` : `#ED6767`)};
+
+  }
+`;
