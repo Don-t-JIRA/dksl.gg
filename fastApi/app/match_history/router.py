@@ -192,7 +192,7 @@ def put_match_history(
             """,
             # 쿼리 안의 값을 조정할 수 있다.
             input_params={
-                "current_season_summary_id": current_season_summarie.id,
+                "current_season_summary_id": current_season_summary.id,
                 "summoner_name": summoner_name,
                 "queue_type": queue,
             },
@@ -237,7 +237,7 @@ def put_match_history(
             ;
             """,
             input_params={
-                "current_season_summary_id": current_season_summarie.id,
+                "current_season_summary_id": current_season_summary.id,
                 "summoner_name": summoner_name,
                 "queue_type": queue,
             },

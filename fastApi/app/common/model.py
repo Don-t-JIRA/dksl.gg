@@ -125,21 +125,6 @@ class Runes(BaseIdModel, table=True):
     )
 
 
-class Schools(BaseIdModel, table=True):
-    __tablename__ = "SCHOOLS"
-    name: str = Field(
-        max_length=25,
-        nullable=False,
-        unique=True,
-        description="user가 다니는school의 이름이다. 각 user가 속한 학교의 이름을 알리는데 필요하다.",
-    )
-    school_type: str = Field(
-        max_length=1,
-        nullable=True,
-        description="초등학교, 중학교, 고등학교, 대학교를 구분한 요소이다. 학교별 구분을 용이하게 하는 목적으로 사용한다.",
-    )
-
-
 class Tiers(BaseIdModel, table=True):
     __tablename__ = "TIERS"
     name: str = Field(
