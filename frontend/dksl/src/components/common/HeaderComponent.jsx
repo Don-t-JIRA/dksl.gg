@@ -1,10 +1,11 @@
-import * as S from "@/styles/common/header.style"
-import dkslLogo from '/src/assets/dkslhead.svg'
+// router
 import { useNavigate } from "react-router-dom"
+// assets
+import dkslLogo from '/src/assets/dkslhead.svg'
+// Styled
+import * as S from "@/styles/common/header.style"
 
 const HeaderComponent = () => {
-  // const []
-
   const navigate = useNavigate();
 
   const setNavigate = (url) => {
@@ -14,7 +15,7 @@ const HeaderComponent = () => {
   return (
     <S.HeaderLayout>
       <div className="logoBox">
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
+        <a href="/" target="_blank" rel="noreferrer">
           <img src={dkslLogo} className="logo" alt="Dksl logo" />
         </a>
       </div>

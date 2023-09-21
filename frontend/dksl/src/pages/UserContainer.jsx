@@ -1,5 +1,7 @@
+// React, router
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+// Component
 import SigninComponent from '../components/user/SigninComponent';
 import SignupComponent from '../components/user/SignupComponent';
 

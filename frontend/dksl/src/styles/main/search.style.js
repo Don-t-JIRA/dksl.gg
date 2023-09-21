@@ -35,14 +35,12 @@ export const SearchLayout = styled.div`
     width: 90%;
     height: 2.25rem;
     padding: 5px 5%;
-    border-radius: 3px;
+    border-radius: 5px;
     filter: drop-shadow(2px 4px 4px hsl(0deg 0% 0% / 0.38));
   }
 
   & .container .box input:focus {
     transition: all 0.5s;
-    height: 2.25rem;
-    outline: 2px solid gray;
     filter: drop-shadow(4px 8px 8px hsl(0deg 0% 0% / 0.25));
   }
 
@@ -59,7 +57,7 @@ export const SearchLayout = styled.div`
 export const TaggingContainer = styled.div`
   width: 100%;
   height: 12.5vh;
-  background-color: #D7F0F4;
+  background-color: var(--maincolor-depth2);
   text-align: center;
   display: flex;
   align-items: center;

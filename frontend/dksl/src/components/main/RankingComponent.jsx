@@ -1,5 +1,9 @@
+// Styled
 import * as S from '../../styles/main/ranking.style';
 
+/**
+ * @param props // 탭 상태 저장할, 변경할 hotTab, rankTab 받아올 프롭스 객체 
+ */
 const RankingComponent = (props) => {
   // const arr
   return (
