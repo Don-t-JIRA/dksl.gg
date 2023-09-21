@@ -4,8 +4,10 @@ import { useState } from 'react';
 import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
 import RecordBodyComponent from '../components/record/RecordBodyComponent';
+// 더미 데이터
+import { laderData } from "../data";
 
-const data = [
+const recorddumydata = [
   {
     "id": "승리",
     "label": "승리",
@@ -26,7 +28,7 @@ const RecordContainer = () => {
     <>
       <HeaderComponent />
       <ProfileComponent />
-      <RecordBodyComponent data={data} tab={recordTab} setTab={setRecordTab} />
+      <RecordBodyComponent recorddata={recorddumydata} analyzedata={laderData} tab={recordTab} setTab={setRecordTab} />
     </>
   );
 }

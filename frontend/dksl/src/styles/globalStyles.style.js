@@ -22,8 +22,8 @@ const GlobalStyles = createGlobalStyle`
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --maincolor-depth1: #006be5;
-  --maincolor-depth2: #ecf3fc;
+  --maincolor-depth1: #3E7CB1;
+  --maincolor-depth2: #DBE4EE;
   --mainbg: #f5f5f5;
   --text-gray: #758592;
 }
@@ -106,6 +106,25 @@ input:focus {
 
 `;
 
+export const Tag = css`
+  width: 4.5rem;
+  height: 1.75rem;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 50vw;
+  color: white;
+  font-size: small;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .text {
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+  }
+`;
+
 export const Card = css`
   background-color: white;
   margin: 0.5rem;
@@ -115,12 +134,12 @@ export const Card = css`
   border-radius: 10px;
 
   & .title {
-    margin-top: 0;
-    padding: 1rem 0;
-    padding-left: 1rem;
+    margin-top: .2rem;
+    padding: 1.2rem 0;
+    padding-left: 1.2rem;
     border-bottom: 1px solid #dfdfdf;
-    font-size: medium;
-    font-weight: bolder;
+    font-size: large;
+    font-weight: bold;
   }
 `;
 
