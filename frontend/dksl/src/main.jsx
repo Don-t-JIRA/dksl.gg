@@ -12,9 +12,9 @@ import TestContainer from './pages/TestContainer.jsx';
 import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
+import GroupContainer from './pages/GroupContainer.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
-import GroupContainer from './pages/GroupContainer.jsx';
 
 // Routing 설정
 const router = createBrowserRouter([
