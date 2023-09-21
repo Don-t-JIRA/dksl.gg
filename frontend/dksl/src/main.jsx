@@ -14,12 +14,14 @@ import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
+import GroupContainer from './pages/GroupContainer.jsx';
 
 // Routing 설정
 const router = createBrowserRouter([
   { path: '/', element: <MainContainer /> },
   { path: '/user/:type', element: <UserContainer /> },
   { path: '/record', element: <RecordContainer /> },
+  { path: '/group', element: <GroupContainer /> },
   { path: '/test', element: <TestContainer /> },
 ]);
 

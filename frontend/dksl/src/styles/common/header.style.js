@@ -29,6 +29,7 @@ export const HeaderLayout = styled.div`
 export const MenuContainer = styled.div`
   display: flex;
   width: 30%;
+  height: inherit;
   justify-content: space-around;
   flex-basis: 30%;
   align-items: center;
@@ -48,5 +49,27 @@ export const LogInConatiner = styled.div`
 `
 
 export const LogoutContainer = styled.div`
+  flex-basis: 60%;
+  height: inherit;
+  margin: auto;
+  margin-right: 5rem;
+  text-align: start;
 
+  & .profile {
+    display: flex;
+    height: inherit;
+    justify-content: end;
+    align-items: center;
+
+    & .image {
+      height: 50%;
+      margin-right: 1rem;
+    }
+
+    & .name {
+      font-size: large;
+      font-weight: bolder;
+      color: var(--text-gray);
+    }
+  }
 `
