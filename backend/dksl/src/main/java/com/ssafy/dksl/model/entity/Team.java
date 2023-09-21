@@ -1,13 +1,14 @@
 package com.ssafy.dksl.model.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import org.hibernate.annotations.Comment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
+@Getter
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +18,11 @@ public class Team {
     @Comment("이름")
     private String name;
 
+    @Column(name = "description", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Comment("팀 소개")
+    private String description;
+
 
     @OneToMany(mappedBy = "team")
-    private List<UserTeam> users = new ArrayList<>();
+    private List<MemberTeam> members = new ArrayList<>();
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @Getter
 @ToString
-public class UserDto {
+public class MemberDto {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
 

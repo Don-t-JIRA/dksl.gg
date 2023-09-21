@@ -6,13 +6,13 @@ import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
-@RedisHash(value = "user", timeToLive = 600L)
+@RedisHash(value = "member", timeToLive = 600L)
 @Builder
 @Getter
-public class UserRedis {
+public class MemberRedis {
 
     @Id
-    @JsonIgnore
     private String clientId;
+
     private String refreshToken;
 }
