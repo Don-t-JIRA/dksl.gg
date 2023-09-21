@@ -61,6 +61,7 @@ export const SignupInputBox = styled.div`
   align-items: center;
   margin: 4rem 6rem;
   margin-left: .5rem;
+  margin-right: 4rem;
 
   & input {
     width: 100%;

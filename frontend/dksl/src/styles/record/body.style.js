@@ -3,13 +3,12 @@ import styled from 'styled-components';
 export const RecordLayout = styled.div`
   width: 100vw;
   height: 100%;
-  background-color: #f5f5f5;
+  background-color: var(--mainbg);
 `;
 
 export const TabLayout = styled.div`
   width: 100%;
   height: 100%;
-  /* display: flex; */
   margin-left: auto;
   margin-right: auto;
   
@@ -44,8 +43,8 @@ export const TabItem = styled.button`
   font-size: medium;
   padding: 3px;
   border-radius: 4px;
-  font-weight: ${(props) => (props.istab == 1 ? `bold` : `500`)};
+  font-weight: ${(props) => (props.istab == 1 ? `bolder` : `500`)};
   color: #000;
-  background-color: ${(props) => (props.istab == 1 ? `#D7F0F4` : `#fff`)};
+  background-color: ${(props) => (props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`)};
   transition: all 0.25s;
 `;

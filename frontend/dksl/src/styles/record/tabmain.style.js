@@ -34,7 +34,7 @@ export const RightLayout = styled.div`
   }
 
   & input:checked {
-    border: max(2px, 0.3em) solid #0fa0b8;
+    border: max(2px, 0.3em) solid var(--maincolor-depth1);
   }
 
   & .select-group {
@@ -56,7 +56,7 @@ export const TierCard = styled.div`
 
   & .result-box .rank-type {
     margin-left: 1.5rem;
-    color: #858585;
+  color: var(--text-gray);
     font-size: medium;
     font-weight: bold;
   }
@@ -98,6 +98,7 @@ export const DuoCard = styled.div`
     margin-bottom: 1rem;
     text-align: center;
     border-radius: 5px;
+    border-collapse: collapse;
   }
 
   & .duo-table .table-header {
@@ -108,7 +109,7 @@ export const DuoCard = styled.div`
 
   & .duo-table tbody .table-row {
     margin: 0.25rem;
-    border-bottom: 2px solid #000;
+    border-bottom: 2px solid #f7f7f9;
   }
 
   & .duo-table .table-row .summoner {
@@ -133,7 +134,7 @@ export const RecentCard = styled.div`
   ${Card}
   width: 95%;
   height: fit-content;
-  color: #758592;
+  color: var(--text-gray);
   text-align: center;
   font-size: small;
 
@@ -584,7 +585,7 @@ export const HorizenGraph = styled.div`
   & .red {
     width: ${(props) => props.red}%;
     height: 100%;
-    background-color: #ef3d3d;
+    background-color: #ff5858;
   }
 
   & .gray {

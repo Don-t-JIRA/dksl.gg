@@ -14,7 +14,7 @@ export const HeaderLayout = styled.div`
     margin: auto;
     margin-left: 2rem;
     &:hover {
-      filter: drop-shadow(0 0 .1rem black);
+      filter: drop-shadow(0 0 .2rem var(--maincolor-depth1));
     }
     flex-basis: 20%;
     text-align: center;

@@ -31,7 +31,7 @@ export const TabItem = styled.button`
   border-radius: 4px;
   font-weight: ${(props) => (props.istab == 1 ? `bold` : `500`)};
   color: #000;
-  background-color: ${(props) => (props.istab == 1 ? `#D7F0F4` : `#F5F5F5`)};
+  background-color: ${(props) => (props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`)};
   transition: all 0.25s;
 `;
 
