@@ -1,11 +1,11 @@
 from datetime import datetime
 import time
-from typing import Union
+from typing import Union, List, Dict
 from fastapi import APIRouter, Depends
 from sqlalchemy.exc import IntegrityError
 
 from app.apis.riot.controller import RiotApiController
-from app.common.schema import IResponseBase, create_response
+from app.common.schema import IResponseBase, create_response, create_match_history_response
 from app.users.crud import lol_profiles as lol_profiles_crud
 from app.users.model import LolProfiles as LolProfiles
 from app.match_history.schema import (
@@ -19,7 +19,7 @@ from app.match_history.crud import match_history_crud, current_season_summaries_
 router = APIRouter()
 
 
-@router.get("", response_model=IResponseBase[IMatchHistoriesRead])
+@router.get("", response_model=Dict[str, Union[List[IMatchHistoriesRead], str, Dict]])
 def get_match_history(
     summoner_name: str,
     db_session=Depends(get_db),
@@ -34,7 +34,9 @@ def get_match_history(
     # items = exec_query(db_session, "SELECT * FROM ITEMS;")
 
     print(match_histories)
-    return create_response(data=match_histories)
+    response_data = create_response(match_histories, message="전적 불러오기")
+
+    return response_data
 
 
 @router.put("")
@@ -120,7 +122,7 @@ def put_match_history(
         tier = tiers_map.get(league_info.get("tier"))
 
         # 존재하는가?
-        current_season_summarie = current_season_summaries_crud.get_by_puu_id_queue(
+        current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
             puu_id=puu_id, queue_id=queue, db_session=db_session
         )
 
@@ -134,10 +136,10 @@ def put_match_history(
             tier_id=tier,
             wins=league_info.get("wins"),
         )
-        # current_season summarie 가 이미 존재할 때
-        if current_season_summarie:
+        # current_season summary 가 이미 존재할 때
+        if current_season_summary:
             current_season_summaries_crud.update(
-                obj_current=current_season_summarie,
+                obj_current=current_season_summary,
                 obj_new=obj_new,
                 db_session=db_session,
             )
@@ -161,7 +163,7 @@ def put_match_history(
                 ;
                 """,
             input_params={
-                "current_season_summary_id": current_season_summarie.id,
+                "current_season_summary_id": current_season_summary.id,
             },
         )
         champ_summaries = exec_query(
@@ -257,7 +259,6 @@ def add_match_history(
     1. 해당 summoner 의 `last_updated_at` 을 불러온다
     2. `last_updated_at` 이후의 전적 리스트를 불러온다
     3. 각 전적의 상세 정보를 불러온다.
-    여기까지 함
     4. TODO: `MATCH_HISTORY` 에 갱신한다.
     """
     riot_api = RiotApiController(summoner_name=summoner_name)
