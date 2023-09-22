@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface MemberTeamRepository extends JpaRepository<MemberTeam, Long> {
-    List<MemberTeam> findAllByOrderByUpdatedAtDesc() throws DataAccessException;
+    List<MemberTeam> findTop3ByOrderByUpdatedAtDesc() throws DataAccessException;
 }

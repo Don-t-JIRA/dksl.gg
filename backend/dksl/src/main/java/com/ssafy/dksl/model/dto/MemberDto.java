@@ -1,6 +1,6 @@
 package com.ssafy.dksl.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.dksl.model.dto.response.TierResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,7 +21,7 @@ public class MemberDto {
     private String email;
 
     @NotNull
-    private TierDto tier;
+    private TierResponse tier;
 
     @NotNull
     private int rank;

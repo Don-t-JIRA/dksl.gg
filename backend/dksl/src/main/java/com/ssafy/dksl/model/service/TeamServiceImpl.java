@@ -37,13 +37,6 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public boolean createTeam(String token, TeamDto teamDto) throws CreateDataException {
-        /* TO DO : 유효성 검사 진행 */
-
-        return false;
-    }
-
-    @Override
     public List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException {
         // List<Team> teamList = teamRepository.findAll();
         List<TeamResponse> teamResponseList = new ArrayList<>();
@@ -78,7 +71,7 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public List<TeamResponse> getRecentTeamList() throws GetDataException {
-        List<MemberTeam> memberTeamList = memberTeamRepository.findAllByOrderByUpdatedAtDesc();
+        List<MemberTeam> memberTeamList = memberTeamRepository.findTop3ByOrderByUpdatedAtDesc();
         List<Team> teamList = new ArrayList<>();
         for(MemberTeam team : memberTeamList) {
             teamList.add(team.getTeam());
@@ -90,32 +83,5 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException {
         return getTeamList(teamRepository.findAllByNameContainingOrDescriptionContaining(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr()));
-    }
-
-    @Override
-    public List<TeamDto> getMyTeamList(String token, MemberDto memberDto) throws GetDataException {
-        /* TO DO : 유효성 검사 진행 */
-        List<TeamDto> teamDtoList = new ArrayList<>();
-        Member member = memberRepository.findByClientId(memberDto.getClientId()).orElseThrow(() -> new GetDataException("회원정보가 존재하지 않습니다."));
-        try {
-
-            for (MemberTeam memberTeam : member.getTeams()) {
-                InputStream imageStream = new FileInputStream("C:/SSAFY/FinalTerm/1_workspace/S09P22A703/backend/dksl/src/main/resources/images/team/" + memberTeam.getTeam().getImg());
-                byte[] imageByteArray = null;
-                IOUtils.readFully(imageStream, imageByteArray);
-                imageStream.close();
-
-                teamDtoList.add(TeamDto.builder()
-                        .id(memberTeam.getTeam().getId())
-                        .name(memberTeam.getTeam().getName())
-                        .description(memberTeam.getTeam().getDescription())
-                        .build());
-            }
-
-            return teamDtoList;
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new GetDataException("나의 팀 조회를 실패 했습니다.");
-        }
     }
 }

@@ -1,7 +1,6 @@
 package com.ssafy.dksl.model.service;
 
 import com.ssafy.dksl.model.dto.MemberDto;
-import com.ssafy.dksl.model.dto.TeamDto;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.response.TeamResponse;
 import com.ssafy.dksl.model.entity.Team;
@@ -13,11 +12,10 @@ import java.util.List;
 
 @Service
 public interface TeamService {
-    boolean createTeam(String token, TeamDto teamDto) throws CreateDataException;
+    // boolean createTeam(String token) throws CreateDataException;
     List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException;
     List<TeamResponse> getAllTeamList() throws GetDataException;
 
     List<TeamResponse> getRecentTeamList() throws GetDataException;
     List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException;
-    List<TeamDto> getMyTeamList(String token, MemberDto memberDto) throws GetDataException;
 }

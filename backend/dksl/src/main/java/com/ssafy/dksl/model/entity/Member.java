@@ -76,7 +76,7 @@ public class Member extends Base {
                 .email(this.getEmail())
                 .level(this.getLevel())
                 .rank(this.getRank())
-                .tier(this.getTier().toTierDto())
+                .tier(this.getTier().toTierResponse())
                 .build();
     }
 }
