@@ -1,6 +1,6 @@
 package com.ssafy.dksl.model.service;
 
-import com.ssafy.dksl.model.dto.UserDto;
+import com.ssafy.dksl.model.dto.MemberDto;
 import com.ssafy.dksl.model.entity.Team;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,14 +10,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ActiveProfiles("test")
 @SpringBootTest
-class UserServiceImplTest {
+class MemberServiceImplTest {
 
     @Autowired
-    UserService userService;
+    MemberService memberService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -35,7 +33,7 @@ class UserServiceImplTest {
         Team team = new Team();
 
 
-        UserDto userDto = UserDto.builder()
+        MemberDto memberDto = MemberDto.builder()
                 .id(1L)
                 .clientId("testClientId")
                 .password("testPassword")
