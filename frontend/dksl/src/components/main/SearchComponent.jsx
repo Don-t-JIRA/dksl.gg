@@ -19,7 +19,11 @@ const SearchComponent = () => {
     <>
       <S.SearchLayout bgnum={num}>
         <div className='container'>
-          <div className='title'>나의 전적을 분석해보세요.</div>
+          <div className='title'>
+            <div className="typing">
+              나의 전적을 분석해보세요.
+            </div>
+          </div>
           <div className='box'>
             <input placeholder='소환사명 입력하기' />
             <img src='image/search.svg' onClick={() => onSearch()} />

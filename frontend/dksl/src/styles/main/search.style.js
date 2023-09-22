@@ -1,12 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SearchLayout = styled.div`
   width: 100%;
   height: 80vh;
   margin-top: 12.5vh;
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, .5), 
-    rgba(0, 0, 0, .5)), 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('image/bg/main_bg_${(props) => props.bgnum}.jpg');
   background-size: 100% 90vh;
   display: flex;
@@ -20,9 +18,21 @@ export const SearchLayout = styled.div`
   & .container .title {
     margin: 2rem;
     margin-top: -2rem;
-    font-size: 2.75rem;
     font-weight: bold;
     color: #ffffff;
+    display: grid;
+    place-items: center;
+
+    & .typing {
+      width: 22ch;
+      animation:
+        typing 2s steps(22),
+        blink 0.5s step-end infinite alternate;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid;
+      font-size: 2em;
+    }
   }
 
   & .container .box {
@@ -71,4 +81,4 @@ export const TaggingContainer = styled.div`
   & .btn {
     font-size: medium;
   }
-`
+`;

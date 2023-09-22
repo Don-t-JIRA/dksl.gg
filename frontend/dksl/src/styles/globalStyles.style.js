@@ -14,7 +14,7 @@ const GlobalStyles = createGlobalStyle`
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #f0f0f0;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +24,7 @@ const GlobalStyles = createGlobalStyle`
 
   --maincolor-depth1: #3E7CB1;
   --maincolor-depth2: #DBE4EE;
-  --mainbg: #f5f5f5;
+  --mainbg: #f0f0f0;
   --text-gray: #758592;
 }
 
@@ -85,6 +85,7 @@ input:focus {
     transform: rotate(360deg);
   }
 }
+
 @keyframes loadEffect {
     0% {
       opacity: 0;
@@ -103,6 +104,18 @@ input:focus {
       transform: scale(1);
     }
   }
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
 
 `;
 
@@ -135,7 +148,7 @@ export const Card = css`
 
   & .title {
     width: 98%;
-    margin-top: .2rem;
+    margin-top: 0.2rem;
     padding: 1.2rem 0;
     padding-left: 2%;
     border-bottom: 1px solid #dfdfdf;
