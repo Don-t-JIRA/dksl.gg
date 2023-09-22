@@ -1,4 +1,6 @@
+// React
 import { useState } from 'react';
+// Component
 import HeaderComponent from '../components/common/HeaderComponent';
 import RankingComponent from '../components/main/RankingComponent';
 import SearchComponent from '../components/main/SearchComponent';

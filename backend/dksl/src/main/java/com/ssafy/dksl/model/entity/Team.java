@@ -26,7 +26,6 @@ public class Team {
     @Comment("이미지")
     private String img;
 
-
     @OneToMany(mappedBy = "team")
     private List<MemberTeam> members = new ArrayList<>();
 }
