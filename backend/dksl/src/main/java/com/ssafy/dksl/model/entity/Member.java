@@ -17,18 +17,16 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Entity
-public class User {
-    @JsonIgnore
+public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Comment("uid")
+    @Comment("고유번호")
     private long id;
 
     @Column(name = "client_id", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("클라이언트 ID")
     private String clientId;
 
-    @JsonIgnore
     @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("비밀번호")
     private String password;
@@ -37,7 +35,7 @@ public class User {
     @Comment("계정 닉네임")
     private String name;
 
-    @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Column(name = "email", nullable = false, columnDefinition = "VARCHAR(100) CHARACTER SET UTF8")
     @Comment("이메일")
     private String email;
 
@@ -45,14 +43,10 @@ public class User {
     @Comment("PUUID")
     private String puuid;
 
-//    @ManyToMany
-//    @JoinTable(name = "user_team", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "id")})
-//    private Set<Team> teams;
+    @OneToMany(mappedBy = "member")
+    private List<MemberTeam> teams = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
-    private List<UserTeam> teams = new ArrayList<>();
-
-    @JsonIgnore
+    @Column(name = "deleted_at")
     @Comment("삭제일")
-    private LocalDateTime deleted_at;
+    private LocalDateTime deletedAt;
 }

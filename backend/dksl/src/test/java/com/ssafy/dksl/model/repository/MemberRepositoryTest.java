@@ -1,12 +1,10 @@
 package com.ssafy.dksl.model.repository;
 
-import com.ssafy.dksl.model.entity.User;
+import com.ssafy.dksl.model.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,10 +15,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class UserRepositoryTest {
+class MemberRepositoryTest {
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @DisplayName("클라이언트 아이디로 유저를 찾는다.")
     @Test
@@ -28,7 +26,7 @@ class UserRepositoryTest {
         // given
         String cliendId = "clientId1";
 
-        User user = User.builder()
+        Member member = Member.builder()
                 .clientId(cliendId)
                 .deleted_at(LocalDateTime.now())
                 .name("testUser1")
@@ -36,15 +34,15 @@ class UserRepositoryTest {
                 .puuid("testPUUID")
                 .build();
 
-        User savedUser = userRepository.save(user);
+        Member savedMember = memberRepository.save(member);
 
         // when
-        User findUser = userRepository.findByClientId(cliendId).orElse(null);
+        Member findMember = memberRepository.findByClientId(cliendId).orElse(null);
 
         // then
-        assertThat(findUser).isNotNull()
+        assertThat(findMember).isNotNull()
                 .extracting("clientId", "password", "name", "puuid")
-                .contains(savedUser.getClientId(), savedUser.getPassword(), savedUser.getName(), savedUser.getPuuid());
+                .contains(savedMember.getClientId(), savedMember.getPassword(), savedMember.getName(), savedMember.getPuuid());
     }
 
     @DisplayName("소환사명으로 유저를 찾는다.")
@@ -53,7 +51,7 @@ class UserRepositoryTest {
         // given
         String gameName = "testUser1";
 
-        User user = User.builder()
+        Member member = Member.builder()
                 .clientId("clientId1")
                 .deleted_at(LocalDateTime.now())
                 .name(gameName)
@@ -61,15 +59,15 @@ class UserRepositoryTest {
                 .puuid("testPUUID")
                 .build();
 
-        User savedUser = userRepository.save(user);
+        Member savedMember = memberRepository.save(member);
 
         // when
-        User findUser = userRepository.findByName(gameName).orElse(null);
+        Member findMember = memberRepository.findByName(gameName).orElse(null);
 
         // then
-        assertThat(findUser).isNotNull()
+        assertThat(findMember).isNotNull()
                 .extracting("clientId", "password", "name", "puuid")
-                .contains(savedUser.getClientId(), savedUser.getPassword(), savedUser.getName(), savedUser.getPuuid());
+                .contains(savedMember.getClientId(), savedMember.getPassword(), savedMember.getName(), savedMember.getPuuid());
 
     }
 }
