@@ -34,7 +34,7 @@ const SignupComponent = ({ getter, setter }) => {
     <S.SignupLayout bgnum={num}>
       <S.SignupContainer>
         <div className="box">
-          <img className="logo" src="image/dkslhead.svg" />
+          <img className="logo" src="../image/dkslhead.svg" />
           <h1> 회원가입 </h1>
         </div>
         <S.SignupInputBox>

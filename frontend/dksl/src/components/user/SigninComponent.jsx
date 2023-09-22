@@ -53,7 +53,7 @@ const SigninComponent = ({ getter, setter }) => {
     <S.SigninLayout bgnum={num}>
       <S.SigninContainer>
         <div className="box">
-          <img className="logo" src="image/dkslhead.svg" />
+          <img className="logo" src="../image/dkslhead.svg" />
           <h1> 로그인 </h1>
         </div>
         <S.SigninInputBox>

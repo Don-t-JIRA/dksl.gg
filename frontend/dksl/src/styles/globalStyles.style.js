@@ -117,6 +117,10 @@ input:focus {
   }
 }
 
+@keyframes animloader {
+  0% { width: ${48 / 10}px;}
+  100% { width: 48px;}
+}
 `;
 
 export const Tag = css`

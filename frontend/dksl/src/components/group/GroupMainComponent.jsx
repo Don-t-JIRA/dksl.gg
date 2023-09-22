@@ -1,14 +1,20 @@
 // Styled
 import * as S from '@/styles/group/main.style';
+import { useEffect } from 'react';
 // router
 import { useNavigate } from 'react-router-dom';
+import LoadingComponent from '../common/LoadingComponent';
 
-const GroupMainComponent = () => {
+const GroupMainComponent = ({ groupList }) => {
   const navigate = useNavigate();
 
   const onSearch = () => {
     navigate('/record');
   }
+
+  useEffect(() => {
+    console.log(groupList);
+  })
   return (
     <S.GroupMainLayout>
       <S.MainContainer>
@@ -55,7 +61,8 @@ const GroupMainComponent = () => {
           </div>
           <div className="result-box">
             <p className="title">&#127969; 검색 소속</p>
-            <div className="result-body">
+            {groupList ? (
+              <div className="result-body">
               <div className="result-row">
                 <div className="image-area">
                   <img src="image/lbti-img.svg" alt="group-img" />
@@ -83,6 +90,10 @@ const GroupMainComponent = () => {
                 </div>
               </div>
             </div>
+            ) : (
+              <LoadingComponent ></LoadingComponent>
+            )}
+            
           </div>
         </div>
       </S.MainContainer>
