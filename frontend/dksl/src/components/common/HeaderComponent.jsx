@@ -14,7 +14,7 @@ const HeaderComponent = () => {
   return (
     <S.HeaderLayout>
       <div className="logoBox">
-        <a href="/" target="_blank" rel="noreferrer">
+        <a href="/" rel="noreferrer">
           <img src="image/dkslhead.svg" className="logo" alt="Dksl logo" />
         </a>
       </div>
