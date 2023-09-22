@@ -1,73 +1,78 @@
 package com.ssafy.dksl.model.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.dksl.model.dto.SummonerDto;
-import com.ssafy.dksl.model.dto.MemberDto;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.ssafy.dksl.model.dto.command.LoginCommand;
+import com.ssafy.dksl.model.dto.command.LogoutCommand;
+import com.ssafy.dksl.model.dto.command.RegisterCommand;
+import com.ssafy.dksl.model.dto.response.LoginResponse;
 import com.ssafy.dksl.model.entity.Member;
-import com.ssafy.dksl.model.entity.MemberRedis;
-import com.ssafy.dksl.model.repository.MemberRedisRepository;
+import com.ssafy.dksl.model.entity.RefreshToken;
+import com.ssafy.dksl.model.entity.Tier;
+import com.ssafy.dksl.model.repository.RefreshTokenRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
+import com.ssafy.dksl.model.repository.TierRepository;
+import com.ssafy.dksl.model.service.common.RiotServiceImpl;
 import com.ssafy.dksl.util.JwtUtil;
+import com.ssafy.dksl.util.data.RankData;
+import com.ssafy.dksl.util.exception.LogoutException;
 import com.ssafy.dksl.util.exception.RegisterException;
-import com.ssafy.dksl.util.exception.UpdateDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URLEncoder;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 @Service
 @Slf4j
-public class MemberServiceImpl implements MemberService {
+public class MemberServiceImpl extends RiotServiceImpl implements MemberService, RankData {
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
-    @Value("${riot.summoner.api.key}")
-    private String RIOT_SUMMONER_API_KEY;
-
-    @Value("${riot.summoner.api.uri}")
-    private String RIOT_SUMMONER_API_URI;
 
     private final JwtUtil jwtUtil;
     private final MemberRepository memberRepository;
-    private final MemberRedisRepository memberRedisRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final TierRepository tierRepository;
 
     @Autowired
-    MemberServiceImpl(PasswordEncoder passwordEncoder, AuthenticationManagerBuilder authenticationManagerBuilder, JwtUtil jwtUtil, MemberRepository memberRepository, MemberRedisRepository memberRedisRepository){
+    MemberServiceImpl(PasswordEncoder passwordEncoder, JwtUtil jwtUtil, MemberRepository memberRepository, RefreshTokenRepository refreshTokenRepository, TierRepository tierRepository){
         this.passwordEncoder = passwordEncoder;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
         this.jwtUtil = jwtUtil;
 
         this.memberRepository = memberRepository;
-        this.memberRedisRepository = memberRedisRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
+        this.tierRepository = tierRepository;
     }
 
-    public boolean register(MemberDto memberDto) throws RegisterException {
-        // 가입되어 있는 아이디인지 확인
-        if(memberRepository.findByClientId(memberDto.getClientId()).isPresent()) {
+    public boolean register(RegisterCommand registerCommand) throws RegisterException {
+        // 아이디 가입 여부 확인
+        if(memberRepository.findByClientId(registerCommand.getClientId()).isPresent()) {
             throw new RegisterException("해당 아이디를 가진 회원이 이미 존재합니다.");
-        } else if(memberRepository.findByName(memberDto.getName()).isPresent()) {
+        }
+
+        // 닉네임 가입 여부 확인
+        if(memberRepository.findByName(registerCommand.getName()).isPresent()) {
             throw new RegisterException("해당 닉네임을 가진 회원이 이미 존재합니다.");
         }
 
         try {
-            SummonerDto summonerDto = callApi(memberDto.getName());
+            JsonNode summonerNode = findSummonerByName(registerCommand.getName());  // 회원 PUUID 찾기
+            JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
+
+            Tier tier = tierRepository.findById((leagueNode.size() != 0)? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked")
+                    .orElseThrow(() -> new RegisterException("랭크 정보를 조회할 수 없습니다."));
+            int rank = RankData.rank.getOrDefault((leagueNode.size() != 0)? leagueNode.get(0).get("rank").asText().toLowerCase() : "unranked", 0);
+
 
             Member member = Member.builder()
-                    .clientId(memberDto.getClientId())
-                    .password(passwordEncoder.encode(memberDto.getPassword()))
-                    .name(summonerDto.getName())
-                    .puuid(summonerDto.getPuuid())
-                    .email(memberDto.getEmail())
+                    .clientId(registerCommand.getClientId())
+                    .password(passwordEncoder.encode(registerCommand.getPassword()))
+                    .name(registerCommand.getName())
+                    .puuid(summonerNode.get("puuid").asText())
+                    .phone(registerCommand.getPhone().replace("-", ""))
+                    .email(registerCommand.getEmail())
+                    .tier(tier)
+                    .rank(rank)
+                    .level(summonerNode.get("summonerLevel").asInt())
                     .build();
 
             memberRepository.save(member);
@@ -80,90 +85,46 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public MemberDto login(MemberDto memberDto) throws LoginException {
+    public LoginResponse login(LoginCommand loginCommand) throws LoginException {
         // 가입되어 있는 아이디인지 확인
-        Member member = memberRepository.findByClientId(memberDto.getClientId()).orElseThrow(() -> new LoginException("아이디 혹은 비밀번호를 틀렸습니다."));
+        Member member = memberRepository.findByClientId(loginCommand.getClientId()).orElseThrow(() -> new LoginException("아이디 혹은 비밀번호를 틀렸습니다."));
 
-        if(!passwordEncoder.matches(memberDto.getPassword(), member.getPassword())) {
+        // 비밀번호 일치하는지 확인
+        if(!passwordEncoder.matches(loginCommand.getPassword(), member.getPassword())) {
             throw new LoginException("아이디 혹은 비밀번호를 틀렸습니다.");
         }
 
-        if(memberRedisRepository.findById(member.getPuuid()).isPresent()) {
+        // 중복 로그인 되었는지 확인 (redis에 refreshToken 존재하는지)
+        if(refreshTokenRepository.findById(member.getPuuid()).isPresent()) {
             throw new LoginException("중복 로그인 하였습니다.");
         }
 
-         String token = jwtUtil.generateToken(member.getClientId(), "ROLE_USER");
-         System.out.println("토큰 정보 : " + token);
+        // Access 토큰 발급
+        String accessToken = jwtUtil.generateToken(member.getClientId(), "ROLE_USER", false);
+        log.info("Access Token 정보 : " + accessToken);
 
-        // Redis에 토큰 넣기
-        MemberRedis memberRedis = MemberRedis.builder()
+        // Refresh 토큰 발급 후 Redis에 저장
+        RefreshToken refreshToken = RefreshToken.builder()
                 .clientId(member.getClientId())
-                .refreshToken(token)
+                .refreshToken(jwtUtil.generateToken(member.getClientId(), "ROLE_USER", true))
                 .build();
+        log.info("Refresh Token 정보 : " + refreshToken.getRefreshToken());
 
-        memberRedisRepository.save(memberRedis);
+        refreshTokenRepository.save(refreshToken);
 
-        return MemberDto.builder()
-                .name(member.getName())
-                .refreshToken(token)
+        log.info("Member 정보 : " + member);
+
+        return LoginResponse.builder()
+                .memberDto(member.toMemberDto())
+                .refreshToken(accessToken)
                 .build();
     }
 
     @Override
-    public boolean updateMember(String token, MemberDto memberDto) throws UpdateDataException {
-        System.out.println("토큰 정보 : " + token);
-        MemberRedis memberRedis = memberRedisRepository.findById(memberDto.getClientId()).orElseThrow(() -> new UpdateDataException("회원정보가 존재하지 않습니다."));
-        if (!jwtUtil.getClientId(memberRedis.getRefreshToken()).equals(jwtUtil.getClientId(token))) {
-            throw new UpdateDataException("회원 정보가 일치하지 않습니다..");
-        }
+    public boolean logout(LogoutCommand logoutCommand) throws LogoutException {
+        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(logoutCommand.getAccessToken())).orElseThrow(() -> new LogoutException("로그인이 되어있지 않습니다."));
+        refreshTokenRepository.delete(refreshToken);
 
-        Member member = memberRepository.findByClientId(jwtUtil.getClientId(token)).orElseThrow(() -> new UpdateDataException("회원정보가 존재하지 않습니다."));
-        /*
-            TO DO : 소속 추가
-         */
-
-        try {
-            member = Member.builder()
-                    .id(member.getId())
-                    .clientId(member.getClientId())
-                    .password(member.getPassword())
-                    .name(memberDto.getName())
-                    .puuid(member.getPuuid())
-                    .email(memberDto.getEmail())
-                    .teams(member.getTeams())
-                    .build();
-
-            memberRepository.save(member);
-
-            return true;
-
-        } catch(Exception e) {
-            log.error(e.getMessage());
-            throw new UpdateDataException();
-        }
-    }
-
-    private SummonerDto callApi(String name) throws RegisterException {
-        HttpClient client = HttpClient.newBuilder().build();
-
-        HttpRequest getRequest = HttpRequest.newBuilder()
-                .uri(URI.create(RIOT_SUMMONER_API_URI + URLEncoder.encode(name)))
-                .header("X-Riot-Token", RIOT_SUMMONER_API_KEY)
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-
-            // 응답 코드 확인
-            int statusCode = response.statusCode();
-            if(statusCode != 200) throw new RegisterException("해당 닉네임을 찾을 수 없습니다.");
-
-            ObjectMapper objectmapper = new ObjectMapper();
-            return objectmapper.readValue(response.body(), SummonerDto.class);  // DTO에 정보 삽입
-        } catch (IOException | InterruptedException e) {
-            log.error(e.getMessage());
-            throw new RegisterException();
-        }
+        return true;
     }
 }

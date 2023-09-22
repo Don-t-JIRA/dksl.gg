@@ -1,9 +1,11 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.MemberDto;
+import com.ssafy.dksl.model.dto.command.LogoutCommand;
+import com.ssafy.dksl.model.dto.request.LoginRequest;
+import com.ssafy.dksl.model.dto.request.RegisterRequest;
 import com.ssafy.dksl.model.service.MemberServiceImpl;
+import com.ssafy.dksl.util.exception.LogoutException;
 import com.ssafy.dksl.util.exception.RegisterException;
-import com.ssafy.dksl.util.exception.UpdateDataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,29 +26,28 @@ public class MemberController {
     }
 
     @PostMapping("register")
-    private ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
+    private ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest) {
         try {
-            return ResponseEntity.ok(memberService.register(memberDto));
+            return ResponseEntity.ok(memberService.register(registerRequest.toRegisterCommand()));
         } catch (RegisterException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }
 
     @PostMapping("login")
-    private ResponseEntity<?> login(@RequestBody MemberDto memberDto) {
+    private ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
-            return ResponseEntity.ok(memberService.login(memberDto));
+            return ResponseEntity.ok(memberService.login(loginRequest.toLoginCommand()));
         } catch (LoginException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }
 
-    @PostMapping("update")
-    private ResponseEntity<?> updateMember(@RequestHeader("Authorization") String token, @RequestBody MemberDto memberDto) {
+    @PostMapping("logout")
+    private ResponseEntity<?> logout(@RequestHeader("Authorization") String accessToken) {
         try {
-            System.out.println(memberService.updateMember(token, memberDto));
-            return ResponseEntity.ok("");
-        } catch(UpdateDataException e) {
+            return ResponseEntity.ok(memberService.logout(LogoutCommand.builder().accessToken(accessToken).build()));
+        } catch (LogoutException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }

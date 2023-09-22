@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Team {
+public class Team extends Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,9 +19,12 @@ public class Team {
     private String name;
 
     @Column(name = "description", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
-    @Comment("팀 소개")
+    @Comment("소개")
     private String description;
 
+    @Column(name = "img", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Comment("이미지")
+    private String img;
 
     @OneToMany(mappedBy = "team")
     private List<MemberTeam> members = new ArrayList<>();
