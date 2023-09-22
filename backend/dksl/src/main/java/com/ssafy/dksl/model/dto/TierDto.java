@@ -6,7 +6,6 @@ import lombok.Getter;
 @Builder
 @Getter
 public class TierDto {
-    private String id;
     private int num;
     private String name;
 }

@@ -1,5 +1,6 @@
 package com.ssafy.dksl.model.entity;
 
+import com.ssafy.dksl.model.dto.TierDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -24,4 +25,11 @@ public class Tier {
 
     @Comment("이미지")
     private URL image;
+
+    public TierDto toTierDto() {
+        return TierDto.builder()
+                .name(this.getName())
+                .num(this.getNum())
+                .build();
+    }
 }
