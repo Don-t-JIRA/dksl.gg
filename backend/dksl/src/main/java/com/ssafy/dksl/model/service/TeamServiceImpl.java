@@ -1,9 +1,12 @@
 package com.ssafy.dksl.model.service;
 
 import com.ssafy.dksl.model.dto.*;
+import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.response.TeamResponse;
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.MemberTeam;
+import com.ssafy.dksl.model.repository.MemberTeamRepository;
 import com.ssafy.dksl.model.repository.TeamRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.util.exception.CreateDataException;
@@ -24,11 +27,13 @@ public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
+    private final MemberTeamRepository memberTeamRepository;
 
     @Autowired
-    public TeamServiceImpl(TeamRepository teamRepository, MemberRepository memberRepository) {
+    public TeamServiceImpl(TeamRepository teamRepository, MemberRepository memberRepository, MemberTeamRepository memberTeamRepository) {
         this.teamRepository = teamRepository;
         this.memberRepository = memberRepository;
+        this.memberTeamRepository = memberTeamRepository;
     }
 
     @Override
@@ -39,9 +44,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public List<TeamDto> getTeamList() throws GetDataException {
-        List<Team> teamList = teamRepository.findAll();
-        List<TeamDto> teamDtoList = new ArrayList<>();
+    public List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException {
+        // List<Team> teamList = teamRepository.findAll();
+        List<TeamResponse> teamResponseList = new ArrayList<>();
         byte[] imageByteArray = null;
             for (Team team : teamList) {
                 // 이미지를 byte array로 변환 (blob)
@@ -53,35 +58,11 @@ public class TeamServiceImpl implements TeamService {
                     log.error("이미지 조회를 실패 했습니다.");
                 }
 
-                // User 순위 매기기
-                List<MemberTeam> memberTeamList = teamRepository.findById(team.getId()).orElseThrow(() -> new GetDataException("팀원 조회를 실패 했습니다.")).getMembers();
-                List<MemberTierDto> memberTierDtoList = new ArrayList<>();
-
-                for (MemberTeam memberTeam : memberTeamList) {
-                    TierDto tierDto = TierDto.builder()
-                            .id(memberTeam.getMember().getTier().getId())
-                            .name(memberTeam.getMember().getTier().getName())
-                            .build();
-
-                    memberTierDtoList.add(MemberTierDto.builder()
-                            .name(memberTeam.getMember().getName())
-                            .tier(tierDto)
-                            .rank(memberTeam.getMember().getRank())
-                            .build());
-                }
-
-                memberTierDtoList.sort((o1, o2) -> {
-                    if (o1.getTier().getNum() == o2.getTier().getNum()) return o1.getRank() - o2.getRank();
-                    return o1.getTier().getNum() - o2.getTier().getNum();
-                });
-
                 try {
-                teamDtoList.add(TeamRankDto.builder()
-                        .id(team.getId())
+                    teamResponseList.add(TeamResponse.builder()
                         .name(team.getName())
                         .description(team.getDescription())
                         .imgByteArray(imageByteArray)
-                        .memberDtoList(memberTierDtoList)
                         .build());
                 } catch (Exception e) {
                     log.error(e.getMessage());
@@ -89,7 +70,26 @@ public class TeamServiceImpl implements TeamService {
                 }
             }
 
-            return teamDtoList;
+            return teamResponseList;
+    }
+
+    public List<TeamResponse> getAllTeamList() throws GetDataException {
+        return getTeamList(teamRepository.findAll());
+    }
+
+    public List<TeamResponse> getRecentTeamList() throws GetDataException {
+        List<MemberTeam> memberTeamList = memberTeamRepository.findAllByOrderByUpdatedAtDesc();
+        List<Team> teamList = new ArrayList<>();
+        for(MemberTeam team : memberTeamList) {
+            teamList.add(team.getTeam());
+        }
+
+        return getTeamList(teamList);
+    }
+
+    @Override
+    public List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException {
+        return getTeamList(teamRepository.findAllByNameContainingOrDescriptionContaining(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr()));
     }
 
     @Override
