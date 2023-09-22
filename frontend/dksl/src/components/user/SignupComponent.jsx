@@ -57,6 +57,12 @@ const SignupComponent = ({ getter, setter }) => {
             placeholder="비밀번호를 입력하세요."
           />
           <input
+            type="password"
+            name="passwordCheck"
+            onChange={(e) => onChange(e)}
+            placeholder="비밀번호를 다시 한번 입력하세요."
+          />
+          <input
             type="text"
             name="phone"
             onChange={(e) => onChange(e)}

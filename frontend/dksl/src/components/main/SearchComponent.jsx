@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 // Styled
 import * as S from '../../styles/main/search.style';
+// router
 import { useNavigate } from 'react-router-dom';
 
 const SearchComponent = () => {

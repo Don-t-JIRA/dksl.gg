@@ -1,13 +1,13 @@
 // Component
 import HeaderComponent from '../components/common/HeaderComponent';
-import CreateGroupComponent from '../components/group/CreateGroupComponent';
+import GroupMainComponent from '../components/group/GroupMainComponent';
 
 const GroupContainer = () => {
 
   return (
     <>
       <HeaderComponent />
-      <CreateGroupComponent />
+      <GroupMainComponent />
     </>
   );
 };

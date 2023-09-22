@@ -24,7 +24,7 @@ const HeaderComponent = () => {
         <a>매칭</a>
         <a>리뷰</a>
       </S.MenuContainer>
-      {token ? (
+      {!token ? (
         <S.LogInConatiner>
           <button onClick={() => setNavigate('/user/signin')}>로그인</button>
         </S.LogInConatiner>

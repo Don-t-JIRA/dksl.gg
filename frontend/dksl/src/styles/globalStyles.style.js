@@ -134,11 +134,12 @@ export const Card = css`
   border-radius: 10px;
 
   & .title {
+    width: 98%;
     margin-top: .2rem;
     padding: 1.2rem 0;
-    padding-left: 1.2rem;
+    padding-left: 2%;
     border-bottom: 1px solid #dfdfdf;
-    font-size: large;
+    font-size: medium;
     font-weight: bold;
   }
 `;
