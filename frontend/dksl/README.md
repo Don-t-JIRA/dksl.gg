@@ -37,10 +37,10 @@ UI나 데이터 가공 및 처리와 UI는 여기서 담당.
  ┃ ┃ ┣ 📜fileTransform.cjs
  ┃ ┃ ┗ 📜setupTests.js
  ┣ 📂public
- ┣ 📂src
  ┃ ┣ 📂assets
  ┃ ┃ ┣ 📜react.svg
  ┃ ┃ ┗ 📜vite.svg
+ ┣ 📂src
  ┃ ┣ 📂atoms
  ┃ ┃ ┗ 📜InputAtom.jsx
  ┃ ┣ 📂components

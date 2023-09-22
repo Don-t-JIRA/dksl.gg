@@ -21,7 +21,7 @@ const SearchComponent = () => {
           <div className='title'>나의 전적을 분석해보세요.</div>
           <div className='box'>
             <input placeholder='소환사명 입력하기' />
-            <img src='/src/assets/search.svg' onClick={() => onSearch()} />
+            <img src='image/search.svg' onClick={() => onSearch()} />
           </div>
         </div>
       </S.SearchLayout>

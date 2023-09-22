@@ -8,11 +8,11 @@ const ProfileComponent = () => {
   return (
     <S.ProfileLayout bgnum={num}>
       <S.ProfileContainer>
-        <img className='logo' src="src/assets/dkslhead.svg" />
+        <img className='logo' src="image/dkslhead.svg" />
         <div className='userBox'>
           <div className="title">
             <h1>닉네임</h1>
-            <img src='src/assets/tier.png' />
+            <img src='image/tier.png' />
           </div>
           <p className='lbti'>CVSD</p>
           <div className="record-update">

@@ -33,13 +33,13 @@ const RankingComponent = (props) => {
         <S.ContentTable>
           <S.ContentItem>
             <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
+            <img className="image" src="image/dkslhead.svg" />
             <p className="name">닉네임</p>
             <p className="tier">Challenger</p>
           </S.ContentItem>
           <S.ContentItem>
             <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
+            <img className="image" src="image/dkslhead.svg" />
             <p className="name">닉네임</p>
             <p className="tier">Challenger</p>
           </S.ContentItem>
@@ -70,7 +70,7 @@ const RankingComponent = (props) => {
         <S.ContentTable>
           <S.ContentItem>
             <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
+            <img className="image" src="image/dkslhead.svg" />
             <p className="name">닉네임</p>
             <p className="tier">Challenger</p>
           </S.ContentItem>

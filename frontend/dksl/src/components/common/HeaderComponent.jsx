@@ -1,7 +1,5 @@
 // router
 import { useNavigate } from 'react-router-dom';
-// assets
-import dkslLogo from '/src/assets/dkslhead.svg';
 // Styled
 import * as S from '@/styles/common/header.style';
 
@@ -17,7 +15,7 @@ const HeaderComponent = () => {
     <S.HeaderLayout>
       <div className="logoBox">
         <a href="/" target="_blank" rel="noreferrer">
-          <img src={dkslLogo} className="logo" alt="Dksl logo" />
+          <img src="image/dkslhead.svg" className="logo" alt="Dksl logo" />
         </a>
       </div>
       <S.MenuContainer>
@@ -33,7 +31,7 @@ const HeaderComponent = () => {
       ) : (
         <S.LogoutContainer>
           <div className="profile">
-            <img src="src/assets/Riot.svg" alt="profile" className="image" />
+            <img src="image/Riot.svg" alt="profile" className="image" />
             <p className="name">롤 닉네임</p>
           </div>
         </S.LogoutContainer>

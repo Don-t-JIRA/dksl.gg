@@ -36,7 +36,7 @@ const TabGroupComponent = () => {
                 <div className="profile-img">
                   <img
                     className="image"
-                    src="src/assets/lbti-img.svg"
+                    src="image/lbti-img.svg"
                     alt="group-profile_img"
                   />
                 </div>
@@ -78,7 +78,7 @@ const TabGroupComponent = () => {
                     <div className="group-name">
                       <img
                         className="image"
-                        src="src/assets/lbti-img.svg"
+                        src="image/lbti-img.svg"
                         alt="group-profile_img"
                       />
                       SSAFY 9기
@@ -90,7 +90,7 @@ const TabGroupComponent = () => {
                     <div className="group-name">
                       <img
                         className="image"
-                        src="src/assets/lbti-img.svg"
+                        src="image/lbti-img.svg"
                         alt="group-profile_img"
                       />
                       KT
@@ -126,7 +126,7 @@ const TabGroupComponent = () => {
                     <div className="member-name">
                       <img
                         className="image"
-                        src="src/assets/lbti-img.svg"
+                        src="image/lbti-img.svg"
                         alt="member-profile_img"
                       />
                       <p className="member-level">123레벨</p>
@@ -140,7 +140,7 @@ const TabGroupComponent = () => {
                     <div className="member-name">
                       <img
                         className="image"
-                        src="src/assets/lbti-img.svg"
+                        src="image/lbti-img.svg"
                         alt="member-profile_img"
                       />
                       <p className="member-level">400레벨</p>

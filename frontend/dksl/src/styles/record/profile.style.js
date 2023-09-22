@@ -9,7 +9,7 @@ export const ProfileLayout = styled.div`
   background-image: 
     linear-gradient(rgba(0, 0, 0, .5), 
     rgba(0, 0, 0, .5)), 
-    url('src/assets/bg/search_bg_${(props) => props.bgnum}.jpg');
+    url('image/bg/search_bg_${(props) => props.bgnum}.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
   box-sizing: border-box;
