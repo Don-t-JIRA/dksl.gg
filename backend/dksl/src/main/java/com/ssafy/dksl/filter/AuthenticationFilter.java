@@ -52,7 +52,7 @@ import java.nio.charset.StandardCharsets;
                 errorResponse(request, response, new InvalidTokenException("재로그인이 필요합니다."));
             } else {
                 // refresh 토큰 검증을 통한 access 토큰 재발급
-                Authentication authentication = jwtUtil.getAuthentication(jwtUtil.generateToken(jwtUtil.getClientId(token), "ROLE_USER", false););
+                Authentication authentication = jwtUtil.getAuthentication(jwtUtil.generateToken(jwtUtil.getClientId(token), "ROLE_USER", false));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (InvalidTokenException e) {
