@@ -1,7 +1,7 @@
 package com.ssafy.dksl.model.service;
 
-import com.ssafy.dksl.model.dto.*;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.command.TeamCommand;
 import com.ssafy.dksl.model.dto.response.TeamResponse;
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
@@ -9,10 +9,10 @@ import com.ssafy.dksl.model.entity.MemberTeam;
 import com.ssafy.dksl.model.repository.MemberTeamRepository;
 import com.ssafy.dksl.model.repository.TeamRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
+import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.CreateDataException;
 import com.ssafy.dksl.util.exception.GetDataException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,21 +24,36 @@ import java.util.*;
 @Service
 @Slf4j
 public class TeamServiceImpl implements TeamService {
+    private final JwtUtil jwtUtil;
 
     private final TeamRepository teamRepository;
     private final MemberRepository memberRepository;
     private final MemberTeamRepository memberTeamRepository;
 
     @Autowired
-    public TeamServiceImpl(TeamRepository teamRepository, MemberRepository memberRepository, MemberTeamRepository memberTeamRepository) {
+    public TeamServiceImpl(JwtUtil jwtUtil, TeamRepository teamRepository, MemberRepository memberRepository, MemberTeamRepository memberTeamRepository) {
+        this.jwtUtil = jwtUtil;
         this.teamRepository = teamRepository;
         this.memberRepository = memberRepository;
         this.memberTeamRepository = memberTeamRepository;
     }
 
     @Override
+    public boolean createTeam(TeamCommand teamCommand) throws CreateDataException {
+        Member chairman = memberRepository.findByClientId(jwtUtil.getClientId(teamCommand.getAccessToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+        try {
+            Team team = teamCommand.toTeam(chairman);
+            teamRepository.save(team);
+
+            return true;
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new CreateDataException("팀 생성을 실패 했습니다.");
+        }
+    }
+
+    @Override
     public List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException {
-        // List<Team> teamList = teamRepository.findAll();
         List<TeamResponse> teamResponseList = new ArrayList<>();
         byte[] imageByteArray = null;
             for (Team team : teamList) {

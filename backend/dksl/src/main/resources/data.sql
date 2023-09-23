@@ -20,6 +20,3 @@ INSERT INTO `tier`(`id`, `num`, `name`) VALUES ('diamond', 4, '다이아몬드')
 INSERT INTO `tier`(`id`, `num`, `name`) VALUES ('master', 3, '마스터');
 INSERT INTO `tier`(`id`, `num`, `name`) VALUES ('grandmaster', 2, '그랜드마스터');
 INSERT INTO `tier`(`id`, `num`, `name`) VALUES ('challengerr', 1, '챌린저');
-
--- Temp Member
-INSERT INTO `team`(`name`, `description`, `img`) VALUES ('SSAFY 9기', ':dizzy: SSAFY 9기 모여라\nSamsung Software Academy For Youth의 9기 교육생들이 모인 소속입니다.', '1.jpg');

@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                // .requestMatchers(new AntPathRequestMatcher("/team/**")).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/team/create")).authenticated()
                                 // .requestMatchers(new AntPathRequestMatcher("/user")).authenticated()  // 사용자 조회, 수정, 삭제
                                 .anyRequest().permitAll()  // 일단 모두 승인
                 )
