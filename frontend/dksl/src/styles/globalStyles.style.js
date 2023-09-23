@@ -67,6 +67,10 @@ input:focus {
   outline: none;
 }
 
+textarea:focus {
+  outline: none;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

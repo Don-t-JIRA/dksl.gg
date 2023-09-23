@@ -17,23 +17,36 @@ const GroupContainer = () => {
 
   const getNewGroup = async () => {
     const { value: formValues } = await MySWal.fire({
-      title: '&#129309; 소속 만들기',
+      title: '<b>&#129309; 소속 만들기</b>',
       html: <GroupCreateComponent />,
       width: '50%',
       heightAuto: true,
-      padding: '5% 10%',
+      padding: '2.5% 5%',
+      confirmButtonColor: '#3E7CB1',
+      confirmButtonText: '생성 요청',
       focusConfirm: false,
-      preConfirm: () => {
-        return [
+      preConfirm: async () => {
+        const values = [
           document.getElementById('swal-input').value,
           document.getElementById('swal-input1').value,
           document.getElementById('swal-input2').value,
         ];
+        // const data = await setNewGroup(values);
+        await console.log(values);
+
+        return values;
       },
     });
 
     if (formValues) {
-      Swal.fire(JSON.stringify(formValues));
+      Swal.fire({
+        title: '생성 성공',
+        text: '소속이 성공적으로 생성되었습니다!',
+        iconColor: '#3E7CB1',
+        icon: 'success',
+        confirmButtonColor: '#3E7CB1',
+        confirmButtonText: '확인',
+      });
     }
   };
 
