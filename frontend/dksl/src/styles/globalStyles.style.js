@@ -12,8 +12,8 @@ const GlobalStyles = createGlobalStyle`
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #f0f0f0;
 
   font-synthesis: none;
