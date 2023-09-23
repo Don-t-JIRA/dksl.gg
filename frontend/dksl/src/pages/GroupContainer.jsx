@@ -19,9 +19,13 @@ const GroupContainer = () => {
     const { value: formValues } = await MySWal.fire({
       title: '&#129309; 소속 만들기',
       html: <GroupCreateComponent />,
+      width: '50%',
+      heightAuto: true,
+      padding: '5% 10%',
       focusConfirm: false,
       preConfirm: () => {
         return [
+          document.getElementById('swal-input').value,
           document.getElementById('swal-input1').value,
           document.getElementById('swal-input2').value,
         ];
