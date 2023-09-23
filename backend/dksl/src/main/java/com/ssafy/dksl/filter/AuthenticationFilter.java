@@ -1,13 +1,15 @@
 package com.ssafy.dksl.filter;
 
+import com.ssafy.dksl.model.entity.RefreshToken;
+import com.ssafy.dksl.model.repository.RefreshTokenRepository;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.InvalidTokenException;
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,9 +26,11 @@ import java.nio.charset.StandardCharsets;
     public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public AuthenticationFilter(JwtUtil jwtUtil) {
+    public AuthenticationFilter(JwtUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
         this.jwtUtil = jwtUtil;
+        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -41,6 +45,16 @@ import java.nio.charset.StandardCharsets;
             }
 
             filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {  // Access 토큰이 만료 되었을 때
+            RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(token)).orElse(null);
+            if(refreshToken == null) {  // refresh 토큰도 만료 되었을 때
+                log.error(e.getMessage());
+                errorResponse(request, response, new InvalidTokenException("재로그인이 필요합니다."));
+            } else {
+                // refresh 토큰 검증을 통한 access 토큰 재발급
+                Authentication authentication = jwtUtil.getAuthentication(jwtUtil.generateToken(jwtUtil.getClientId(token), "ROLE_USER", false););
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
         } catch (InvalidTokenException e) {
             log.error(e.getMessage());
             errorResponse(request, response, e);
