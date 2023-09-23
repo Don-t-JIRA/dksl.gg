@@ -36,6 +36,14 @@ const GroupContainer = () => {
 
         return values;
       },
+    }).catch((err) => {
+      Swal.fire({
+        title: '생성 실패',
+        text: err.message,
+        icon: 'error',
+        confirmButtonColor: '#3E7CB1',
+        confirmButtonText: '확인',
+      });
     });
 
     if (formValues) {
