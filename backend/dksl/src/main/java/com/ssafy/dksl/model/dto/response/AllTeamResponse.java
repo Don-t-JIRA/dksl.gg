@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class GetAllTeamResponse {
+public class AllTeamResponse {
     private List<TeamResponse> teamList;
     private List<TeamResponse> recentTeamList;
 }
