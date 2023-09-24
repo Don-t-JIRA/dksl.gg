@@ -90,7 +90,7 @@ export const LogInConatiner = styled.div`
 `;
 
 export const LogoutContainer = styled.div`
-  flex-basis: 40%;
+  flex-basis: 60%;
   height: inherit;
   margin: auto;
   margin-right: 5rem;
@@ -111,6 +111,10 @@ export const LogoutContainer = styled.div`
       font-size: large;
       font-weight: bolder;
       color: var(--text-gray);
+    }
+
+    & button {
+      margin-left: 1rem;
     }
   }
 `;

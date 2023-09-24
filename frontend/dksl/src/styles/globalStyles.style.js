@@ -61,7 +61,7 @@ button:hover {
 a {
   text-decoration: none;
   color: black;
-  transition: all .2s;
+  transition: all .3s;
 }
 
 a:link { color: black; }

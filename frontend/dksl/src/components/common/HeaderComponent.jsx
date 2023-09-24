@@ -7,7 +7,7 @@ import { useRef } from 'react';
 const HeaderComponent = () => {
   const search = useRef();
   const navigate = useNavigate();
-  const token = null;
+  const token = 'test';
 
   const setNavigate = (url) => {
     navigate(url);
@@ -40,6 +40,7 @@ const HeaderComponent = () => {
           <div className="profile">
             <img src="image/Riot.svg" alt="profile" className="image" />
             <p className="name">롤 닉네임</p>
+            <button onClick={() => console.log('logout')}>로그아웃</button>
           </div>
         </S.LogoutContainer>
       )}

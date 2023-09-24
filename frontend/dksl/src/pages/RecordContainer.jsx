@@ -35,9 +35,9 @@ const RecordContainer = () => {
   return (
     <>
       <HeaderComponent />
-      <ProfileComponent />
+      <ProfileComponent data={null} />
       <RecordBodyComponent
-        recorddata={null}
+        recorddata={recorddumydata}
         analyzedata={laderData}
         tab={recordTab}
         setTab={setRecordTab}

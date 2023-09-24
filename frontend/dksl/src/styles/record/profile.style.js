@@ -6,9 +6,7 @@ export const ProfileLayout = styled.div`
   margin-top: 7.5vh;
   padding-left: 20%;
   padding-right: 20%;
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, .5), 
-    rgba(0, 0, 0, .5)), 
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('image/bg/search_bg_${(props) => props.bgnum}.jpg');
   background-repeat: no-repeat;
   background-size: 100%;
@@ -48,7 +46,7 @@ export const ProfileContainer = styled.div`
 
   & .userBox .lbti {
     margin-top: 0;
-    margin-bottom: .2rem;
+    margin-bottom: 0.2rem;
     font-size: 2rem;
   }
 
@@ -65,4 +63,4 @@ export const ProfileContainer = styled.div`
     margin-left: 1rem;
     color: #dfdfdf;
   }
-`
+`;

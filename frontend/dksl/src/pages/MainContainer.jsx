@@ -24,8 +24,10 @@ const MainContainer = () => {
       <RankingComponent
         hofTab={hofTab}
         setHofTab={setHofTab}
+        hofData={null}
         rankTab={rankTab}
         setRankTab={setRankTab}
+        rankData={null}
       />
     </>
   );

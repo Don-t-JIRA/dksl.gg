@@ -62,6 +62,13 @@ export const SearchLayout = styled.div`
     right: 15px;
     margin-top: 1px;
     margin-bottom: 1px;
+    transition: all 0.5s;
+
+    &:hover {
+      width: 2.35rem;
+      top: 4px;
+      right: 12.5px;
+    }
   }
 `;
 

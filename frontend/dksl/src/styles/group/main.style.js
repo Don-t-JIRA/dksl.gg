@@ -11,7 +11,7 @@ export const GroupMainLayout = styled.div`
 export const MainContainer = styled.div`
   width: 80%;
   max-width: 826px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   margin-top: 12.5vh;
@@ -24,7 +24,6 @@ export const MainContainer = styled.div`
     max-height: 260px;
     display: flex;
     flex-direction: column;
-    margin-top: 4rem;
     padding: 5%;
     justify-content: center;
     border-radius: 2px;
@@ -34,18 +33,19 @@ export const MainContainer = styled.div`
     color: white;
 
     & .title {
-      font-size: x-large;
+      font-size: xx-large;
       font-weight: bold;
     }
 
     & .create-btn {
-      margin-left: 1rem;
+      width: fit-content;
+      margin-top: 1rem;
       color: white;
       font-size: large;
+      font-weight: bold;
 
       &:hover {
-        color: var(--maincolor-depth2);
-        text-decoration: underline;
+        color: var(--maincolor-depth1);
       }
     }
   }
