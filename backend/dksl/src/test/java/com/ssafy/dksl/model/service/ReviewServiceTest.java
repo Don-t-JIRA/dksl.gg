@@ -2,7 +2,7 @@ package com.ssafy.dksl.model.service;
 
 import com.ssafy.dksl.exception.NonExistReviewException;
 import com.ssafy.dksl.exception.UserNotExistException;
-import com.ssafy.dksl.model.dto.ReviewSearchDto;
+import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.request.ReviewDeleteRequestDto;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
 import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
@@ -43,7 +43,7 @@ class ReviewServiceTest {
     @Autowired
     UserRepository userRepository;
 
-    @DisplayName("특정 matchId에 해당하는 ")
+    @DisplayName("특정 matchId에 해당하는 모든 댓글을 불러온다.")
     @Test
     void getReviews() throws InterruptedException {
         // given
@@ -59,7 +59,7 @@ class ReviewServiceTest {
         }
 
         // when
-        List<ReviewSearchDto> reviews = reviewService.getReviews(matchId, 2);
+        List<ReviewSearchResponseDto> reviews = reviewService.getReviews(matchId, 2);
 
         // then
         assertThat(reviews).hasSize(10)
