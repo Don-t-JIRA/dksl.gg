@@ -1,6 +1,6 @@
 package com.ssafy.dksl.model.entity;
 
-import com.ssafy.dksl.model.dto.ReviewSearchDto;
+import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,17 +42,10 @@ public class Review extends Base{
     private LocalDateTime deletedAt;
 
 
-    public ReviewSearchDto to() {
-        UserDto userDto = UserDto.builder()
-                .clientId(user.getClientId())
-                .password(user.getPassword())
-                .name(user.getName())
-                .puuid(user.getPuuid())
-                .build();
-
-        return ReviewSearchDto.builder()
+    public ReviewSearchResponseDto to() {
+        return ReviewSearchResponseDto.builder()
                 .createdAt(super.getCreatedAt())
-                .userDto(userDto)
+                .clientId(user.getClientId())
                 .matchId(matchId)
                 .content(content)
                 .build();
