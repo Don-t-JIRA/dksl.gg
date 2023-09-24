@@ -1,6 +1,10 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {
+  font-family: 'Nanum Gothic', sans-serif;
+}
 
 #root {
   width: 100vw;
@@ -62,6 +66,9 @@ a {
 
 a:link { color: black; }
 a:visited { color: black; }
+a:hover {
+  color: var(--maincolor-depth1);
+}
 
 input:focus {
   outline: none;

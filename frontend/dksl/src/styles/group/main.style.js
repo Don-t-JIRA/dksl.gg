@@ -74,11 +74,14 @@ export const MainContainer = styled.div`
 
   & .search-box {
     & .search-input {
+      ${Card}
       width: 100%;
-      margin: auto;
+      margin: 0.75rem 0;
+      padding-top: 0;
       position: relative;
       display: flex;
       align-self: center;
+      box-sizing: border-box;
     }
 
     & .search-input input {
@@ -87,15 +90,9 @@ export const MainContainer = styled.div`
       padding: 0 2.5%;
       margin: 1.5rem 0.5%;
       margin-bottom: 0.5rem;
+      margin-top: 1rem;
       font-size: medium;
       border: none;
-      transition: all 0.5s;
-      filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38));
-    }
-
-    & .search-input input:focus {
-      border-radius: 5px;
-      filter: drop-shadow(2px 4px 4px hsl(0deg 0% 0% / 0.25));
     }
 
     & .search-input img {
@@ -104,9 +101,16 @@ export const MainContainer = styled.div`
       width: 4%;
       top: 5px;
       right: 15px;
-      margin-top: 1.5rem;
+      margin-top: 1rem;
       margin-bottom: auto;
       align-items: center;
+      transition: all 0.5s;
+
+      &:hover {
+        width: 5%;
+        top: 4px;
+        right: 12.5px;
+      }
     }
 
     & .result-box {

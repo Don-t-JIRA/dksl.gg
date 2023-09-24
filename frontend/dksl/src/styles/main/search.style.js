@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const SearchLayout = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 70vh;
   margin-top: 12.5vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('image/bg/main_bg_${(props) => props.bgnum}.jpg');
@@ -24,9 +24,9 @@ export const SearchLayout = styled.div`
     place-items: center;
 
     & .typing {
-      width: 22ch;
+      width: 19ch;
       animation:
-        typing 2s steps(22),
+        typing 2s steps(19),
         blink 0.5s step-end infinite alternate;
       white-space: nowrap;
       overflow: hidden;
@@ -45,12 +45,13 @@ export const SearchLayout = styled.div`
     width: 90%;
     height: 2.25rem;
     padding: 5px 5%;
+    border: none;
     border-radius: 5px;
     filter: drop-shadow(2px 4px 4px hsl(0deg 0% 0% / 0.38));
+    transition: all 0.5s;
   }
 
   & .container .box input:focus {
-    transition: all 0.5s;
     filter: drop-shadow(4px 8px 8px hsl(0deg 0% 0% / 0.25));
   }
 

@@ -1,15 +1,13 @@
 // Styled
 import * as S from '@/styles/group/main.style';
-import { useEffect } from 'react';
-// router
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 import LoadingComponent from '../common/LoadingComponent';
 
 const GroupMainComponent = ({ groupList, createGroup }) => {
-  const navigate = useNavigate();
+  const search = useRef();
 
   const onSearch = () => {
-    navigate('/record');
+    console.log('Start Searching => ', search.current.value);
   };
 
   useEffect(() => {
@@ -66,7 +64,7 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
         </div>
         <div className="search-box">
           <div className="search-input">
-            <input placeholder="소속명 입력하기" />
+            <input placeholder="소속명 입력하기" ref={search} />
             <img src="image/search.svg" onClick={() => onSearch()} />
           </div>
           <div className="result-box">

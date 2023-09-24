@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const LoadingLayout = styled.section`
   min-width: 200px;
   width: 100%;
-  height: 200px;
+  height: 40vh;
   padding: 10px;
   position: relative;
   display: flex;
@@ -11,7 +11,7 @@ export const LoadingLayout = styled.section`
   justify-content: center;
   color: #ccc;
   transition: 0.3s linear;
-  
+
   & .loader {
     width: ${48 / 10}px;
     height: ${48 / 10}px;

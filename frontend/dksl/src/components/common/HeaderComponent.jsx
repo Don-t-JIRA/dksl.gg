@@ -2,13 +2,19 @@
 import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
+import { useRef } from 'react';
 
 const HeaderComponent = () => {
+  const search = useRef();
   const navigate = useNavigate();
   const token = null;
 
   const setNavigate = (url) => {
     navigate(url);
+  };
+
+  const onSearch = () => {
+    console.log(search.current.value);
   };
 
   return (
@@ -20,9 +26,10 @@ const HeaderComponent = () => {
       </div>
       <S.MenuContainer>
         <a href="/group">소속</a>
-        <a>투기장</a>
-        <a>매칭</a>
-        <a>리뷰</a>
+        <div className="search-input">
+          <input placeholder="소환사명 입력하기" ref={search} />
+          <img src="image/search.svg" onClick={() => onSearch()} />
+        </div>
       </S.MenuContainer>
       {!token ? (
         <S.LogInConatiner>

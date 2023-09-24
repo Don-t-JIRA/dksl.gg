@@ -7,6 +7,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 // Nivo
 import { ResponsivePie } from '@nivo/pie';
+import LoadingComponent from '../../common/LoadingComponent';
 
 const options = [{ value: 'default', label: '큐 타입' }];
 
@@ -183,7 +184,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -196,9 +199,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -233,7 +242,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -246,9 +257,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -283,7 +300,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -296,9 +315,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -333,7 +358,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -346,9 +373,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -383,7 +416,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -396,9 +431,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -438,7 +479,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -451,9 +494,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -488,7 +537,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -501,9 +552,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -538,7 +595,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -551,9 +610,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -588,7 +653,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -601,9 +668,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -638,7 +711,9 @@ const RecordCardComponent = (props) => {
                     <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -651,9 +726,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -682,6 +763,9 @@ const RecordCardComponent = (props) => {
 };
 
 const TabMainComponent = ({ data }) => {
+  if (data == null) {
+    return <LoadingComponent />;
+  }
   return (
     <S.TabMainLayout>
       <S.LeftLayout>

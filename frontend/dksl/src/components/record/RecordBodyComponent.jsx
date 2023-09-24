@@ -17,6 +17,7 @@ import TabGroupComponent from './tabContent/TabGroupComponent';
  * 3 -> review
  */
 const RecordBodyComponent = (props) => {
+  console.log(props.recorddata);
   return (
     <S.RecordLayout>
       <S.TabLayout>

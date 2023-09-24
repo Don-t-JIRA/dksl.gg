@@ -10,9 +10,9 @@ export const CreateLayout = styled.div`
 
   & .input-area-1 {
     width: 100%;
-    height: 35%;
+    height: 40%;
     display: flex;
-    flex-basis: 35%;
+    flex-basis: 40%;
     justify-content: center;
     text-align: start;
 
@@ -67,7 +67,7 @@ export const CreateLayout = styled.div`
     height: 60%;
     display: flex;
     flex-direction: column;
-    flex-basis: 65%;
+    flex-basis: 60%;
     justify-content: start;
     text-align: start;
     margin: 2%;
