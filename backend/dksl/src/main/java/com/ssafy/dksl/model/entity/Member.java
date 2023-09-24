@@ -28,11 +28,11 @@ public class Member extends Base {
     @Comment("클라이언트 ID")
     private String clientId;
 
-    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Column(name = "password", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("비밀번호")
     private String password;
 
-    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Comment("계정 닉네임")
     private String name;
 
