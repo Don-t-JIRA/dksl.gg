@@ -1,20 +1,19 @@
 package com.ssafy.dksl.model.dto.request;
 
-import com.ssafy.dksl.model.dto.command.TeamCommand;
+import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.util.exception.CreateDataException;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-public class TeamRequest {
+public class CreateTeamRequest {
     @NotNull
     private String name;
     private String description;
     private MultipartFile img;
 
-    public TeamCommand toTeamCommand(String token) throws CreateDataException {
+    public CreateTeamCommand toCreateTeamCommand(String token) throws CreateDataException {
         if (this.img == null) {
             throw new CreateDataException("이미지 파일 업로드에 실패 했습니다.");
         }
@@ -25,7 +24,7 @@ public class TeamRequest {
             throw new CreateDataException("이미지 파일 업로드에 실패 했습니다.");
         }
 
-        return TeamCommand.builder()
+        return CreateTeamCommand.builder()
                 .name(this.getName())
                 .description(this.getDescription())
                 .accessToken(token)

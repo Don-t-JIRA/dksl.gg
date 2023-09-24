@@ -1,8 +1,8 @@
 package com.ssafy.dksl.controller;
 
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.request.TeamRequest;
-import com.ssafy.dksl.model.dto.response.GetAllTeamResponse;
+import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
+import com.ssafy.dksl.model.dto.response.AllTeamResponse;
 import com.ssafy.dksl.model.service.TeamServiceImpl;
 import com.ssafy.dksl.util.exception.CreateDataException;
 import com.ssafy.dksl.util.exception.GetDataException;
@@ -23,9 +23,9 @@ public class TeamController {
     }
 
     @PostMapping("create")
-    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody TeamRequest teamRequest) {  // 최초 한 번 불러오기
+    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody CreateTeamRequest createTeamRequest) {  // 최초 한 번 불러오기
         try {
-            return ResponseEntity.ok(teamService.createTeam(teamRequest.toTeamCommand(token)));
+            return ResponseEntity.ok(teamService.createTeam(createTeamRequest.toCreateTeamCommand(token)));
         } catch (CreateDataException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -33,11 +33,11 @@ public class TeamController {
     @GetMapping
     private ResponseEntity<?> getFirstTeamList() {  // 최초 한 번 불러오기
         try {
-            GetAllTeamResponse getAllTeamResponse = GetAllTeamResponse.builder()
+            AllTeamResponse allTeamResponse = AllTeamResponse.builder()
                     .teamList(teamService.getAllTeamList())  // 모든 팀 리스트
                     .recentTeamList(teamService.getRecentTeamList())  // 최근 가입 팀 리스트
                     .build();
-            return ResponseEntity.ok(getAllTeamResponse);
+            return ResponseEntity.ok(allTeamResponse);
         } catch (GetDataException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -9,12 +9,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Builder
 @Getter
-public class TeamCommand {
+public class CreateTeamCommand {
     @NotNull
     private String name;
     private String description;
     private String accessToken;
-    private Member chairman;
+    // private Member chairman;
     private MultipartFile img;
 
     public Team toTeam(Member chairman) {
