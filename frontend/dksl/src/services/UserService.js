@@ -1,10 +1,11 @@
 // User API (Axios)
-import axios from 'axios';
+import api from './api';
+// Swal
 import Swal from 'sweetalert2';
 
 const register = async (data) => {
-  const response = await axios.post(
-    'http://70.12.247.95:8080/user/register',
+  const response = await api.post(
+    '/user/register',
     JSON.stringify(data), 
     {
       headers: {
@@ -20,8 +21,8 @@ const register = async (data) => {
 };
 
 const signIn = async (data) => {
-  const response = await axios.post(
-    'http://70.12.247.95:8080/user/login',
+  const response = await api.post(
+    '/user/login',
     JSON.stringify(data),
     {
       headers: {

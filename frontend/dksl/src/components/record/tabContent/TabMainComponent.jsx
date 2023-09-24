@@ -7,6 +7,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 // Nivo
 import { ResponsivePie } from '@nivo/pie';
+import LoadingComponent from '../../common/LoadingComponent';
 
 const options = [{ value: 'default', label: '큐 타입' }];
 
@@ -38,10 +39,10 @@ const RecordCardComponent = (props) => {
                 />
               </div>
               <div className="another">
-                <img className="image" src="src/assets/dkslhead.svg" />
-                <img className="image" src="src/assets/dkslhead.svg" />
-                <img className="image" src="src/assets/dkslhead.svg" />
-                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
               </div>
             </div>
             <div className="area-3">
@@ -67,13 +68,13 @@ const RecordCardComponent = (props) => {
               </p>
             </div>
             <div className="area-5">
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
-              <img className="image" src="src/assets/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
+              <img className="image" src="image/dkslhead.svg" />
             </div>
           </div>
           <div className="right-section">
@@ -156,7 +157,7 @@ const RecordCardComponent = (props) => {
         <div className="arrow-area">
           <img
             className="image"
-            src={`src/assets/arrow_${isOpen ? 'up' : 'down'}.svg`}
+            src={`image/arrow_${isOpen ? 'up' : 'down'}.svg`}
             onClick={openDetail}
           />
         </div>
@@ -177,13 +178,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -196,9 +199,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -208,13 +217,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -227,13 +236,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -246,9 +257,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -258,13 +275,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -277,13 +294,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -296,9 +315,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -308,13 +333,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -327,13 +352,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -346,9 +373,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -358,13 +391,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -377,13 +410,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -396,9 +431,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -408,13 +449,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -432,13 +473,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -451,9 +494,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -463,13 +512,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -482,13 +531,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -501,9 +552,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -513,13 +570,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -532,13 +589,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -551,9 +610,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -563,13 +628,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -582,13 +647,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -601,9 +668,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -613,13 +686,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -632,13 +705,15 @@ const RecordCardComponent = (props) => {
                     />
                   </div>
                   <div className="another">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                   <div className="summoner">
-                    <p className="tier"><b>Silver1</b></p>
+                    <p className="tier">
+                      <b>Silver1</b>
+                    </p>
                     <p className="name">바보개</p>
                   </div>
                 </div>
@@ -651,9 +726,15 @@ const RecordCardComponent = (props) => {
                   </div>
                   <div className="result">
                     <div className="text">
-                      <p><b>C</b>:201</p>
-                      <p><b>G</b>:1.2만</p>
-                      <p><b>W</b>:6</p>
+                      <p>
+                        <b>C</b>:201
+                      </p>
+                      <p>
+                        <b>G</b>:1.2만
+                      </p>
+                      <p>
+                        <b>W</b>:6
+                      </p>
                     </div>
                     <S.HorizenGraph red={30} gray={70}>
                       <div className="red"></div>
@@ -663,13 +744,13 @@ const RecordCardComponent = (props) => {
                 </div>
                 <div className="area-3">
                   <div className="item-list">
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
-                    <img className="image" src="src/assets/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
+                    <img className="image" src="image/dkslhead.svg" />
                   </div>
                 </div>
               </div>
@@ -682,6 +763,9 @@ const RecordCardComponent = (props) => {
 };
 
 const TabMainComponent = ({ data }) => {
+  if (data == null) {
+    return <LoadingComponent />;
+  }
   return (
     <S.TabMainLayout>
       <S.LeftLayout>
@@ -691,7 +775,7 @@ const TabMainComponent = ({ data }) => {
             <div className="result-box">
               <div className="rank-type">솔로 랭크</div>
               <div className="rank-detail">
-                <img src="src/assets/tier.png" />
+                <img src="image/tier.png" />
                 <div className="description">
                   <p className="tier">Master</p>
                   <p className="point">68P</p>
@@ -701,7 +785,7 @@ const TabMainComponent = ({ data }) => {
             <div className="result-box">
               <div className="rank-type">자유 랭크</div>
               <div className="rank-detail">
-                <img src="src/assets/tier.png" />
+                <img src="image/tier.png" />
                 <div className="description">
                   <p className="tier">Master</p>
                   <p className="point">22P</p>
@@ -711,7 +795,7 @@ const TabMainComponent = ({ data }) => {
             <div className="result-box">
               <div className="rank-type">전략적 팀 전투</div>
               <div className="rank-detail">
-                <img src="src/assets/tier.png" />
+                <img src="image/tier.png" />
                 <div className="description">
                   <p className="tier">Master</p>
                   <p className="point">1P</p>
@@ -734,7 +818,7 @@ const TabMainComponent = ({ data }) => {
             <tbody>
               <tr className="table-row">
                 <td className="summoner">
-                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="image/dkslhead.svg" />
                   <p>NickName</p>
                 </td>
                 <td className="game">4</td>
@@ -743,7 +827,7 @@ const TabMainComponent = ({ data }) => {
               </tr>
               <tr className="table-row">
                 <td className="summoner">
-                  <img className="image" src="src/assets/dkslhead.svg" />
+                  <img className="image" src="image/dkslhead.svg" />
                   <p>NickName</p>
                 </td>
                 <td className="game">4</td>
@@ -807,19 +891,19 @@ const TabMainComponent = ({ data }) => {
             <div className="recent-played">
               <p className="sub-title">플레이한 챔피언&nbsp;(최근 20게임)</p>
               <div className="most-champ">
-                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
                 <p className="percent">56%</p>
                 <p className="score">(5승 4패)</p>
                 <p className="grade">2.88&nbsp;평점</p>
               </div>
               <div className="most-champ">
-                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
                 <p className="percent">56%</p>
                 <p className="score">(5승 4패)</p>
                 <p className="grade">2.88&nbsp;평점</p>
               </div>
               <div className="most-champ">
-                <img className="image" src="src/assets/dkslhead.svg" />
+                <img className="image" src="image/dkslhead.svg" />
                 <p className="percent">56%</p>
                 <p className="score">(5승 4패)</p>
                 <p className="grade">2.88&nbsp;평점</p>

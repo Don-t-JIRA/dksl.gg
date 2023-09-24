@@ -1,8 +1,9 @@
 // Styled
 import * as S from '../../styles/main/ranking.style';
+import LoadingComponent from '../common/LoadingComponent';
 
 /**
- * @param props // 탭 상태 저장할, 변경할 hotTab, rankTab 받아올 프롭스 객체 
+ * @param props // 탭 상태 저장할, 변경할 hotTab, rankTab 받아올 프롭스 객체
  */
 const RankingComponent = (props) => {
   // const arr
@@ -30,20 +31,26 @@ const RankingComponent = (props) => {
             월간
           </S.TabItem>
         </S.TabBox>
-        <S.ContentTable>
-          <S.ContentItem>
-            <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <p className="name">닉네임</p>
-            <p className="tier">Challenger</p>
-          </S.ContentItem>
-          <S.ContentItem>
-            <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <p className="name">닉네임</p>
-            <p className="tier">Challenger</p>
-          </S.ContentItem>
-        </S.ContentTable>
+        {props.hofData ? (
+          <S.ContentTable>
+            <S.ContentItem>
+              <p className="idx">1</p>
+              <img className="image" src="image/dkslhead.svg" />
+              <p className="name">닉네임</p>
+              <p className="tier">Challenger</p>
+            </S.ContentItem>
+            <S.ContentItem>
+              <p className="idx">1</p>
+              <img className="image" src="image/dkslhead.svg" />
+              <p className="name">닉네임</p>
+              <p className="tier">Challenger</p>
+            </S.ContentItem>
+          </S.ContentTable>
+        ) : (
+          <S.ContentTable>
+            <LoadingComponent />
+          </S.ContentTable>
+        )}
       </div>
       <div className="container">
         <p className="title">&#127969; 소속 별 순위</p>
@@ -67,14 +74,20 @@ const RankingComponent = (props) => {
             내 순위
           </S.TabItem>
         </S.TabBox>
-        <S.ContentTable>
-          <S.ContentItem>
-            <p className="idx">1</p>
-            <img className="image" src="src/assets/dkslhead.svg" />
-            <p className="name">닉네임</p>
-            <p className="tier">Challenger</p>
-          </S.ContentItem>
-        </S.ContentTable>
+        {props.rankData ? (
+          <S.ContentTable>
+            <S.ContentItem>
+              <p className="idx">1</p>
+              <img className="image" src="image/dkslhead.svg" />
+              <p className="name">닉네임</p>
+              <p className="tier">Challenger</p>
+            </S.ContentItem>
+          </S.ContentTable>
+        ) : (
+          <S.ContentTable>
+            <LoadingComponent />
+          </S.ContentTable>
+        )}
       </div>
     </S.RankingLayout>
   );
