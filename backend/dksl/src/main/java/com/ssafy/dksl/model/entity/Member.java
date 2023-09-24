@@ -24,7 +24,7 @@ public class Member extends Base {
     @Comment("고유번호")
     private long id;
 
-    @Column(name = "client_id", columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Column(name = "client_id", nullable = false, unique = true, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Comment("클라이언트 ID")
     private String clientId;
 
@@ -32,7 +32,7 @@ public class Member extends Base {
     @Comment("비밀번호")
     private String password;
 
-    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Comment("계정 닉네임")
     private String name;
 

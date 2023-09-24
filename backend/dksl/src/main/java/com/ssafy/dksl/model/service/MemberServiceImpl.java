@@ -60,7 +60,7 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
 
             Tier tier = tierRepository.findById((leagueNode.size() != 0)? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked")
                     .orElseThrow(() -> new RegisterException("랭크 정보를 조회할 수 없습니다."));
-            int rank = RankData.rank.getOrDefault((leagueNode.size() != 0)? leagueNode.get(0).get("rank").asText().toLowerCase() : "unranked", 0);
+            int rank = (leagueNode.size() != 0)? RankData.rank.get(leagueNode.get(0).get("rank").asText()) : 0;
 
 
             Member member = Member.builder()

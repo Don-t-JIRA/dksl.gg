@@ -17,19 +17,21 @@ public class Tier {
     @Comment("짧은 구분자")
     private String id;
 
-    private int num;
+    @Column(name = "order_num", nullable = false, unique = true)
+    @Comment("순위")
+    private int orderNum;
 
     @Column(name = "name", nullable = false, unique = true, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
     @Comment("이름")
     private String name;
 
     @Comment("이미지")
-    private URL image;
+    private URL img;
 
     public TierResponse toTierResponse() {
         return TierResponse.builder()
                 .name(this.getName())
-                .num(this.getNum())
+                .num(this.getOrderNum())
                 .build();
     }
 }

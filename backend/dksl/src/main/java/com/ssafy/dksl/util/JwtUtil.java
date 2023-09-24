@@ -1,8 +1,9 @@
 package com.ssafy.dksl.util;
 
+import com.ssafy.dksl.model.entity.RefreshToken;
+import com.ssafy.dksl.model.repository.RefreshTokenRepository;
 import com.ssafy.dksl.util.exception.InvalidTokenException;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.InitializingBean;
@@ -63,8 +64,6 @@ public class JwtUtil implements InitializingBean {
         }
         catch (MalformedJwtException e) {
             throw new InvalidTokenException("잘못된 JWT 서명입니다.");
-        } catch (ExpiredJwtException e) {
-            throw new InvalidTokenException("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
             throw new InvalidTokenException("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
