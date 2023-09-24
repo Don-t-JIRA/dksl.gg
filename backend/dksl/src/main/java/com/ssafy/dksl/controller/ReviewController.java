@@ -42,7 +42,7 @@ public class ReviewController {
         }
     }
 
-    @PostMapping("/update/")
+    @PostMapping("/review/update/")
     public ResponseEntity<?> updateMatchReview(@RequestBody @Valid ReviewUpdateRequestDto reviewUpdateRequestDto){
         try {
             ReviewUpdateResponseDto reviewUpdateResponseDto = reviewService.updateReview(reviewUpdateRequestDto);
