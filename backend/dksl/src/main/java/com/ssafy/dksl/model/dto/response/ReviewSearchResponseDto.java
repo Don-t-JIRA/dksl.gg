@@ -7,21 +7,17 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class ReviewSearchDto {
-
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime createdAt;
-
-    private UserDto userDto;
-
+public class ReviewSearchRequestDto {
+    private String clientId;
     private String matchId;
-
     private String content;
 }
