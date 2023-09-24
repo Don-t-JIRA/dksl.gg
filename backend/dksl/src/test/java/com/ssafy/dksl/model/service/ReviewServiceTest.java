@@ -27,7 +27,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.groups.Tuple.tuple;
 
 @Transactional
-//@Rollback(value = false)
 @SpringBootTest
 @ActiveProfiles("test")
 class ReviewServiceTest {
