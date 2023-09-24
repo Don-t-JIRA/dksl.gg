@@ -58,7 +58,7 @@ public class MemberController {
         }
     }
 
-    @PostMapping("my-team")
+    @GetMapping("my-team")
     private ResponseEntity<?> getMyTeamList(@RequestHeader("Authorization") String accessToken) {
         try {
             MyTeamResponse myTeamResponse = MyTeamResponse.builder()
