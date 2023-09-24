@@ -56,7 +56,7 @@ export const TierCard = styled.div`
 
   & .result-box .rank-type {
     margin-left: 1.5rem;
-  color: var(--text-gray);
+    color: var(--text-gray);
     font-size: medium;
     font-weight: bold;
   }
@@ -527,7 +527,9 @@ export const TeamDetail = styled.div`
           font-weight: bold;
           justify-content: center;
 
-          & p { margin: 0; }
+          & p {
+            margin: 0;
+          }
         }
 
         & .score {
@@ -536,7 +538,9 @@ export const TeamDetail = styled.div`
           font-size: xx-small;
         }
 
-        & .red { color: red; }
+        & .red {
+          color: red;
+        }
       }
 
       & .result {
@@ -551,7 +555,7 @@ export const TeamDetail = styled.div`
 
           & p {
             margin: 0;
-            margin-top: .3rem;
+            margin-top: 0.3rem;
           }
         }
       }
@@ -593,4 +597,4 @@ export const HorizenGraph = styled.div`
     height: 100%;
     background-color: #dbe0e4;
   }
-`
+`;

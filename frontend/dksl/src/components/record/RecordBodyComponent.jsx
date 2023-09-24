@@ -2,7 +2,10 @@
 // import React from 'react';
 // Styled
 import * as S from '@/styles/record/body.style';
+// Component
 import TabMainComponent from './tabContent/TabMainComponent';
+import TabAnalyzeComponent from './tabContent/TabAnalyzeComponent';
+import TabGroupComponent from './tabContent/TabGroupComponent';
 
 /**
  *
@@ -14,6 +17,7 @@ import TabMainComponent from './tabContent/TabMainComponent';
  * 3 -> review
  */
 const RecordBodyComponent = (props) => {
+  console.log(props.recorddata);
   return (
     <S.RecordLayout>
       <S.TabLayout>
@@ -46,7 +50,9 @@ const RecordBodyComponent = (props) => {
           </div>
         </div>
         <div className="tab-body">
-          <TabMainComponent data={props.data} />
+          {props.tab == 0 && <TabMainComponent data={props.recorddata} />}
+          {props.tab == 1 && <TabAnalyzeComponent data={props.analyzedata} />}
+          {props.tab == 2 && <TabGroupComponent />}
         </div>
       </S.TabLayout>
     </S.RecordLayout>

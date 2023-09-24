@@ -6,7 +6,7 @@ export const SigninLayout = styled.div`
   background-image: 
     linear-gradient(rgba(0, 0, 0, .5), 
     rgba(0, 0, 0, .5)), 
-    url('../../src/assets/bg/login_bg_${(props) => props.bgnum}.jpg');
+    url('../image/bg/login_bg_${(props) => props.bgnum}.jpg');
   background-size: 100%;
   justify-content: center;
   align-items: center;

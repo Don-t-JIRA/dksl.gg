@@ -26,9 +26,9 @@ export const TabBox = styled.div`
 export const TabItem = styled.button`
   width: 100%;
   margin: 2px;
-  font-size: small;
-  padding: 3px;
-  border-radius: 4px;
+  font-size: medium;
+  padding: .4rem;
+  border-radius: 5px;
   font-weight: ${(props) => (props.istab == 1 ? `bold` : `500`)};
   color: #000;
   background-color: ${(props) => (props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`)};
@@ -37,7 +37,7 @@ export const TabItem = styled.button`
 
 export const ContentTable = styled.div`
   width: 100%;
-  padding-top: 1rem;
+  padding: 1rem 0;
 `;
 
 export const ContentItem = styled.div`
@@ -50,6 +50,8 @@ export const ContentItem = styled.div`
     flex-basis: 5%;
     margin-top: 0;
     margin-bottom: 0;
+    font-weight: bold;
+    color: var(--text-gray);
   }
 
   & .image {

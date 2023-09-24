@@ -38,8 +38,8 @@ const userValidationCheck = (user) => {
   }
 
   // pw Checking
-  const pw = user.pw;
-  const pwCheck = user.pwCheck;
+  const pw = user.password;
+  const pwCheck = user.passwordCheck;
   const regexPw = new RegExp(
     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
   );
@@ -59,11 +59,29 @@ const userValidationCheck = (user) => {
     return '이름에는 한글만 들어갈 수 있습니다.';
   }
 
+  // ID Checking
+  const id = user.clientId;
+  const regexId = new RegExp(/^[a-zA-Z_]{3,20}$/);
+
+  if (!regexId.test(id)) {
+    return '아이디는 20자 이하, 영어로 설정해주세요.';
+  }
+
+  // phoneNumber formatting & Checking
+  const phone = user.phone;
+  const numArr = phone.split('');
+  const regexPhone = new RegExp(/^\d{3}-\d{3,4}-\d{4}$/);
+
+  if (
+    numArr[0] != '0' ||
+    numArr[1] != '1' ||
+    numArr.length != 11 ||
+    regexPhone.test(phone)
+  ) {
+    return '잘못된 전화번호 형식입니다.';
+  }
+
   return 'SUCCESS';
 };
 
-export {
-  userValidationCheck,
-  pwValidationCheck,
-  emailVaildationCheck
-}
+export { userValidationCheck, pwValidationCheck, emailVaildationCheck };

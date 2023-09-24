@@ -1,6 +1,10 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+* {
+  font-family: 'Nanum Gothic', sans-serif;
+}
 
 #root {
   width: 100vw;
@@ -12,9 +16,9 @@ const GlobalStyles = createGlobalStyle`
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
+  background-color: #f0f0f0;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -22,9 +26,9 @@ const GlobalStyles = createGlobalStyle`
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --maincolor-depth1: #006be5;
-  --maincolor-depth2: #ecf3fc;
-  --mainbg: #f5f5f5;
+  --maincolor-depth1: #3E7CB1;
+  --maincolor-depth2: #DBE4EE;
+  --mainbg: #f0f0f0;
   --text-gray: #758592;
 }
 
@@ -57,13 +61,20 @@ button:hover {
 a {
   text-decoration: none;
   color: black;
-  transition: all .2s;
+  transition: all .3s;
 }
 
 a:link { color: black; }
 a:visited { color: black; }
+a:hover {
+  color: var(--maincolor-depth1);
+}
 
 input:focus {
+  outline: none;
+}
+
+textarea:focus {
   outline: none;
 }
 
@@ -85,6 +96,7 @@ input:focus {
     transform: rotate(360deg);
   }
 }
+
 @keyframes loadEffect {
     0% {
       opacity: 0;
@@ -104,6 +116,41 @@ input:focus {
     }
   }
 
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent
+  }
+}
+
+@keyframes animloader {
+  0% { width: ${48 / 10}px;}
+  100% { width: 48px;}
+}
+`;
+
+export const Tag = css`
+  width: 4.5rem;
+  height: 1.75rem;
+  margin: 0;
+  border: 2px solid transparent;
+  border-radius: 50vw;
+  color: white;
+  font-size: small;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & .text {
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+  }
 `;
 
 export const Card = css`
@@ -115,12 +162,13 @@ export const Card = css`
   border-radius: 10px;
 
   & .title {
-    margin-top: 0;
-    padding: 1rem 0;
-    padding-left: 1rem;
+    width: 98%;
+    margin-top: 0.2rem;
+    padding: 1.2rem 0;
+    padding-left: 2%;
     border-bottom: 1px solid #dfdfdf;
     font-size: medium;
-    font-weight: bolder;
+    font-weight: bold;
   }
 `;
 
