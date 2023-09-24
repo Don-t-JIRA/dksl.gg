@@ -1,7 +1,8 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.dto.command.MyTeamCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.command.TeamCommand;
+import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.response.TeamResponse;
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
@@ -39,10 +40,10 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public boolean createTeam(TeamCommand teamCommand) throws CreateDataException {
-        Member chairman = memberRepository.findByClientId(jwtUtil.getClientId(teamCommand.getAccessToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+    public boolean createTeam(CreateTeamCommand createTeamCommand) throws CreateDataException {
+        Member chairman = memberRepository.findByClientId(jwtUtil.getClientId(createTeamCommand.getAccessToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
         try {
-            Team team = teamCommand.toTeam(chairman);
+            Team team = createTeamCommand.toTeam(chairman);
             teamRepository.save(team);
 
             return true;
@@ -82,7 +83,23 @@ public class TeamServiceImpl implements TeamService {
     }
 
     public List<TeamResponse> getAllTeamList() throws GetDataException {
-        return getTeamList(teamRepository.findAll());
+        try {
+            return getTeamList(teamRepository.findAll());
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new GetDataException("팀 조회를 실패 했습니다.");
+        }
+    }
+
+    public List<TeamResponse> getOrderTeamList() throws GetDataException {
+        try {
+            Map<String, Object> map = teamRepository.findAllOrderByOrderNum();
+
+            return new ArrayList<>();
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new GetDataException("팀 조회를 실패 했습니다.");
+        }
     }
 
     public List<TeamResponse> getRecentTeamList() throws GetDataException {
@@ -98,5 +115,19 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException {
         return getTeamList(teamRepository.findAllByNameContainingOrDescriptionContaining(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr()));
+    }
+
+    public List<TeamResponse> getMyTeamList(MyTeamCommand myTeamCommand) throws GetDataException {
+        List<MemberTeam> memberTeamList = memberRepository
+                .findByClientId(jwtUtil.getClientId(myTeamCommand.getAccessToken()))
+                .orElseThrow(() -> new GetDataException("회원 조회를 실패 했습니다."))
+                .getTeams();
+
+        List<Team> teamList = new ArrayList<>();
+        for(MemberTeam team : memberTeamList) {
+            teamList.add(team.getTeam());
+        }
+
+        return getTeamList(teamList);
     }
 }
