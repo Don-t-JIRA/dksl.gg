@@ -4,7 +4,7 @@ import com.ssafy.dksl.exception.NonExistReviewException;
 import com.ssafy.dksl.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewDeleteRequestDto;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
-import com.ssafy.dksl.model.dto.ReviewSearchDto;
+import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewDeleteResponseDto;
 import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
@@ -29,12 +29,13 @@ public class ReviewService {
 
     private final int PAGESIZE = 10;
 
-    public List<ReviewSearchDto> getReviews(String matchId, int page){
+    public List<ReviewSearchResponseDto> getReviews(String matchId, int page){
         List<Review> reviews = reviewRepository.findByMatchIdAndDeletedAtIsNullOrderByCreatedAtDesc(matchId, PageRequest.of(page, PAGESIZE));
 
         return reviews.stream().map(Review::to).collect(Collectors.toList());
     }
 
+    @Transactional
     public Review saveReview(ReviewSaveRequestDto reviewSaveRequestDto) throws UserNotExistException{
         String clientId = reviewSaveRequestDto.getClientId();
         User findUser = userRepository.findByClientId(clientId).orElseThrow(() -> new UserNotExistException("롤 계정이 존재하지 않는 유저입니다."));
