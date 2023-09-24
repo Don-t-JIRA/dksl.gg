@@ -3,7 +3,7 @@ package com.ssafy.dksl.controller;
 import com.ssafy.dksl.exception.NonExistReviewException;
 import com.ssafy.dksl.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
-import com.ssafy.dksl.model.dto.ReviewSearchDto;
+import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Review;
@@ -18,17 +18,16 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/review")
 public class ReviewController {
     private final ReviewService reviewService;
 
-    @GetMapping("/{matchId}/{page}")
+    @GetMapping("/review/{matchId}/{page}")
     public ResponseEntity<?> getMatchReview(@PathVariable String matchId, @PathVariable int page){
-        List<ReviewSearchDto> matchReviews = reviewService.getReviews(matchId, page);
+        List<ReviewSearchResponseDto> matchReviews = reviewService.getReviews(matchId, page);
         return ResponseEntity.ok(matchReviews);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/review/register")
     public ResponseEntity<?> saveMatchReview(@RequestBody @Valid ReviewSaveRequestDto reviewSaveRequestDto) {
         try {
             Review savedReview = reviewService.saveReview(reviewSaveRequestDto);
