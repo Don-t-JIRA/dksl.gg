@@ -101,18 +101,14 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
 
         // Access 토큰 발급
         String accessToken = jwtUtil.generateToken(member.getClientId(), "ROLE_USER", false);
-        log.info("Access Token 정보 : " + accessToken);
 
         // Refresh 토큰 발급 후 Redis에 저장
         RefreshToken refreshToken = RefreshToken.builder()
                 .clientId(member.getClientId())
                 .refreshToken(jwtUtil.generateToken(member.getClientId(), "ROLE_USER", true))
                 .build();
-        log.info("Refresh Token 정보 : " + refreshToken.getRefreshToken());
 
         refreshTokenRepository.save(refreshToken);
-
-        log.info("Member 정보 : " + member);
 
         return LoginResponse.builder()
                 .memberDto(member.toMemberDto())
