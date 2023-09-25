@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,8 +36,8 @@ public class TeamServiceImpl implements TeamService {
     private final MemberTeamRepository memberTeamRepository;
     private final TierRepository tierRepository;
 
-    @Value("${img.uri}")
-    private String IMG_URI;
+    @Value("${base.img.uri}")
+    private String BASE_IMG_URI;
 
     @Autowired
     public TeamServiceImpl(JwtUtil jwtUtil, TeamRepository teamRepository, MemberRepository memberRepository, MemberTeamRepository memberTeamRepository, TierRepository tierRepository) {
@@ -50,8 +51,39 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean createTeam(CreateTeamCommand createTeamCommand) throws CreateDataException {
         Member chairman = memberRepository.findByClientId(jwtUtil.getClientId(createTeamCommand.getAccessToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+
+        String contentType = createTeamCommand.getImg().getContentType();
+        String originalFileExtension;
+
+        if(contentType == null || contentType.trim().equals("")) {
+            throw new CreateDataException("이미지 업로드를 실패 했습니다.");
+        }
+
+        if (contentType.contains("image/jpeg")) originalFileExtension = ".jpg";
+        else if (contentType.contains("image/png")) originalFileExtension = ".png";
+        else throw new CreateDataException("이미지 확장자명을 확인해 주세요.");
         try {
-            Team team = createTeamCommand.toTeam(chairman);
+            Team team = Team.builder()
+                    .name(createTeamCommand.getName())
+                    .description(createTeamCommand.getDescription())
+                    .chairman(chairman)
+                    .img("tmp")  // 임시 img 이름
+                    .build();
+            team = teamRepository.save(team);  // ID를 받기 위한 임시 저장
+
+            String imgName = team.getId() + originalFileExtension;
+            File imgFile = new File(BASE_IMG_URI + "team" + File.separator + imgName);
+            createTeamCommand.getImg().transferTo(imgFile);
+            imgFile.setExecutable(false);  // 실행 권한 없애기
+
+            team = Team.builder()
+                    .id(team.getId())
+                    .name(team.getName())
+                    .description(team.getDescription())
+                    .chairman(chairman)
+                    .img(imgName)  // 실제 이미지 이름으로 다시 저장
+                    .build();
+
             teamRepository.save(team);
 
             return true;
@@ -67,9 +99,8 @@ public class TeamServiceImpl implements TeamService {
         byte[] imageByteArray = null;
             for (Team team : teamList) {
                 // 이미지를 byte array로 변환 (blob)
-                log.info("이미지 URL = " + IMG_URI + team.getImg());
                 try {
-                    InputStream imageStream = new FileInputStream(IMG_URI + team.getImg());
+                    InputStream imageStream = new FileInputStream(BASE_IMG_URI + "team" + File.separator + team.getImg());
                     imageByteArray = imageStream.readAllBytes();
                     imageStream.close();
                 } catch(IOException e) {
