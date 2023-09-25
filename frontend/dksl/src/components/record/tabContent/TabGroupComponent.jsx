@@ -3,6 +3,7 @@ import * as S from '@/styles/record/tabgroup.style';
 // Select
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+// Component
 import LoadingComponent from '../../common/LoadingComponent';
 
 const options = [

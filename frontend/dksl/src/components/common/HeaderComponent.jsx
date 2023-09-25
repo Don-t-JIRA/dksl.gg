@@ -1,8 +1,8 @@
-// router
+// React
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
-import { useRef } from 'react';
 
 const HeaderComponent = () => {
   const search = useRef();

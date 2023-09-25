@@ -1,5 +1,6 @@
 // Styled
 import * as S from '@/styles/group/create.style';
+// React
 import { useEffect, useRef, useState } from 'react';
 
 const GroupCreateComponent = () => {

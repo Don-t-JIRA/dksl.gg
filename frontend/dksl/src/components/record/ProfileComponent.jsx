@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/record/profile.style';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 const ProfileComponent = ({ data }) => {

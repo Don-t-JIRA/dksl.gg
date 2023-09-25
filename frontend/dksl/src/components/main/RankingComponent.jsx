@@ -1,5 +1,6 @@
 // Styled
 import * as S from '../../styles/main/ranking.style';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 /**

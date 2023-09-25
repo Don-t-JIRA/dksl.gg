@@ -1,5 +1,7 @@
 // Styled
 import * as S from '@/styles/record/tabreview.style';
+// Componnet
+import LoadingComponent from '../../common/LoadingComponent';
 
 const TabReviewComponent = ({ reviewList }) => {
   reviewList = ['nono'];
@@ -19,14 +21,6 @@ const TabReviewComponent = ({ reviewList }) => {
         ) : (
           <>
             <S.LeftLayout>
-              <div className="select-box">
-                <Select
-                  closeMenuOnSelect={false}
-                  components={animatedComponent}
-                  defaultValue={options[0]}
-                  options={options}
-                />
-              </div>
               <div className="group-profile">
                 <p className="title">&#127969; 소속</p>
                 <div className="profile-body">
@@ -156,7 +150,6 @@ const TabReviewComponent = ({ reviewList }) => {
         <LoadingComponent />
       )}
     </S.TabReviewLayout>
-  );
   );
 }
 

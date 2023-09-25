@@ -7,6 +7,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 // Nivo
 import { ResponsivePie } from '@nivo/pie';
+// Component
 import LoadingComponent from '../../common/LoadingComponent';
 
 const options = [{ value: 'default', label: '큐 타입' }];

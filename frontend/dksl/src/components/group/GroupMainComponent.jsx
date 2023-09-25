@@ -1,6 +1,8 @@
 // Styled
 import * as S from '@/styles/group/main.style';
+// React
 import { useRef } from 'react';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 const GroupMainComponent = ({ groupList, createGroup }) => {

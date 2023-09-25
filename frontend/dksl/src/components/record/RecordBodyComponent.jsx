@@ -1,5 +1,3 @@
-// React
-// import React from 'react';
 // Styled
 import * as S from '@/styles/record/body.style';
 // Component
