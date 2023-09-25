@@ -43,18 +43,7 @@ import java.nio.charset.StandardCharsets;
                 Authentication authentication = jwtUtil.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-
             filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException e) {  // Access 토큰이 만료 되었을 때
-            RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(token)).orElse(null);
-            if(refreshToken == null) {  // refresh 토큰도 만료 되었을 때
-                log.error(e.getMessage());
-                errorResponse(request, response, new InvalidTokenException("재로그인이 필요합니다."));
-            } else {
-                // refresh 토큰 검증을 통한 access 토큰 재발급
-                Authentication authentication = jwtUtil.getAuthentication(jwtUtil.generateToken(jwtUtil.getClientId(token), "ROLE_USER", false));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            }
         } catch (InvalidTokenException e) {
             log.error(e.getMessage());
             errorResponse(request, response, e);

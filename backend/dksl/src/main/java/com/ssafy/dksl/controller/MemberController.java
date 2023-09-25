@@ -1,7 +1,7 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.command.LogoutCommand;
-import com.ssafy.dksl.model.dto.command.MyTeamCommand;
+import com.ssafy.dksl.model.dto.command.TokenCommand;
+import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
 import com.ssafy.dksl.model.dto.request.LoginRequest;
 import com.ssafy.dksl.model.dto.request.RegisterRequest;
 import com.ssafy.dksl.model.dto.response.MyTeamResponse;
@@ -52,7 +52,7 @@ public class MemberController {
     @PostMapping("logout")
     private ResponseEntity<?> logout(@RequestHeader("Authorization") String accessToken) {
         try {
-            return ResponseEntity.ok(memberService.logout(LogoutCommand.builder().accessToken(accessToken).build()));
+            return ResponseEntity.ok(memberService.logout(TokenCommand.builder().accessToken(accessToken).build()));
         } catch (LogoutException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
@@ -62,12 +62,30 @@ public class MemberController {
     private ResponseEntity<?> getMyTeamList(@RequestHeader("Authorization") String accessToken) {
         try {
             MyTeamResponse myTeamResponse = MyTeamResponse.builder()
-                    .myTeamList(teamService.getMyTeamList(MyTeamCommand.builder().accessToken(accessToken).build()))
+                    .myTeamList(teamService.getMyTeamList(TokenCommand.builder().accessToken(accessToken).build()))
                     .orderTeamList(teamService.getOrderTeamList())
                     .build();
 
             return ResponseEntity.ok(myTeamResponse);
         } catch (GetDataException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
+        }
+    }
+
+    @GetMapping("update")
+    private ResponseEntity<?> updateMember(String name) {
+        try {
+            return ResponseEntity.ok(memberService.updateMember(UpdateSummonerCommand.builder().name(name).build()));
+        } catch (GetDataException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
+        }
+    }
+
+    @GetMapping("/reissue")
+    private ResponseEntity<?> reissue(@RequestHeader("Authorization") String accessToken) {
+        try {
+            return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().accessToken(accessToken).build()));
+        } catch (LoginException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }
