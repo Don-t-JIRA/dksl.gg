@@ -9,12 +9,11 @@ import lombok.ToString;
 // 회원가입 시 필요한 정보
 @Builder
 @Getter
-@ToString
 public class LoginResponse {
     @NotNull
-    private MemberDto memberDto;
+    private MemberResponse memberResponse;
 
     @NotNull
-    private String refreshToken;
+    private String accessToken;
 
 }
