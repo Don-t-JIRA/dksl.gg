@@ -52,7 +52,7 @@ public class MemberController {
     @PostMapping("logout")
     private ResponseEntity<?> logout(@RequestHeader("Authorization") String accessToken) {
         try {
-            return ResponseEntity.ok(memberService.logout(TokenCommand.builder().accessToken(accessToken).build()));
+            return ResponseEntity.ok(memberService.logout(TokenCommand.builder().token(accessToken).build()));
         } catch (LogoutException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
@@ -62,7 +62,7 @@ public class MemberController {
     private ResponseEntity<?> getMyTeamList(@RequestHeader("Authorization") String accessToken) {
         try {
             MyTeamResponse myTeamResponse = MyTeamResponse.builder()
-                    .myTeamList(teamService.getMyTeamList(TokenCommand.builder().accessToken(accessToken).build()))
+                    .myTeamList(teamService.getMyTeamList(TokenCommand.builder().token(accessToken).build()))
                     .orderTeamList(teamService.getOrderTeamList())
                     .build();
 
@@ -73,18 +73,18 @@ public class MemberController {
     }
 
     @GetMapping("update")
-    private ResponseEntity<?> updateMember(String name) {
+    private ResponseEntity<?> updateSummoner(@RequestParam("name") String name) {
         try {
-            return ResponseEntity.ok(memberService.updateMember(UpdateSummonerCommand.builder().name(name).build()));
+            return ResponseEntity.ok(memberService.updateSummoner(UpdateSummonerCommand.builder().name(name).build()));
         } catch (GetDataException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }
 
     @GetMapping("/reissue")
-    private ResponseEntity<?> reissue(@RequestHeader("Authorization") String accessToken) {
+    private ResponseEntity<?> reissue(@RequestBody String refreshToken) {
         try {
-            return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().accessToken(accessToken).build()));
+            return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().token(refreshToken).build()));
         } catch (LoginException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }

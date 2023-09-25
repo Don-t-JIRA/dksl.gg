@@ -7,6 +7,7 @@ import com.ssafy.dksl.model.dto.command.RegisterCommand;
 import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
 import com.ssafy.dksl.model.dto.response.LoginResponse;
 import com.ssafy.dksl.model.dto.response.MemberResponse;
+import com.ssafy.dksl.model.dto.response.SummonerResponse;
 import com.ssafy.dksl.model.dto.response.TierResponse;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.RefreshToken;
@@ -99,7 +100,7 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         }
 
         try {
-            memberResponse = updateSummoner(member);
+            memberResponse = updateMember(member);
         } catch (RiotApiException e) {
             throw new LoginException("정보를 업데이트 할 수 없습니다.");
         }
@@ -113,7 +114,7 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
 
             refreshTokenRepository.save(refreshToken);
 
-            return LoginResponse.builder().memberResponse(memberResponse).accessToken(accessToken).build();
+            return LoginResponse.builder().memberResponse(memberResponse).accessToken(accessToken).refreshToken(refreshToken.getRefreshToken()).build();
         } catch (Exception e) {
             throw new LoginException("로그인을 할 수 없습니다.");
         }
@@ -121,17 +122,24 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
 
     @Override
     public boolean logout(TokenCommand tokenCommand) throws LogoutException {
-        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getAccessToken())).orElseThrow(() -> new LogoutException("로그인이 되어있지 않습니다."));
+        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(() -> new LogoutException("로그인이 되어있지 않습니다."));
         refreshTokenRepository.delete(refreshToken);
 
         return true;
     }
 
     @Override
-    public MemberResponse updateMember(UpdateSummonerCommand updateSummonerCommand) throws GetDataException {
+    public SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws GetDataException {
         Member member = memberRepository.findByName(updateSummonerCommand.getName()).orElseThrow(() -> new GetDataException("회원 조회에 실패 했습니다."));
         try {
-            return updateSummoner(member);
+            MemberResponse memberResponse = updateMember(member);
+            return SummonerResponse.builder()
+                    .name(memberResponse.getName())
+                    .tier(memberResponse.getTier())
+                    .rank(memberResponse.getRank())
+                    .profileIconId(memberResponse.getProfileIconId())
+                    .level(memberResponse.getLevel())
+                    .build();
         } catch(RiotApiException e) {
             throw new GetDataException("회원 정보 업데이트에 실패 했습니다.");
         }
@@ -139,17 +147,15 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
 
     @Override
     public String reissue(TokenCommand tokenCommand) throws LoginException {
-        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getAccessToken())).orElse(null);
-        if (refreshToken == null) {  // refresh 토큰도 만료 되었을 때
-            throw new LoginException("재로그인이 필요합니다.");
-        }
+        // refresh 토큰 만료 확인
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(tokenCommand.getToken()).orElseThrow(() -> new LoginException("재로그인이 필요합니다."));
 
         // refresh 토큰 검증을 통한 access 토큰 재발급
-        return jwtUtil.generateToken(jwtUtil.getClientId(tokenCommand.getAccessToken()), "ROLE_USER", false);
+        return jwtUtil.generateToken(jwtUtil.getClientId(refreshToken.getRefreshToken()), "ROLE_USER", false);
     }
 
     @Override
-    public MemberResponse updateSummoner(Member member) throws RiotApiException {
+    public MemberResponse updateMember(Member member) throws RiotApiException {
         try {
             JsonNode summonerNode = findSummonerByName(member.getName());  // 회원 PUUID 찾기
             JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기

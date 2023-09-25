@@ -39,7 +39,7 @@ import java.nio.charset.StandardCharsets;
 
         try {
             // permitAll일 경우 거치지 X
-            if (request.getHeader("Authorization") != null && jwtUtil.validateToken(token)) {
+            if (request.getHeader("Authorization") != null  && !request.getServletPath().contains("/reissue") && jwtUtil.validateToken(token)) {
                 Authentication authentication = jwtUtil.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
