@@ -1,5 +1,6 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.dto.command.CreateTeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.command.TokenCommand;
@@ -14,6 +15,7 @@ import java.util.List;
 @Service
 public interface TeamService {
     boolean createTeam(CreateTeamCommand createTeamCommand) throws CreateDataException;
+    boolean createTeamMember(CreateTeamMemberCommand createTeamMemberCommand) throws CreateDataException;
     List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException;
     List<TeamResponse> getAllTeamList() throws GetDataException;
     List<TeamResponse> getOrderTeamList() throws GetDataException;

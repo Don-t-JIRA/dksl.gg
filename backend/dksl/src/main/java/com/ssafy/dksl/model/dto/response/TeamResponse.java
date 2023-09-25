@@ -13,5 +13,6 @@ public class TeamResponse {
     private String description;
     @JsonProperty(value = "img")
     private byte[] imgByteArray;
+    @JsonProperty(value = "avgTier")
     private TierResponse tierResponse;
 }

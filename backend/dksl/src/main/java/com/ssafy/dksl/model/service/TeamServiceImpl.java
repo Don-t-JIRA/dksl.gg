@@ -1,5 +1,6 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.dto.command.CreateTeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.command.TokenCommand;
@@ -90,6 +91,20 @@ public class TeamServiceImpl implements TeamService {
         } catch(Exception e) {
             log.error(e.getMessage());
             throw new CreateDataException("팀 생성을 실패 했습니다.");
+        }
+    }
+
+    @Override
+    public boolean createTeamMember(CreateTeamMemberCommand createTeamMemberCommand) throws CreateDataException {
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(createTeamMemberCommand.getToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(createTeamMemberCommand.getTeamName()).orElseThrow(() -> new CreateDataException("팀 조회에 실패 했습니다."));
+
+        try {
+            memberTeamRepository.save(MemberTeam.builder().member(member).team(team).build());
+            return true;
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new CreateDataException("팀 가입에 실패 했습니다.");
         }
     }
 
@@ -188,7 +203,7 @@ public class TeamServiceImpl implements TeamService {
 
     public List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws GetDataException {
         List<MemberTeam> memberTeamList = memberRepository
-                .findByClientId(jwtUtil.getClientId(tokenCommand.getAccessToken()))
+                .findByClientId(jwtUtil.getClientId(tokenCommand.getToken()))
                 .orElseThrow(() -> new GetDataException("회원 조회를 실패 했습니다."))
                 .getTeams();
 
