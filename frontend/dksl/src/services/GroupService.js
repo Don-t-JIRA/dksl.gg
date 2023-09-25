@@ -1,11 +1,14 @@
+import axios from 'axios';
 import api from './api.js';
 
 const getGroupList = async () => {
+  console.log('service');
   try {
+    console.log('try');
     const response = await api.get('/team', {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin': `http://localhost:3000/`,
+        'Access-Control-Allow-Origin': `http://127.0.0.1:3000/`,
       },
     });
     if (response.status != 200) new Error('서버 오류');

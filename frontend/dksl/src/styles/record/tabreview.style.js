@@ -4,6 +4,8 @@ import { Card } from '../globalStyles.style';
 export const TabReviewLayout = styled.div`
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 `;
 
 export const EmptyReviewLayout = styled.div`
@@ -73,4 +75,10 @@ export const EmptyReviewLayout = styled.div`
   }
 `;
 
-export const TabReviewContainer = styled.div``;
+export const ReviewContainer = styled.div`
+  ${Card}
+  width: 100%;
+  max-width: 860px;
+  height: 100%;
+  min-height: 744px;
+`;

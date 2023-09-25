@@ -1,7 +1,7 @@
 // Styled
 import * as S from '@/styles/group/main.style';
 // React
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 // Component
 import LoadingComponent from '../common/LoadingComponent';
 
@@ -11,6 +11,25 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
   const onSearch = () => {
     console.log('Start Searching => ', search.current.value);
   };
+
+  const getByteToImage = (imgSrc) => {
+    const binaryString = atob(imgSrc);
+    const bytes = new Uint8Array(binaryString.length);
+
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    const img = new Blob([bytes], {
+      type: 'image/jpg',
+    });
+    console.log(URL.createObjectURL(img));
+    return URL.createObjectURL(img);
+  };
+
+  useEffect(() => {
+    console.log(groupList);
+  }, [groupList]);
 
   return (
     <S.GroupMainLayout>
@@ -31,7 +50,7 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
                 <div className="profile" key={`profile_${i}`}>
                   <S.GroupProfile>
                     <div className="image">
-                      <img src="/image/react.svg" alt="profile_img" />
+                      <img src={getByteToImage(e.img)} alt="profile_img" />
                     </div>
                     <div className="description">
                       <p className="name">{e.name}</p>
@@ -65,7 +84,7 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
                       <p>{e.name}</p>
                     </div>
                     <div className="desc-area">
-                      <p>${`&#127775; ${e.description}`}</p>
+                      <p>&#127775;{` ${e.description}`}</p>
                     </div>
                   </div>
                 ))

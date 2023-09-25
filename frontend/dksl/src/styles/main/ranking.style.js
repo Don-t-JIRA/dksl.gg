@@ -27,11 +27,12 @@ export const TabItem = styled.button`
   width: 100%;
   margin: 2px;
   font-size: medium;
-  padding: .4rem;
-  border-radius: 5px;
+  padding: 0.4rem;
+  border-radius: 7.5px;
   font-weight: ${(props) => (props.istab == 1 ? `bold` : `500`)};
   color: #000;
-  background-color: ${(props) => (props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`)};
+  background-color: ${(props) =>
+    props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`};
   transition: all 0.25s;
 `;
 

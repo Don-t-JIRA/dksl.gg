@@ -1,6 +1,7 @@
-import Axios from "axios";
+import Axios from 'axios';
 
-const BASE_URL = 'http://70.12.247.95:8080';
+const BASE_URL = 'http://192.168.0.11:8080';
+// const BASE_URL = 'http://localhost:8080';
 
 const api = Axios.create({
   baseURL: BASE_URL,
@@ -17,7 +18,7 @@ const api = Axios.create({
 //       console.log('토큰 없음')
 //     }
 //     return config;
-//   }, 
+//   },
 //   function (error) {
 //       // 요청 에러 직전 호출
 //       return Promise.reject(error);

@@ -60,7 +60,7 @@ const GroupDetailComponent = () => {
             <div className="member-rank">
               <p className="title">&#128101; 소속원 순위</p>
               <div className="radio-group">
-                <input type="radio" name="rank-type" checked />
+                <input type="radio" name="rank-type" defaultChecked />
                 <label>티어</label>
                 <input type="radio" name="rank-type" />
                 <label>레벨</label>

@@ -56,10 +56,11 @@ const GroupContainer = () => {
   };
 
   useEffect(() => {
-    if (path == null) {
-      setPath(url.pathname);
-    }
-  }, [url])
+    // if (path == null) {
+    //   setPath(url.pathname);
+    // }
+    setPath(url.pathname);
+  }, [url]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -68,11 +69,12 @@ const GroupContainer = () => {
     };
 
     if (path == '/group/main') {
+      console.log(url);
       fetchData();
     } else {
       console.log(url);
     }
-  }, [path]);
+  }, [url, path]);
 
   return (
     <>

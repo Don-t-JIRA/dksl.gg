@@ -19,16 +19,20 @@ export const MainContainer = styled.div`
   justify-content: center;
 
   & .create-btn-box {
-    width: 90%;
+    width: 100%;
     height: 32vh;
     max-height: 260px;
+    min-height: 200px;
     display: flex;
     flex-direction: column;
     padding: 5%;
     justify-content: center;
     border-radius: 2px;
+    box-sizing: border-box;
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),
       url('/image/bg/group_create_banner.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
     filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38));
     color: white;
 
@@ -71,8 +75,9 @@ export const MainContainer = styled.div`
       align-items: center;
 
       & .profile {
-        width: 90%;
+        flex-basis: 33%;
         height: 100%;
+        margin-top: 1rem;
         display: flex;
         justify-content: center;
         align-items: center;
