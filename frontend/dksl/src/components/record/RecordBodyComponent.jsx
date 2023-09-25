@@ -4,6 +4,7 @@ import * as S from '@/styles/record/body.style';
 import TabMainComponent from './tabContent/TabMainComponent';
 import TabAnalyzeComponent from './tabContent/TabAnalyzeComponent';
 import TabGroupComponent from './tabContent/TabGroupComponent';
+import TabReviewComponent from './tabContent/TabReviewComponent';
 
 /**
  *
@@ -51,6 +52,7 @@ const RecordBodyComponent = (props) => {
           {props.tab == 0 && <TabMainComponent data={props.recorddata} />}
           {props.tab == 1 && <TabAnalyzeComponent data={props.analyzedata} />}
           {props.tab == 2 && <TabGroupComponent />}
+          {props.tab == 3 && <TabReviewComponent />}
         </div>
       </S.TabLayout>
     </S.RecordLayout>
