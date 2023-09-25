@@ -64,6 +64,10 @@ export const TierCard = styled.div`
   & .result-box .rank-detail {
     display: flex;
     align-items: center;
+
+    & img {
+      max-width: 140px;
+    }
   }
 
   & .result-box .rank-detail .description {

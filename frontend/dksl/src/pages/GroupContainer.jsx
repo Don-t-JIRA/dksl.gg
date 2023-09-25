@@ -1,17 +1,22 @@
 // React
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 // Swal
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 // Component
 import HeaderComponent from '../components/common/HeaderComponent';
 import GroupMainComponent from '../components/group/GroupMainComponent';
+import GroupCreateComponent from '../components/group/GroupCreateComponent';
+import GroupDetailComponent from '../components/group/GroupDetailComponent';
 // Service
 import { getGroupList } from '../services/GroupService';
-import GroupCreateComponent from '../components/group/GroupCreateComponent';
 
 const GroupContainer = () => {
   const [teamList, setTeamList] = useState();
+  const [path, setPath] = useState(null);
+
+  const url = useLocation();
 
   const MySWal = withReactContent(Swal);
 
@@ -19,7 +24,7 @@ const GroupContainer = () => {
     const { value: formValues } = await MySWal.fire({
       title: '<b>&#129309; 소속 만들기</b>',
       html: <GroupCreateComponent />,
-      width: '50%',
+      width: '60%',
       heightAuto: true,
       padding: '2.5% 5%',
       confirmButtonColor: '#3E7CB1',
@@ -51,17 +56,32 @@ const GroupContainer = () => {
   };
 
   useEffect(() => {
+    if (path == null) {
+      setPath(url.pathname);
+    }
+  }, [url])
+
+  useEffect(() => {
     const fetchData = async () => {
       const data = await getGroupList();
       setTeamList(data);
     };
-    fetchData();
-  }, []);
+
+    if (path == '/group/main') {
+      fetchData();
+    } else {
+      console.log(url);
+    }
+  }, [path]);
 
   return (
     <>
       <HeaderComponent />
-      <GroupMainComponent groupList={teamList} createGroup={getNewGroup} />
+      {path == '/group/main' ? (
+        <GroupMainComponent groupList={teamList} createGroup={getNewGroup} />
+      ) : (
+        <GroupDetailComponent />
+      )}
     </>
   );
 };

@@ -136,7 +136,7 @@ const TabGroupComponent = () => {
                       <div className="member-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="member-profile_img"
                         />
                         <p className="member-level">123레벨</p>
@@ -150,7 +150,7 @@ const TabGroupComponent = () => {
                       <div className="member-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="member-profile_img"
                         />
                         <p className="member-level">400레벨</p>

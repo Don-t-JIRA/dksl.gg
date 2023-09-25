@@ -26,8 +26,11 @@ const GlobalStyles = createGlobalStyle`
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  --maincolor-depth1: #3E7CB1;
-  --maincolor-depth2: #DBE4EE;
+  /* --maincolor-depth1: #3E7CB1; */
+  --maincolor-depth1: #6E8387;
+  /* --maincolor-depth2: #DBE4EE; */
+  --maincolor-depth2: #C8D3D5;
+
   --mainbg: #f0f0f0;
   --text-gray: #758592;
 }
@@ -38,6 +41,11 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+body.swal2-shown > [aria-hidden="true"] {
+  transition: 0.1s filter;
+  filter: blur(10px);
 }
 
 button {
@@ -165,7 +173,7 @@ export const Card = css`
     width: 98%;
     margin-top: 0.2rem;
     padding: 1.2rem 0;
-    padding-left: 2%;
+    padding-left: 3%;
     border-bottom: 1px solid #dfdfdf;
     font-size: medium;
     font-weight: bold;

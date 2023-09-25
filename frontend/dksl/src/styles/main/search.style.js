@@ -24,9 +24,9 @@ export const SearchLayout = styled.div`
     place-items: center;
 
     & .typing {
-      width: 19ch;
+      width: 21ch;
       animation:
-        typing 2s steps(19),
+        typing 2s steps(21),
         blink 0.5s step-end infinite alternate;
       white-space: nowrap;
       overflow: hidden;

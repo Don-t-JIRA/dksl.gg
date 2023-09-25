@@ -28,7 +28,7 @@ export const MainContainer = styled.div`
     justify-content: center;
     border-radius: 2px;
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),
-      url('image/bg/group_create_banner.svg');
+      url('/image/bg/group_create_banner.svg');
     filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38));
     color: white;
 
@@ -69,6 +69,14 @@ export const MainContainer = styled.div`
       display: flex;
       justify-content: space-evenly;
       align-items: center;
+
+      & .profile {
+        width: 90%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 
@@ -170,14 +178,15 @@ export const MainContainer = styled.div`
 `;
 
 export const GroupProfile = styled.div`
-  width: 25%;
+  width: 90%;
   height: fit-content;
   display: flex;
 
   & .image {
     display: flex;
     flex-basis: 40%;
-    justify-content: center;
+    justify-content: right;
+    margin-right: 1rem;
 
     & img {
       width: 90%;

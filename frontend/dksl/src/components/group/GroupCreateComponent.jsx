@@ -3,7 +3,7 @@ import * as S from '@/styles/group/create.style';
 import { useEffect, useRef, useState } from 'react';
 
 const GroupCreateComponent = () => {
-  const [src, setSrc] = useState('image/noimage.png');
+  const [src, setSrc] = useState('/image/noimage.png');
   const fileDOM = useRef();
 
   useEffect(() => {

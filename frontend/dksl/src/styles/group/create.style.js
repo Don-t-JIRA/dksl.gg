@@ -63,14 +63,14 @@ export const CreateLayout = styled.div`
   }
 
   & .input-area-2 {
-    width: 96%;
+    width: 90%;
     height: 60%;
     display: flex;
     flex-direction: column;
     flex-basis: 60%;
     justify-content: start;
     text-align: start;
-    margin: 2%;
+    margin: 5%;
     margin-top: 1rem;
 
     & .input-description {
