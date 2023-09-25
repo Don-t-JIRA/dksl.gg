@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class LogoutCommand {
+public class TokenCommand {
     private String accessToken;
 }
