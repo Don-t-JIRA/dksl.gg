@@ -2,9 +2,10 @@ package com.ssafy.dksl.model.dto.command;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
-@Builder
+@SuperBuilder
 @Getter
 public class TokenCommand {
-    private String accessToken;
+    private String token;
 }
