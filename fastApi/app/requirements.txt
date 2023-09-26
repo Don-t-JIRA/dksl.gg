@@ -26,3 +26,11 @@ sqlalchemy
 sqlModel
 selenium
 riotwatcher
+pandas
+numpy
+seaborn
+matplotlib
+IPython
+sklearn
+mpl_toolkits
+colab

@@ -7,8 +7,9 @@ app/venv/*
 .vscode
 venv
 .env
-../.idea
-.idea/
+../.idea/
+.idea
+*.pyc
 
 # MacOS
 ./.DS_Store
