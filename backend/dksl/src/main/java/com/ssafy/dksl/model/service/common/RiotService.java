@@ -1,11 +1,9 @@
 package com.ssafy.dksl.model.service.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.ssafy.dksl.util.exception.RiotApiException;
-
-import java.util.Map;
+import com.ssafy.dksl.util.exception.common.CustomException;
 
 public interface RiotService {
-    JsonNode findSummonerByName(String name) throws RiotApiException;
-    JsonNode findLeagueBySummonerId(String summonerId) throws RiotApiException;
+    JsonNode findSummonerByName(String name) throws CustomException;
+    JsonNode findLeagueBySummonerId(String summonerId) throws CustomException;
 }

@@ -5,6 +5,6 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class CreateTeamMemberCommand extends TokenCommand {
+public class TeamMemberCommand extends TokenCommand {
     private String teamName;
 }

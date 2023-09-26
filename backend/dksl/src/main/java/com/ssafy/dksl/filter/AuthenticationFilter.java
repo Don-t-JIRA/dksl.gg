@@ -1,10 +1,8 @@
 package com.ssafy.dksl.filter;
 
-import com.ssafy.dksl.model.entity.RefreshToken;
 import com.ssafy.dksl.model.repository.RefreshTokenRepository;
 import com.ssafy.dksl.util.JwtUtil;
-import com.ssafy.dksl.util.exception.InvalidTokenException;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.ssafy.dksl.util.exception.TokenInvalidException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,14 +42,14 @@ import java.nio.charset.StandardCharsets;
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(request, response);
-        } catch (InvalidTokenException e) {
+        } catch (TokenInvalidException e) {
             log.error(e.getMessage());
             errorResponse(request, response, e);
         }
 
     }
 
-    private void errorResponse(HttpServletRequest request, HttpServletResponse response, InvalidTokenException e) throws IOException {
+    private void errorResponse(HttpServletRequest request, HttpServletResponse response, TokenInvalidException e) throws IOException {
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         String errorMessage = e.getMessage();

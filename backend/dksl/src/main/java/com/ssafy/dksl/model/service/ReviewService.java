@@ -1,5 +1,7 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.entity.Member;
+import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.util.exception.NonExistReviewException;
 import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewDeleteRequestDto;
@@ -9,9 +11,7 @@ import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewDeleteResponseDto;
 import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Review;
-import com.ssafy.dksl.model.entity.User;
 import com.ssafy.dksl.model.repository.ReviewRepository;
-import com.ssafy.dksl.model.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ReviewService {
-    private final UserRepository userRepository;
+    private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
     private final int PAGESIZE = 10;
@@ -38,10 +38,10 @@ public class ReviewService {
     @Transactional
     public Review saveReview(ReviewSaveRequestDto reviewSaveRequestDto) throws UserNotExistException{
         String clientId = reviewSaveRequestDto.getClientId();
-        User findUser = userRepository.findByClientId(clientId).orElseThrow(() -> new UserNotExistException("롤 계정이 존재하지 않는 유저입니다."));
+        Member findUser = memberRepository.findByClientId(clientId).orElseThrow(() -> new UserNotExistException("롤 계정이 존재하지 않는 유저입니다."));
 
         Review savedReview = Review.builder()
-                .user(findUser)
+                .member(findUser)
                 .matchId(reviewSaveRequestDto.getMatchId())
                 .content(reviewSaveRequestDto.getContent())
                 .build();

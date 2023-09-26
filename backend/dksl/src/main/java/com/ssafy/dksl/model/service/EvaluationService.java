@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class EvaluationService {
     private final EvaluationRepository evaluationRepository;
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
 
     public EvaluationSearchInfoResponseDto findEvaluations(String summonerName, int page) throws NoEvaluationException {
         List<Evaluation> findEvaluations = evaluationRepository.findAllByEvaluateeSummonerName(summonerName, PageRequest.of(page - 1, 10));
@@ -45,8 +45,8 @@ public class EvaluationService {
 
     @Transactional
     public boolean createEvaluation(EvaluationCreateRequestDto dto) throws NonExistSummonerException {
-        Member evaluatee = userRepository.findByName(dto.getEvaluateeName()).orElseThrow(() -> new NonExistSummonerException("존재하지 않는 소환사에게 댓글을 등록할 수 없습니다."));
-        Member evaluator = userRepository.findByName(dto.getEvaluatorName()).orElseThrow(() -> new NonExistSummonerException("존재하지 않는 소환사는 댓글을 등록할 수 없습니다."));
+        Member evaluatee = memberRepository.findByName(dto.getEvaluateeName()).orElseThrow(() -> new NonExistSummonerException("존재하지 않는 소환사에게 댓글을 등록할 수 없습니다."));
+        Member evaluator = memberRepository.findByName(dto.getEvaluatorName()).orElseThrow(() -> new NonExistSummonerException("존재하지 않는 소환사는 댓글을 등록할 수 없습니다."));
 
         Evaluation savedEvaluation = Evaluation.builder()
                 .evaluatee(evaluatee)
