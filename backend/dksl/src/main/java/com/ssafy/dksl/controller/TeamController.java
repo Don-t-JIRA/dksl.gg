@@ -33,7 +33,7 @@ public class TeamController {
     }
 
     @PostMapping("add")
-    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
+    private ResponseEntity<?> addTeamMember(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
         try {
             return ResponseEntity.ok(teamService.createTeamMember(CreateTeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CreateDataException e) {
