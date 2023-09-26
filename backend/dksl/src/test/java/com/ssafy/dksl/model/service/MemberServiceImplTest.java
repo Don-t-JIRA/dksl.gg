@@ -33,13 +33,13 @@ class MemberServiceImplTest {
         Team team = new Team();
 
 
-        MemberDto memberDto = MemberDto.builder()
-                .id(1L)
-                .clientId("testClientId")
-                .password("testPassword")
-                .name("testName")
-                .puuid("testPUUID")
-                .build();
+//        MemberDto memberDto = MemberDto.builder()
+//                .id(1L)
+//                .clientId("testClientId")
+//                .password("testPassword")
+//                .name("testName")
+//                .puuid("testPUUID")
+//                .build();
 
         // when
 
