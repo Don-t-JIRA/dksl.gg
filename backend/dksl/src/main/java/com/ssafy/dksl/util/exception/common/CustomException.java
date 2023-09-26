@@ -1,4 +1,4 @@
-package com.ssafy.dksl.util.exception;
+package com.ssafy.dksl.util.exception.common;
 
 import org.springframework.http.HttpStatus;
 

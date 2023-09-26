@@ -1,5 +1,6 @@
 package com.ssafy.dksl.util.exception;
 
+import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.http.HttpStatus;
 
 public class SummonerNotFoundException extends CustomException {

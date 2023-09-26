@@ -1,11 +1,12 @@
 package com.ssafy.dksl.util.exception;
 
+import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.http.HttpStatus;
 
-public class RiotApiCallFailedException extends CustomException {
+public class TokenInvalidException extends CustomException {
     private final HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-    public RiotApiCallFailedException() {
-        super("Riot API 호출을 실패했습니다..");
+    public TokenInvalidException() {
+        super("토큰 정보를 가져올 수 없습니다.");
     }
 
     @Override
