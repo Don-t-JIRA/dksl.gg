@@ -54,6 +54,10 @@ public class Member extends Base {
     @Comment("티어")
     private Tier tier;
 
+    @Column(name = "profile_icon_id", nullable = false)
+    @Comment("프로필 아이콘 아이디")
+    private int profileIconId;
+
     @Column(name = "rank", nullable = false)
     @Comment("랭크")
     private int rank;
@@ -68,15 +72,4 @@ public class Member extends Base {
     @Column(name = "deleted_at")
     @Comment("삭제일")
     private LocalDateTime deletedAt;
-
-    public MemberDto toMemberDto() {
-        return MemberDto.builder()
-                .name(this.getName())
-                .clientId(this.getClientId())
-                .email(this.getEmail())
-                .level(this.getLevel())
-                .rank(this.getRank())
-                .tier(this.getTier().toTierResponse())
-                .build();
-    }
 }
