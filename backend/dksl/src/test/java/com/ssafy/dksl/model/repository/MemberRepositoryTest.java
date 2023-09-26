@@ -2,6 +2,7 @@ package com.ssafy.dksl.model.repository;
 
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.config.JpaAuditingConfig;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
