@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { Card } from '../globalStyles.style';
-// import { Card } from '../globalStyles.style';
 
 export const TabGroupLayout = styled.div`
   width: 100%;

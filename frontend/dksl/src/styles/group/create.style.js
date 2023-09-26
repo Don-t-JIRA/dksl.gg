@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const CreateLayout = styled.div`
   width: 100%;
+  min-width: 400px;
   height: 50vh;
   max-height: 700px;
   display: flex;
@@ -27,13 +28,18 @@ export const CreateLayout = styled.div`
         display: flex;
         justify-content: center;
 
-        img {
+        & img {
           width: auto;
+          max-width: 110px;
           height: 100%;
+          max-height: 110px;
+          object-fit: cover;
         }
       }
 
       & input {
+        width: 100%;
+        height: 100%;
         display: none;
       }
     }
@@ -63,14 +69,15 @@ export const CreateLayout = styled.div`
   }
 
   & .input-area-2 {
-    width: 96%;
+    width: 90%;
     height: 60%;
+    max-height: 10vh;
     display: flex;
     flex-direction: column;
     flex-basis: 60%;
     justify-content: start;
     text-align: start;
-    margin: 2%;
+    margin: 5%;
     margin-top: 1rem;
 
     & .input-description {

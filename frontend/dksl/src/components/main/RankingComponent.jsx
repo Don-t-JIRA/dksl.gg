@@ -1,5 +1,6 @@
 // Styled
 import * as S from '../../styles/main/ranking.style';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 /**
@@ -59,19 +60,19 @@ const RankingComponent = (props) => {
             istab={props.rankTab == 0 ? 1 : 0}
             onClick={() => props.setRankTab(0)}
           >
-            랭킹
+            평균 티어
           </S.TabItem>
           <S.TabItem
             istab={props.rankTab == 1 ? 1 : 0}
             onClick={() => props.setRankTab(1)}
           >
-            최다플레이
+            멤버 수
           </S.TabItem>
           <S.TabItem
             istab={props.rankTab == 2 ? 1 : 0}
             onClick={() => props.setRankTab(2)}
           >
-            내 순위
+            최근 가입
           </S.TabItem>
         </S.TabBox>
         {props.rankData ? (

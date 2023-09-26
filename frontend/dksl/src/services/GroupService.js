@@ -1,7 +1,9 @@
 import api from './api.js';
 
 const getGroupList = async () => {
+  console.log('service');
   try {
+    console.log('try');
     const response = await api.get('/team', {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',

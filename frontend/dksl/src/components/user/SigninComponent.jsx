@@ -2,16 +2,12 @@
 import { useEffect, useMemo } from 'react';
 // Styled
 import * as S from '@/styles/user/signin.style';
-// Service
-import { signIn } from '../../services/UserService';
-// Sweetalert
-import Swal from 'sweetalert2';
 
 /**
  * @param getter // 로그인 시 서버에 전송할 유저 객체
  * @param setter // 유저 객체에 값 저장할 Setter 메서드
  */
-const SigninComponent = ({ getter, setter }) => {
+const SigninComponent = ({ getter, setter, onSignIn }) => {
   const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
 
   const onChange = (e) => {
@@ -22,13 +18,7 @@ const SigninComponent = ({ getter, setter }) => {
     });
   };
 
-  const onSignIn = () => {
-    const data = signIn(getter);
-    if (data.status == 200) {
-      Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
-      
-    }
-  }
+  
 
   useEffect(() => {
     console.log(getter);

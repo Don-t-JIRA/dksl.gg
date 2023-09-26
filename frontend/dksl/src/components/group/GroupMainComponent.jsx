@@ -1,6 +1,8 @@
 // Styled
 import * as S from '@/styles/group/main.style';
+// React
 import { useEffect, useRef } from 'react';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 const GroupMainComponent = ({ groupList, createGroup }) => {
@@ -10,9 +12,25 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
     console.log('Start Searching => ', search.current.value);
   };
 
+  const getByteToImage = (imgSrc) => {
+    const binaryString = atob(imgSrc);
+    const bytes = new Uint8Array(binaryString.length);
+
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    const img = new Blob([bytes], {
+      type: 'image/jpg',
+    });
+    console.log(URL.createObjectURL(img));
+    return URL.createObjectURL(img);
+  };
+
   useEffect(() => {
     console.log(groupList);
-  });
+  }, [groupList]);
+
   return (
     <S.GroupMainLayout>
       <S.MainContainer>
@@ -27,80 +45,53 @@ const GroupMainComponent = ({ groupList, createGroup }) => {
         <div className="current-group">
           <p className="title">&#127969; 최근 소환사들이 가입한 소속</p>
           <div className="profile-box">
-            <S.GroupProfile>
-              <div className="image">
-                <img src="image/react.svg" alt="profile_img" />
-              </div>
-              <div className="description">
-                <p className="name">SSAFY 9기</p>
-                <p className="personnel">
-                  <b>인원</b> 297명
-                </p>
-              </div>
-            </S.GroupProfile>
-            <S.GroupProfile>
-              <div className="image">
-                <img src="image/react.svg" alt="profile_img" />
-              </div>
-              <div className="description">
-                <p className="name">SSAFY 9기</p>
-                <p className="personnel">
-                  <b>인원</b> 297명
-                </p>
-              </div>
-            </S.GroupProfile>
-            <S.GroupProfile>
-              <div className="image">
-                <img src="image/react.svg" alt="profile_img" />
-              </div>
-              <div className="description">
-                <p className="name">SSAFY 9기</p>
-                <p className="personnel">
-                  <b>인원</b> 297명
-                </p>
-              </div>
-            </S.GroupProfile>
+            {groupList ? (
+              groupList.recentTeamList.map((e, i) => (
+                <div className="profile" key={`profile_${i}`}>
+                  <S.GroupProfile>
+                    <div className="image">
+                      <img src={getByteToImage(e.img)} alt="profile_img" />
+                    </div>
+                    <div className="description">
+                      <p className="name">{e.name}</p>
+                      <p className="personnel">
+                        <b>티어</b> {e.avgTier.name}
+                      </p>
+                    </div>
+                  </S.GroupProfile>
+                </div>
+              ))
+            ) : (
+              <LoadingComponent />
+            )}
           </div>
         </div>
         <div className="search-box">
           <div className="search-input">
             <input placeholder="소속명 입력하기" ref={search} />
-            <img src="image/search.svg" onClick={() => onSearch()} />
+            <img src="/image/search.svg" onClick={() => onSearch()} />
           </div>
           <div className="result-box">
             <p className="title">&#127969; 검색 소속</p>
-            {groupList ? (
-              <div className="result-body">
-                <div className="result-row">
-                  <div className="image-area">
-                    <img src="image/lbti-img.svg" alt="group-img" />
+            <div className="result-body">
+              {groupList ? (
+                groupList.teamList.map((e, i) => (
+                  <div className="result-row" key={`result-row_${i}`}>
+                    <div className="image-area">
+                      <img src="/image/lbti-img.svg" alt="group-img" />
+                    </div>
+                    <div className="name-area">
+                      <p>{e.name}</p>
+                    </div>
+                    <div className="desc-area">
+                      <p>&#127775;{` ${e.description}`}</p>
+                    </div>
                   </div>
-                  <div className="name-area">
-                    <p>SSAFY 9기</p>
-                  </div>
-                  <div className="desc-area">
-                    <p>
-                      &#127775; SSAFY 9기 모여라!! SAMSUNG Software Academy ...
-                    </p>
-                  </div>
-                </div>
-                <div className="result-row">
-                  <div className="image-area">
-                    <img src="image/lbti-img.svg" alt="group-img" />
-                  </div>
-                  <div className="name-area">
-                    <p>SSAFY 9기</p>
-                  </div>
-                  <div className="desc-area">
-                    <p>
-                      &#127775; SSAFY 9기 모여라!! SAMSUNG Software Academy ...
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <LoadingComponent></LoadingComponent>
-            )}
+                ))
+              ) : (
+                <LoadingComponent />
+              )}
+            </div>
           </div>
         </div>
       </S.MainContainer>
