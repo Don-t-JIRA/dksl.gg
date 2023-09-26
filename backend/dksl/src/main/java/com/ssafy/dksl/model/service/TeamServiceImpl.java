@@ -1,6 +1,6 @@
 package com.ssafy.dksl.model.service;
 
-import com.ssafy.dksl.model.dto.command.CreateTeamMemberCommand;
+import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.command.TokenCommand;
@@ -13,8 +13,7 @@ import com.ssafy.dksl.model.repository.TeamRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.model.repository.TierRepository;
 import com.ssafy.dksl.util.JwtUtil;
-import com.ssafy.dksl.util.exception.CreateDataException;
-import com.ssafy.dksl.util.exception.GetDataException;
+import com.ssafy.dksl.util.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -95,9 +94,9 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public boolean createTeamMember(CreateTeamMemberCommand createTeamMemberCommand) throws CreateDataException {
-        Member member = memberRepository.findByClientId(jwtUtil.getClientId(createTeamMemberCommand.getToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
-        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(createTeamMemberCommand.getTeamName()).orElseThrow(() -> new CreateDataException("팀 조회에 실패 했습니다."));
+    public boolean createTeamMember(TeamMemberCommand teamMemberCommand) throws CreateDataException {
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(() -> new CreateDataException("팀 조회에 실패 했습니다."));
 
         try {
             memberTeamRepository.save(MemberTeam.builder().member(member).team(team).build());
@@ -105,6 +104,20 @@ public class TeamServiceImpl implements TeamService {
         } catch(Exception e) {
             log.error(e.getMessage());
             throw new CreateDataException("팀 가입에 실패 했습니다.");
+        }
+    }
+
+    @Override
+    public boolean leaveTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
+
+        try {
+            memberTeamRepository.delete(MemberTeam.builder().member(member).team(team).build());
+            return true;
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new MemberTeamDeletionException();
         }
     }
 
