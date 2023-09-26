@@ -7,6 +7,12 @@ const GroupCreateComponent = () => {
   const [src, setSrc] = useState('/image/noimage.png');
   const fileDOM = useRef();
 
+  const uploadBtn = () => {
+    const fileInput = document.getElementById('img');
+    if (fileInput)
+      fileInput.click()
+  }
+
   useEffect(() => {
     document.addEventListener('change', (e) => {
       if (e.target != fileDOM.current) return;
@@ -21,7 +27,7 @@ const GroupCreateComponent = () => {
       <div className="input-area-1">
         <div className="input-image">
           <S.LabelForFile htmlFor="swal-input">
-            <img className="preview" src={src} alt="image upload" />
+            <img className="preview" src={src} alt="image upload" onClick={uploadBtn} />
           </S.LabelForFile>
           <input type="file" id="img" ref={fileDOM} />
         </div>

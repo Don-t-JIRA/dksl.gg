@@ -85,5 +85,24 @@ export const ReviewContainer = styled.div`
 
 export const CommentBox = styled.div`
   width: 94%;
+  min-height: 120px;
   margin: 5px 3%;
+  background-color: #F6F4F4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & .profile-section {
+    width: 95%;
+    flex-basis: 30%;
+    margin: 2px 2.5%;
+  }
+
+  & .content-section {
+    width: 95%;
+    flex-basis: 70%;
+    margin: 2px 2.5%;
+    margin-bottom: 2%;
+    background-color: #E7E7E7;
+  }
 `

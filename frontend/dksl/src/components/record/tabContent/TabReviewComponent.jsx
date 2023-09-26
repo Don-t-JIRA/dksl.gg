@@ -32,8 +32,15 @@ const TabReviewComponent = ({ reviewList }) => {
             <div className="review-box">
               <p className="title">&#127969; 리뷰</p>
               <div className="review-body">
-                
-
+                <S.CommentBox>
+                  <div className="profile-section">
+                    <div className="profile"></div>
+                    <div className="time"></div>
+                  </div>
+                  <div className="content-section">
+                    <p className="content"></p>
+                  </div>
+                </S.CommentBox>
               </div>
             </div>
           </S.ReviewContainer>

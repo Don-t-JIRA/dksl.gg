@@ -32,6 +32,7 @@ export const MainContainer = styled.div`
       url('/image/bg/group_create_banner.svg');
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
     filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38));
     color: white;
 

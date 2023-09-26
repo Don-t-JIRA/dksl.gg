@@ -2,16 +2,12 @@
 import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/user/signup.style';
-// Service
-import { register } from '../../services/UserService';
-// Sweetalert
-import Swal from 'sweetalert2';
 
 /**
  * @param getter // 회원가입 시 서버에 전송할 유저 객체
  * @param setter // 유저 객체에 값 저장할 Setter 메서드
  */
-const SignupComponent = ({ getter, setter }) => {
+const SignupComponent = ({ getter, setter, onSubmit }) => {
   const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
 
   const onChange = (e) => {
@@ -22,13 +18,7 @@ const SignupComponent = ({ getter, setter }) => {
     });
   };
 
-  const onSubmit = () => {
-    const data = register(getter);
-    if (data.status == 200) {
-      Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
-
-    }
-  }
+  
 
   return (
     <S.SignupLayout bgnum={num}>
