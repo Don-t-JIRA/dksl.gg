@@ -1,8 +1,8 @@
 package com.ssafy.dksl.model.repository;
 
 import com.ssafy.dksl.config.JpaAuditingConfig;
+import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.Review;
-import com.ssafy.dksl.model.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 class ReviewRepositoryTest {
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     ReviewRepository reviewRepository;
@@ -34,14 +34,14 @@ class ReviewRepositoryTest {
     void findByMatchIdAndDeletedAtIsNull() throws InterruptedException {
         // given
         String matchId = "KR_66990325";
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
 
-        User savedUser = userRepository.save(user);
+        Member savedMember = memberRepository.save(member);
 
 //        ArrayList<Review> reviews = new ArrayList<>();
         for(int i = 0; i< 40; i++) {
-//            reviews.add(createReview("testContent" + i, matchId, savedUser));
-            reviewRepository.save(createReview("testContent" + i, matchId, savedUser));
+//            reviews.add(createReview("testContent" + i, matchId, savedMember));
+            reviewRepository.save(createReview("testContent" + i, matchId, savedMember));
             Thread.sleep(1);
         }
 
@@ -61,13 +61,13 @@ class ReviewRepositoryTest {
                 );
 
         findReviews.stream().forEach(review ->
-                assertThat(review.getUser())
+                assertThat(review.getMember())
                 .extracting("clientId", "password", "name", "puuid")
                         .contains("testClientId", "testPassword", "testName", "testPUUID"));
     }
 
-    private User createUser(String clientId, String password, String name, String puuid) {
-        return User.builder()
+    private Member createMember(String clientId, String password, String name, String puuid) {
+        return Member.builder()
                 .clientId(clientId)
                 .password(password)
                 .name(name)
@@ -75,9 +75,9 @@ class ReviewRepositoryTest {
                 .build();
     }
 
-    private Review createReview(String testContent, String matchId, User savedUser) {
+    private Review createReview(String testContent, String matchId, Member savedMember) {
         return Review.builder()
-                .user(savedUser)
+                .member(savedMember)
                 .matchId(matchId)
                 .content(testContent)
                 .deletedAt(null)
