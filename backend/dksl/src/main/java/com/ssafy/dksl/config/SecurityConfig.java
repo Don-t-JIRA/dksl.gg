@@ -47,9 +47,9 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
                         authorizationManagerRequestMatcherRegistry
-                                .requestMatchers(new AntPathRequestMatcher("/team/create")).authenticated()
-                                // .requestMatchers(new AntPathRequestMatcher("/user")).authenticated()  // 사용자 조회, 수정, 삭제
-                                .anyRequest().permitAll()  // 일단 모두 승인
+                                .requestMatchers(new AntPathRequestMatcher("/team/create", "team/add")).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/user", "/user/logout")).authenticated()
+                                .anyRequest().permitAll()
                 )
                 // UsernamePasswordAuthenticationFilter 에 도달하기 전에 커스텀한 필터를 먼저 동작
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

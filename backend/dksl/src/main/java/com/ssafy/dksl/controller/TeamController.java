@@ -1,12 +1,11 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.command.CreateTeamMemberCommand;
+import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
 import com.ssafy.dksl.model.dto.response.AllTeamResponse;
 import com.ssafy.dksl.model.service.TeamServiceImpl;
-import com.ssafy.dksl.util.exception.CreateDataException;
-import com.ssafy.dksl.util.exception.GetDataException;
+import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,17 +26,26 @@ public class TeamController {
     private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody CreateTeamRequest createTeamRequest) {
         try {
             return ResponseEntity.ok(teamService.createTeam(createTeamRequest.toCreateTeamCommand(token)));
-        } catch (CreateDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
     @PostMapping("add")
-    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
+    private ResponseEntity<?> addTeamMember(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
         try {
-            return ResponseEntity.ok(teamService.createTeamMember(CreateTeamMemberCommand.builder().token(token).teamName(teamName).build()));
-        } catch (CreateDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(teamService.createTeamMember(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+        }
+    }
+
+    @PostMapping("leave")
+    private ResponseEntity<?> leaveTeamMember(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
+        try {
+            return ResponseEntity.ok(teamService.leaveTeamMember(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
@@ -49,8 +57,8 @@ public class TeamController {
                     .recentTeamList(teamService.getRecentTeamList())  // 최근 가입 팀 리스트
                     .build();
             return ResponseEntity.ok(allTeamResponse);
-        } catch (GetDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
@@ -58,8 +66,8 @@ public class TeamController {
     private ResponseEntity<?> getRecentTeamList() {  // 최초 한 번 불러오기
         try {
             return ResponseEntity.ok(teamService.getRecentTeamList());
-        } catch (GetDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
@@ -67,8 +75,8 @@ public class TeamController {
     private ResponseEntity<?> getSearchTeamList(@RequestParam String searchStr) {
         try {
             return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr).build()));
-        } catch (GetDataException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.ssafy.dksl.model.entity;
 
 import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
-import com.ssafy.dksl.model.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class Review extends Base{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @Comment("유저에서 댓글 리스트를 조회할 일은 비즈니스 로직 상 거의 없다고 판단했기 때문에 단방향 매핑으로 설계함")
-    private User user;
+    private Member member;
 
     @Column(nullable = false)
     @Comment("매치 아이디는 KR_XXXXXXXXXX 형식이다.")
@@ -45,7 +44,7 @@ public class Review extends Base{
     public ReviewSearchResponseDto to() {
         return ReviewSearchResponseDto.builder()
                 .createdAt(super.getCreatedAt())
-                .clientId(user.getClientId())
+                .clientId(member.getClientId())
                 .matchId(matchId)
                 .content(content)
                 .build();

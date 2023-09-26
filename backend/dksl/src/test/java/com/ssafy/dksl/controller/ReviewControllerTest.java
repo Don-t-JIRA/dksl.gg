@@ -6,7 +6,7 @@ import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.entity.Review;
 import com.ssafy.dksl.model.entity.User;
 import com.ssafy.dksl.model.repository.ReviewRepository;
-import com.ssafy.dksl.model.repository.UserRepository;
+import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.model.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ class ReviewControllerTest {
                 .puuid("testPUUID")
                 .build();
         for(int i = 0; i<5; i++){
-            reviews.add(Review.builder().matchId(matchId).content("testContent" + i).user(testUser).build().to());
+            reviews.add(Review.builder().matchId(matchId).content("testContent" + i).member(testUser).build().to());
         }
 
         // 매치와 관련된 댓글을 몇 개 임의로 insert 한다.

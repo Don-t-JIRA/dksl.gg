@@ -8,7 +8,6 @@ import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
 import com.ssafy.dksl.model.dto.response.LoginResponse;
 import com.ssafy.dksl.model.dto.response.MemberResponse;
 import com.ssafy.dksl.model.dto.response.SummonerResponse;
-import com.ssafy.dksl.model.dto.response.TierResponse;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.RefreshToken;
 import com.ssafy.dksl.model.entity.Tier;
@@ -19,17 +18,16 @@ import com.ssafy.dksl.model.service.common.RiotServiceImpl;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.data.RankData;
 import com.ssafy.dksl.util.exception.*;
+import com.ssafy.dksl.util.exception.common.CreateException;
+import com.ssafy.dksl.util.exception.common.CustomException;
+import com.ssafy.dksl.util.exception.common.InvalidException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.login.LoginException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -54,85 +52,103 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         this.tierRepository = tierRepository;
     }
 
-    public boolean register(RegisterCommand registerCommand) throws RegisterException {
+    public boolean register(RegisterCommand registerCommand) throws CustomException {
         // 아이디 가입 여부 확인
-        if (memberRepository.findByClientId(registerCommand.getClientId()).isPresent()) {
-            throw new RegisterException("해당 아이디를 가진 회원이 이미 존재합니다.");
-        }
+        if (memberRepository.findByClientId(registerCommand.getClientId()).isPresent())
+            throw new MemberDuplicateException();
 
         // 닉네임 가입 여부 확인
-        if (memberRepository.findByName(registerCommand.getName()).isPresent()) {
-            throw new RegisterException("해당 닉네임을 가진 회원이 이미 존재합니다.");
+        if (memberRepository.findByName(registerCommand.getName()).isPresent()) throw new SummonerDuplicateException();
+
+        JsonNode summonerNode = findSummonerByName(registerCommand.getName());  // 회원 PUUID 찾기
+        JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
+
+        Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new InvalidException("티어"));
+        int rank = 0;
+        try {
+            rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
+            if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new InvalidException("랭크");
         }
 
         try {
-            JsonNode summonerNode = findSummonerByName(registerCommand.getName());  // 회원 PUUID 찾기
-            JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
-
-            Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new RiotApiException("랭크 정보를 조회할 수 없습니다."));
-            int rank = (leagueNode.size() != 0) ? RankData.rank.get(leagueNode.get(0).get("rank").asText()) : 0;
-
-            Member member = Member.builder().clientId(registerCommand.getClientId()).password(passwordEncoder.encode(registerCommand.getPassword())).name(registerCommand.getName()).puuid(summonerNode.get("puuid").asText()).phone(registerCommand.getPhone().replace("-", "")).email(registerCommand.getEmail()).tier(tier).rank(rank).profileIconId(summonerNode.get("profileIconId").asInt()).level(summonerNode.get("summonerLevel").asInt()).build();
+            Member member = Member.builder()
+                    .clientId(registerCommand.getClientId())
+                    .password(passwordEncoder.encode(registerCommand.getPassword()))
+                    .name(registerCommand.getName()).puuid(summonerNode.get("puuid").asText())
+                    .phone(registerCommand.getPhone().replace("-", ""))
+                    .email(registerCommand.getEmail()).tier(tier).rank(rank)
+                    .profileIconId(summonerNode.get("profileIconId").asInt())
+                    .level(summonerNode.get("summonerLevel").asInt())
+                    .build();
 
             memberRepository.save(member);
 
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RegisterException();
+            throw new MemberCreateException();
         }
     }
 
     @Override
-    public LoginResponse login(LoginCommand loginCommand) throws LoginException {
+    public LoginResponse login(LoginCommand loginCommand) throws CustomException {
         // 가입되어 있는 아이디인지 확인
-        Member member = memberRepository.findByClientId(loginCommand.getClientId()).orElseThrow(() -> new LoginException("아이디 혹은 비밀번호를 틀렸습니다."));
+        Member member = memberRepository.findByClientId(loginCommand.getClientId()).orElseThrow(LoginInvalidException::new);
         MemberResponse memberResponse = null;
 
         // 비밀번호 일치하는지 확인
         if (!passwordEncoder.matches(loginCommand.getPassword(), member.getPassword())) {
-            throw new LoginException("아이디 혹은 비밀번호를 틀렸습니다.");
+            throw new LoginInvalidException();
         }
 
         // 중복 로그인 되었는지 확인 (redis에 refreshToken 존재하는지)
         if (refreshTokenRepository.findById(member.getClientId()).isPresent()) {
-            throw new LoginException("중복 로그인 하였습니다.");
+            throw new LoginDuplicateException();
         }
 
-        try {
-            memberResponse = updateMember(member);
-        } catch (RiotApiException e) {
-            throw new LoginException("정보를 업데이트 할 수 없습니다.");
-        }
+        memberResponse = updateMember(member);  // Member 정보 가져오기
 
-        try {
-            // Access 토큰 발급
-            String accessToken = jwtUtil.generateToken(member.getClientId(), "ROLE_USER", false);
+        // Access 토큰 발급
+        String accessToken = jwtUtil.generateToken(member.getClientId(), "ROLE_USER", false);
 
-            // Refresh 토큰 발급 후 Redis에 저장
-            RefreshToken refreshToken = RefreshToken.builder().clientId(member.getClientId()).refreshToken(jwtUtil.generateToken(member.getClientId(), "ROLE_USER", true)).build();
+        try {  // Refresh 토큰 발급 후 Redis에 저장
+            RefreshToken refreshToken = RefreshToken.builder()
+                    .clientId(member.getClientId())
+                    .refreshToken(jwtUtil.generateToken(member.getClientId(), "ROLE_USER", true))
+                    .build();
 
             refreshTokenRepository.save(refreshToken);
 
             return LoginResponse.builder().memberResponse(memberResponse).accessToken(accessToken).refreshToken(refreshToken.getRefreshToken()).build();
-        } catch (Exception e) {
-            throw new LoginException("로그인을 할 수 없습니다.");
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new TokenCreateException();
         }
     }
 
     @Override
-    public boolean logout(TokenCommand tokenCommand) throws LogoutException {
-        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(() -> new LogoutException("로그인이 되어있지 않습니다."));
+    public MemberResponse getUser(TokenCommand tokenCommand) throws CustomException {
+        // 회원 찾기
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(MemberNotFoundException::new);
+        return updateMember(member);
+    }
+
+    @Override
+    public boolean logout(TokenCommand tokenCommand) throws CustomException {
+        RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(LogoutInvalidException::new);
         refreshTokenRepository.delete(refreshToken);
 
         return true;
     }
 
     @Override
-    public SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws GetDataException {
-        Member member = memberRepository.findByName(updateSummonerCommand.getName()).orElseThrow(() -> new GetDataException("회원 조회에 실패 했습니다."));
+    public SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws CustomException {
+        Member member = memberRepository.findByName(updateSummonerCommand.getName()).orElseThrow(MemberNotFoundException::new);
+        MemberResponse memberResponse = updateMember(member);
         try {
-            MemberResponse memberResponse = updateMember(member);
             return SummonerResponse.builder()
                     .name(memberResponse.getName())
                     .tier(memberResponse.getTier())
@@ -140,37 +156,68 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
                     .profileIconId(memberResponse.getProfileIconId())
                     .level(memberResponse.getLevel())
                     .build();
-        } catch(RiotApiException e) {
-            throw new GetDataException("회원 정보 업데이트에 실패 했습니다.");
+        } catch (Exception e) {
+            throw new SummonerInvalidException();
         }
     }
 
     @Override
-    public String reissue(TokenCommand tokenCommand) throws LoginException {
+    public String reissue(TokenCommand tokenCommand) throws CustomException {
         // refresh 토큰 만료 확인
-        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(tokenCommand.getToken()).orElseThrow(() -> new LoginException("재로그인이 필요합니다."));
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(tokenCommand.getToken()).orElseThrow(LogoutInvalidException::new);
 
         // refresh 토큰 검증을 통한 access 토큰 재발급
-        return jwtUtil.generateToken(jwtUtil.getClientId(refreshToken.getRefreshToken()), "ROLE_USER", false);
+        try {
+            return jwtUtil.generateToken(jwtUtil.getClientId(refreshToken.getRefreshToken()), "ROLE_USER", false);
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new TokenCreateException();
+        }
     }
 
     @Override
-    public MemberResponse updateMember(Member member) throws RiotApiException {
+    public MemberResponse updateMember(Member member) throws CustomException {
+        JsonNode summonerNode = findSummonerByName(member.getName());  // 회원 PUUID 찾기
+        JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
+
+        Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new InvalidException("티어"));
+        int rank = 0;
         try {
-            JsonNode summonerNode = findSummonerByName(member.getName());  // 회원 PUUID 찾기
-            JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
+            rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
+            if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new InvalidException("랭크");
+        }
 
-            Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new RiotApiException("랭크 정보를 조회할 수 없습니다."));
-            int rank = (leagueNode.size() != 0) ? RankData.rank.get(leagueNode.get(0).get("rank").asText()) : 0;
-
-            member = Member.builder().id(member.getId()).clientId(member.getClientId()).password(member.getPassword()).name(member.getName()).puuid(summonerNode.get("puuid").asText()).phone(member.getPhone().replace("-", "")).email(member.getEmail()).tier(tier).rank(rank).profileIconId(summonerNode.get("profileIconId").asInt()).level(summonerNode.get("summonerLevel").asInt()).build();
+        try {
+            member = Member.builder()
+                    .clientId(member.getClientId())
+                    .password(member.getPassword())
+                    .name(member.getName())
+                    .puuid(summonerNode.get("puuid").asText())  // puuid 정보 업데이트
+                    .phone(member.getPhone().replace("-", ""))
+                    .email(member.getEmail())
+                    .tier(tier)  // 티어 정보 업데이트
+                    .rank(rank)  // 랭크 정보 업데이트
+                    .profileIconId(summonerNode.get("profileIconId").asInt())  // 프로필 아이콘 정보 업데이트
+                    .level(summonerNode.get("summonerLevel").asInt())  // 레벨 정보 업데이트
+                    .build();
 
             memberRepository.save(member);
 
-            return MemberResponse.builder().name(member.getName()).phone(member.getPhone()).email(member.getEmail()).tier(member.getTier().toTierResponse()).rank(member.getRank()).profileIconId(member.getProfileIconId()).level(member.getLevel()).build();
+            return MemberResponse.builder()
+                    .name(member.getName())
+                    .phone(member.getPhone())
+                    .email(member.getEmail())
+                    .tier(member.getTier().toTierResponse())
+                    .rank(member.getRank())
+                    .profileIconId(member.getProfileIconId())
+                    .level(member.getLevel())
+                    .build();
         } catch (Exception e) {
             log.error(e.getMessage());
-            throw new RiotApiException("라이엇 정보를 업데이트 할 수 없습니다.");
+            throw new MemberCreateException();
         }
     }
 }

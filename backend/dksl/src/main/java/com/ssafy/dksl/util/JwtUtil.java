@@ -1,11 +1,11 @@
 package com.ssafy.dksl.util;
 
-import com.ssafy.dksl.model.entity.RefreshToken;
-import com.ssafy.dksl.model.repository.RefreshTokenRepository;
-import com.ssafy.dksl.util.exception.InvalidTokenException;
+import com.ssafy.dksl.util.exception.TokenInvalidException;
+import com.ssafy.dksl.util.exception.common.CustomException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +18,7 @@ import java.util.Date;
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 @Component
+@Slf4j
 public class JwtUtil implements InitializingBean {
 
     private final long accessValidityIn;  // token 유효 기간
@@ -55,21 +56,25 @@ public class JwtUtil implements InitializingBean {
     }
 
     // 토큰 검증
-    public boolean validateToken(String token) throws InvalidTokenException {
+    public boolean validateToken(String token) throws TokenInvalidException {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            throw new InvalidTokenException("잘못된 JWT 서명입니다.");
+            log.error("잘못된 JWT 서명입니다.");
+            throw new TokenInvalidException();
         } catch (ExpiredJwtException e) {  // Access 토큰이 만료 되었을 때
-            throw new InvalidTokenException("JWT 토큰이 만료되었습니다.");
+            log.error("JWT 토큰이 만료되었습니다.");
+            throw new TokenInvalidException();
         } catch (UnsupportedJwtException e) {
-            throw new InvalidTokenException("지원되지 않는 JWT 토큰입니다.");
+            log.error("지원되지 않는 JWT 토큰입니다.");
+            throw new TokenInvalidException();
         } catch (IllegalArgumentException e) {
-            throw new InvalidTokenException("JWT 토큰이 잘못되었습니다.");
+            log.error("JWT 토큰이 잘못되었습니다.");
+            throw new TokenInvalidException();
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new InvalidTokenException();
+            log.error(e.getMessage());
+            throw new TokenInvalidException();
         }
     }
 

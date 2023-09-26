@@ -11,7 +11,7 @@ import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Review;
 import com.ssafy.dksl.model.entity.User;
 import com.ssafy.dksl.model.repository.ReviewRepository;
-import com.ssafy.dksl.model.repository.UserRepository;
+import com.ssafy.dksl.model.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ class ReviewServiceTest {
     ReviewRepository reviewRepository;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @DisplayName("특정 matchId에 해당하는 모든 댓글을 불러온다.")
     @Test
@@ -48,9 +48,9 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
 
-        User savedUser = userRepository.save(user);
+        User savedUser = memberRepository.save(user);
 
         for(int i = 0; i< 40; i++) {
             reviewRepository.save(createReview("testContent" + i, matchId, savedUser));
@@ -77,8 +77,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = userRepository.save(user);
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        User savedUser = memberRepository.save(user);
 
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .clientId(savedUser.getClientId())
@@ -101,8 +101,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        User user = createUser("existedClientId", "testPassword", "testName", "testPUUID");
-        userRepository.save(user);
+        Member member = createUser("existedClientId", "testPassword", "testName", "testPUUID");
+        memberRepository.save(user);
 
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .clientId("nonExistedClientId")
@@ -121,8 +121,8 @@ class ReviewServiceTest {
     void updateReview() throws NonExistReviewException {
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = userRepository.save(user);
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        User savedUser = memberRepository.save(user);
 
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
@@ -154,8 +154,8 @@ class ReviewServiceTest {
     void updateNonExistReview() {
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = userRepository.save(user);
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        User savedUser = memberRepository.save(user);
 
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
@@ -182,8 +182,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = userRepository.save(user);
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        User savedUser = memberRepository.save(user);
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
 
@@ -214,8 +214,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        User user = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = userRepository.save(user);
+        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        User savedUser = memberRepository.save(user);
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
 
@@ -242,7 +242,7 @@ class ReviewServiceTest {
 
     private Review createReview(String testContent, String matchId, User savedUser) {
         return Review.builder()
-                .user(savedUser)
+                .member(savedUser)
                 .matchId(matchId)
                 .content(testContent)
                 .deletedAt(null)

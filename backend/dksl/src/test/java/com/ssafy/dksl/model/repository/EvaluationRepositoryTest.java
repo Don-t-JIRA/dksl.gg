@@ -35,7 +35,7 @@ class EvaluationRepositoryTest {
     EvaluationRepository evaluationRepository;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     EntityManager em;
@@ -51,8 +51,8 @@ class EvaluationRepositoryTest {
             evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
-        userRepository.save(evaluatee);
-        userRepository.saveAll(evaluators);
+        memberRepository.save(evaluatee);
+        memberRepository.saveAll(evaluators);
 
         for(int i = 0; i<20; i++){
             Evaluation savedEvaluation = evaluationRepository.save(createEvaluation(evaluatee, evaluators.get(i % 5), i, 1));
@@ -100,8 +100,8 @@ class EvaluationRepositoryTest {
             evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
-        userRepository.save(evaluatee);
-        userRepository.saveAll(evaluators);
+        memberRepository.save(evaluatee);
+        memberRepository.saveAll(evaluators);
 
         for(int i = 0; i<20; i++){
             Evaluation savedEvaluation = evaluationRepository.save(createEvaluation(evaluatee, evaluators.get(i % 5), i, i % 5 + 1));
@@ -126,8 +126,8 @@ class EvaluationRepositoryTest {
             evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
-        userRepository.save(evaluatee);
-        userRepository.saveAll(evaluators);
+        memberRepository.save(evaluatee);
+        memberRepository.saveAll(evaluators);
 
         // when
         float average = evaluationRepository.findAverageOfEvaluation(evaluatee.getName()).orElse(0.0f);

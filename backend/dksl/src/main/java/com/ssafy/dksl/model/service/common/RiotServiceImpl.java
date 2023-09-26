@@ -1,9 +1,13 @@
 package com.ssafy.dksl.model.service.common;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.dksl.util.exception.RiotApiException;
+import com.ssafy.dksl.util.exception.common.CustomException;
+import com.ssafy.dksl.util.exception.RiotApiCallFailedException;
+import com.ssafy.dksl.util.exception.SummonerNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -25,52 +29,63 @@ public class RiotServiceImpl implements RiotService {
     @Value("${riot.league.api.uri}")
     private String RIOT_LEAGUE_API_URI;
 
-    public JsonNode findSummonerByName(String name) throws RiotApiException {
+    public JsonNode findSummonerByName(String name) throws CustomException {
         HttpClient client = HttpClient.newBuilder().build();
 
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .header("X-Riot-Token", RIOT_API_KEY)
                 .uri(URI.create(RIOT_SUMMONER_API_URI + URLEncoder.encode(name)))
-                .GET()
-                .build();
+                .GET().build();
 
+        HttpResponse<String> response;  // Response 받을 변수
         try {
-            HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-
-            // 응답 코드 확인
-            int statusCode = response.statusCode();
-            if(statusCode != 200) throw new RiotApiException("해당 롤 닉네임이 존재하지 않습니다.");
-
-            ObjectMapper objectmapper = new ObjectMapper();
-            return objectmapper.readTree(response.body());
+            response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             log.error(e.getMessage());
-            throw new RiotApiException();
+            throw new RiotApiCallFailedException();
+        }
+
+        // 응답 코드 확인
+        int statusCode = response.statusCode();
+        if (statusCode == HttpStatus.SC_NOT_FOUND) throw new SummonerNotFoundException();  // 닉네임 없음
+        else if (statusCode != HttpStatus.SC_OK) throw new RiotApiCallFailedException();  // 라이엇 API 호출 실패
+
+        ObjectMapper objectmapper = new ObjectMapper();
+        try {
+            return objectmapper.readTree(response.body());
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+            throw new RiotApiCallFailedException();
         }
     }
 
     @Override
-    public JsonNode findLeagueBySummonerId(String summonerId) throws RiotApiException {
+    public JsonNode findLeagueBySummonerId(String summonerId) throws CustomException {
         HttpClient client = HttpClient.newBuilder().build();
 
         HttpRequest getRequest = HttpRequest.newBuilder()
                 .header("X-Riot-Token", RIOT_API_KEY)
                 .uri(URI.create(RIOT_LEAGUE_API_URI + URLEncoder.encode(summonerId)))
-                .GET()
-                .build();
+                .GET().build();
 
+        HttpResponse<String> response;
         try {
-            HttpResponse<String> response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
-
-            // 응답 코드 확인
-            int statusCode = response.statusCode();
-            if(statusCode != 200) throw new RiotApiException("해당 롤 닉네임이 존재하지 않습니다.");
-
-            ObjectMapper objectmapper = new ObjectMapper();
-            return objectmapper.readTree(response.body());
+            response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             log.error(e.getMessage());
-            throw new RiotApiException();
+            throw new RiotApiCallFailedException();
+        }
+
+        // 응답 코드 확인
+        int statusCode = response.statusCode();
+        if (statusCode != HttpStatus.SC_OK) throw new RiotApiCallFailedException();  // 라이엇 API 호출 실패
+
+        ObjectMapper objectmapper = new ObjectMapper();
+        try {
+            return objectmapper.readTree(response.body());
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+            throw new RiotApiCallFailedException();
         }
     }
 }

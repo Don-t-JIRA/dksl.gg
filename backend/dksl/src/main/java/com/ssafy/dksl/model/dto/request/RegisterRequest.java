@@ -1,7 +1,6 @@
 package com.ssafy.dksl.model.dto.request;
 
 import com.ssafy.dksl.model.dto.command.RegisterCommand;
-import com.ssafy.dksl.util.exception.RegisterException;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class RegisterRequest {
     @NotNull
     private String email;
 
-    public RegisterCommand toRegisterCommand() throws RegisterException {
+    public RegisterCommand toRegisterCommand() {
         return RegisterCommand.builder()
                 .clientId(this.getClientId())
                 .password(this.getPassword())

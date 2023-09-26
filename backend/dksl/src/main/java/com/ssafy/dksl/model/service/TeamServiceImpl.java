@@ -1,23 +1,32 @@
 package com.ssafy.dksl.model.service;
 
-import com.ssafy.dksl.model.dto.command.CreateTeamMemberCommand;
+// Command
+import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.command.TokenCommand;
+
+// Response
 import com.ssafy.dksl.model.dto.response.TeamResponse;
+
+// Entity
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.MemberTeam;
+
+// Repository
 import com.ssafy.dksl.model.repository.MemberTeamRepository;
 import com.ssafy.dksl.model.repository.TeamRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.model.repository.TierRepository;
+
 import com.ssafy.dksl.util.JwtUtil;
-import com.ssafy.dksl.util.exception.CreateDataException;
-import com.ssafy.dksl.util.exception.GetDataException;
+import com.ssafy.dksl.util.exception.*;
+import com.ssafy.dksl.util.exception.common.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -50,19 +59,28 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
-    public boolean createTeam(CreateTeamCommand createTeamCommand) throws CreateDataException {
-        Member chairman = memberRepository.findByClientId(jwtUtil.getClientId(createTeamCommand.getAccessToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
+    public boolean createTeam(CreateTeamCommand createTeamCommand) throws CustomException {
+        Member chairman = memberRepository
+                .findByClientId(jwtUtil.getClientId(createTeamCommand.getAccessToken()))
+                .orElseThrow(MemberNotFoundException::new);
 
-        String contentType = createTeamCommand.getImg().getContentType();
+        // 확장자명 검사
+        String contentType = null;
+        try {
+            contentType = createTeamCommand.getImg().getContentType();  // 이미지 확장자명 찾기
+        } catch(Exception e) {
+            log.error(e.getMessage());
+            throw new FileNotFoundException();
+        }
         String originalFileExtension;
 
-        if(contentType == null || contentType.trim().equals("")) {
-            throw new CreateDataException("이미지 업로드를 실패 했습니다.");
+        if (contentType == null || contentType.trim().equals("")) {
+            throw new FileNotFoundException();
         }
 
         if (contentType.contains("image/jpeg")) originalFileExtension = ".jpg";
         else if (contentType.contains("image/png")) originalFileExtension = ".png";
-        else throw new CreateDataException("이미지 확장자명을 확인해 주세요.");
+        else throw new FileNotFoundException();
         try {
             Team team = Team.builder()
                     .name(createTeamCommand.getName())
@@ -74,8 +92,8 @@ public class TeamServiceImpl implements TeamService {
 
             String imgName = team.getId() + originalFileExtension;
             File imgFile = new File(BASE_IMG_URI + "team" + File.separator + imgName);
-            createTeamCommand.getImg().transferTo(imgFile);
-            imgFile.setExecutable(false);  // 실행 권한 없애기
+            boolean flag = imgFile.setExecutable(false);  // 실행 권한 없애기
+            createTeamCommand.getImg().transferTo(imgFile);  // 이미지 저장
 
             team = Team.builder()
                     .id(team.getId())
@@ -88,127 +106,154 @@ public class TeamServiceImpl implements TeamService {
             teamRepository.save(team);
 
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
-            throw new CreateDataException("팀 생성을 실패 했습니다.");
+            throw new TeamCreateException();
         }
     }
 
     @Override
-    public boolean createTeamMember(CreateTeamMemberCommand createTeamMemberCommand) throws CreateDataException {
-        Member member = memberRepository.findByClientId(jwtUtil.getClientId(createTeamMemberCommand.getToken())).orElseThrow(() -> new CreateDataException("회원 조회에 실패 했습니다."));
-        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(createTeamMemberCommand.getTeamName()).orElseThrow(() -> new CreateDataException("팀 조회에 실패 했습니다."));
+    public boolean createTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
 
         try {
             memberTeamRepository.save(MemberTeam.builder().member(member).team(team).build());
+
             return true;
-        } catch(Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
-            throw new CreateDataException("팀 가입에 실패 했습니다.");
+            throw new MemberTeamCreateException();
         }
     }
 
     @Override
-    public List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException {
+    public boolean leaveTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
+
+        try {
+            memberTeamRepository.delete(MemberTeam.builder().member(member).team(team).build());
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new MemberTeamDeleteException();
+        }
+    }
+
+    @Override
+    public List<TeamResponse> getTeamList(List<Team> teamList) throws CustomException {
         List<TeamResponse> teamResponseList = new ArrayList<>();
         byte[] imageByteArray = null;
-            for (Team team : teamList) {
-                // 이미지를 byte array로 변환 (blob)
-                try {
-                    InputStream imageStream = new FileInputStream(BASE_IMG_URI + "team" + File.separator + team.getImg());
-                    imageByteArray = imageStream.readAllBytes();
-                    imageStream.close();
-                } catch(IOException e) {
-                    log.error("이미지 URL : " + BASE_IMG_URI + "team" + File.separator + team.getImg());
-                    log.error("이미지 조회를 실패 했습니다.");
-                }
+        for (Team team : teamList) {
+            // 이미지를 byte array로 변환 (blob)
+            try {
+                InputStream imageStream = new FileInputStream(BASE_IMG_URI + "team" + File.separator + team.getImg());
+                imageByteArray = imageStream.readAllBytes();
+                imageStream.close();
+            } catch (IOException e) {
+                log.error("파일 URL : " + BASE_IMG_URI + "team" + File.separator + team.getImg());
+                throw new FileInvalidException();
+            }
 
-                // 팀의 평균 티어 계산
-                double sumTier = 0;
-                int avgTier = 0;
-                List<MemberTeam> memberTeamList = team.getMembers();
-                for(MemberTeam memberTeam : memberTeamList) {
-                    sumTier += memberTeam.getMember().getTier().getOrderNum();
-                }
+            // 팀의 평균 티어 계산
+            double sumTier = 0;
+            int avgTier = 0;
+            List<MemberTeam> memberTeamList = team.getMembers();
+            for (MemberTeam memberTeam : memberTeamList) {
+                sumTier += memberTeam.getMember().getTier().getOrderNum();
+            }
 
-                avgTier = (int) (Math.round(sumTier / (double) memberTeamList.size()));  // 평균 티어
+            avgTier = (int) (Math.round(sumTier / (double) memberTeamList.size()));  // 평균 티어
 
-                try {
-                    teamResponseList.add(TeamResponse.builder()
+            try {
+                teamResponseList.add(TeamResponse.builder()
                         .name(team.getName())
                         .description(team.getDescription())
                         .imgByteArray(imageByteArray)
                         .tierResponse(tierRepository.findByOrderNum(avgTier).toTierResponse())
                         .build());
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                    throw new GetDataException("팀 조회를 실패 했습니다.");
-                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new TeamInvalidException();
             }
-
-            return teamResponseList;
-    }
-
-    public List<TeamResponse> getAllTeamList() throws GetDataException {
-        try {
-            return getTeamList(teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc());
-        } catch(Exception e) {
-            log.error(e.getMessage());
-            throw new GetDataException("팀 조회를 실패 했습니다.");
         }
+
+        return teamResponseList;
     }
 
-    public List<TeamResponse> getOrderTeamList() throws GetDataException {
-        List<TeamResponse> teamResponseList = getAllTeamList();
-        teamResponseList.sort((o1, o2) -> o2.getTierResponse().getOrderNum() - o1.getTierResponse().getOrderNum());
+    public List<TeamResponse> getAllTeamList() throws CustomException {
+        List<Team> teamList = new ArrayList<>();
         try {
-            return teamResponseList;
-        } catch(Exception e) {
+            teamList = teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc();
+        } catch (Exception e) {
             log.error(e.getMessage());
-            throw new GetDataException("팀 순위 조회를 실패 했습니다.");
+            throw new TeamInvalidException();
         }
+        return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getRecentTeamList() throws GetDataException {
+    public List<TeamResponse> getOrderTeamList() throws CustomException {
+        List<TeamResponse> teamResponseList = new ArrayList<>();
         try {
-            List<MemberTeam> memberTeamList = memberTeamRepository.findAllByOrderByUpdatedAtDesc();
-            List<Team> teamList = new ArrayList<>();
+            teamResponseList = getAllTeamList();
+            teamResponseList.sort((o1, o2) -> o2.getTierResponse().getOrderNum() - o1.getTierResponse().getOrderNum());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new TeamInvalidException();
+        }
+        return teamResponseList;
+    }
 
-            boolean flag = true;
+    public List<TeamResponse> getRecentTeamList() throws CustomException {
+        List<MemberTeam> memberTeamList = new ArrayList<>();
+        List<Team> teamList = new ArrayList<>();
+
+        try {
+            memberTeamList = memberTeamRepository.findAllByOrderByUpdatedAtDesc();
+        } catch (DataAccessException e) {
+            log.error(e.getMessage());
+            throw new TeamInvalidException();
+        }
+
+            boolean flag;
             for (MemberTeam memberTeam : memberTeamList) {
                 flag = true;
                 for (Team team : teamList) {
-                    if(team.getName().equals(memberTeam.getTeam().getName())) {
+                    if (team.getName().equals(memberTeam.getTeam().getName())) {  // 중복 제거
                         flag = false;
                         break;
                     }
                 }
 
-                if(flag) teamList.add(memberTeam.getTeam());
-                if(3 <= teamList.size()) break;
+                if (flag) teamList.add(memberTeam.getTeam());  // 중복 아니면 add
+                if (3 <= teamList.size()) break;  // 길이 3 채워지면 break
             }
 
             return getTeamList(teamList);
-        } catch(Exception e) {
-            log.error(e.getMessage());
-            throw new GetDataException("최근 팀 조회를 실패 했습니다.");
-        }
     }
 
     @Override
-    public List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException {
-        return getTeamList(teamRepository
-                .findAllByNameContainingOrDescriptionContainingAndSubmitAtIsNotNull(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr()));
+    public List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws CustomException {
+        if(searchTeamCommand.getSearchStr().trim().equals("")) throw new NotFoundException("검색어");
+        List<Team> teamList;
+        try {
+            teamList = teamRepository
+                    .findAllByNameContainingOrDescriptionContainingAndSubmitAtIsNotNull(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr());
+        } catch(DataAccessException e) {
+            throw new TeamInvalidException();
+        }
+        return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws GetDataException {
+    public List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws CustomException {
         List<MemberTeam> memberTeamList = memberRepository
                 .findByClientId(jwtUtil.getClientId(tokenCommand.getToken()))
-                .orElseThrow(() -> new GetDataException("회원 조회를 실패 했습니다."))
+                .orElseThrow(MemberNotFoundException::new)
                 .getTeams();
 
         List<Team> teamList = new ArrayList<>();
-        for(MemberTeam team : memberTeamList) {
+        for (MemberTeam team : memberTeamList) {
             teamList.add(team.getTeam());
         }
 
