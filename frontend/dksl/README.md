@@ -4,6 +4,20 @@
 1. ### pnpm 설치 안되어있을 시
 > `npm install -g pnpm` 선행
 
+- ### window에서 사용 시 이런 오류가 발생한다면
+> pnpm : 이 시스템에서 스크립트를 실행할 수 없으므로 파일을 로드할 수 없습니다. 자세한 내용은 aboutExecution
+> Policies(https://go.microsoft.com/fwlink/?LinkID=135170)를 참조하십시오.
+> 위치 줄:1 문자:1
+> +pnpm
+> +
+> +CategoryInfo : 보안 오류: (:) PSSecurityExcep
+1. windows PowerShell을 관리자 권한으로 실행
+2. Get-ExecutionPolicy 명령어 사용해 본인의 권한 상태 확인
+3. 권한이 RemoteSigned가 아니라면 Set-ExecutionPolicy RemoteSigned 를 입력
+4. Get-ExecutionPolicy 를 다시 사용하면 RemoteSigned로 변경 화인
+- [링크 참조](https://velog.io/@ariel1031/Next.js-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0)
+
+
 2. ### node_modules 디렉토리가 루트에 없을 시
 > `pnpm install` 선행
 
@@ -88,7 +102,7 @@ UI나 데이터 가공 및 처리와 UI는 여기서 담당.
 {
   "name": "dksl",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -106,9 +120,12 @@ UI나 데이터 가공 및 처리와 UI는 여기서 담당.
     "jotai": "^2.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.11",
     "react-router-dom": "^6.15.0",
+    "react-select": "^5.7.4",
     "styled-components": "^6.0.7",
-    "sweetalert2": "^11.7.27"
+    "sweetalert2": "^11.7.27",
+    "sweetalert2-react-content": "^5.0.7"
   },
   "devDependencies": {
     "@swc/core": "^1.3.82",
@@ -119,6 +136,7 @@ UI나 데이터 가공 및 처리와 UI는 여기서 담당.
     "@types/jest": "^29.5.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/styled-components": "^5.1.27",
     "@vitejs/plugin-react-swc": "^3.3.2",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
@@ -133,4 +151,5 @@ UI나 데이터 가공 및 처리와 UI는 여기서 담당.
   },
   "main": "vite.config.js"
 }
+
 ```
