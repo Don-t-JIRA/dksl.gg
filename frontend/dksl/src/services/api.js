@@ -24,17 +24,14 @@ const api = Axios.create({
 
 api.interceptors.request.use(
   function (config) {
-    // 요청 성공 직전 호출
     const access = sessionStorage.getItem('accessToken');
     if (access) {
       config.headers.Authorization = `Bearer ${access}`;
-      console.log('인터셉트해서 토큰 추가', access)
     } else {
       const response = useUpdateAuth();
 
       if (response) {
         config.headers.Authorization = `Bearer ${access}`;
-        console.log('인터셉트해서 토큰 추가', access)
       } else {
         Swal.fire('이런!', '로그인이 필요합니다', 'info');
       }
@@ -42,9 +39,21 @@ api.interceptors.request.use(
     return config;
   },
   function (error) {
-    // 요청 에러 직전 호출
     return Promise.reject(error);
   }
 );
+
+// // 응답 인터셉터 추가
+// axios.interceptors.response.use(
+//   function (response) {
+//     // 응답 데이터를 가공
+//     // ...
+//     return response;
+//   },
+//   function (error) {
+//     // 오류 응답을 처리
+//     // ...
+//     return Promise.reject(error);
+//   });
 
 export { auth, api };
