@@ -34,14 +34,24 @@ const TabReviewComponent = ({ reviewList }) => {
               <div className="review-body">
                 <S.CommentBox>
                   <div className="profile-section">
-                    <div className="profile"></div>
-                    <div className="time"></div>
+                    <div className="profile">
+                      <img src="/image/react.svg" alt="icons" className="icon" />
+                      <img src="/image/rank-icons/master.png" alt="tier" className="tier" />
+                      <p className="name">Meannnn</p>
+                    </div>
+                    <p className="time">2019-11-12 16:34</p>
                   </div>
                   <div className="content-section">
-                    <p className="content"></p>
+                    <p className="content">
+                      착한 유저입니다!
+                    </p>
                   </div>
                 </S.CommentBox>
               </div>
+            </div>
+            <div className="search-input">
+              <input placeholder="" ref={search} />
+              <img src="/image/send.png" onClick={() => onSearch()} />
             </div>
           </S.ReviewContainer>
         )

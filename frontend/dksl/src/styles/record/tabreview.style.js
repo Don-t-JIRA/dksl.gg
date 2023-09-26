@@ -78,9 +78,49 @@ export const EmptyReviewLayout = styled.div`
 export const ReviewContainer = styled.div`
   ${Card}
   width: 100%;
+  min-width: 450px;
   max-width: 860px;
   height: 100%;
-  min-height: 744px;
+
+  
+  & .search-input {
+    width: 95%;
+    margin: 0.75rem auto;
+    margin-top: 0;
+    position: relative;
+    display: flex;
+    align-self: center;
+  }
+
+  & .search-input input {
+    width: 100%;
+    height: 3rem;
+    padding: 0 2.5%;
+    margin: 1.5rem 0.5%;
+    margin-bottom: 0.5rem;
+    margin-top: 1rem;
+    font-size: medium;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+
+  & .search-input img {
+    position: absolute;
+    z-index: 10;
+    width: 2rem;
+    top: 10px;
+    right: 15px;
+    margin-top: 1rem;
+    margin-bottom: auto;
+    align-items: center;
+    transition: all 0.5s;
+
+    &:hover {
+      width: 2.5rem;
+      top: 5px;
+      right: 12.5px;
+    }
+  }
 `;
 
 export const CommentBox = styled.div`
@@ -90,19 +130,61 @@ export const CommentBox = styled.div`
   background-color: #F6F4F4;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: end;
+  border: 1px solid #E7E7E7;
+  border-radius: 5px;
+  font-weight: 600;
+  /* filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38)); */
 
   & .profile-section {
     width: 95%;
+    display: flex;
     flex-basis: 30%;
     margin: 2px 2.5%;
+
+    & p {
+      margin: 0;
+      font-size: large;      
+      margin-left: .5rem;
+    }
+
+    & .profile {
+      display: flex;
+      flex-basis: 50%;
+      max-height: 55px;
+      justify-content: start;
+      align-items: center;
+
+      & .icon {
+        max-width: 40px;
+        max-height: 40px;
+      }
+
+      & .tier {
+        max-width: 60px;
+        max-height: 50px;
+      }
+    }
+
+    & .time {
+      display: flex;
+      flex-basis: 50%;
+      justify-content: end;
+      margin-top: .5rem;
+    }
   }
 
   & .content-section {
-    width: 95%;
+    width: 96%;
     flex-basis: 70%;
     min-height: 55px;
-    margin: 2px 2.5%;
+    margin: 2%;
+    margin-top: 0;
     background-color: #E7E7E7;
+    border-radius: 5px;
+
+    & .content {
+      margin-left: 1rem;
+    }
   }
 `

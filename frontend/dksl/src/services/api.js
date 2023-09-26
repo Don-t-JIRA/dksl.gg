@@ -20,7 +20,7 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${access}`;
       console.log('인터셉트해서 토큰 추가', access)
     } else {
-      throw new Error('토큰 정보 없음');
+      console.log('토큰 정보 없음, Login | Singup 둘 중 하나인지');
     }
     return config;
   },

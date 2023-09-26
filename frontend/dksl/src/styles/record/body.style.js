@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const RecordLayout = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100%;
   background-color: var(--mainbg);
 `;
@@ -19,6 +19,7 @@ export const TabLayout = styled.div`
 
   & .tab .tab-title {
     width: 40%;
+    min-width: 360px;
     height: 8vh;
     display: flex;
     margin: .2rem;
@@ -28,7 +29,8 @@ export const TabLayout = styled.div`
   }
 
   & .tab-body {
-    width: 75%;
+    width: 90%;
+    max-width: 1200px;
     height: 100%;
     margin-left: auto;
     margin-right: auto;

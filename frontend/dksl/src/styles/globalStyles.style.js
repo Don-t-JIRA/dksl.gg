@@ -16,9 +16,13 @@ const GlobalStyles = createGlobalStyle`
   line-height: 1.5;
   font-weight: 400;
 
-  /* color-scheme: light dark; */
-  /* color: rgba(255, 255, 255, 0.87); */
+  width: 100vw !important;
+  height: 100vh !important;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
   background-color: #f0f0f0;
+  background-attachment: fixed;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -175,7 +179,7 @@ export const Card = css`
     padding: 1.2rem 0;
     padding-left: 3%;
     border-bottom: 1px solid #dfdfdf;
-    font-size: medium;
+    font-size: large;
     font-weight: bold;
   }
 `;

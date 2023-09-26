@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ProfileLayout = styled.div`
   width: 100%;
   height: 48vh;
-  margin-top: 7.5vh;
+  margin-top: 8vh;
   padding-left: 20%;
   padding-right: 20%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),

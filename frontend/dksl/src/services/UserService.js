@@ -4,6 +4,7 @@ import api from './api';
 import Swal from 'sweetalert2';
 
 const register = async (data) => {
+  api.defaults.headers.common['Authorization'] = ``;
   try {
     const response = await api.post(
       '/member/register',
@@ -19,6 +20,7 @@ const register = async (data) => {
 };
 
 const signIn = async (data) => {
+  api.defaults.headers.common['Authorization'] = ``;
   try {
     const response = await api.post(
       '/member/login',
@@ -31,7 +33,7 @@ const signIn = async (data) => {
       sessionStorage.setItem('accessToken', response.data.accessToken);
       sessionStorage.setItem('refreshToken', response.data.resfreshToken);
     }
-    
+
     return response;
   } catch (error) {
     Swal.fire('Error', error.respnose.data, 'error');
