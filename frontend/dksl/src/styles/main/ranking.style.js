@@ -3,14 +3,17 @@ import { Card } from '../globalStyles.style';
 
 export const RankingLayout = styled.div`
   width: 100%;
+  max-width: 100vw;
   min-height: 50vh;
   height: 100%;
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 
   & .container {
     ${Card}
     width: 25vw;
+    min-width: 360px;
     height: 50%;
     margin: 2rem;
   }

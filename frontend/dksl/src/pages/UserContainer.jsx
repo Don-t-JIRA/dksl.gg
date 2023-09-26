@@ -11,7 +11,7 @@ import { signIn } from '../services/UserService';
 // Sweetalert
 import Swal from 'sweetalert2';
 // Jotai
-// import { useAuth, useUpdateAuth } from '../jotai/auth';
+import { useAuth, useUpdateAuth } from '../jotai/auth';
 
 const UserContainer = () => {
   const navigate = useNavigate();
@@ -25,7 +25,8 @@ const UserContainer = () => {
   const [path, setPath] = useState(null);
   const url = useLocation();
 
-  // const auth = useAuth();
+  const auth = useAuth();
+  const updateAuth = useUpdateAuth();
 
   const onSubmit = async () => {
     const data = await register(signup);
@@ -38,7 +39,7 @@ const UserContainer = () => {
   const onSignIn = async () => {
     const data = await signIn(signin);
     if (data.status == 200) {
-
+      updateAuth();
       Swal.fire('알림', '로그인에 성공하셨습니다.', 'success');
       navigate('/');
       
@@ -46,13 +47,13 @@ const UserContainer = () => {
   }
 
   useEffect(() => {
-    // if (auth) {
-    //   navigate('/');
-    // }
+    if (auth) {
+      navigate('/');
+    }
     if (path == null) {
       setPath(url.pathname);
     }
-  }, [url]);
+  }, [auth, url, path, navigate]);
   
   return (
     <>

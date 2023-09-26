@@ -3,11 +3,14 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
+import { useAuth } from '../../jotai/auth';
 
 const HeaderComponent = () => {
+  const auth = useAuth();
   const search = useRef();
   const navigate = useNavigate();
-  const token = null;
+  const token = auth ? auth.name : null;
+  // const token = null;
 
   const setNavigate = (url) => {
     navigate(url);

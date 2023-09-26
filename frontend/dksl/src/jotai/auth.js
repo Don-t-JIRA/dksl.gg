@@ -1,6 +1,6 @@
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithDefault } from 'jotai/utils';
-import { getMember } from '../services/UserService';
+import { getMember, reAccessToken } from '../services/UserService';
 
 const getAuth = async () => {
   const token = {
@@ -13,8 +13,8 @@ const getAuth = async () => {
     if (reAuth.status == 200) return reAuth.data;
   }
 
-  if (token.refres) {
-    const reAccess = await reAccessToken();
+  if (token.refresh) {
+    const reAccess = await reAccessToken(token.refresh);
     if (reAccess.status == 200) {
       sessionStorage.setItem('accessToken', reAccess.data.accessToken);
 

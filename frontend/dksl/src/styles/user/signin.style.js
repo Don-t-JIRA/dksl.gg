@@ -16,8 +16,8 @@ export const SigninLayout = styled.div`
 `
 
 export const SigninContainer = styled.div`
-  min-width: 40vw;
-  max-width: 80vw;
+  min-width: 373px;
+  width: 40%;
   min-height: 50vh;
   padding: 1rem;
   background-color: white;
@@ -57,6 +57,7 @@ export const SigninInputBox = styled.div`
 
   & input {
     width: 100%;
+    min-width: 240px;
     height: 2rem;
     margin: .5rem;
     padding: .25rem;
@@ -69,6 +70,7 @@ export const SigninInputBox = styled.div`
 
 export const SigninBtnBox = styled.div`
   width: 100%;
+  min-width: 240px;
   display: flex;
   justify-content: end;
   margin-top: 1.25rem;
