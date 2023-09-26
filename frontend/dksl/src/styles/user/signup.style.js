@@ -32,6 +32,7 @@ export const SignupContainer = styled.div`
   display: flex;
 
   & .box {
+    min-width: 180px;
     flex-basis: 50%;
     align-self: center;
     margin-bottom: 3rem;
@@ -56,6 +57,7 @@ export const SignupContainer = styled.div`
 
 export const SignupInputBox = styled.div`
   width: 30vw;
+  min-width: 180px;
   display: flex;
   flex-direction: column;
   flex-basis: 50%;

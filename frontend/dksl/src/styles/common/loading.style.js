@@ -1,11 +1,9 @@
 import styled from 'styled-components';
 
 export const LoadingLayout = styled.section`
-  min-width: 200px;
   width: 100%;
   min-height: 40vh;
   height: 100%;
-  padding: 10px;
   position: relative;
   display: flex;
   align-items: center;

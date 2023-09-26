@@ -54,6 +54,7 @@ export const MenuContainer = styled.div`
 
   & .search-input input {
     width: 100%;
+    min-width: 180px;
     height: 3rem;
     padding: 0 2.5%;
     margin: 1.5rem 0.5%;
@@ -65,20 +66,19 @@ export const MenuContainer = styled.div`
   }
 
   & .search-input img {
-    position: absolute;
+    position: relative;
     z-index: 10;
     width: 8%;
-    top: 5px;
-    right: 15px;
+    min-width: 28px;
+    top: 10px;
+    right: 30px;
     margin-top: 1rem;
     margin-bottom: auto;
     align-items: center;
     transition: all 0.5s;
 
     &:hover {
-      width: 9%;
-      top: 4px;
-      right: 12.5px;
+      transform: scale(1.1);
     }
   }
 `;

@@ -5,10 +5,13 @@ export const TabGroupLayout = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
+  /* flex-wrap: wrap; */
 `;
 
 export const LeftLayout = styled.div`
+  width: 40%;
   flex-basis: 40%;
+  min-width: 260px;
 
   & .select-box {
     margin-top: 1.5rem;
@@ -16,9 +19,18 @@ export const LeftLayout = styled.div`
 
   & .group-profile {
     ${Card}
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
     & .profile-body {
+      width: 100%;
       display: flex;
+      align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
 
       & .profile-img {
@@ -82,6 +94,8 @@ export const LeftLayout = styled.div`
 
   & .group-ranking {
     ${Card}
+    width: 100%;
+    box-sizing: border-box;
     padding-bottom: 2rem;
 
     & .ranking-table {
@@ -141,11 +155,15 @@ export const LeftLayout = styled.div`
 `;
 
 export const RightLayout = styled.div`
+  width: 60%;
   flex-basis: 60%;
+  min-width: 400px;
   padding: 1rem;
 
   & .mygroup-ranking {
     ${Card}
+    width: 100%;
+    box-sizing: border-box;
 
     & .radio-group {
       width: 100%;
