@@ -5,6 +5,11 @@ const BASE_URL = 'http://70.12.247.95:8080';
 
 const api = Axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json;charset=UTF-8",
+    "Access-Control-Allow-Origin": `http://localhost:3000/`,
+  },
 });
 
 api.interceptors.request.use(
