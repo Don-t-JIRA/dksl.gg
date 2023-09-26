@@ -27,11 +27,11 @@ public class Evaluation extends Base {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluator_id", nullable = false)
-    private User evaluator;
+    private Member evaluator;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "evaluatee_id", nullable = false)
-    private User evaluatee;
+    private Member evaluatee;
 
     @NotNull
     @Min(1) @Max(5)

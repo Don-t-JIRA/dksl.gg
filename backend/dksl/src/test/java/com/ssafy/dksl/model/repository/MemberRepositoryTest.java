@@ -1,20 +1,23 @@
 package com.ssafy.dksl.model.repository;
 
 import com.ssafy.dksl.model.entity.Member;
+import com.ssafy.dksl.config.JpaAuditingConfig;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@DataJpaTest
 @ActiveProfiles("test")
-@Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(JpaAuditingConfig.class)
 class MemberRepositoryTest {
 
     @Autowired
@@ -28,7 +31,7 @@ class MemberRepositoryTest {
 
         Member member = Member.builder()
                 .clientId(cliendId)
-                .deleted_at(LocalDateTime.now())
+                .deletedAt(LocalDateTime.now())
                 .name("testUser1")
                 .password("clientPassword")
                 .puuid("testPUUID")
@@ -53,7 +56,7 @@ class MemberRepositoryTest {
 
         Member member = Member.builder()
                 .clientId("clientId1")
-                .deleted_at(LocalDateTime.now())
+                .deletedAt(LocalDateTime.now())
                 .name(gameName)
                 .password("clientPassword")
                 .puuid("testPUUID")

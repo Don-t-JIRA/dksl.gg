@@ -10,9 +10,9 @@ import com.ssafy.dksl.model.dto.response.EvaluationSearchInfoResponseDto;
 import com.ssafy.dksl.model.dto.response.EvaluationSearchResponseDto;
 import com.ssafy.dksl.model.dto.response.EvaluationUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Evaluation;
-import com.ssafy.dksl.model.entity.User;
+import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.repository.EvaluationRepository;
-import com.ssafy.dksl.model.repository.UserRepository;
+import com.ssafy.dksl.model.repository.*;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.assertj.core.api.Assertions;
@@ -37,7 +37,7 @@ class EvaluationServiceTest {
     EvaluationService evaluationService;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     EvaluationRepository evaluationRepository;
@@ -49,15 +49,15 @@ class EvaluationServiceTest {
     @Test
     void findEvaluations() throws InterruptedException, NoEvaluationException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        List<User> evaluators = new ArrayList<>();
+        List<Member> evaluators = new ArrayList<>();
         for(int i = 0; i<5; i++){
-            evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
+            evaluators.add(createMember("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
-        userRepository.save(evaluatee);
-        userRepository.saveAll(evaluators);
+        memberRepository.save(evaluatee);
+        memberRepository.saveAll(evaluators);
 
         for(int i = 0; i<20; i++){
             evaluationRepository.save(createEvaluation(evaluatee, evaluators.get(i % 5), "testEvaluation" + i, i % 5 + 1));
@@ -87,15 +87,15 @@ class EvaluationServiceTest {
     @Test
     void findEvaluationsWithoutEvaluation() throws InterruptedException, NoEvaluationException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        List<User> evaluators = new ArrayList<>();
+        List<Member> evaluators = new ArrayList<>();
         for(int i = 0; i<5; i++){
-            evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
+            evaluators.add(createMember("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
-        userRepository.save(evaluatee);
-        userRepository.saveAll(evaluators);
+        memberRepository.save(evaluatee);
+        memberRepository.saveAll(evaluators);
 
         // when then
         Assertions.assertThatThrownBy(() -> evaluationService.findEvaluations(evaluatee.getName(), 1))
@@ -107,11 +107,11 @@ class EvaluationServiceTest {
     @Test
     void createEvaluation() throws NonExistSummonerException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluatee);
-        userRepository.save(evaluator);
+        memberRepository.save(evaluatee);
+        memberRepository.save(evaluator);
 
         EvaluationCreateRequestDto requestDto = EvaluationCreateRequestDto.builder()
                 .evaluateeName("testEvaluateeName")
@@ -131,9 +131,9 @@ class EvaluationServiceTest {
     @Test
     void createEvaluationWithoutEvaluatee() throws NonExistSummonerException {
         // given
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluator);
+        memberRepository.save(evaluator);
 
         EvaluationCreateRequestDto requestDto = EvaluationCreateRequestDto.builder()
                 .evaluateeName("testEvaluateeName")
@@ -152,9 +152,9 @@ class EvaluationServiceTest {
     @Test
     void createEvaluationWithoutEvaluator() throws NonExistSummonerException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        userRepository.save(evaluatee);
+        memberRepository.save(evaluatee);
 
         EvaluationCreateRequestDto requestDto = EvaluationCreateRequestDto.builder()
                 .evaluateeName("testEvaluateeName")
@@ -179,11 +179,11 @@ class EvaluationServiceTest {
         int beforeScore = 3;
         int afterScore = 4;
 
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluatee);
-        userRepository.save(evaluator);
+        memberRepository.save(evaluatee);
+        memberRepository.save(evaluator);
 
         Evaluation savedEvaluation = evaluationRepository.save(createEvaluation(evaluatee, evaluator, beforeEvaluation, beforeScore));
 
@@ -213,11 +213,11 @@ class EvaluationServiceTest {
 
         int score = 4;
 
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluatee);
-        userRepository.save(evaluator);
+        memberRepository.save(evaluatee);
+        memberRepository.save(evaluator);
 
         EvaluationUpdateRequestDto requestDto = EvaluationUpdateRequestDto.builder()
                 .id(1L)
@@ -235,11 +235,11 @@ class EvaluationServiceTest {
     @Test
     void deleteEvaluation() throws EvaluationNotExistException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluatee);
-        userRepository.save(evaluator);
+        memberRepository.save(evaluatee);
+        memberRepository.save(evaluator);
 
         Evaluation savedEvaluation = evaluationRepository.save(createEvaluation(evaluatee, evaluator, "testEvaluation", 3));
 
@@ -261,11 +261,11 @@ class EvaluationServiceTest {
     @Test
     void deleteNonExistEvaluation() {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
-        User evaluator = createUser("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluator = createMember("testEvaluator", "testEvaluatorPassword", "testEvaluatorPUUID", "testEvaluatorName");
 
-        userRepository.save(evaluatee);
-        userRepository.save(evaluator);
+        memberRepository.save(evaluatee);
+        memberRepository.save(evaluator);
 
         EvaluationDeleteRequestDto requestDto = EvaluationDeleteRequestDto.builder()
                 .id(1L)
@@ -277,7 +277,7 @@ class EvaluationServiceTest {
                 .hasMessage("존재하지 않는 소환사 평가입니다.");
     }
 
-    private Evaluation createEvaluation(User evaluatee, User evaluator, String evaluation, int score) {
+    private Evaluation createEvaluation(Member evaluatee, Member evaluator, String evaluation, int score) {
         return Evaluation.builder()
                 .evaluatee(evaluatee)
                 .evaluation(evaluation)
@@ -286,8 +286,8 @@ class EvaluationServiceTest {
                 .build();
     }
 
-    private User createUser(String clientId, String password, String puuid, String name) {
-        return User.builder()
+    private Member createMember(String clientId, String password, String puuid, String name) {
+        return Member.builder()
                 .clientId(clientId)
                 .password(password)
                 .puuid(puuid)
