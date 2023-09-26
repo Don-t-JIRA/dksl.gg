@@ -21,5 +21,5 @@ public interface TeamService {
     List<TeamResponse> getOrderTeamList() throws CustomException;
     List<TeamResponse> getRecentTeamList() throws CustomException;
     List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws CustomException;
-    List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws CustomException;
+    List<TeamResponse> getSummonerTeamList(SearchTeamCommand searchTeamCommand) throws CustomException;
 }
