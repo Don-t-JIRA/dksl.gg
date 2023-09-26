@@ -89,11 +89,11 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return db_obj
 
     def create_multiple(
-        self,
-        *,
-        obj_in_list: List[Union[CreateSchemaType, ModelType]],
-        created_by_id: Optional[Union[UUID, str]] = None,
-        db_session=None,
+            self,
+            *,
+            obj_in_list: List[Union[CreateSchemaType, ModelType]],
+            created_by_id: Optional[Union[UUID, str]] = None,
+            db_session=None,
     ) -> ModelType:
         db_session = db_session
 
@@ -108,15 +108,10 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
             db_obj_list.append(db_obj)
 
-        try:
-            db_session.add_all(db_obj_list)
-            db_session.commit()
-        except exc.IntegrityError:
-            db_session.rollback()
-            raise HTTPException(
-                status_code=409,
-                detail="Resource already exists",
-            )
+        # 예외 처리를 제거하고 중복 데이터를 무시합니다.
+        db_session.add_all(db_obj_list)
+        db_session.commit()
+
         # refresh 의 역할?
         # db_session.refresh(db_obj)
         return db_obj

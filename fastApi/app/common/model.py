@@ -24,7 +24,6 @@ class SQLModel(_SQLModel):
 class BaseIdModel(SQLModel):
     id: Optional[int] = Field(
         primary_key=True,
-        index=True,
         nullable=False,
     )
     updated_at: datetime = Field(
@@ -75,11 +74,12 @@ class Champions(SQLModel, table=True):
     )
 
 
-class Items(BaseIdModel, table=True):
+class Items(SQLModel, table=True):
     __tablename__ = "ITEMS"
+    id: int = Field(index=True, primary_key=True, description="item의 고유 id")
     name: str = Field(max_length=50, nullable=False,description="item 의 이름이다.")
     image_url: str = Field(
-        max_length=2083, nullable=True, description="champion 에 해당하는 image 의 url 값이다."
+        max_length=2083, nullable=True, description="item 에 해당하는 image 의 url 값이다."
     )
 
 
@@ -96,8 +96,9 @@ class Lines(SQLModel, table=True):
     )
 
 
-class Profile_icons(BaseIdModel, table=True):
+class Profile_icons(SQLModel, table=True):
     __tablename__ = "PROFILE_ICONS"
+    id: int = Field(index=True, primary_key=True, description="profile icon의 고유 id")
     image_url: str = Field(
         max_length=2083,
         nullable=True,
@@ -105,8 +106,9 @@ class Profile_icons(BaseIdModel, table=True):
     )
 
 
-class Queues(BaseIdModel, table=True):
+class Queues(SQLModel, table=True):
     __tablename__ = "QUEUES"
+    id: int = Field(index=True, primary_key=True, description="queue type의 고유 id")
     type: str = Field(
         max_length=30,
         nullable=False,
@@ -115,28 +117,14 @@ class Queues(BaseIdModel, table=True):
     )
 
 
-class Runes(BaseIdModel, table=True):
+class Runes(SQLModel, table=True):
     __tablename__ = "RUNES"
+    id: int = Field(index=True, primary_key=True, description="rune의 고유 id")
     name: str = Field(
         max_length=20, nullable=False, unique=True, description="rune 의 이름이다."
     )
     image_url: str = Field(
         max_length=2083, nullable=True, description="rune 에 해당하는 image 의 url 값이다."
-    )
-
-
-class Schools(BaseIdModel, table=True):
-    __tablename__ = "SCHOOLS"
-    name: str = Field(
-        max_length=25,
-        nullable=False,
-        unique=True,
-        description="user가 다니는school의 이름이다. 각 user가 속한 학교의 이름을 알리는데 필요하다.",
-    )
-    school_type: str = Field(
-        max_length=1,
-        nullable=True,
-        description="초등학교, 중학교, 고등학교, 대학교를 구분한 요소이다. 학교별 구분을 용이하게 하는 목적으로 사용한다.",
     )
 
 
@@ -150,8 +138,9 @@ class Tiers(BaseIdModel, table=True):
     )
 
 
-class Spells(BaseIdModel, table=True):
+class Spells(SQLModel, table=True):
     __tablename__ = "SPELLS"
+    id: int = Field(index=True, primary_key=True, description="summoner cast의 고유 id")
     name: str = Field(
         max_length=30, nullable=False, unique=True, description="spell의 공식 명칭이다."
     )
