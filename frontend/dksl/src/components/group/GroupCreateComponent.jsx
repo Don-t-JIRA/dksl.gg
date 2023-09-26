@@ -23,13 +23,13 @@ const GroupCreateComponent = () => {
           <S.LabelForFile htmlFor="swal-input">
             <img className="preview" src={src} alt="image upload" />
           </S.LabelForFile>
-          <input type="file" id="swal-input" ref={fileDOM} />
+          <input type="file" id="img" ref={fileDOM} />
         </div>
         <div className="input-title">
           <label htmlFor="swal-input1">소속 이름</label>
           <input
             type="text"
-            id="swal-input1"
+            id="name"
             placeholder="소속의 이름을 입력해주세요."
           />
         </div>
@@ -38,7 +38,7 @@ const GroupCreateComponent = () => {
         <div className="input-description">
           <label htmlFor="swal-input2">소속 소개</label>
           <textarea
-            id="swal-input2"
+            id="description"
             className="input-description"
             placeholder="소속의 소개를 적어주세요."
           />

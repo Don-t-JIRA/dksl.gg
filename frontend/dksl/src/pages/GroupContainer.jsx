@@ -31,11 +31,11 @@ const GroupContainer = () => {
       confirmButtonText: '생성 요청',
       focusConfirm: false,
       preConfirm: async () => {
-        const values = [
-          document.getElementById('swal-input').value,
-          document.getElementById('swal-input1').value,
-          document.getElementById('swal-input2').value,
-        ];
+        const values = {
+          'name': document.getElementById('name').value,
+          'description': document.getElementById('description').value,
+          'img': document.getElementById('img').files[0]
+        }
         // const data = await setNewGroup(values);
         await console.log(values);
 
@@ -69,7 +69,6 @@ const GroupContainer = () => {
     };
 
     if (path == '/group/main') {
-      console.log(url);
       fetchData();
     } else {
       console.log(url);

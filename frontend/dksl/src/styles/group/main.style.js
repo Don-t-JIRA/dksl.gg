@@ -21,8 +21,7 @@ export const MainContainer = styled.div`
   & .create-btn-box {
     width: 100%;
     height: 32vh;
-    max-height: 260px;
-    min-height: 200px;
+    min-height: 260px;
     display: flex;
     flex-direction: column;
     padding: 5%;

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const HeaderLayout = styled.div`
   width: 100vw;
   height: 12.5vh;
-  min-height: 105.5px;
+  min-height: 90px;
   position: fixed;
   background-color: #ffffff;
   filter: drop-shadow(0 0.5mm 0.75rem gray);

@@ -82,3 +82,8 @@ export const ReviewContainer = styled.div`
   height: 100%;
   min-height: 744px;
 `;
+
+export const CommentBox = styled.div`
+  width: 94%;
+  margin: 5px 3%;
+`

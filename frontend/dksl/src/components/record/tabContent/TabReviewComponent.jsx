@@ -7,7 +7,7 @@ import LoadingComponent from '../../common/LoadingComponent';
 
 const TabReviewComponent = ({ reviewList }) => {
   const search = useRef();
-  reviewList = ['NoDadsta'];
+  reviewList = ['NoDasdta'];
 
   const onSearch = () => {
     console.log(search.current.value);
@@ -31,7 +31,10 @@ const TabReviewComponent = ({ reviewList }) => {
           <S.ReviewContainer>
             <div className="review-box">
               <p className="title">&#127969; 리뷰</p>
-              <div className="review-body"></div>
+              <div className="review-body">
+                
+
+              </div>
             </div>
           </S.ReviewContainer>
         )
