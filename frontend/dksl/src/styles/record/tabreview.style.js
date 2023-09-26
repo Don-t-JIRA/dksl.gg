@@ -101,8 +101,8 @@ export const CommentBox = styled.div`
   & .content-section {
     width: 95%;
     flex-basis: 70%;
+    min-height: 55px;
     margin: 2px 2.5%;
-    margin-bottom: 2%;
     background-color: #E7E7E7;
   }
 `
