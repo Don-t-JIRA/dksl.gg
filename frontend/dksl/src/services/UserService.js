@@ -1,16 +1,13 @@
 // User API (Axios)
-import api from './api';
+import auth from './api';
 // Swal
 import Swal from 'sweetalert2';
 
 const register = async (data) => {
-  api.defaults.headers.common['Authorization'] = ``;
   try {
-    const response = await api.post(
+    const response = await auth.post(
       '/member/register',
-      JSON.stringify(data), {
-        withCredentials: false
-      }
+      JSON.stringify(data)
     );
 
     return response;
@@ -20,13 +17,10 @@ const register = async (data) => {
 };
 
 const signIn = async (data) => {
-  api.defaults.headers.common['Authorization'] = ``;
   try {
-    const response = await api.post(
+    const response = await auth.post(
       '/member/login',
-      JSON.stringify(data), {
-        withCredentials: false
-      }
+      JSON.stringify(data)
     );
     
     if (response.status == 200) {
@@ -42,7 +36,7 @@ const signIn = async (data) => {
 
 const getMember = async () => {
   try {
-    const response = await api.get('/member');
+    const response = await auth.get('/member');
     return response;
   } catch (error) {
     console.log(error.response.data);

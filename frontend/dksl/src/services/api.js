@@ -3,6 +3,14 @@ import Axios from 'axios';
 // const BASE_URL = 'http://192.168.0.11:8080';
 const BASE_URL = 'http://70.12.247.95:8080';
 
+const auth = Axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json;charset=UTF-8",
+    "Access-Control-Allow-Origin": 'http://localhost:3000/',
+  }
+});
+
 const api = Axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
@@ -30,4 +38,4 @@ api.interceptors.request.use(
   }
 );
 
-export default api;
+export { api, auth };
