@@ -1,8 +1,8 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.exception.EvaluationNotExistException;
-import com.ssafy.dksl.exception.NoEvaluationException;
-import com.ssafy.dksl.exception.NonExistSummonerException;
+import com.ssafy.dksl.util.exception.EvaluationNotExistException;
+import com.ssafy.dksl.util.exception.NoEvaluationException;
+import com.ssafy.dksl.util.exception.NonExistSummonerException;
 import com.ssafy.dksl.model.dto.request.EvaluationCreateRequestDto;
 import com.ssafy.dksl.model.dto.request.EvaluationDeleteRequestDto;
 import com.ssafy.dksl.model.dto.request.EvaluationUpdateRequestDto;

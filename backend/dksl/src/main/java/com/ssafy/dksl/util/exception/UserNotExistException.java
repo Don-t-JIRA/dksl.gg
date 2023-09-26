@@ -1,4 +1,4 @@
-package com.ssafy.dksl.exception;
+package com.ssafy.dksl.util.exception;
 
 public class UserNotExistException extends Exception{
     public UserNotExistException() {

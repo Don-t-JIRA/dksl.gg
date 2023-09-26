@@ -1,7 +1,7 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.exception.NonExistReviewException;
-import com.ssafy.dksl.exception.UserNotExistException;
+import com.ssafy.dksl.util.exception.NonExistReviewException;
+import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
