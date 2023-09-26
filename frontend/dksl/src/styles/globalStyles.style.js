@@ -1,10 +1,6 @@
 import { createGlobalStyle, css } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`
-@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-* {
-  font-family: 'Nanum Gothic', sans-serif;
-}
 
 #root {
   width: 100vw;

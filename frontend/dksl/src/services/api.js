@@ -1,4 +1,6 @@
 import Axios from 'axios';
+import { useUpdateAuth } from '../jotai/auth';
+import Swal from 'sweetalert2';
 
 // const BASE_URL = 'http://192.168.0.11:8080';
 const BASE_URL = 'http://70.12.247.95:8080';
@@ -28,7 +30,14 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${access}`;
       console.log('인터셉트해서 토큰 추가', access)
     } else {
-      console.log('토큰 정보 없음, Login | Singup 둘 중 하나인지');
+      const response = useUpdateAuth();
+
+      if (response) {
+        config.headers.Authorization = `Bearer ${access}`;
+        console.log('인터셉트해서 토큰 추가', access)
+      } else {
+        Swal.fire('이런!', '로그인이 필요합니다', 'info');
+      }
     }
     return config;
   },
@@ -38,4 +47,4 @@ api.interceptors.request.use(
   }
 );
 
-export { api, auth };
+export { auth, api };
