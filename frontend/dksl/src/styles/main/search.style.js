@@ -17,7 +17,8 @@ export const SearchLayout = styled.div`
   }
 
   & .container .title {
-    margin: 2rem;
+    width: fit-content;
+    margin: 2rem auto;
     margin-top: -2rem;
     font-weight: bold;
     color: #ffffff;
@@ -25,7 +26,7 @@ export const SearchLayout = styled.div`
     place-items: center;
 
     & .typing {
-      width: 21ch;
+      width: 100%;
       animation:
         typing 2s steps(21),
         blink 0.5s step-end infinite alternate;
@@ -37,14 +38,19 @@ export const SearchLayout = styled.div`
   }
 
   & .container .box {
-    width: 30%;
+    width: 50%;
+    max-width: 550px;
     margin: auto;
     position: relative;
+    display: flex;
+    align-self: center;
   }
 
   & .container .box input {
     width: 90%;
+    min-width: 260px;
     height: 2.25rem;
+    margin: 0 auto;
     padding: 5px 5%;
     border: none;
     border-radius: 5px;
@@ -57,18 +63,15 @@ export const SearchLayout = styled.div`
   }
 
   & .container .box img {
-    position: absolute;
-    width: 2rem;
-    top: 5px;
-    right: 15px;
+    position: relative;
+    width: 28px;
+    right: 35px;
     margin-top: 1px;
     margin-bottom: 1px;
     transition: all 0.5s;
 
     &:hover {
-      width: 2.35rem;
-      top: 4px;
-      right: 12.5px;
+      transform: scale(1.1);
     }
   }
 `;

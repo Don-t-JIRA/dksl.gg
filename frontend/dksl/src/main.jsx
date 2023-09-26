@@ -1,5 +1,5 @@
 // React, router
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -15,6 +15,7 @@ import RecordContainer from './pages/RecordContainer.jsx';
 import GroupContainer from './pages/GroupContainer.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
+import LoadingComponent from './components/common/LoadingComponent.jsx';
 
 // Routing 설정
 const router = createBrowserRouter([
@@ -30,7 +31,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider>
       <GlobalStyles />
       <React.StrictMode>
-        <RouterProvider router={router} />
+        <Suspense fallback={<LoadingComponent />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </React.StrictMode>
     </Provider>
   </ErrorBoundary>

@@ -6,16 +6,20 @@ export const TabMainLayout = styled.div`
   height: 100%;
   padding-bottom: 3rem;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 `;
 
 export const LeftLayout = styled.div`
   width: 30%;
+  min-width: 300px;
   height: 100%;
   padding-top: 4.3rem;
 `;
 
 export const RightLayout = styled.div`
   width: 70%;
+  min-width: 700px;
   height: 100%;
 
   & .rank-type {
@@ -175,7 +179,8 @@ export const RecentCard = styled.div`
 
     & .percentage-pie {
       width: 100%;
-      height: 10vw;
+      height: 75%;
+      position: relative;
       display: flex;
       align-items: center;
 
