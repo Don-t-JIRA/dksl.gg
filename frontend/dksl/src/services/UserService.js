@@ -4,37 +4,47 @@ import api from './api';
 import Swal from 'sweetalert2';
 
 const register = async (data) => {
-  const response = await api.post(
-    '/user/register',
-    JSON.stringify(data), 
-    {
-      headers: {
-        "Content-Type": "application/json;",
-        "Access-Control-Allow-Origin": `http://localhost:3000/`,
-      },
-    }
-  ).catch((err) => {
-    Swal.fire('Error', err.message, 'error');
-  });
-  
-  return response.data;
+  try {
+    const response = await api.post(
+      '/member/register',
+      JSON.stringify(data), {
+        withCredentials: false
+      }
+    );
+
+    return response;
+  } catch (error) {
+    Swal.fire('Error', error.respnose.data, 'error');
+  }
 };
 
 const signIn = async (data) => {
-  const response = await api.post(
-    '/user/login',
-    JSON.stringify(data),
-    {
-      headers: {
-        "Content-Type": "application/json;charset=UTF-8",
-        "Access-Control-Allow-Origin": `http://localhost:3000/`,
-      },
+  try {
+    const response = await api.post(
+      '/member/login',
+      JSON.stringify(data), {
+        withCredentials: false
+      }
+    );
+    
+    if (response.status == 200) {
+      sessionStorage.setItem('accessToken', response.data.accessToken);
+      sessionStorage.setItem('refreshToken', response.data.resfreshToken);
     }
-  ).catch((err) => {
-    Swal.fire('Error', err.message, 'error');
-  });
-
-  return response.data;
+    
+    return response;
+  } catch (error) {
+    Swal.fire('Error', error.respnose.data, 'error');
+  }
 }
 
-export { register, signIn };
+const getMember = async () => {
+  try {
+    const response = await api.get('/member');
+    return response;
+  } catch (error) {
+    console.log(error.response.data);
+  }
+}
+
+export { register, signIn, getMember };

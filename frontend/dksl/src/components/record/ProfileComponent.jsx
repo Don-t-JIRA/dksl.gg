@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/record/profile.style';
+// Component
 import LoadingComponent from '../common/LoadingComponent';
 
 const ProfileComponent = ({ data }) => {
@@ -15,7 +16,7 @@ const ProfileComponent = ({ data }) => {
           <div className="userBox">
             <div className="title">
               <h1>닉네임</h1>
-              <img src="image/tier.png" />
+              <img src="image/rank-icons/bronze.png" />
             </div>
             <p className="lbti">CVSD</p>
             <div className="record-update">

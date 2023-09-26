@@ -64,6 +64,10 @@ export const TierCard = styled.div`
   & .result-box .rank-detail {
     display: flex;
     align-items: center;
+
+    & img {
+      max-width: 140px;
+    }
   }
 
   & .result-box .rank-detail .description {
@@ -582,8 +586,9 @@ export const TeamDetail = styled.div`
 `;
 
 export const HorizenGraph = styled.div`
-  width: 100%;
+  width: 96%;
   height: 30%;
+  margin: 0 2%;
   display: flex;
 
   & .red {

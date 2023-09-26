@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   { path: '/', element: <MainContainer /> },
   { path: '/user/:type', element: <UserContainer /> },
   { path: '/record', element: <RecordContainer /> },
-  { path: '/group', element: <GroupContainer /> },
+  { path: '/group/:type', element: <GroupContainer /> },
   { path: '/test', element: <TestContainer /> },
 ]);
 

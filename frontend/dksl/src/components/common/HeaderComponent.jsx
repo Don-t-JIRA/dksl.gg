@@ -1,13 +1,13 @@
-// router
+// React
+import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
-import { useRef } from 'react';
 
 const HeaderComponent = () => {
   const search = useRef();
   const navigate = useNavigate();
-  const token = 'test';
+  const token = null;
 
   const setNavigate = (url) => {
     navigate(url);
@@ -21,14 +21,14 @@ const HeaderComponent = () => {
     <S.HeaderLayout>
       <div className="logoBox">
         <a href="/" rel="noreferrer">
-          <img src="image/dkslhead.svg" className="logo" alt="Dksl logo" />
+          <img src="/image/dkslhead.svg" className="logo" alt="Dksl logo" />
         </a>
       </div>
       <S.MenuContainer>
-        <a href="/group">소속</a>
+        <a href="/group/main" rel="noreferrer">소속</a>
         <div className="search-input">
           <input placeholder="소환사명 입력하기" ref={search} />
-          <img src="image/search.svg" onClick={() => onSearch()} />
+          <img src="/image/search.svg" onClick={() => onSearch()} />
         </div>
       </S.MenuContainer>
       {!token ? (
@@ -38,7 +38,7 @@ const HeaderComponent = () => {
       ) : (
         <S.LogoutContainer>
           <div className="profile">
-            <img src="image/Riot.svg" alt="profile" className="image" />
+            <img src="/image/Riot.svg" alt="profile" className="image" />
             <p className="name">롤 닉네임</p>
             <button onClick={() => console.log('logout')}>로그아웃</button>
           </div>
