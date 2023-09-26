@@ -12,16 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreateTeamCommand {
     @NotNull
     private String name;
+    @NotNull
     private String description;
+    @NotNull
     private String accessToken;
-    // private Member chairman;
+    @NotNull
     private MultipartFile img;
-
-    public Team toTeam(Member chairman) {
-        return Team.builder()
-                .name(this.getName())
-                .description(this.getDescription())
-                .chairman(chairman)
-                .build();
-    }
 }

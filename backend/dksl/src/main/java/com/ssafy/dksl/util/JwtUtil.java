@@ -59,11 +59,10 @@ public class JwtUtil implements InitializingBean {
         try {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (io.jsonwebtoken.security.SecurityException e) {
-            throw new InvalidTokenException("구구가가 잘못된 JWT 서명입니다.");
-        }
-        catch (MalformedJwtException e) {
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             throw new InvalidTokenException("잘못된 JWT 서명입니다.");
+        } catch (ExpiredJwtException e) {  // Access 토큰이 만료 되었을 때
+            throw new InvalidTokenException("JWT 토큰이 만료되었습니다.");
         } catch (UnsupportedJwtException e) {
             throw new InvalidTokenException("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
