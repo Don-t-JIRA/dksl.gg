@@ -3,6 +3,7 @@ import * as S from '@/styles/record/tabgroup.style';
 // Select
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+// Component
 import LoadingComponent from '../../common/LoadingComponent';
 
 const options = [
@@ -116,7 +117,7 @@ const TabGroupComponent = () => {
                 <p className="title">&#127942; 우리 소속원 손위</p>
 
                 <div className="radio-group">
-                  <input type="radio" name="rank-type" checked />
+                  <input type="radio" name="rank-type" defaultChecked />
                   <label>랭크 전체</label>
                   <input type="radio" name="rank-type" />
                   <label>솔로 랭크</label>
@@ -136,7 +137,7 @@ const TabGroupComponent = () => {
                       <div className="member-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="member-profile_img"
                         />
                         <p className="member-level">123레벨</p>
@@ -150,7 +151,7 @@ const TabGroupComponent = () => {
                       <div className="member-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="member-profile_img"
                         />
                         <p className="member-level">400레벨</p>

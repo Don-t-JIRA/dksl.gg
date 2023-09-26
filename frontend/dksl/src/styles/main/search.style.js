@@ -6,7 +6,8 @@ export const SearchLayout = styled.div`
   margin-top: 12.5vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url('image/bg/main_bg_${(props) => props.bgnum}.jpg');
-  background-size: 100% 90vh;
+  background-size: cover;
+  background-position: center;
   display: flex;
 
   & .container {
@@ -24,9 +25,9 @@ export const SearchLayout = styled.div`
     place-items: center;
 
     & .typing {
-      width: 19ch;
+      width: 21ch;
       animation:
-        typing 2s steps(19),
+        typing 2s steps(21),
         blink 0.5s step-end infinite alternate;
       white-space: nowrap;
       overflow: hidden;
