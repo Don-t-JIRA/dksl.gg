@@ -61,7 +61,6 @@ class RiotApiController:
         return self.lol_watcher.league.by_summoner(self.my_region, self.id)
 
     def get_match_list(self, start_time: int, count: int):
-        print("게임 리스트 가져오기")
         ret = self.lol_watcher.match.matchlist_by_puuid(
             puuid=self.puu_id,
             region=self.my_region,
@@ -71,7 +70,6 @@ class RiotApiController:
         return ret
 
     def get_match_info_by_id(self, match_id: str):
-        print(f"게임 정보 가져오기 : {match_id  }")
         return self.lol_watcher.match.by_id(region=self.my_region, match_id=match_id)
 
 
