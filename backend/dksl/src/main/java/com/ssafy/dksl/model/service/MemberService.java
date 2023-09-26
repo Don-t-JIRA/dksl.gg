@@ -19,6 +19,7 @@ import java.util.Map;
 public interface MemberService {
     boolean register(RegisterCommand registerCommand) throws RegisterException;
     LoginResponse login(LoginCommand loginCommand) throws LoginException;
+    MemberResponse getUser(TokenCommand tokenCommand) throws InvalidTokenException, RiotApiException;
     boolean logout(TokenCommand tokenCommand) throws LogoutException;
     SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws GetDataException;
     MemberResponse updateMember(Member member) throws RiotApiException;

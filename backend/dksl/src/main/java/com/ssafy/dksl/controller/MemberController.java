@@ -7,9 +7,7 @@ import com.ssafy.dksl.model.dto.request.RegisterRequest;
 import com.ssafy.dksl.model.dto.response.MyTeamResponse;
 import com.ssafy.dksl.model.service.MemberServiceImpl;
 import com.ssafy.dksl.model.service.TeamServiceImpl;
-import com.ssafy.dksl.util.exception.GetDataException;
-import com.ssafy.dksl.util.exception.LogoutException;
-import com.ssafy.dksl.util.exception.RegisterException;
+import com.ssafy.dksl.util.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +52,17 @@ public class MemberController {
         try {
             return ResponseEntity.ok(memberService.logout(TokenCommand.builder().token(accessToken).build()));
         } catch (LogoutException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
+        }
+    }
+
+    @GetMapping
+    private ResponseEntity<?> getUser(@RequestHeader("Authorization") String accessToken) {
+        try {
+            return ResponseEntity.ok(memberService.getUser(TokenCommand.builder().token(accessToken).build()));
+        } catch (InvalidTokenException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);  // 에러 츌력
+        } catch (RiotApiException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);  // 에러 츌력
         }
     }

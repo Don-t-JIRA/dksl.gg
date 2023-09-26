@@ -121,6 +121,14 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
     }
 
     @Override
+    public MemberResponse getUser(TokenCommand tokenCommand) throws InvalidTokenException, RiotApiException {
+        // 회원 찾기
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(InvalidTokenException::new);
+
+        return updateMember(member);
+    }
+
+    @Override
     public boolean logout(TokenCommand tokenCommand) throws LogoutException {
         RefreshToken refreshToken = refreshTokenRepository.findById(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(() -> new LogoutException("로그인이 되어있지 않습니다."));
         refreshTokenRepository.delete(refreshToken);
