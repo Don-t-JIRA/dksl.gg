@@ -35,13 +35,13 @@ def get_my_lol_profile(
 
     # 1번 쿼리
     query = """
-            SELECT LP.summoner_name, T.name as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.id as current_season_summary_id, CSS.queue_id as queue_id FROM USERS U
+            SELECT LP.summoner_name, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.id as current_season_summary_id, CSS.queue_id as queue_id FROM USERS U
               LEFT OUTER JOIN LOL_PROFILES LP
                 ON U.curr_lol_account = LP.puu_id
               LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
                 ON CSS.puu_id = LP.puu_id
               LEFT OUTER JOIN TIERS T
-                ON T.id = CSS.tier_id
+                ON T.id = CSS.tier_name
              WHERE LP.summoner_name = %(summoner_name)s
              ;
         """
