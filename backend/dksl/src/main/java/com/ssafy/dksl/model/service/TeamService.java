@@ -6,20 +6,20 @@ import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
 import com.ssafy.dksl.model.dto.command.TokenCommand;
 import com.ssafy.dksl.model.dto.response.TeamResponse;
 import com.ssafy.dksl.model.entity.Team;
-import com.ssafy.dksl.util.exception.*;
+import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public interface TeamService {
-    boolean createTeam(CreateTeamCommand createTeamCommand) throws CreateDataException;
-    boolean createTeamMember(TeamMemberCommand teamMemberCommand) throws CreateDataException;
+    boolean createTeam(CreateTeamCommand createTeamCommand) throws CustomException;
+    boolean createTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException;
     boolean leaveTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException;
-    List<TeamResponse> getTeamList(List<Team> teamList) throws GetDataException;
-    List<TeamResponse> getAllTeamList() throws GetDataException;
-    List<TeamResponse> getOrderTeamList() throws GetDataException;
-    List<TeamResponse> getRecentTeamList() throws GetDataException;
-    List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws GetDataException;
-    List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws GetDataException;
+    List<TeamResponse> getTeamList(List<Team> teamList) throws CustomException;
+    List<TeamResponse> getAllTeamList() throws CustomException;
+    List<TeamResponse> getOrderTeamList() throws CustomException;
+    List<TeamResponse> getRecentTeamList() throws CustomException;
+    List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws CustomException;
+    List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws CustomException;
 }
