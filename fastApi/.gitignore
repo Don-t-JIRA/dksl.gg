@@ -8,8 +8,11 @@ app/venv/*
 venv
 .env
 ../.idea/
-.idea
+.idea/
 *.pyc
+__pycache__/
+.gitlab/
+
 
 # MacOS
 ./.DS_Store
