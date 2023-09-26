@@ -73,6 +73,7 @@ class MatchHistoriesBase(SQLModel):
 class MatchHistories(BaseIdModel, MatchHistoriesBase, table=True):
     __tablename__ = "MATCH_HISTORIES"
 
+
 class CurrentSeasonSummariesBase(SQLModel):
     __tablename__ = "CURRENT_SEASON_SUMMARIES"
     losses: int = Field(
@@ -104,7 +105,7 @@ class CurrentSeasonSummariesBase(SQLModel):
         nullable=False,
         description="라이엇 API에서 제공하는 글로벌한 소환사의 고유 번호. lol profile을 구분하기 위한 필수 요소. 또한 라이엇 API에서 Match ID를 불러오는데 쓰이는 고유번호.",
     )
-    tier_id: int = Field(
+    tier_name: str = Field(
         nullable=False, description="해당 Season Summary가 속한 tier의 고유 번호."
     )
     wins: int = Field(
@@ -112,13 +113,19 @@ class CurrentSeasonSummariesBase(SQLModel):
     )
 
 
-class CurrentSeasonSummaries(BaseIdModel, CurrentSeasonSummariesBase, table=True):
+class CurrentSeasonSummaries(CurrentSeasonSummariesBase, table=True):
     pass
 
 
-class MostLineSummariesBase(BaseIdModel):
+class MostLineSummariesBase(SQLModel):
     __tablename__ = "MOST_LINE_SUMMARIES"
-    current_season_summary_id: int = Field()
+    id: int = Field(
+        primary_key=True,
+        nullable=False
+    )
+    current_season_summary_id: str = Field(
+        max_length=78,
+    )
     line_name: str = Field()
     kda: float = Field()
     win_rate: float = Field()
@@ -129,9 +136,15 @@ class MostLineSummaries(MostLineSummariesBase, table=True):
     pass
 
 
-class MostChampionBase(BaseIdModel):
+class MostChampionBase(SQLModel):
     __tablename__ = "MOST_CHAMPION_SUMMARIES"
-    current_season_summary_id: int = Field()
+    id: int = Field(
+        primary_key=True,
+        nullable=False
+    )
+    current_season_summary_id: str = Field(
+        max_length=78,
+    )
     champion_name: str = Field()
     kda: float = Field()
     win_rate: float = Field()
