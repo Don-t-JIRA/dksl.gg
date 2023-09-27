@@ -11,7 +11,7 @@ from app.database import exec_query, get_db
 router = APIRouter()
 
 
-@router.get("/lolprofile")
+@router.get("")
 def get_my_lol_profile(
     summoner_name: str,
     db_session=Depends(get_db),
