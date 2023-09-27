@@ -10,7 +10,7 @@ const register = async (data) => {
 
     return response;
   } catch (error) {
-    Swal.fire('Error', error.respnose.data, 'error');
+    Swal.fire('Error', error.response.data, 'error');
   }
 };
 
@@ -21,12 +21,12 @@ const signIn = async (data) => {
 
     if (response.status == 200) {
       sessionStorage.setItem('accessToken', response.data.accessToken);
-      sessionStorage.setItem('refreshToken', response.data.resfreshToken);
+      sessionStorage.setItem('refreshToken', response.data.refreshToken);
     }
 
     return response;
   } catch (error) {
-    Swal.fire('Error', error.respnose.data, 'error');
+    Swal.fire('Error', error.response.data, 'error');
   }
 };
 
@@ -48,25 +48,28 @@ const signout = async () => {
 // 현재 로그인 된 유저 정보 API
 const getMember = async () => {
   try {
-    const response = await auth.get('/member');
+    const response = await api.get('/member');
     return response;
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error.response);
+    if (error.response.status == 401) {
+      sessionStorage.removeItem('accessToken');
+    }
   }
 };
 
 // Access 만료 시 재요청 토큰
 const reAccessToken = async (refreshToken) => {
   try {
-    const response = await auth.get('/reissue', {
+    const response = await auth.get('/member/reissue', {
       headers: {
-        Authorization: refreshToken,
+        Authorization: `Bearer ${refreshToken}`,
       },
     });
-
+    if (response.status != 200) throw new Error('토큰 재발급 실패');
     return response;
   } catch (error) {
-    console.log(error.response.data);
+    console.log(error.response);
   }
 };
 

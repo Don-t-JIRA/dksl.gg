@@ -39,6 +39,7 @@ const UserContainer = () => {
   const onSignIn = async () => {
     const data = await signIn(signin);
     if (data.status == 200) {
+      console.log(data);
       updateAuth();
       Swal.fire('알림', '로그인에 성공하셨습니다.', 'success');
       navigate('/');

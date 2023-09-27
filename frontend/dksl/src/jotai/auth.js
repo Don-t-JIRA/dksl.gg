@@ -10,11 +10,13 @@ const getAuth = async () => {
 
   if (token.access) {
     const reAuth = await getMember();
-    if (reAuth.status == 200) return reAuth.data;
+    console.log(reAuth);
+    if (reAuth != undefined && reAuth.status == 200) return reAuth.data;
   }
 
   if (token.refresh) {
     const reAccess = await reAccessToken(token.refresh);
+    console.log(reAccess);
     if (reAccess.status == 200) {
       sessionStorage.setItem('accessToken', reAccess.data.accessToken);
 

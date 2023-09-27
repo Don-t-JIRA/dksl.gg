@@ -4,9 +4,12 @@ import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
 import { useAuth } from '../../jotai/auth';
+import { signout } from '../../services/UserService';
+import Swal from 'sweetalert2';
 
 const HeaderComponent = () => {
   const auth = useAuth();
+  console.log(auth);
   const search = useRef();
   const navigate = useNavigate();
   const token = auth ? auth.name : null;
@@ -19,6 +22,23 @@ const HeaderComponent = () => {
   const onSearch = () => {
     console.log(search.current.value);
   };
+
+  const logout = async () => {
+    const data = await signout();
+
+    if (data.status == 200) {
+      Swal.fire({
+        title: '로그아웃',
+        text: '로그아웃 완료',
+        icon: 'success',
+        iconColor: '#6E8387',
+        confirmButtonColor: '#6E8387',
+        confirmButtonText: '확인'
+      }).then(res => {
+        if (res.isConfirmed) location.reload();
+      });
+    }
+  }
 
   return (
     <S.HeaderLayout>
@@ -42,8 +62,8 @@ const HeaderComponent = () => {
         <S.LogoutContainer>
           <div className="profile">
             <img src="/image/Riot.svg" alt="profile" className="image" />
-            <p className="name">롤 닉네임</p>
-            <button onClick={() => console.log('logout')}>로그아웃</button>
+            <p className="name">{auth.name}</p>
+            <button onClick={logout}>로그아웃</button>
           </div>
         </S.LogoutContainer>
       )}

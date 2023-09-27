@@ -100,8 +100,8 @@ export const MainContainer = styled.div`
     & .search-input input {
       width: 100%;
       height: 3rem;
-      padding: 0 2.5%;
-      margin: 1.5rem 0.5%;
+      padding: 0 2%;
+      margin: 1.5rem .5rem;
       margin-bottom: 0.5rem;
       margin-top: 1rem;
       font-size: medium;
@@ -112,7 +112,7 @@ export const MainContainer = styled.div`
       position: absolute;
       z-index: 10;
       width: 4%;
-      top: 5px;
+      top: 3px;
       right: 15px;
       margin-top: 1rem;
       margin-bottom: auto;
@@ -120,9 +120,7 @@ export const MainContainer = styled.div`
       transition: all 0.5s;
 
       &:hover {
-        width: 5%;
-        top: 4px;
-        right: 12.5px;
+        transform: scale(1.25);
       }
     }
 
@@ -142,6 +140,7 @@ export const MainContainer = styled.div`
           height: fit-content;
           display: flex;
           margin: 0;
+          margin-top: 5px;
 
           & div {
             padding: 0 1rem;
@@ -157,9 +156,10 @@ export const MainContainer = styled.div`
             justify-content: center;
             align-items: center;
             flex-basis: 10%;
-
+            
             & img {
               width: 70%;
+              border-radius: 5px;
             }
           }
 
