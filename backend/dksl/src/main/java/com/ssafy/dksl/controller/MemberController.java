@@ -52,9 +52,9 @@ public class MemberController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getUser(@RequestHeader("Authorization") String accessToken) {
+    private ResponseEntity<?> getMember(@RequestHeader("Authorization") String accessToken) {
         try {
-            return ResponseEntity.ok(memberService.getUser(TokenCommand.builder().token(accessToken).build()));
+            return ResponseEntity.ok(memberService.getMember(TokenCommand.builder().token(accessToken).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
