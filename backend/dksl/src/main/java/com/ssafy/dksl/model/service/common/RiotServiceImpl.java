@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.dksl.util.exception.common.CustomException;
-import com.ssafy.dksl.util.exception.RiotApiCallFailedException;
+import com.ssafy.dksl.util.exception.RiotApiInvalidException;
 import com.ssafy.dksl.util.exception.SummonerNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -42,20 +42,20 @@ public class RiotServiceImpl implements RiotService {
             response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             log.error(e.getMessage());
-            throw new RiotApiCallFailedException();
+            throw new RiotApiInvalidException();
         }
 
         // 응답 코드 확인
         int statusCode = response.statusCode();
         if (statusCode == HttpStatus.SC_NOT_FOUND) throw new SummonerNotFoundException();  // 닉네임 없음
-        else if (statusCode != HttpStatus.SC_OK) throw new RiotApiCallFailedException();  // 라이엇 API 호출 실패
+        else if (statusCode != HttpStatus.SC_OK) throw new RiotApiInvalidException();  // 라이엇 API 호출 실패
 
         ObjectMapper objectmapper = new ObjectMapper();
         try {
             return objectmapper.readTree(response.body());
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
-            throw new RiotApiCallFailedException();
+            throw new RiotApiInvalidException();
         }
     }
 
@@ -73,19 +73,19 @@ public class RiotServiceImpl implements RiotService {
             response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
             log.error(e.getMessage());
-            throw new RiotApiCallFailedException();
+            throw new RiotApiInvalidException();
         }
 
         // 응답 코드 확인
         int statusCode = response.statusCode();
-        if (statusCode != HttpStatus.SC_OK) throw new RiotApiCallFailedException();  // 라이엇 API 호출 실패
+        if (statusCode != HttpStatus.SC_OK) throw new RiotApiInvalidException();  // 라이엇 API 호출 실패
 
         ObjectMapper objectmapper = new ObjectMapper();
         try {
             return objectmapper.readTree(response.body());
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
-            throw new RiotApiCallFailedException();
+            throw new RiotApiInvalidException();
         }
     }
 }

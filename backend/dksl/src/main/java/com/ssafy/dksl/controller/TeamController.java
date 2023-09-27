@@ -2,8 +2,10 @@ package com.ssafy.dksl.controller;
 
 import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.command.TokenCommand;
 import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
 import com.ssafy.dksl.model.dto.response.AllTeamResponse;
+import com.ssafy.dksl.model.dto.response.MyTeamResponse;
 import com.ssafy.dksl.model.service.TeamServiceImpl;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,16 @@ public class TeamController {
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
+    }
+
+    @GetMapping("summoner")
+    private ResponseEntity<?> getSummonerTeamList(@RequestParam String summoner) throws CustomException {
+        MyTeamResponse myTeamResponse = MyTeamResponse.builder()
+                .myTeamList(teamService.getSummonerTeamList(SearchTeamCommand.builder().searchStr(summoner).build()))
+                .orderTeamList(teamService.getOrderTeamList())
+                .build();
+
+        return ResponseEntity.ok(myTeamResponse);
     }
 
     @GetMapping("recent")

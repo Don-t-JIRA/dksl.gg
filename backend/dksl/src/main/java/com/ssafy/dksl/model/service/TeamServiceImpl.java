@@ -246,9 +246,9 @@ public class TeamServiceImpl implements TeamService {
         return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getMyTeamList(TokenCommand tokenCommand) throws CustomException {
+    public List<TeamResponse> getSummonerTeamList(SearchTeamCommand searchTeamCommand) throws CustomException {
         List<MemberTeam> memberTeamList = memberRepository
-                .findByClientId(jwtUtil.getClientId(tokenCommand.getToken()))
+                .findByName(searchTeamCommand.getSearchStr())
                 .orElseThrow(MemberNotFoundException::new)
                 .getTeams();
 
