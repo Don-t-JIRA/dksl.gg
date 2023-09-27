@@ -58,7 +58,7 @@ public class JwtUtil implements InitializingBean {
     // 토큰 검증
     public boolean validateToken(String token) throws TokenInvalidException {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(removeBearer(token));
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.error("잘못된 JWT 서명입니다.");
@@ -85,20 +85,25 @@ public class JwtUtil implements InitializingBean {
 
     // 토큰에 담겨있는 clientId 획득
     public String getClientId(String token) {
-        return String.valueOf(Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
-                .getBody().getSubject());
+                .parseClaimsJws(removeBearer(token))
+                .getBody().getSubject();
     }
 
     private String getRole(String accessToken) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(key)
-                .parseClaimsJws(accessToken)
+                .build()
+                .parseClaimsJws(removeBearer(accessToken))
                 .getBody()
                 .get("role", String.class);
 
+    }
+
+    private String removeBearer(String token) {
+        return token.replace("Bearer ", "");
     }
 
 }
