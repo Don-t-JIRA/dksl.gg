@@ -30,11 +30,11 @@ public class Team extends Base {
     @Comment("소속장")
     private Member chairman;
 
-    @Column(name = "description", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Column(name = "description", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("소개")
     private String description;
 
-    @Column(name = "img", columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
+    @Column(name = "img", nullable = false, columnDefinition = "VARCHAR(255) CHARACTER SET UTF8")
     @Comment("이미지")
     private String img;
 
