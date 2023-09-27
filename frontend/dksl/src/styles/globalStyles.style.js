@@ -3,8 +3,10 @@ import { createGlobalStyle, css } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
 
 #root {
-  width: 100vw;
+  width: 100%;
   height: 100%;
+  min-width: 720px;
+  min-height: fit-content;
 }
 
 :root {
@@ -12,8 +14,8 @@ const GlobalStyles = createGlobalStyle`
   line-height: 1.5;
   font-weight: 400;
 
-  width: 100vw !important;
-  height: 100vh !important;
+  /* width: 100vw !important;
+  height: 100vh !important; */
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -39,8 +41,8 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
 }
 
 body.swal2-shown > [aria-hidden="true"] {

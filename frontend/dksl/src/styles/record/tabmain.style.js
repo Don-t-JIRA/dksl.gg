@@ -14,6 +14,7 @@ export const LeftLayout = styled.div`
   width: 30%;
   min-width: 300px;
   height: 100%;
+  min-height: 900px;
   padding-top: 4.3rem;
 `;
 
