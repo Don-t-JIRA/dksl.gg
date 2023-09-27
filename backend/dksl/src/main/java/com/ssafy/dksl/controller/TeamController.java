@@ -82,8 +82,8 @@ public class TeamController {
         }
     }
 
-    @GetMapping("{name}")
-    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("name") String teamName) {
+    @GetMapping("detail")
+    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @RequestParam("name") String teamName) {
         try {
             return ResponseEntity.ok(teamService.getTeamDetail(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
