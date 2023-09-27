@@ -35,18 +35,19 @@ def get_my_lol_profile(
 
     # 1번 쿼리
     query = """
-            SELECT LP.summoner_name, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.id as current_season_summary_id, CSS.queue_id as queue_id FROM USERS U
+            SELECT LP.summoner_name, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
               LEFT OUTER JOIN LOL_PROFILES LP
-                ON U.curr_lol_account = LP.puu_id
+                ON U.puu_id = LP.puu_id
               LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
                 ON CSS.puu_id = LP.puu_id
               LEFT OUTER JOIN TIERS T
-                ON T.id = CSS.tier_name
+                ON T.name_en = CSS.tier_name
              WHERE LP.summoner_name = %(summoner_name)s
              ;
         """
 
     summoner_info = exec_query(db_session, query, input_params={"summoner_name": summoner_name})
+    current_season_summary_id = summoner_info[0]['current_season_summary_id']
 
     query_2 = f"""
         SELECT MCS.*, C.image_url as image_url, CSS.queue_id as queue_id
@@ -54,10 +55,8 @@ def get_my_lol_profile(
           LEFT OUTER JOIN CHAMPIONS C
             ON C.name_en = MCS.champion_name
           LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
-            ON CSS.id = MCS.current_season_summary_id
-         WHERE current_season_summary_id in ({','.join(map(lambda item: str(item.get("current_season_summary_id")), summoner_info))})
-
-         ;
+            ON CSS.puu_id = MCS.current_season_summary_id
+        WHERE MCS.current_season_summary_id = '{current_season_summary_id}';
     """
 
     most_champs = exec_query(db_session, query_2)
@@ -81,8 +80,8 @@ def get_my_lol_profile(
           LEFT OUTER JOIN `LINES` L
             ON L.name = MLS.line_name
           LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
-            ON CSS.id = MLS.current_season_summary_id
-         WHERE MLS.current_season_summary_id in ({','.join(map(lambda item: str(item.get("current_season_summary_id")), summoner_info))})
+            ON CSS.puu_id = MLS.current_season_summary_id
+         WHERE MLS.current_season_summary_id in ('{current_season_summary_id}')
 
          ;
     """
