@@ -29,7 +29,8 @@ public class JwtUtil implements InitializingBean {
 
     public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds) {
         this.secret = secret;
-        this.accessValidityIn = 2 * 60 * 60 * validityInSeconds;  // 2시간
+        //this.accessValidityIn = 2 * 60 * 60 * validityInSeconds;  // 2시간
+        this.accessValidityIn = 3 * validityInSeconds;  // 3초
         this.refreshValidityIn = 14 * 24 * 60 * 60 * validityInSeconds;  // 2주일
     }
 
@@ -83,6 +84,10 @@ public class JwtUtil implements InitializingBean {
         return request.getHeader("Authorization");
     }
 
+    // 토큰에 담겨있는 clientId 획득
+    public String getToken(String token) {
+        return removeBearer(token);
+    }
     // 토큰에 담겨있는 clientId 획득
     public String getClientId(String token) {
         return Jwts.parserBuilder()

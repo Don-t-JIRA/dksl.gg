@@ -167,7 +167,8 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
     @Override
     public String reissue(TokenCommand tokenCommand) throws CustomException {
         // refresh 토큰 만료 확인
-        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(tokenCommand.getToken()).orElseThrow(LogoutInvalidException::new);
+        System.out.println(jwtUtil.getToken(tokenCommand.getToken()));
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(jwtUtil.getToken(tokenCommand.getToken())).orElseThrow(LogoutInvalidException::new);
 
         // refresh 토큰 검증을 통한 access 토큰 재발급
         try {

@@ -70,7 +70,7 @@ public class MemberController {
     }
 
     @GetMapping("/reissue")
-    private ResponseEntity<?> reissue(@RequestBody String refreshToken) {
+    private ResponseEntity<?> reissue(@RequestHeader("Authorization") String refreshToken) {
         try {
             return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().token(refreshToken).build()));
         } catch (CustomException e) {
