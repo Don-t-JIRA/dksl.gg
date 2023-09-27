@@ -18,12 +18,10 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     private final MemberServiceImpl memberService;
-    private final TeamServiceImpl teamService;
 
     @Autowired
-    MemberController(MemberServiceImpl memberService, TeamServiceImpl teamService) {
+    MemberController(MemberServiceImpl memberService) {
         this.memberService = memberService;
-        this.teamService = teamService;
     }
 
     @PostMapping("register")
@@ -54,22 +52,12 @@ public class MemberController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getUser(@RequestHeader("Authorization") String accessToken) {
+    private ResponseEntity<?> getMember(@RequestHeader("Authorization") String accessToken) {
         try {
-            return ResponseEntity.ok(memberService.getUser(TokenCommand.builder().token(accessToken).build()));
+            return ResponseEntity.ok(memberService.getMember(TokenCommand.builder().token(accessToken).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
-    }
-
-    @GetMapping("my-team")
-    private ResponseEntity<?> getMyTeamList(@RequestHeader("Authorization") String accessToken) throws CustomException {
-        MyTeamResponse myTeamResponse = MyTeamResponse.builder()
-                .myTeamList(teamService.getMyTeamList(TokenCommand.builder().token(accessToken).build()))
-                .orderTeamList(teamService.getOrderTeamList())
-                .build();
-
-        return ResponseEntity.ok(myTeamResponse);
     }
 
     @GetMapping("update")
@@ -82,7 +70,7 @@ public class MemberController {
     }
 
     @GetMapping("/reissue")
-    private ResponseEntity<?> reissue(@RequestBody String refreshToken) {
+    private ResponseEntity<?> reissue(@RequestHeader("Authorization") String refreshToken) {
         try {
             return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().token(refreshToken).build()));
         } catch (CustomException e) {

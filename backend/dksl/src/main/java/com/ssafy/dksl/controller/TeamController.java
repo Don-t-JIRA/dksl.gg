@@ -8,8 +8,10 @@ import com.ssafy.dksl.model.service.TeamServiceImpl;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("team")
@@ -22,10 +24,10 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @PostMapping("create")
-    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestBody CreateTeamRequest createTeamRequest) {
+    @PostMapping(value = "create", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    private ResponseEntity<?> createTeam(@RequestHeader("Authorization") String token, @RequestPart(value = "team") CreateTeamRequest createTeamRequest, @RequestPart(value = "img") MultipartFile img) {
         try {
-            return ResponseEntity.ok(teamService.createTeam(createTeamRequest.toCreateTeamCommand(token)));
+            return ResponseEntity.ok(teamService.createTeam(createTeamRequest.toCreateTeamCommand(token, img)));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
@@ -72,9 +74,18 @@ public class TeamController {
     }
 
     @GetMapping("search")
-    private ResponseEntity<?> getSearchTeamList(@RequestParam String searchStr) {
+    private ResponseEntity<?> getSearchTeamList(@RequestParam(value = "word") String searchStr) {
         try {
             return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr).build()));
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+        }
+    }
+
+    @GetMapping("detail")
+    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @RequestParam("name") String teamName) {
+        try {
+            return ResponseEntity.ok(teamService.getTeamDetail(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }

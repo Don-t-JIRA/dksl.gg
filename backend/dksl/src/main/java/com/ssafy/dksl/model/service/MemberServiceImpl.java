@@ -63,14 +63,17 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         JsonNode summonerNode = findSummonerByName(registerCommand.getName());  // 회원 PUUID 찾기
         JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
 
-        Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new InvalidException("티어"));
+        Tier tier = tierRepository.findById("unranked").orElseThrow(() -> new InvalidException("티어"));
         int rank = 0;
-        try {
-            rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
-            if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new InvalidException("랭크");
+        if(leagueNode.size() != 0) {
+            try {
+                tier = tierRepository.findById(leagueNode.get(0).get("tier").asText().toLowerCase()).orElseThrow(() -> new RuntimeException("티어의 아이디가 잘못 되었습니다."));
+                rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
+                if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new InvalidException("티어");
+            }
         }
 
         try {
@@ -130,7 +133,7 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
     }
 
     @Override
-    public MemberResponse getUser(TokenCommand tokenCommand) throws CustomException {
+    public MemberResponse getMember(TokenCommand tokenCommand) throws CustomException {
         // 회원 찾기
         Member member = memberRepository.findByClientId(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(MemberNotFoundException::new);
         return updateMember(member);
@@ -164,7 +167,8 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
     @Override
     public String reissue(TokenCommand tokenCommand) throws CustomException {
         // refresh 토큰 만료 확인
-        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(tokenCommand.getToken()).orElseThrow(LogoutInvalidException::new);
+        System.out.println(jwtUtil.getToken(tokenCommand.getToken()));
+        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(jwtUtil.getToken(tokenCommand.getToken())).orElseThrow(LogoutInvalidException::new);
 
         // refresh 토큰 검증을 통한 access 토큰 재발급
         try {
@@ -180,18 +184,22 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         JsonNode summonerNode = findSummonerByName(member.getName());  // 회원 PUUID 찾기
         JsonNode leagueNode = findLeagueBySummonerId(summonerNode.get("id").asText());  // 회원 티어, 랭크 찾기
 
-        Tier tier = tierRepository.findById((leagueNode.size() != 0) ? leagueNode.get(0).get("tier").asText().toLowerCase() : "unranked").orElseThrow(() -> new InvalidException("티어"));
+        Tier tier = tierRepository.findById("unranked").orElseThrow(() -> new InvalidException("티어"));
         int rank = 0;
-        try {
-            rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
-            if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new InvalidException("랭크");
+        if(leagueNode.size() != 0) {
+            try {
+                tier = tierRepository.findById(leagueNode.get(0).get("tier").asText().toLowerCase()).orElseThrow(() -> new RuntimeException("티어의 아이디가 잘못 되었습니다."));
+                rank = RankData.rank.get(leagueNode.get(0).get("rank").asText());
+                if (rank <= 0 || 5 < rank) throw new RuntimeException("랭크의 숫자가 잘못 되었습니다.");  // 랭크 잘못 가져왔을 경우
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                throw new InvalidException("티어");
+            }
         }
 
         try {
             member = Member.builder()
+                    .id(member.getId())
                     .clientId(member.getClientId())
                     .password(member.getPassword())
                     .name(member.getName())
