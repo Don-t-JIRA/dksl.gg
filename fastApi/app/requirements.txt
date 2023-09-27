@@ -31,6 +31,5 @@ numpy
 seaborn
 matplotlib
 IPython
-sklearn
+scikit-learn
 mpl_toolkits
-colab
