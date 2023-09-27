@@ -18,7 +18,7 @@ import javax.security.auth.login.LoginException;
 public interface MemberService {
     boolean register(RegisterCommand registerCommand) throws CustomException;
     LoginResponse login(LoginCommand loginCommand) throws CustomException;
-    MemberResponse getUser(TokenCommand tokenCommand) throws CustomException;
+    MemberResponse getMember(TokenCommand tokenCommand) throws CustomException;
     boolean logout(TokenCommand tokenCommand) throws CustomException;
     SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws CustomException;
     MemberResponse updateMember(Member member) throws CustomException;
