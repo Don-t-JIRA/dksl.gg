@@ -1,7 +1,7 @@
 // Styled
 import * as S from '@/styles/group/main.style';
 // React
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 // Component
 import LoadingComponent from '../common/LoadingComponent';
@@ -13,10 +13,6 @@ const GroupMainComponent = ({
   getByteToImage,
 }) => {
   const search = useRef();
-
-  useEffect(() => {
-    console.log(groupList);
-  }, [groupList]);
 
   return (
     <S.GroupMainLayout>

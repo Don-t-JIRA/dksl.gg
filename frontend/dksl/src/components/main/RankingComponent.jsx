@@ -6,33 +6,31 @@ import LoadingComponent from '../common/LoadingComponent';
 /**
  * @param props // 탭 상태 저장할, 변경할 hotTab, rankTab 받아올 프롭스 객체
  */
-const RankingComponent = (props) => {
+const RankingComponent = ({
+  hofTab,
+  setHofTab,
+  hofData,
+  rankTab,
+  setRankTab,
+  rankData,
+}) => {
   // const arr
   return (
     <S.RankingLayout>
       <div className="container">
         <p className="title">&#127942; 명예의 전당</p>
         <S.TabBox>
-          <S.TabItem
-            istab={props.hofTab == 0 ? 1 : 0}
-            onClick={() => props.setHofTab(0)}
-          >
+          <S.TabItem istab={hofTab == 0 ? 1 : 0} onClick={() => setHofTab(0)}>
             일간
           </S.TabItem>
-          <S.TabItem
-            istab={props.hofTab == 1 ? 1 : 0}
-            onClick={() => props.setHofTab(1)}
-          >
+          <S.TabItem istab={hofTab == 1 ? 1 : 0} onClick={() => setHofTab(1)}>
             주간
           </S.TabItem>
-          <S.TabItem
-            istab={props.hofTab == 2 ? 1 : 0}
-            onClick={() => props.setHofTab(2)}
-          >
+          <S.TabItem istab={hofTab == 2 ? 1 : 0} onClick={() => setHofTab(2)}>
             월간
           </S.TabItem>
         </S.TabBox>
-        {props.hofData ? (
+        {hofData ? (
           <S.ContentTable>
             <S.ContentItem>
               <p className="idx">1</p>
@@ -56,26 +54,17 @@ const RankingComponent = (props) => {
       <div className="container">
         <p className="title">&#127969; 소속 별 순위</p>
         <S.TabBox>
-          <S.TabItem
-            istab={props.rankTab == 0 ? 1 : 0}
-            onClick={() => props.setRankTab(0)}
-          >
+          <S.TabItem istab={rankTab == 0 ? 1 : 0} onClick={() => setRankTab(0)}>
             평균 티어
           </S.TabItem>
-          <S.TabItem
-            istab={props.rankTab == 1 ? 1 : 0}
-            onClick={() => props.setRankTab(1)}
-          >
+          <S.TabItem istab={rankTab == 1 ? 1 : 0} onClick={() => setRankTab(1)}>
             멤버 수
           </S.TabItem>
-          <S.TabItem
-            istab={props.rankTab == 2 ? 1 : 0}
-            onClick={() => props.setRankTab(2)}
-          >
+          <S.TabItem istab={rankTab == 2 ? 1 : 0} onClick={() => setRankTab(2)}>
             최근 가입
           </S.TabItem>
         </S.TabBox>
-        {props.rankData ? (
+        {rankData ? (
           <S.ContentTable>
             <S.ContentItem>
               <p className="idx">1</p>
