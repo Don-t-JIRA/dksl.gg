@@ -6,23 +6,13 @@ import { Link } from 'react-router-dom';
 // Component
 import LoadingComponent from '../common/LoadingComponent';
 
-const GroupMainComponent = ({ groupList, createGroup, onSearch }) => {
+const GroupMainComponent = ({
+  groupList,
+  createGroup,
+  onSearch,
+  getByteToImage,
+}) => {
   const search = useRef();
-
-  const getByteToImage = (imgSrc) => {
-    const binaryString = atob(imgSrc);
-    const bytes = new Uint8Array(binaryString.length);
-
-    for (let i = 0; i < binaryString.length; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-
-    const img = new Blob([bytes], {
-      type: 'image/jpg',
-    });
-    console.log(URL.createObjectURL(img));
-    return URL.createObjectURL(img);
-  };
 
   useEffect(() => {
     console.log(groupList);
@@ -42,31 +32,31 @@ const GroupMainComponent = ({ groupList, createGroup, onSearch }) => {
         <div className="current-group">
           <p className="title">&#127969; 최근 소환사들이 가입한 소속</p>
           <div className="profile-box">
-            {groupList ? (groupList.recentTeamList.length > 0 ? (
-              groupList.recentTeamList.map((e, i) => (
-                <div className="profile" key={`profile_${i}`}>
-                  <S.GroupProfile>
-                    <div className="image">
-                      <img src={getByteToImage(e.img)} alt="profile_img" />
-                    </div>
-                    <div className="description">
-                      <p className="name">
-                        <Link to={`/group/detail?name=${e.name}`}>
-                          {e.name}
-                        </Link>
-                      </p>
-                      <p className="personnel">
-                        <b>티어</b> {e.avgTier.name}
-                      </p>
-                    </div>
-                  </S.GroupProfile>
-                </div>
-              ))
+            {groupList ? (
+              groupList.recentTeamList.length > 0 ? (
+                groupList.recentTeamList.map((e, i) => (
+                  <div className="profile" key={`profile_${i}`}>
+                    <S.GroupProfile>
+                      <div className="image">
+                        <img src={getByteToImage(e.img)} alt="profile_img" />
+                      </div>
+                      <div className="description">
+                        <p className="name">
+                          <Link to={`/group/detail?name=${e.name}`}>
+                            {e.name}
+                          </Link>
+                        </p>
+                        <p className="personnel">
+                          <b>티어</b> {e.avgTier.name}
+                        </p>
+                      </div>
+                    </S.GroupProfile>
+                  </div>
+                ))
+              ) : (
+                <p>최근 소환사가 가입한 소속에 대한 정보가 없습니다..</p>
+              )
             ) : (
-              <p>
-                최근 소환사가 가입한 소속에 대한 정보가 없습니다..
-              </p>
-            )) : (
               <LoadingComponent />
             )}
           </div>
@@ -74,7 +64,10 @@ const GroupMainComponent = ({ groupList, createGroup, onSearch }) => {
         <div className="search-box">
           <div className="search-input">
             <input placeholder="소속명 입력하기" ref={search} />
-            <img src="/image/search.svg" onClick={() => onSearch(search.current.value)} />
+            <img
+              src="/image/search.svg"
+              onClick={() => onSearch(search.current.value)}
+            />
           </div>
           <div className="result-box">
             <p className="title">&#127969; 검색 소속</p>
@@ -86,9 +79,7 @@ const GroupMainComponent = ({ groupList, createGroup, onSearch }) => {
                       <img src={getByteToImage(e.img)} alt="group-img" />
                     </div>
                     <div className="name-area">
-                    <Link to={`/group/detail?name=${e.name}`}>
-                          {e.name}
-                        </Link>
+                      <Link to={`/group/detail?name=${e.name}`}>{e.name}</Link>
                     </div>
                     <div className="desc-area">
                       <p>&#127775;{` ${e.description}`}</p>

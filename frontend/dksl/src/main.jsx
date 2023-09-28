@@ -16,6 +16,7 @@ import GroupContainer from './pages/GroupContainer.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
 import LoadingComponent from './components/common/LoadingComponent.jsx';
+import NotFound from './components/common/NotFound.jsx';
 
 // Routing 설정
 const router = createBrowserRouter([
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: '/record', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
   { path: '/test', element: <TestContainer /> },
+  { path: '*', element: <NotFound /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(

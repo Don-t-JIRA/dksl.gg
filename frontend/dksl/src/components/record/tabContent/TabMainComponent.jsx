@@ -842,7 +842,7 @@ const TabMainComponent = ({ data }) => {
       <S.RightLayout>
         <div className="rank-type">
           <div className="radio-group">
-            <input type="radio" name="rank-type" />
+            <input type="radio" name="rank-type" checked />
             <label>랭크 전체</label>
             <input type="radio" name="rank-type" />
             <label>솔로 랭크</label>

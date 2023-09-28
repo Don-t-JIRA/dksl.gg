@@ -15,8 +15,8 @@ const GlobalStyles = createGlobalStyle`
   width: 100vw !important;
   height: 100vh !important;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #f0f0f0;
   background-attachment: fixed;
 

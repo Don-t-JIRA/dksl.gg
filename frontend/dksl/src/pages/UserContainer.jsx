@@ -1,12 +1,11 @@
 // React
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 // Component
 import SigninComponent from '../components/user/SigninComponent';
 import SignupComponent from '../components/user/SignupComponent';
 // Service
 import { register } from '../services/UserService';
-// Service
 import { signIn } from '../services/UserService';
 // Sweetalert
 import Swal from 'sweetalert2';
@@ -28,24 +27,53 @@ const UserContainer = () => {
   const auth = useAuth();
   const updateAuth = useUpdateAuth();
 
-  const onSubmit = async () => {
+  // const onSubmit = async () => {
+  //   const data = await register(signup);
+  //   if (data.status == 200) {
+  //     Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
+  //     navigate('/');
+  //   }
+  // }
+
+  const onSignup = useCallback(async () => {
     const data = await register(signup);
     if (data.status == 200) {
-      Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
+      Swal.fire({
+        title: '알림',
+        text: '회원가입에 성공하셨습니다.',
+        icon: 'success',
+        iconColor: 'var(--maincolor-depth1)',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
       navigate('/');
     }
-  }
+  }, [navigate, signup]);
 
-  const onSignIn = async () => {
+  // const onSignIn = async () => {
+  //   const data = await signIn(signin);
+  //   if (data.status == 200) {
+  //     console.log(data);
+  //     updateAuth();
+  //     Swal.fire('알림', '로그인에 성공하셨습니다.', 'success');
+  //     navigate('/');
+
+  //   }
+  // }
+
+  const onSignin = useCallback(async () => {
     const data = await signIn(signin);
     if (data.status == 200) {
-      console.log(data);
-      updateAuth();
-      Swal.fire('알림', '로그인에 성공하셨습니다.', 'success');
+      await updateAuth();
+      Swal.fire({
+        title: '알림',
+        text: '로그인에 성공하셨습니다.',
+        icon: 'success',
+        iconColor: 'var(--maincolor-depth1)',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
       navigate('/');
-      
     }
-  }
+  }, [navigate, signin, updateAuth]);
 
   useEffect(() => {
     if (auth) {
@@ -55,15 +83,23 @@ const UserContainer = () => {
       setPath(url.pathname);
     }
   }, [auth, url, path, navigate]);
-  
+
   return (
     <>
       {path == '/user/signin' ? (
         // 로그인 페이지
-        <SigninComponent getter={signin} setter={setSignin} onSignIn={onSignIn} />
+        <SigninComponent
+          getter={signin}
+          setter={setSignin}
+          onSignIn={onSignin}
+        />
       ) : (
         // 회원가입 페이지
-        <SignupComponent getter={signup} setter={setSignup} onSubmit={onSubmit} />
+        <SignupComponent
+          getter={signup}
+          setter={setSignup}
+          onSubmit={onSignup}
+        />
       )}
     </>
   );

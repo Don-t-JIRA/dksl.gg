@@ -3,17 +3,18 @@ import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
-import { useAuth } from '../../jotai/auth';
+// Service
 import { signout } from '../../services/UserService';
+// Jotai
+import { useAuth } from '../../jotai/auth';
+// Swal
 import Swal from 'sweetalert2';
 
 const HeaderComponent = () => {
   const auth = useAuth();
-  console.log(auth);
   const search = useRef();
   const navigate = useNavigate();
   const token = auth ? auth.name : null;
-  // const token = null;
 
   const setNavigate = (url) => {
     navigate(url);
@@ -33,12 +34,12 @@ const HeaderComponent = () => {
         icon: 'success',
         iconColor: '#6E8387',
         confirmButtonColor: '#6E8387',
-        confirmButtonText: '확인'
-      }).then(res => {
+        confirmButtonText: '확인',
+      }).then((res) => {
         if (res.isConfirmed) location.reload();
       });
     }
-  }
+  };
 
   return (
     <S.HeaderLayout>
@@ -48,7 +49,9 @@ const HeaderComponent = () => {
         </a>
       </div>
       <S.MenuContainer>
-        <a href="/group/main" rel="noreferrer">소속</a>
+        <a href="/group/main" rel="noreferrer">
+          소속
+        </a>
         <div className="search-input">
           <input placeholder="소환사명 입력하기" ref={search} />
           <img src="/image/search.svg" onClick={() => onSearch()} />
