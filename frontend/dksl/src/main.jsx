@@ -22,7 +22,7 @@ import NotFound from './components/common/NotFound.jsx';
 const router = createBrowserRouter([
   { path: '/', element: <MainContainer /> },
   { path: '/user/:type', element: <UserContainer /> },
-  { path: '/record', element: <RecordContainer /> },
+  { path: '/record/:summoner', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
   { path: '/test', element: <TestContainer /> },
   { path: '*', element: <NotFound /> },

@@ -8,33 +8,33 @@ import { ResponsiveRadar } from '@nivo/radar';
 
 const data = [
   {
-    "taste": "fruity",
-    "carmenere1": 120,
-    "carmenere2": 60,
-    "carmenere3": 90,
-    "carmenere4": 50,
+    taste: 'fruity',
+    carmenere1: 120,
+    carmenere2: 60,
+    carmenere3: 90,
+    carmenere4: 50,
   },
   {
-    "taste": "bitter",
-    "carmenere1": 35,
-    "carmenere2": 80,
-    "carmenere3": 20,
-    "carmenere4": 100,
+    taste: 'bitter',
+    carmenere1: 35,
+    carmenere2: 80,
+    carmenere3: 20,
+    carmenere4: 100,
   },
   {
-    "taste": "heavy",
-    "carmenere1": 20,
-    "carmenere2": 30,
-    "carmenere3": 50,
-    "carmenere4": 40,
+    taste: 'heavy',
+    carmenere1: 20,
+    carmenere2: 30,
+    carmenere3: 50,
+    carmenere4: 40,
   },
   {
-    "taste": "strong",
-    "carmenere1": 80,
-    "carmenere2": 2,
-    "carmenere3": 70,
-    "carmenere4": 40,
-  }
+    taste: 'strong',
+    carmenere1: 80,
+    carmenere2: 2,
+    carmenere3: 70,
+    carmenere4: 40,
+  },
 ];
 
 const options = [{ value: 'default', label: '큐 타입' }];
@@ -46,7 +46,7 @@ const TabAnalyzeComponent = () => {
     <S.TabAnalyzeLayout>
       <div className="rank-type">
         <div className="radio-group">
-          <input type="radio" name="rank-type" />
+          <input type="radio" name="rank-type" checked />
           <label>랭크 전체</label>
           <input type="radio" name="rank-type" />
           <label>솔로 랭크</label>
@@ -66,7 +66,7 @@ const TabAnalyzeComponent = () => {
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
           <div className="analyze-box">
-            <img src="image/lbti-img.svg" />
+            <img src="/image/lbti-img.svg" />
             <p className="subtitle">
               <p>킹받는 티모 원챔</p>
               <p className="lbti">CVSD</p>
@@ -100,7 +100,7 @@ const TabAnalyzeComponent = () => {
           <div className="graph-box">
             <ResponsiveRadar
               data={data}
-              keys={['carmenere1','carmenere2','carmenere3','carmenere4']}
+              keys={['carmenere1', 'carmenere2', 'carmenere3', 'carmenere4']}
               indexBy="taste"
               valueFormat=">-.2f"
               margin={{ top: -40, right: 80, bottom: 0, left: 80 }}

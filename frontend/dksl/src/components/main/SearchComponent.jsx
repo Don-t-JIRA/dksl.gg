@@ -1,13 +1,30 @@
 // React
 import { useMemo, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '../../styles/main/search.style';
+// Swal
+import Swal from 'sweetalert2';
 
-const SearchComponent = ({ onSearch }) => {
+const SearchComponent = () => {
   // 하단 랭킹의 탭 state가 변경되어도 값이 바뀌지 않게 하기 위해
   const num = useMemo(() => Math.floor(Math.random() * 10) + 1, []);
-
+  const navigate = useNavigate();
   const search = useRef();
+
+  const onSearch = (name) => {
+    if (!name) {
+      Swal.fire({
+        title: 'Error',
+        text: '검색어가 입력되지 않았습니다!',
+        icon: 'error',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+      return;
+    }
+    console.log('검색 소환사 명 : ', name);
+    navigate(`/record/${name}`);
+  };
 
   return (
     <>

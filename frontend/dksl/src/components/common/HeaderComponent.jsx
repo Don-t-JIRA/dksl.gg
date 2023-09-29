@@ -1,6 +1,6 @@
 // React
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
 // Service
@@ -13,15 +13,34 @@ import Swal from 'sweetalert2';
 const HeaderComponent = () => {
   const auth = useAuth();
   const search = useRef();
+  const url = useLocation();
   const navigate = useNavigate();
   const token = auth ? auth.name : null;
+
+  useEffect(() => {
+    console.log(url);
+  }, [url]);
 
   const setNavigate = (url) => {
     navigate(url);
   };
 
-  const onSearch = () => {
-    console.log(search.current.value);
+  const onSearch = (name) => {
+    if (!name) {
+      Swal.fire({
+        title: 'Error',
+        text: '검색어가 입력되지 않았습니다!',
+        icon: 'error',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+      return;
+    }
+    // const data = await searchUser(name);
+    // if (data.status == 200) {
+    //   navigate(`/record?name=${name}`);
+    // }
+    console.log('검색 소환사 명 : ', name);
+    navigate(`/record/${name}`);
   };
 
   const logout = async () => {
@@ -54,7 +73,10 @@ const HeaderComponent = () => {
         </a>
         <div className="search-input">
           <input placeholder="소환사명 입력하기" ref={search} />
-          <img src="/image/search.svg" onClick={() => onSearch()} />
+          <img
+            src="/image/search.svg"
+            onClick={() => onSearch(search.current.value)}
+          />
         </div>
       </S.MenuContainer>
       {!token ? (

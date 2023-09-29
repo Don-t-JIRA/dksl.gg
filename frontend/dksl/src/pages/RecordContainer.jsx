@@ -1,5 +1,6 @@
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // Component
 import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
@@ -24,6 +25,14 @@ const recorddumydata = [
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
+  const [recorddata, setRecorddata] = useState(null);
+  const { summoner } = useParams();
+
+  useEffect(() => {
+    console.log(summoner);
+
+    setRecorddata(recorddumydata);
+  }, [summoner]);
 
   /**
    * 여기서는 search 메서드를 통해 소환사명 입력 받으면
@@ -37,7 +46,7 @@ const RecordContainer = () => {
       <HeaderComponent />
       <ProfileComponent data={null} />
       <RecordBodyComponent
-        recorddata={recorddumydata}
+        recorddata={recorddata}
         analyzedata={laderData}
         tab={recordTab}
         setTab={setRecordTab}
