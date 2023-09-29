@@ -21,7 +21,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
   const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
   const [checked, setChecked] = useState({
     name: false,
-    cliendId: false,
+    clientId: false,
     password: false,
     passwordCheck: false,
     phone: false,
@@ -47,7 +47,8 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
     if (name == 'name') result = nameValidationCheck(value);
     else if (name == 'clientId') result = idValidationCheck(value);
     else if (name == 'password') result = pwValidationCheck(value);
-    else if (name == 'passwordCheck') result = pwEqualValidationCheck(value);
+    else if (name == 'password' || name == 'passwordCheck')
+      result = pwEqualValidationCheck(getter.password, value);
     else if (name == 'phone') result = phoneValidationCheck(value);
     else result = emailVaildationCheck(value);
 
@@ -55,6 +56,11 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
       setChecked({
         ...checked,
         [name]: true,
+      });
+    } else {
+      setChecked({
+        ...checked,
+        [name]: false,
       });
     }
   };
@@ -125,7 +131,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             onChange={(e) => onChange(e)}
             placeholder="리그오브레전드 닉네임을 입력하세요."
             style={{
-              borderBottom: checked.name ? '2px solid green' : '1px solid red',
+              borderBottom: checked.name ? '2px solid green' : '2px solid red',
             }}
           />
           <input
@@ -136,7 +142,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             style={{
               borderBottom: checked.clientId
                 ? '2px solid green'
-                : '1px solid red',
+                : '2px solid red',
             }}
           />
           <input
@@ -147,7 +153,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             style={{
               borderBottom: checked.password
                 ? '2px solid green'
-                : '1px solid red',
+                : '2px solid red',
             }}
           />
           <input
@@ -158,7 +164,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             style={{
               borderBottom: checked.passwordCheck
                 ? '2px solid green'
-                : '1px solid red',
+                : '2px solid red',
             }}
           />
           <input
@@ -167,7 +173,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             onChange={(e) => onChange(e)}
             placeholder="전화번호를 입력하세요."
             style={{
-              borderBottom: checked.phone ? '2px solid green' : '1px solid red',
+              borderBottom: checked.phone ? '2px solid green' : '2px solid red',
             }}
           />
           <input
@@ -176,7 +182,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
             onChange={(e) => onChange(e)}
             placeholder="이메일을 입력하세요."
             style={{
-              borderBottom: checked.email ? '2px solid green' : '1px solid red',
+              borderBottom: checked.email ? '2px solid green' : '2px solid red',
             }}
           />
           <S.SignupBtnBox>
