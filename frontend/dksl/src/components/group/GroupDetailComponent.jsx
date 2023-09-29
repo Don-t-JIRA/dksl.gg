@@ -1,7 +1,7 @@
 // Styled
 import * as S from '@/styles/group/detail.style';
 
-const GroupDetailComponent = ({ detailList, getByteToImage }) => {
+const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
   return (
     <S.DetailLayout>
       <S.DetailContainer>
@@ -42,7 +42,14 @@ const GroupDetailComponent = ({ detailList, getByteToImage }) => {
         </div>
         <div className="detail-body">
           <div className="left-box">
-            <button className="group-join">이 소속에 가입하기</button>
+            {auth ? (
+              <button className="group-join">이 소속에 가입하기</button>
+            ) : (
+              <button className="group-join" disabled>
+                로그인 후 이용해주세요.
+              </button>
+            )}
+
             <div className="average-tier">
               <p className="title">&#127941; 평균 티어</p>
               <div className="tier-body">

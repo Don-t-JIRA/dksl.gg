@@ -17,6 +17,7 @@ import {
   searchGroup,
   groupDetail,
 } from '../services/GroupService';
+import { useAuth } from '../jotai/auth';
 
 const MySWal = withReactContent(Swal);
 
@@ -24,6 +25,7 @@ const GroupContainer = () => {
   const [teamList, setTeamList] = useState();
   const [detailList, setDetailList] = useState();
   const [path, setPath] = useState(null);
+  const auth = useAuth();
   const url = useLocation();
 
   useEffect(() => {
@@ -32,12 +34,7 @@ const GroupContainer = () => {
     };
 
     const fetchDetailGroupData = async (name) => {
-      setDetailList(
-        await groupDetail(
-          name,
-          sessionStorage.getItem('accessToken') ? true : false
-        )
-      );
+      setDetailList(await groupDetail(name, auth ? true : false));
     };
     setPath(url.pathname);
     if (path == '/group/main' && teamList == null) {
@@ -148,6 +145,7 @@ const GroupContainer = () => {
     <>
       <HeaderComponent />
       <GroupDetailComponent
+        auth={auth}
         detailList={detailList}
         getByteToImage={getByteToImage}
       />
