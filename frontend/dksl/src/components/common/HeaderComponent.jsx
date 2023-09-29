@@ -1,6 +1,6 @@
 // React
-import { useRef, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
 // Service
@@ -13,13 +13,8 @@ import Swal from 'sweetalert2';
 const HeaderComponent = () => {
   const auth = useAuth();
   const search = useRef();
-  const url = useLocation();
   const navigate = useNavigate();
   const token = auth ? auth.name : null;
-
-  useEffect(() => {
-    console.log(url);
-  }, [url]);
 
   const setNavigate = (url) => {
     navigate(url);

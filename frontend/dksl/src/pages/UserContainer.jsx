@@ -11,15 +11,26 @@ import { signIn } from '../services/UserService';
 import Swal from 'sweetalert2';
 // Jotai
 import { useAuth, useUpdateAuth } from '../jotai/auth';
+import { userValidationCheck } from '../services/ValidationService';
 
 const UserContainer = () => {
   const navigate = useNavigate();
   // 로그인 시 유저 정보 담을 상태 객체
   // id: string, pw: string
-  const [signin, setSignin] = useState({});
+  const [signin, setSignin] = useState({
+    clientId: '',
+    password: '',
+  });
   // 회원가입 시 유저 정보 담을 상태 객체
   // id: string, pw: string, name: string, email: string, group: string
-  const [signup, setSignup] = useState({});
+  const [signup, setSignup] = useState({
+    cliendId: '',
+    password: '',
+    name: '',
+    passwordCheck: '',
+    phone: '',
+    email: '',
+  });
 
   const [path, setPath] = useState(null);
   const url = useLocation();
@@ -36,6 +47,16 @@ const UserContainer = () => {
   // }
 
   const onSignup = useCallback(async () => {
+    const validation = await userValidationCheck(signup);
+    if (validation != 'SUCCESS') {
+      Swal.fire({
+        title: '알림',
+        text: validation,
+        icon: 'warning',
+        iconColor: 'var(--maincolor-depth1)',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+    }
     const data = await register(signup);
     if (data.status == 200) {
       Swal.fire({
@@ -98,7 +119,7 @@ const UserContainer = () => {
         <SignupComponent
           getter={signup}
           setter={setSignup}
-          onSubmit={onSignup}
+          onSignup={onSignup}
         />
       )}
     </>

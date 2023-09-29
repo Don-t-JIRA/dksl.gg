@@ -1,11 +1,11 @@
 // Axios
-import { api, auth } from './api.js';
+import { common, auth } from './api.js';
 // Swal
 import Swal from 'sweetalert2';
 
 const getGroupList = async () => {
   try {
-    const response = await auth.get('/team', {
+    const response = await common.get('/team', {
       headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Access-Control-Allow-Origin': `http://localhost:3000/`,
@@ -20,7 +20,7 @@ const getGroupList = async () => {
 
 const setNewGroup = async (formData) => {
   try {
-    const response = await api.post('/team/create', formData, {
+    const response = await auth.post('/team/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Access-Control-Allow-Origin': `http://localhost:3000/`,
@@ -35,7 +35,7 @@ const setNewGroup = async (formData) => {
 
 const searchGroup = async (word) => {
   try {
-    const response = await auth.get(`/team/search?word=${word}`);
+    const response = await common.get(`/team/search?word=${word}`);
 
     return response;
   } catch (error) {
@@ -45,8 +45,8 @@ const searchGroup = async (word) => {
 
 const groupDetail = async (name, hasToken) => {
   try {
-    if (hasToken) return await api.get(`/team/detail?name=${name}`);
-    else return await auth.get(`/team/detail?name=${name}`);
+    if (hasToken) return await auth.get(`/team/detail?name=${name}`);
+    else return await common.get(`/team/detail?name=${name}`);
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
   }

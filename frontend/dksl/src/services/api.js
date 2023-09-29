@@ -5,24 +5,24 @@ import Swal from 'sweetalert2';
 // const BASE_URL = 'http://192.168.0.11:8080';
 const BASE_URL = 'http://70.12.247.95:8080';
 
-const auth = Axios.create({
+const common = Axios.create({
   baseURL: BASE_URL,
   headers: {
-    "Content-Type": "application/json;charset=UTF-8",
-    "Access-Control-Allow-Origin": 'http://localhost:3000/',
-  }
-});
-
-const api = Axios.create({
-  baseURL: BASE_URL,
-  withCredentials: true,
-  headers: {
-    "Content-Type": "application/json;charset=UTF-8",
-    "Access-Control-Allow-Origin": `http://localhost:3000/`,
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Origin': 'http://localhost:3000/',
   },
 });
 
-api.interceptors.request.use(
+const auth = Axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Origin': `http://localhost:3000/`,
+  },
+});
+
+auth.interceptors.request.use(
   function (config) {
     const access = sessionStorage.getItem('accessToken');
     if (access) {
@@ -44,7 +44,7 @@ api.interceptors.request.use(
 );
 
 // // 응답 인터셉터 추가
-// axios.interceptors.response.use(
+// auth.interceptors.response.use(
 //   function (response) {
 //     // 응답 데이터를 가공
 //     // ...
@@ -56,4 +56,4 @@ api.interceptors.request.use(
 //     return Promise.reject(error);
 //   });
 
-export { auth, api };
+export { auth, common };
