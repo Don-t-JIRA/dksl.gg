@@ -16,7 +16,6 @@ import TabReviewComponent from './tabContent/TabReviewComponent';
  * 3 -> review
  */
 const RecordBodyComponent = (props) => {
-  console.log(props.recorddata);
   return (
     <S.RecordLayout>
       <S.TabLayout>

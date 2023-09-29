@@ -764,7 +764,6 @@ const RecordCardComponent = (props) => {
 };
 
 const TabMainComponent = ({ data }) => {
-  console.log(data);
   if (data == null) {
     return <LoadingComponent />;
   }

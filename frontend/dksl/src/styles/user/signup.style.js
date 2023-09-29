@@ -4,7 +4,7 @@ export const SignupLayout = styled.div`
   width: 100%;
   height: 100vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('../image/bg/signup_bg_${(props) => props.bgnum}.jpg');
+    url('/image/bg/signup_bg_${(props) => props.bgnum}.jpg');
   background-size: cover;
   background-position: center;
   justify-content: center;

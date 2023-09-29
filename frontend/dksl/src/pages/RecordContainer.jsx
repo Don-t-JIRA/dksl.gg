@@ -32,6 +32,11 @@ const RecordContainer = () => {
     console.log(summoner);
 
     setRecorddata(recorddumydata);
+    // const fetchData = async () => {
+    //   const data = await getSearchData(summoner);
+    //   setRecorddata(data);
+    // }
+    // fetchData();
   }, [summoner]);
 
   /**
