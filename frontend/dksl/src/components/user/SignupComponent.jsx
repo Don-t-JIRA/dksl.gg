@@ -1,5 +1,5 @@
 // React
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 // Styled
 import * as S from '@/styles/user/signup.style';
 // Swal
@@ -26,6 +26,15 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
     passwordCheck: false,
     phone: false,
     email: false,
+  });
+
+  useEffect(() => {
+    document.getElementById('info').addEventListener('mouseover', () => {
+      document.getElementById('info-label').style = 'opacity: 1';
+    });
+    document.getElementById('info').addEventListener('mouseleave', () => {
+      document.getElementById('info-label').style = 'opacity: 0';
+    });
   });
 
   const onChange = (e) => {
@@ -55,6 +64,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
     const Queue = Swal.mixin({
       progressSteps: steps,
       confirmButtonText: '다음',
+      color: 'var(--maincolor-depth1)',
       iconColor: 'var(--maincolor-depth1)',
       confirmButtonColor: 'var(--maincolor-depth1)',
       showClass: { backdrop: 'swal2-noanimation' },
@@ -98,7 +108,15 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
         <div className="box">
           <img className="logo" src="/image/dkslhead.svg" />
           <h1> 회원가입 </h1>
-          <img className="info" src="/image/info.svg" onClick={onInfo} />
+          <img
+            id="info"
+            className="info"
+            src="/image/info.svg"
+            onClick={onInfo}
+          />
+          <p id="info-label" className="info-label">
+            클릭하시면 입력 양식 안내가 나옵니다.
+          </p>
         </div>
         <S.SignupInputBox>
           <input

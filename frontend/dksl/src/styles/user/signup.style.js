@@ -52,6 +52,14 @@ export const SignupContainer = styled.div`
     }
   }
 
+  & .info-label {
+    margin-top: 0;
+    color: var(--maincolor-depth1);
+    font-size: medium;
+    opacity: 0;
+    transition: all 0.2s;
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .logo {
       animation: logo-spin infinite 20s linear;
