@@ -1,6 +1,6 @@
 // React
-import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
 // Service
@@ -13,8 +13,13 @@ import Swal from 'sweetalert2';
 const HeaderComponent = () => {
   const auth = useAuth();
   const search = useRef();
+  const url = useLocation();
   const navigate = useNavigate();
   const token = auth ? auth.name : null;
+
+  useEffect(() => {
+    console.log(url);
+  });
 
   const setNavigate = (url) => {
     navigate(url);
@@ -66,13 +71,17 @@ const HeaderComponent = () => {
         <a href="/group/main" rel="noreferrer">
           소속
         </a>
-        <div className="search-input">
-          <input placeholder="소환사명 입력하기" ref={search} />
-          <img
-            src="/image/search.svg"
-            onClick={() => onSearch(search.current.value)}
-          />
-        </div>
+        {url.pathname == '/' ? (
+          <div className="search-input"></div>
+        ) : (
+          <div className="search-input">
+            <input placeholder="소환사명 입력하기" ref={search} />
+            <img
+              src="/image/search.svg"
+              onClick={() => onSearch(search.current.value)}
+            />
+          </div>
+        )}
       </S.MenuContainer>
       {!token ? (
         <S.LogInConatiner>
