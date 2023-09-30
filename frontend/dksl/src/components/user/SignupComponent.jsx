@@ -44,12 +44,15 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
       [name]: value,
     });
     let result = false;
+    let pwCheck = false;
     if (name == 'name') result = nameValidationCheck(value);
     else if (name == 'clientId') result = idValidationCheck(value);
-    else if (name == 'password') result = pwValidationCheck(value);
-    else if (name == 'password' || name == 'passwordCheck')
+    else if (name == 'password') {
+      result = pwValidationCheck(value);
+      if (pwEqualValidationCheck(value, getter.passwordCheck)) pwCheck = true;
+    } else if (name == 'passwordCheck') {
       result = pwEqualValidationCheck(getter.password, value);
-    else if (name == 'phone') result = phoneValidationCheck(value);
+    } else if (name == 'phone') result = phoneValidationCheck(value);
     else result = emailVaildationCheck(value);
 
     if (result) {
@@ -57,10 +60,16 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
         ...checked,
         [name]: true,
       });
+    } else if (pwCheck) {
+      setChecked({
+        ...checked,
+        ['passwordCheck']: true,
+      });
     } else {
       setChecked({
         ...checked,
         [name]: false,
+        ['passwordCheck']: false,
       });
     }
   };

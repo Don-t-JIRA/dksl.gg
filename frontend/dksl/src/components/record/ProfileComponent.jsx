@@ -12,13 +12,16 @@ const ProfileComponent = ({ data }) => {
     <S.ProfileLayout bgnum={num}>
       {data ? (
         <S.ProfileContainer>
-          <img className="logo" src="image/dkslhead.svg" />
+          <img
+            className="logo"
+            src={`http://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/${data.iconId}.png`}
+          />
           <div className="userBox">
             <div className="title">
-              <h1>닉네임</h1>
-              <img src="image/rank-icons/bronze.png" />
+              <h1>{data.name}</h1>
+              <img src={`/image/rank-icons/${data.tier}.png`} />
             </div>
-            <p className="lbti">CVSD</p>
+            <p className="lbti">{data.lbti}</p>
             <div className="record-update">
               <button>전적 갱신</button>
               <p className="desc">최근 업데이트 : 5분 전</p>

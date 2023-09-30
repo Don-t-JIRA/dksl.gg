@@ -26,6 +26,13 @@ const recorddumydata = [
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
   const [recorddata, setRecorddata] = useState(null);
+  const [profile, setProfile] = useState({
+    name: '유 용',
+    level: '800',
+    lbti: 'CVSD',
+    iconId: 4529,
+    tier: 'master',
+  });
   const { summoner } = useParams();
 
   useEffect(() => {
@@ -51,7 +58,7 @@ const RecordContainer = () => {
   return (
     <>
       <HeaderComponent />
-      <ProfileComponent data={null} />
+      <ProfileComponent data={profile} />
       <RecordBodyComponent
         recorddata={recorddata}
         analyzedata={laderData}

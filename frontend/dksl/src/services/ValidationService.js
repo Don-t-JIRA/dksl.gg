@@ -24,7 +24,7 @@ const pwValidationCheck = (password) => {
 
 const pwEqualValidationCheck = (pw, pwCheck) => {
   // pw Checking
-  if (pwCheck.length == 0 || pw != pwCheck) {
+  if (pwCheck.length == 0 || pwCheck.length == 0 || pw != pwCheck) {
     return false;
   }
   return true;

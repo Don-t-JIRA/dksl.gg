@@ -14,6 +14,38 @@ const options = [{ value: 'default', label: '큐 타입' }];
 
 const animatedComponent = makeAnimated();
 
+/**
+ *
+ * @param {*} props
+ * kda, killParticipation, damageTakenOnTeamPercentage, controlWardsPlaced
+ * win_or_lose: 0 or 1
+ * queue_type: string
+ * play_duration: string
+ * play_time: string => 현재 시간과 차이 계산해서 출력
+ * champion_name_en: string
+ * spell_0,1_id: number
+ * rune_0,1_id: number
+ * kill, death, assist: number
+ * grade: number => 평점 계산해서 넣어주기
+ * 더블킬은 어찌 해야할까나? 뺄까?
+ * kill_involvement: number
+ * cs: number
+ * 시야점수는 어찌 해야할까나? 뺄까?
+ * item_0,1,2,3,4,5,6(length 7)_id: number
+ * team_summary: [[string, string]] => 해당 매치 참여 챔피언 이름과 닉네임 배열 (length 10)
+ * recordDatail: [[{}, {}]] => 한 매치에 대해 승, 패에 따라 팀 구분해서 객체 배열
+ * [{
+ *  champion_name_en: string
+ *  spell_0,1_id: number
+ *  rune_0,1_id: number
+ *  summoner_name: string
+ *  티어는 어찌 해야할까나? 뺄까?
+ *  kill, death, assist: number
+ *  grade: number => 평점 계산해서 넣어주기
+ *
+ * }]
+ *
+ */
 const RecordCardComponent = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
