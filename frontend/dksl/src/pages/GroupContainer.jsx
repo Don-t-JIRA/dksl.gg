@@ -23,7 +23,7 @@ const MySWal = withReactContent(Swal);
 
 const GroupContainer = () => {
   const [teamList, setTeamList] = useState();
-  const [detailList, setDetailList] = useState();
+  const [detailList, setDetailList] = useState(null);
   const [path, setPath] = useState(null);
   const auth = useAuth();
   const url = useLocation();
@@ -34,16 +34,20 @@ const GroupContainer = () => {
     };
 
     const fetchDetailGroupData = async (name) => {
-      setDetailList(await groupDetail(name, auth ? true : false));
+      console.log('fetch start');
+      // const data = await groupDetail(name, auth ? true : false);
+      // console.log(data);
+      // setDetailList(data.data);
+      setDetailList('test');
     };
     setPath(url.pathname);
-    if (path == '/group/main' && teamList == null) {
+    if (url.pathname == '/group/main' && teamList == null) {
       fetchAllGroupData();
-    } else {
-      console.log(url.search.split('=')[1]);
+    } else if (url.pathname == '/group/detail' && detailList == null) {
+      console.log('comtainer in ');
       fetchDetailGroupData(url.search.split('=')[1]);
     }
-  }, [teamList, url, path]);
+  }, [url, teamList, detailList]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);

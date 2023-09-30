@@ -18,15 +18,15 @@ const getAuth = async () => {
     const reAccess = await reAccessToken(token.refresh);
     console.log(reAccess);
     if (reAccess.status == 200) {
-      sessionStorage.setItem('accessToken', reAccess.data.accessToken);
+      sessionStorage.setItem('accessToken', reAccess.data);
 
       const reAuth = await getMember();
-      if (reAuth.status == 200) return reAuth.data;
+      if (reAuth != undefined && reAuth.status == 200) return reAuth.data;
     }
   }
 
   return null;
-}
+};
 
 const authAtom = atomWithDefault(getAuth);
 
@@ -37,5 +37,3 @@ const updateAuthAtom = atom(null, async (get, set) => {
 export const useUpdateAuth = () => useSetAtom(updateAuthAtom);
 
 export const useAuth = () => useAtomValue(authAtom);
-
-

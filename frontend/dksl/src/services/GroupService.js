@@ -5,12 +5,7 @@ import Swal from 'sweetalert2';
 
 const getGroupList = async () => {
   try {
-    const response = await common.get('/team', {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin': `http://localhost:3000/`,
-      },
-    });
+    const response = await common.get('/team');
     if (response.status != 200) new Error('서버 오류');
     return response.data;
   } catch (error) {
@@ -23,8 +18,10 @@ const setNewGroup = async (formData) => {
     const response = await auth.post('/team/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': `http://localhost:3000/`,
+        'Access-Control-Allow-Origin': `http://127.0.0.1:3000/`,
+        // 'Access-Control-Allow-Origin': `http://localhost:3000/`,
       },
+      withCredentials: false,
     });
 
     return response;
@@ -44,9 +41,16 @@ const searchGroup = async (word) => {
 };
 
 const groupDetail = async (name, hasToken) => {
+  console.log('service in : ', name, hasToken);
   try {
-    if (hasToken) return await auth.get(`/team/detail?name=${name}`);
-    else return await common.get(`/team/detail?name=${name}`);
+    if (hasToken) {
+      const response = await auth.get(`/team/detail?name=${name}`);
+      return response;
+    } else {
+      console.log('ajax start');
+      const response = await common.get(`/team/detail?name=${name}`);
+      return response;
+    }
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
   }

@@ -1,5 +1,5 @@
 // React
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 // Styled
 import * as S from '@/styles/common/header.style';
@@ -15,11 +15,11 @@ const HeaderComponent = () => {
   const search = useRef();
   const url = useLocation();
   const navigate = useNavigate();
-  const token = auth ? auth.name : null;
-
+  const token = useMemo(() => (auth ? auth.name : null), [auth]);
+  const [user, setUser] = useState(null);
   useEffect(() => {
-    console.log(url);
-  });
+    setUser(token);
+  }, [token]);
 
   const setNavigate = (url) => {
     navigate(url);
@@ -83,7 +83,7 @@ const HeaderComponent = () => {
           </div>
         )}
       </S.MenuContainer>
-      {!token ? (
+      {!user ? (
         <S.LogInConatiner>
           <button onClick={() => setNavigate('/user/signin')}>로그인</button>
         </S.LogInConatiner>

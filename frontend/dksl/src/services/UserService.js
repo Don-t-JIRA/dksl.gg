@@ -51,7 +51,9 @@ const signout = async () => {
 // 현재 로그인 된 유저 정보 API
 const getMember = async () => {
   try {
-    const response = await auth.get('/member');
+    const response = await auth.get('/member', {
+      withCredentials: false,
+    });
     return response;
   } catch (error) {
     console.log(error.response);

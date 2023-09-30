@@ -30,7 +30,9 @@ const RecordContainer = () => {
 
   useEffect(() => {
     console.log(summoner);
-
+    if (summoner == 'noname') {
+      console.log('noname enter');
+    }
     setRecorddata(recorddumydata);
     // const fetchData = async () => {
     //   const data = await getSearchData(summoner);
