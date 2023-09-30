@@ -9,7 +9,7 @@ const common = Axios.create({
   baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
-    'Access-Control-Allow-Origin': 'http://127.0.0.1:3000/',
+    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000/',
     // 'Access-Control-Allow-Origin': 'http://loaclhost:3000/',
   },
 });
@@ -19,7 +19,7 @@ const auth = Axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
-    'Access-Control-Allow-Origin': 'http://127.0.0.1:3000/',
+    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000/',
     // 'Access-Control-Allow-Origin': 'http://loaclhost:3000/',
   },
 });

@@ -18,8 +18,6 @@ const setNewGroup = async (formData) => {
     const response = await auth.post('/team/create', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        'Access-Control-Allow-Origin': `http://127.0.0.1:3000/`,
-        // 'Access-Control-Allow-Origin': `http://localhost:3000/`,
       },
       withCredentials: false,
     });
