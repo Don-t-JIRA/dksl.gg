@@ -13,10 +13,11 @@ import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
 import GroupContainer from './pages/GroupContainer.jsx';
-// Styled
-import GlobalStyles from './styles/globalStyles.style.js';
 import LoadingComponent from './components/common/LoadingComponent.jsx';
 import NotFound from './components/common/NotFound.jsx';
+// Styled
+import GlobalStyles from './styles/globalStyles.style.js';
+// import { StyleSheetManager } from 'styled-components';
 
 // Routing 설정
 const router = createBrowserRouter([
@@ -34,7 +35,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <GlobalStyles />
       <React.StrictMode>
         <Suspense fallback={<LoadingComponent />}>
+          {/* <StyleSheetManager
+            shouldForwardProp={(prop) => ['bgnum', 'istab'].includes(prop)}
+          > */}
           <RouterProvider router={router} />
+          {/* </StyleSheetManager> */}
         </Suspense>
       </React.StrictMode>
     </Provider>
