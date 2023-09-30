@@ -4,10 +4,9 @@ import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
 import com.ssafy.dksl.model.dto.response.AllTeamResponse;
-import com.ssafy.dksl.model.service.TeamServiceImpl;
+import com.ssafy.dksl.model.service.TeamService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("team")
 @CrossOrigin
 public class TeamController {
-    private final TeamServiceImpl teamService;
+    private final TeamService teamService;
 
     @Autowired
-    public TeamController(TeamServiceImpl teamService) {
+    public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
