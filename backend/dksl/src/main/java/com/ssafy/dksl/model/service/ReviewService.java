@@ -1,33 +1,42 @@
 package com.ssafy.dksl.model.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.ssafy.dksl.model.dto.response.*;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.repository.MemberRepository;
+import com.ssafy.dksl.model.service.common.RiotServiceImpl;
 import com.ssafy.dksl.util.exception.NonExistReviewException;
+import com.ssafy.dksl.util.exception.RiotApiInvalidException;
 import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewDeleteRequestDto;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
-import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
 import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
-import com.ssafy.dksl.model.dto.response.ReviewDeleteResponseDto;
-import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Review;
 import com.ssafy.dksl.model.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Spliterator;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ReviewService {
+public class ReviewService extends RiotServiceImpl {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
     private final int PAGESIZE = 10;
+    private final int ONE_MILLISECOND = 1000;
+    private final int ONE_MINUTE = 60;
+    private final String CHAMPION_KILL = "CHAMPION_KILL";
 
     public List<ReviewSearchResponseDto> getReviews(String matchId, int page){
         List<Review> reviews = reviewRepository.findByMatchIdAndDeletedAtIsNullOrderByCreatedAtDesc(matchId, PageRequest.of(page, PAGESIZE));
@@ -73,6 +82,100 @@ public class ReviewService {
 
         return ReviewDeleteResponseDto.builder()
                 .id(findReview.getId())
+                .build();
+    }
+
+    public ReviewSearchMatchTimelineResponseDto searchMatchTimeline(String matchId) throws RiotApiInvalidException {
+        List<String> championNames = new ArrayList<>();
+        List<TimelineInfoResponseDto> timelines = new ArrayList<>();
+
+        // 매치 참가자 정보 가공 과정
+        JsonNode matchInfoNode = findMatchMemberFromMatchId(matchId);
+        log.info("MatchInfoNode: {}", matchInfoNode.asText());
+
+        JsonNode infosNode = matchInfoNode.get("info");
+        if(infosNode.isNull()){
+            log.error("There is no info key in json response!");
+            throw new RiotApiInvalidException();
+        }
+
+        log.info("Pass 1");
+        JsonNode participantsArrayNode = infosNode.get("participants");
+        if(participantsArrayNode.isNull() || !participantsArrayNode.isArray()){
+            log.error("There is invalid participants value in json response!");
+            throw new RiotApiInvalidException();
+        }
+
+        for(JsonNode participantNode : participantsArrayNode) {
+            JsonNode championNode = participantNode.get("championName");
+            if(championNode.isNull()){
+                log.error("");
+                throw new RiotApiInvalidException();
+            }
+            log.info("ChampionNode: {}", championNode.asText());
+            championNames.add(championNode.asText());
+        }
+
+        // 매치 타임라인 관련 정보 가공 과정
+        JsonNode timelineNode = findMatchTimelineByMatchId(matchId);
+//        log.info("TimelineNode: {}", timelineNode);
+
+        JsonNode infoNode = timelineNode.get("info");
+//        log.info("infoNode: {}", infoNode);
+        if(infoNode.isNull()) {
+            log.error("There is no info value in gameInfoNode!");
+            throw new RiotApiInvalidException();
+        }
+
+        JsonNode frameArrayNode = infoNode.get("frames");
+//        log.info("frameNode: {}", frameNode);
+        if(frameArrayNode.isNull() || !frameArrayNode.isArray()) {
+            log.error("There is no frame value in gameInfoNode!");
+            throw new RiotApiInvalidException();
+        }
+
+        for(JsonNode frameNode : frameArrayNode) {
+            JsonNode eventsArrayNode = frameNode.get("events");
+            if(eventsArrayNode.isNull() || !eventsArrayNode.isArray()) {
+                log.error("There is no events value in gameInfoNode!");
+                throw new RiotApiInvalidException();
+            }
+
+            for(JsonNode eventNode : eventsArrayNode) {
+                if (eventNode.get("type").asText().equals(CHAMPION_KILL)) {
+                    TimelineInfoResponseDto timeline = createTimelineInfo(eventNode);
+                    log.info("Timeline: {}", timeline);
+                    timelines.add(timeline);
+                }
+            }
+        }
+
+        return ReviewSearchMatchTimelineResponseDto.builder()
+                .timelines(timelines)
+                .championNames(championNames)
+                .matchId(matchId)
+                .build();
+    }
+
+    private TimelineInfoResponseDto createTimelineInfo(JsonNode eventNode) {
+        int killerId = eventNode.get("killerId").asInt();
+        int x = eventNode.get("position").get("x").asInt();
+        int y = eventNode.get("position").get("y").asInt();
+
+        int timestamp = eventNode.get("timestamp").asInt();
+        int seconds = timestamp / ONE_MILLISECOND;
+        int minute = seconds / ONE_MINUTE;
+        int second = seconds % ONE_MINUTE;
+
+        int killedId = eventNode.get("victimId").asInt();
+
+        return TimelineInfoResponseDto.builder()
+                .killedId(killedId)
+                .killerId(killerId)
+                .minute(minute)
+                .second(second)
+                .x(x)
+                .y(y)
                 .build();
     }
 }
