@@ -25,7 +25,7 @@ const GroupCreateComponent = () => {
     <S.CreateLayout>
       <div className="input-area-1">
         <div className="input-image">
-          <S.LabelForFile htmlFor="swal-input">
+          <S.LabelForFile $for="swal-input">
             <img
               className="preview"
               src={src}

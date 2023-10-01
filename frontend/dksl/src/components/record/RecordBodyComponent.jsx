@@ -22,25 +22,25 @@ const RecordBodyComponent = (props) => {
         <div className="tab">
           <div className="tab-title">
             <S.TabItem
-              istab={props.tab == 0 ? 1 : 0}
+              $istab={props.tab == 0 ? 1 : 0}
               onClick={() => props.setTab(0)}
             >
               전적
             </S.TabItem>
             <S.TabItem
-              istab={props.tab == 1 ? 1 : 0}
+              $istab={props.tab == 1 ? 1 : 0}
               onClick={() => props.setTab(1)}
             >
               분석
             </S.TabItem>
             <S.TabItem
-              istab={props.tab == 2 ? 1 : 0}
+              $istab={props.tab == 2 ? 1 : 0}
               onClick={() => props.setTab(2)}
             >
               소속
             </S.TabItem>
             <S.TabItem
-              istab={props.tab == 3 ? 1 : 0}
+              $istab={props.tab == 3 ? 1 : 0}
               onClick={() => props.setTab(3)}
             >
               리뷰

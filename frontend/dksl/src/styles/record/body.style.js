@@ -45,9 +45,9 @@ export const TabItem = styled.button`
   font-size: medium;
   padding: 3px;
   border-radius: 4px;
-  font-weight: ${(props) => (props.istab == 1 ? `bolder` : `500`)};
+  font-weight: ${(props) => (props.$istab == 1 ? `bolder` : `500`)};
   color: #000;
   background-color: ${(props) =>
-    props.istab == 1 ? `var(--maincolor-depth2)` : `inherit`};
+    props.$istab == 1 ? `var(--maincolor-depth2)` : `inherit`};
   transition: all 0.25s;
 `;

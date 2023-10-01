@@ -19,7 +19,7 @@ const SigninComponent = ({ getter, setter, onSignIn }) => {
   };
 
   return (
-    <S.SigninLayout bgnum={num}>
+    <S.SigninLayout $bgnum={num}>
       <S.SigninContainer>
         <div className="box">
           <img className="logo" src="../image/dkslhead.svg" />

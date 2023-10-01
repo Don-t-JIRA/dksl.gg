@@ -118,7 +118,7 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
   };
 
   return (
-    <S.SignupLayout bgnum={num}>
+    <S.SignupLayout $bgnum={num}>
       <S.SignupContainer>
         <div className="box">
           <img className="logo" src="/image/dkslhead.svg" />

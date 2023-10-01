@@ -5,7 +5,7 @@ export const SearchLayout = styled.div`
   height: 70vh;
   margin-top: 12.5vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('/image/bg/main_bg_${(props) => props.bgnum}.jpg');
+    url('/image/bg/main_bg_${(props) => props.$bgnum}.jpg');
   background-size: cover;
   background-position: center;
   display: flex;

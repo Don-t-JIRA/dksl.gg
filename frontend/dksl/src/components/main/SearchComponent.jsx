@@ -28,7 +28,7 @@ const SearchComponent = () => {
 
   return (
     <>
-      <S.SearchLayout bgnum={num}>
+      <S.SearchLayout $bgnum={num}>
         <div className="container">
           <div className="title">
             <div className="typing">나의 전적을 분석해보세요.</div>

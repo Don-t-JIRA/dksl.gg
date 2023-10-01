@@ -87,7 +87,7 @@ export const AnalyzeCard = styled.div`
 
 export const TagItem = styled.div`
   ${Tag};
-  background-color: ${(props) => props.bg};
+  background-color: ${(props) => props.$bg};
 `;
 
 export const GraphCard = styled.div`

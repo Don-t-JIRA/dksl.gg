@@ -72,22 +72,22 @@ const TabAnalyzeComponent = () => {
               <p className="lbti">CVSD</p>
             </div>
             <div className="tag-box">
-              <S.TagItem bg="red">
+              <S.TagItem $bg="red">
                 <div className="text">
                   #<b>공격</b>적인
                 </div>
               </S.TagItem>
-              <S.TagItem bg="green">
+              <S.TagItem $bg="green">
                 <div className="text">
                   #<b>올드</b>한
                 </div>
               </S.TagItem>
-              <S.TagItem bg="violet">
+              <S.TagItem $bg="violet">
                 <div className="text">
                   #많이<b>때린</b>
                 </div>
               </S.TagItem>
-              <S.TagItem bg="var(--maincolor-depth1)">
+              <S.TagItem $bg="var(--maincolor-depth1)">
                 <div className="text">
                   #<b>철거</b>반장
                 </div>

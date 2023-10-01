@@ -55,7 +55,7 @@ const RecordCardComponent = (props) => {
 
   return (
     <>
-      <S.RecordCard win={props.win}>
+      <S.RecordCard $win={props.win}>
         <div className="record-info">
           <div className="left-section">
             <div className="area-1">
@@ -198,7 +198,7 @@ const RecordCardComponent = (props) => {
       <div className={`start ${isOpen && `end`}`}>
         {isOpen && (
           <S.RecordDetail>
-            <S.TeamDetail win>
+            <S.TeamDetail $win>
               <div className="title">
                 <p>승리</p>
               </div>
@@ -242,7 +242,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -300,7 +300,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -358,7 +358,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -416,7 +416,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -474,7 +474,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -537,7 +537,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -595,7 +595,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -653,7 +653,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -711,7 +711,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -769,7 +769,7 @@ const RecordCardComponent = (props) => {
                         <b>W</b>:6
                       </p>
                     </div>
-                    <S.HorizenGraph red={30} gray={70}>
+                    <S.HorizenGraph $red={30} $gray={70}>
                       <div className="red"></div>
                       <div className="gray"></div>
                     </S.HorizenGraph>
@@ -946,35 +946,35 @@ const TabMainComponent = ({ data }) => {
               <p className="sub-title">선호 포지션&nbsp;(랭크)</p>
               <div className="position-area">
                 <div className="line">
-                  <S.LineGraph gray={90} blue={10}>
+                  <S.LineGraph $gray={90} $blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>TOP</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph gray={90} blue={10}>
+                  <S.LineGraph $gray={90} $blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>JUG</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph gray={30} blue={70}>
+                  <S.LineGraph $gray={30} $blue={70}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>MID</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph gray={100} blue={0}>
+                  <S.LineGraph $gray={100} $blue={0}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>AD</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph gray={90} blue={10}>
+                  <S.LineGraph $gray={90} $blue={10}>
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>

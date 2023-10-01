@@ -9,7 +9,7 @@ const ProfileComponent = ({ data }) => {
   const num = useMemo(() => Math.floor(Math.random() * 6) + 1, []);
 
   return (
-    <S.ProfileLayout bgnum={num}>
+    <S.ProfileLayout $bgnum={num}>
       {data ? (
         <S.ProfileContainer>
           <img

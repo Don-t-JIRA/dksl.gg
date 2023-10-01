@@ -263,12 +263,12 @@ export const LineGraph = styled.div`
   flex-direction: column;
 
   & .gray-area {
-    flex-basis: ${(props) => props.gray}%;
+    flex-basis: ${(props) => props.$gray}%;
     background-color: #dbe0e4;
   }
 
   & .blue-area {
-    flex-basis: ${(props) => props.blue}%;
+    flex-basis: ${(props) => props.$blue}%;
     background-color: #5383e8;
   }
 `;
@@ -294,14 +294,14 @@ export const RecordCard = styled.div`
   display: flex;
   margin-bottom: 0;
   border-radius: 0;
-  background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+  background-color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
 
   & .record-info {
     width: 94%;
     height: 100%;
     display: flex;
     margin-left: 2%;
-    background-color: ${(props) => (props.win ? `#bedaf7` : `#f9c6c6`)};
+    background-color: ${(props) => (props.$win ? `#bedaf7` : `#f9c6c6`)};
     font-size: x-small;
 
     & p {
@@ -319,7 +319,7 @@ export const RecordCard = styled.div`
         & .win {
           font-size: small;
           font-weight: bold;
-          color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+          color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
         }
       }
 
@@ -460,7 +460,7 @@ export const RecordDetail = styled.div`
 
 export const TeamDetail = styled.div`
   width: 50%;
-  background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
+  background-color: ${(props) => (props.$win ? `#F9FBFD` : `#FEF9F9`)};
 
   & .title {
     width: 100%;
@@ -468,7 +468,7 @@ export const TeamDetail = styled.div`
     display: table;
     margin: 0;
     padding: 0;
-    background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+    background-color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
 
     & p {
       width: auto;
@@ -599,13 +599,13 @@ export const HorizenGraph = styled.div`
   display: flex;
 
   & .red {
-    width: ${(props) => props.red}%;
+    width: ${(props) => props.$red}%;
     height: 100%;
     background-color: #ff5858;
   }
 
   & .gray {
-    width: ${(props) => props.gray}%;
+    width: ${(props) => props.$gray}%;
     height: 100%;
     background-color: #dbe0e4;
   }
