@@ -197,6 +197,7 @@ export const RecentCard = styled.div`
       }
       & .kda {
         display: inline-flex;
+        font-size: medium;
       }
       & .death {
         color: red;

@@ -46,7 +46,7 @@ const TabAnalyzeComponent = () => {
     <S.TabAnalyzeLayout>
       <div className="rank-type">
         <div className="radio-group">
-          <input type="radio" name="rank-type" checked />
+          <input type="radio" name="rank-type" />
           <label>랭크 전체</label>
           <input type="radio" name="rank-type" />
           <label>솔로 랭크</label>
@@ -67,10 +67,10 @@ const TabAnalyzeComponent = () => {
           <p className="title">&#128195; 롤BTI 분석</p>
           <div className="analyze-box">
             <img src="/image/lbti-img.svg" />
-            <p className="subtitle">
+            <div className="subtitle">
               <p>킹받는 티모 원챔</p>
               <p className="lbti">CVSD</p>
-            </p>
+            </div>
             <div className="tag-box">
               <S.TagItem bg="red">
                 <div className="text">

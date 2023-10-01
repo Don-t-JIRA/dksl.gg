@@ -30,7 +30,7 @@ const ProfileComponent = ({ data }) => {
         </S.ProfileContainer>
       ) : (
         <S.ProfileContainer>
-          <LoadingComponent white />
+          <LoadingComponent white={true} />
         </S.ProfileContainer>
       )}
     </S.ProfileLayout>

@@ -874,7 +874,7 @@ const TabMainComponent = ({ data }) => {
       <S.RightLayout>
         <div className="rank-type">
           <div className="radio-group">
-            <input type="radio" name="rank-type" checked />
+            <input type="radio" name="rank-type" />
             <label>랭크 전체</label>
             <input type="radio" name="rank-type" />
             <label>솔로 랭크</label>
@@ -913,9 +913,9 @@ const TabMainComponent = ({ data }) => {
                   enableArcLabels={false}
                 />
                 <div className="description">
-                  <p className="kda">
+                  <div className="kda">
                     5.7/<p className="death">5.4</p>/6.4
-                  </p>
+                  </div>
                   <p className="middle">2.24:1</p>
                   <p>킬관여 51%</p>
                 </div>
@@ -985,7 +985,7 @@ const TabMainComponent = ({ data }) => {
           </div>
         </S.RecentCard>
         <S.RecordTable>
-          <RecordCardComponent key={1} win />
+          <RecordCardComponent key={1} win="true" />
           <RecordCardComponent key={2} />
         </S.RecordTable>
       </S.RightLayout>

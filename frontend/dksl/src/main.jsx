@@ -17,7 +17,6 @@ import LoadingComponent from './components/common/LoadingComponent.jsx';
 import NotFound from './components/common/NotFound.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
-// import { StyleSheetManager } from 'styled-components';
 
 // Routing 설정
 const router = createBrowserRouter([
@@ -32,14 +31,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ErrorBoundary FallbackComponent={ErrorComponent}>
     <Provider>
-      <GlobalStyles />
       <React.StrictMode>
         <Suspense fallback={<LoadingComponent />}>
-          {/* <StyleSheetManager
-            shouldForwardProp={(prop) => ['bgnum', 'istab'].includes(prop)}
-          > */}
+          <GlobalStyles />
           <RouterProvider router={router} />
-          {/* </StyleSheetManager> */}
         </Suspense>
       </React.StrictMode>
     </Provider>
