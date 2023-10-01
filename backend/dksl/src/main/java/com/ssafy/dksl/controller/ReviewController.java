@@ -1,6 +1,9 @@
 package com.ssafy.dksl.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.ssafy.dksl.model.dto.response.ReviewSearchMatchTimelineResponseDto;
 import com.ssafy.dksl.util.exception.NonExistReviewException;
+import com.ssafy.dksl.util.exception.RiotApiInvalidException;
 import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
@@ -50,6 +53,20 @@ public class ReviewController {
             return ResponseEntity.ok(reviewUpdateResponseDto);
         } catch (NonExistReviewException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/riot/timeline/{matchId}")
+    public ResponseEntity<?> searchMatchTimeline(@PathVariable String matchId){
+        try{
+            ReviewSearchMatchTimelineResponseDto responseDto = reviewService.searchMatchTimeline(matchId);
+
+            return ResponseEntity.ok(responseDto);
+        } catch (RiotApiInvalidException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Unknown Exception thrown!!!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
