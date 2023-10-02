@@ -1,6 +1,8 @@
 from app.match_history.model import (
     CurrentSeasonSummaries,
     CurrentSeasonSummariesBase,
+    CurrentSeasonSummariesFlex,
+    CurrentSeasonSummariesFlexBase,
     MatchHistoriesBase,
 )
 from uuid import UUID
@@ -21,7 +23,6 @@ class IMatchHistoriesRead(MatchHistoriesBase):
 class IMatchHistoriesUpdate(CurrentSeasonSummaries):
     pass
 
-
 class ICurrentSeasonSummariesCreate(CurrentSeasonSummariesBase):
     pass
 
@@ -33,4 +34,17 @@ class ICurrentSeasonSummariesRead(CurrentSeasonSummariesBase):
 # All these fields are optional
 @optional
 class ICurrentSeasonSummariesUpdate(CurrentSeasonSummariesBase):
+    pass
+
+class ICurrentSeasonSummariesFlexCreate(CurrentSeasonSummariesFlexBase):
+    pass
+
+
+class ICurrentSeasonSummariesFlexRead(CurrentSeasonSummariesFlexBase):
+    id: UUID
+
+
+# All these fields are optional
+@optional
+class ICurrentSeasonSummariesFlexUpdate(CurrentSeasonSummariesFlexBase):
     pass

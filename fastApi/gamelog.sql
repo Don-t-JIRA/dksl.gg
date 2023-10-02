@@ -10,9 +10,10 @@ USE dksl;
 -- SELECT * FROM lol_profiles;
 -- SELECT * FROM match_histories;	
 
-SELECT * FROM most_champion_summaries;
-SELECT * FROM current_season_summaries;
-SELECT * FROM most_line_summaries;
+-- SELECT * FROM most_champion_summaries;
+-- SELECT * FROM current_season_summaries;
+-- SELECT * FROM current_season_summaries_flex;
+-- SELECT * FROM most_line_summaries;
 -- SELECT * FROM champions;
 -- SELECT * FROM items;
 
@@ -49,8 +50,8 @@ VALUES
 	(420, 'RANKED_SOLO_5x5', '솔로랭크'),
     (430, 'MATCHED_GAME', '일반'),
     (440, 'RANKED_FLEX_SR', '자유랭크'),
-    (450, 'aram', '칼바람 나락'),
-    (700, 'clash', '격전'),
+    (450, 'ARAM', '칼바람 나락'),
+    (700, 'CLASH', '격전'),
     (800, 'ai', 'AI대전'),
     (810, 'ai', 'AI대전'),
     (820, 'ai', 'AI대전'),
@@ -836,6 +837,11 @@ CREATE TABLE match_histories (
     `kill` INT NOT NULL,
     death INT NOT NULL,
     assist INT NOT NULL,
+    kda DOUBLE NOT NULL,
+    kill_participation DOUBLE NOT NULL,
+    control_wards_placed INT NOT NULL,
+    damage_taken_on_team_percentage DOUBLE NOT NULL,
+    vision_score INT NOT NULL,
     win_or_lose INT NOT NULL,
     updated_at DATETIME NOT NULL,
     created_at DATETIME NOT NULL,
@@ -868,6 +874,19 @@ CREATE TABLE lol_profiles(
 );
 
 CREATE TABLE current_season_summaries(
+    puu_id VARCHAR(78) PRIMARY KEY,
+    losses INT NOT NULL,
+    lp INT NOT NULL,
+    queue_id INT NOT NULL,
+    `rank` INT NOT NULL,
+    summoner_id VARCHAR(47) NOT NULL,
+    tier_name VARCHAR(20) NOT NULL,
+    wins INT NOT NULL,
+    FOREIGN KEY (tier_name) REFERENCES tiers(name_en),
+    FOREIGN KEY (puu_id) REFERENCES lol_profiles(puu_id)
+);
+
+CREATE TABLE current_season_summaries_flex(
     puu_id VARCHAR(78) PRIMARY KEY,
     losses INT NOT NULL,
     lp INT NOT NULL,
