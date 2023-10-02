@@ -68,6 +68,7 @@ class MatchHistoriesBase(SQLModel):
     kda: float
     kill_participation: float
     control_wards_placed: int
+    total_damage_dealt_to_champions: int
     damage_taken_on_team_percentage: float
     vision_score: int
     win_or_lose: int = Field(
