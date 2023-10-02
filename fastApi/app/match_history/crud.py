@@ -7,10 +7,12 @@ from sqlmodel import select
 from uuid import UUID
 from sqlalchemy.orm import joinedload
 
-from app.match_history.model import CurrentSeasonSummaries, MatchHistories
+from app.match_history.model import CurrentSeasonSummaries, MatchHistories, CurrentSeasonSummariesFlex
 from app.match_history.schema import (
     ICurrentSeasonSummariesCreate,
     ICurrentSeasonSummariesUpdate,
+    ICurrentSeasonSummariesFlexCreate,
+    ICurrentSeasonSummariesFlexUpdate,
     IMatchHistoriesCreate,
     IMatchHistoriesUpdate,
 )
@@ -67,3 +69,38 @@ class CRUDCurrentSeasonSummaries(
 
 
 current_season_summaries_crud = CRUDCurrentSeasonSummaries(CurrentSeasonSummaries)
+
+class CRUDCurrentSeasonSummariesFlex(
+    CRUDBase[
+        CurrentSeasonSummariesFlex,
+        ICurrentSeasonSummariesFlexCreate,
+        ICurrentSeasonSummariesFlexUpdate,
+    ]
+):
+    def get_by_puu_id_queue(self, *, puu_id: str, queue_id: int, db_session=None):
+        db_session = db_session
+        query = select(CurrentSeasonSummariesFlex).where(
+            and_(
+                CurrentSeasonSummariesFlex.puu_id == puu_id,
+                CurrentSeasonSummariesFlex.queue_id == queue_id,
+            )
+        )
+        response = db_session.execute(query)
+        return response.scalar_one_or_none()
+
+    def remove_summoner_summaries(self, *, puu_id: str, db_session=None):
+        db_session = db_session
+
+        response = db_session.execute(
+            select(CurrentSeasonSummariesFlex).where(
+                CurrentSeasonSummariesFlex.puu_id == puu_id
+            )
+        )
+        obj = response.scalars()
+
+        db_session.delete(obj)
+        db_session.commit()
+        return obj
+
+
+current_season_summaries_flex_crud = CRUDCurrentSeasonSummariesFlex(CurrentSeasonSummariesFlex)

@@ -10,15 +10,16 @@ from app.users.crud import lol_profiles as lol_profiles_crud
 from app.users.model import LolProfiles as LolProfiles
 from app.match_history.schema import (
     ICurrentSeasonSummariesCreate,
+    ICurrentSeasonSummariesFlexCreate,
     IMatchHistoriesCreate,
     IMatchHistoriesRead,
 )
 from app.database import exec_query, get_db
-from app.match_history.crud import match_history_crud, current_season_summaries_crud
+from app.match_history.crud import match_history_crud, current_season_summaries_crud, current_season_summaries_flex_crud
 
 router = APIRouter()
 
-@router.get("", response_model=Dict[str, Union[List[IMatchHistoriesRead], str, Dict]])
+@router.get("")
 def get_match_history(
     summoner_name: str,
     db_session=Depends(get_db),
@@ -66,12 +67,11 @@ def get_match_history(
         # 1번만 하기
         break
     match_histories_mapped = []
-    batch = []  # Initialize an empty batch list
 
     for match in match_histories:
         for participant in match.get("info", {}).get("participants", []):
-            # Create and append the IMatchHistoriesCreate object to the batch
-            batch.append(
+            challenges = participant.get("challenges", {})
+            match_histories_mapped.append(
                 IMatchHistoriesCreate(
                     level=participant.get("champLevel", ""),
                     CS=participant.get("totalMinionsKilled", 0),
@@ -98,24 +98,125 @@ def get_match_history(
                     kill=participant.get("kills", ""),
                     death=participant.get("deaths", ""),
                     assist=participant.get("assists", ""),
+                    kda=challenges.get("kda", ""),
+                    kill_participation=challenges.get("killParticipation", ""),
+                    control_wards_placed=challenges.get("controlWardsPlaced", ""),
+                    damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", ""),
+                    vision_score=participant.get("visionScore", ""),
                     win_or_lose=1 if participant.get("win", False) else 0,
                 )
             )
 
-            # Check if the batch contains 10 objects
-            if len(batch) == 10:
-                # Append the batch to the main list
-                match_histories_mapped.extend(batch)
-                # Clear the batch for the next 10 objects
-                batch = []
 
-    # Check if there are any remaining objects in the batch and append them
-    if batch:
-        match_histories_mapped.extend(batch)
+    """
+    1. LOL_PROFILES, CURRENT_SEASON_SUMMARIES
+    2. MOST CHAMP 3개 가져오고
+    3. MOST LINE 3개 가져오기
+    4. Merge
 
-    response_data = create_response(match_histories_mapped, message="전적 불러오기")
 
-    return response_data
+    summonerName: string;
+    tierName: string;
+    rank: number;
+    winRate: number;
+    wins: number;
+    loses: number;
+    champions: {img: string, win_rate: number, kda: number}[];
+    positions: {img: string, win_rate: number, kda: number}[];
+    """
+
+    # 1번 쿼리
+    query = """
+            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
+              LEFT OUTER JOIN LOL_PROFILES LP
+                ON U.puu_id = LP.puu_id
+              LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
+                ON CSS.puu_id = LP.puu_id
+              LEFT OUTER JOIN TIERS T
+                ON T.name_en = CSS.tier_name
+             WHERE LP.summoner_name = %(summoner_name)s
+             ;
+        """
+
+    summoner_info = exec_query(db_session, query, input_params={"summoner_name": summoner_name})
+    current_season_summary_id = summoner_info[0]['current_season_summary_id']
+
+    query_2 = f"""
+        SELECT MCS.*, C.image_url as image_url, CSS.queue_id as queue_id
+          FROM MOST_CHAMPION_SUMMARIES MCS
+          LEFT OUTER JOIN CHAMPIONS C
+            ON C.name_en = MCS.champion_name
+          LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
+            ON CSS.puu_id = MCS.current_season_summary_id
+        WHERE MCS.current_season_summary_id = '{current_season_summary_id}';
+    """
+
+    most_champs = exec_query(db_session, query_2)
+
+    most_champs = list(
+        map(
+            lambda item: {
+                "queue_id": item.get("queue_id"),
+                "img": item.get("image_url"),
+                "win_rate": item.get("win_rate", 0),
+                "kda": item.get("kda", 0),
+                "champion_name": item.get("champion_name"),
+            },
+            most_champs,
+        )
+    )
+
+    query_3 = f"""
+        SELECT MLS.*, L.image_url as image_url, CSS.queue_id as queue_id, L.name as line_name
+          FROM MOST_LINE_SUMMARIES MLS
+          LEFT OUTER JOIN `LINES` L
+            ON L.name = MLS.line_name
+          LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
+            ON CSS.puu_id = MLS.current_season_summary_id
+         WHERE MLS.current_season_summary_id in ('{current_season_summary_id}')
+
+         ;
+    """
+    most_lines = exec_query(db_session, query_3)
+
+    most_lines = list(
+        map(
+            lambda item: {
+                "queue_id": item.get("queue_id"),
+                "img": item.get("image_url"),
+                "win_rate": item.get("win_rate", 0),
+                "kda": item.get("kda", 0),
+                "line": item.get("line_name", "NONE"),
+            },
+            most_lines,
+        )
+    )
+
+    ret = []
+
+    for info in summoner_info:
+        champs = list(
+            filter(
+                lambda item: item.get("queue_id") == info.get("queue_id"), most_champs
+            )
+        )
+        lines = list(
+            filter(
+                lambda item: item.get("queue_id") == info.get("queue_id"), most_lines
+            )
+        )
+
+        ret.append(
+            {
+                **info,
+                "champions": champs,
+                "positions": lines,
+            }
+        )
+
+    return {"profile": ret,
+            "match_histories": match_histories_mapped
+    }
 
 
 
@@ -166,36 +267,76 @@ def put_match_history(
         # tier_id 찾기
         tier_name = league_info.get("tier")
 
-        # 존재하는가?
         current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
             puu_id=puu_id, queue_id=queue, db_session=db_session
         )
 
-        obj_new = ICurrentSeasonSummariesCreate(
-            losses=league_info.get("losses"),
-            lp=league_info.get("leaguePoints"),
-            queue_id=queue,
-            rank=rank_map.get(league_info.get("rank"), "IV"),
-            summoner_id=league_info.get("summonerId"),
-            puu_id=puu_id,
-            tier_name=tier_name,
-            wins=league_info.get("wins"),
-        )
-        # current_season summary 가 이미 존재할 때
-        if current_season_summary:
-            current_season_summaries_crud.update(
-                obj_current=current_season_summary,
-                obj_new=obj_new,
-                db_session=db_session,
+        if queue == 440:
+            # 자유랭크 요약이 존재하는가?
+            current_season_flex_summary = current_season_summaries_flex_crud.get_by_puu_id_queue(
+                puu_id=puu_id, queue_id=queue, db_session=db_session
             )
-        # 존재하지 않을 때
-        else:
-            current_season_summaries_crud.create(
-                obj_in=obj_new, db_session=db_session)
 
+            obj_new = ICurrentSeasonSummariesFlexCreate(
+                losses=league_info.get("losses"),
+                lp=league_info.get("leaguePoints"),
+                queue_id=queue,
+                rank=rank_map.get(league_info.get("rank"), "IV"),
+                summoner_id=league_info.get("summonerId"),
+                puu_id=puu_id,
+                tier_name=tier_name,
+                wins=league_info.get("wins"),
+            )
+            # current_season flex summary 가 이미 존재할 때
+            if current_season_flex_summary:
+                current_season_summaries_flex_crud.update(
+                    obj_current=current_season_flex_summary,
+                    obj_new=obj_new,
+                    db_session=db_session,
+                )
+            # 존재하지 않을 때
+            else:
+                current_season_summaries_flex_crud.create(
+                    obj_in=obj_new, db_session=db_session)
+
+                current_season_flex_summary = current_season_summaries_flex_crud.get_by_puu_id_queue(
+                    puu_id=puu_id, queue_id=queue, db_session=db_session
+                )
+
+            break
+
+        else:
+            # 솔로랭크 요약이 존재하는가?
             current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
                 puu_id=puu_id, queue_id=queue, db_session=db_session
             )
+
+            obj_new = ICurrentSeasonSummariesCreate(
+                losses=league_info.get("losses"),
+                lp=league_info.get("leaguePoints"),
+                queue_id=queue,
+                rank=rank_map.get(league_info.get("rank"), "IV"),
+                summoner_id=league_info.get("summonerId"),
+                puu_id=puu_id,
+                tier_name=tier_name,
+                wins=league_info.get("wins"),
+            )
+            # current_season summary 가 이미 존재할 때
+            if current_season_summary:
+                current_season_summaries_crud.update(
+                    obj_current=current_season_summary,
+                    obj_new=obj_new,
+                    db_session=db_session,
+                )
+            # 존재하지 않을 때
+            else:
+                current_season_summaries_crud.create(
+                    obj_in=obj_new, db_session=db_session)
+
+                current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
+                    puu_id=puu_id, queue_id=queue, db_session=db_session
+                )
+
 
         ########## 3 ##########
         exec_query(
@@ -381,6 +522,7 @@ def add_match_history(
         for match in match_histories:
 
             for participant in match.get("info", {}).get("participants", []):
+                challenges = participant.get("challenges", {})
                 match_histories_mapped.append(
                     IMatchHistoriesCreate(
                         level=participant.get("champLevel", ""),
@@ -414,6 +556,11 @@ def add_match_history(
                         kill=participant.get("kills", ""),
                         death=participant.get("deaths", ""),
                         assist=participant.get("assists", ""),
+                        kda=challenges.get("kda", ""),
+                        kill_participation=challenges.get("killParticipation", ""),
+                        control_wards_placed=challenges.get("controlWardsPlaced", ""),
+                        damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", ""),
+                        vision_score=participant.get("visionScore", ""),
                         win_or_lose=1 if participant.get("win", False) else 0,
                     )
                 )
