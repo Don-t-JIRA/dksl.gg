@@ -506,21 +506,27 @@ export const TeamDetail = styled.div`
       align-self: center;
 
       & .champ {
+        height: 100%;
+        display: flex;
         flex-basis: 25%;
+        align-items: center;
 
         & .image {
+          margin: auto;
           width: 90%;
         }
       }
 
       & .another {
+        height: 100%;
         display: flex;
         flex-wrap: wrap;
         flex-basis: 25%;
+        justify-content: space-evenly;
 
         & .image {
+          margin: auto;
           width: 40%;
-          height: 50%;
         }
       }
 

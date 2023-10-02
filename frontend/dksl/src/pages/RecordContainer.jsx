@@ -10,6 +10,18 @@ import { laderData, sample } from '../data';
 import { spell } from '../spell';
 import { rune } from '../rune';
 
+const formatGold = (number) => {
+  if (number >= 10000) {
+    const quotient = Math.floor(number / 1000);
+    return `${quotient / 10}만`;
+  }
+  if (number >= 1000) {
+    const quotient = Math.floor(number / 100);
+    return `${quotient / 10}천`;
+  }
+  return number.toString();
+};
+
 const sampleData = () => {
   let win = 0;
   const user = sample.profile[0].summoner_name;
@@ -32,18 +44,14 @@ const sampleData = () => {
       }
     }
 
+    const winner = [];
+    const loser = [];
+
     e.forEach((v, i) => {
-      if (v.win_or_lose == 0) {
-        summary[1].push({
-          name: v.summoner_name,
-          champ: v.champion_name_en,
-        });
-      } else {
-        summary[0].push({
-          name: v.summoner_name,
-          champ: v.champion_name_en,
-        });
-      }
+      const gold = v.gold;
+
+      v.gold = formatGold(gold);
+      console.log(v.gold);
 
       const spell_0 = v.spell_0_id;
       const spell_1 = v.spell_1_id;
@@ -70,6 +78,19 @@ const sampleData = () => {
           }
         });
       }
+      if (v.win_or_lose == 0) {
+        summary[1].push({
+          name: v.summoner_name,
+          champ: v.champion_name_en,
+        });
+        loser.push(v);
+      } else {
+        summary[0].push({
+          name: v.summoner_name,
+          champ: v.champion_name_en,
+        });
+        winner.push(v);
+      }
 
       const str = v.play_duration.split('');
       if (str.length < 5) {
@@ -88,6 +109,8 @@ const sampleData = () => {
       cur,
       summary,
       data: e,
+      winner,
+      loser,
     };
   });
 
