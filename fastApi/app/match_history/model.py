@@ -65,10 +65,14 @@ class MatchHistoriesBase(SQLModel):
     kill: int = Field(nullable=False, description="해당 match에서 user가 kill한 횟수.")
     death: int = Field(nullable=False, description="해당 match에서 user가 death한 횟수.")
     assist: int = Field(nullable=False, description="해당 mathc에서 user가 assist한 횟수.")
+    kda: float
+    kill_participation: float
+    control_wards_placed: int
+    damage_taken_on_team_percentage: float
+    vision_score: int
     win_or_lose: int = Field(
         nullable=False, description="해당 match에서 user가 이겼는지 졌는지를 나타내는 요소."
     )
-
 
 class MatchHistories(BaseIdModel, MatchHistoriesBase, table=True):
     __tablename__ = "MATCH_HISTORIES"
@@ -114,6 +118,47 @@ class CurrentSeasonSummariesBase(SQLModel):
 
 
 class CurrentSeasonSummaries(CurrentSeasonSummariesBase, table=True):
+    pass
+
+class CurrentSeasonSummariesFlexBase(SQLModel):
+    __tablename__ = "CURRENT_SEASON_SUMMARIES_FLEX"
+    losses: int = Field(
+        nullable=False,
+        default=0,
+        description="해당 current season summary의 시즌 전체 패배 횟수.",
+    )
+    lp: int = Field(
+        unique=True,
+        nullable=False,
+        default=0,
+        description="해당 current season summary의 league point.",
+    )
+    queue_id: int = Field(
+        nullable=False, description="해당 Season Summary가 속한 queue 유형의 고유 번호."
+    )
+    rank: int = Field(
+        nullable=False,
+        description="해당 Current Season Summary의 tier를 세분화한 단계이다. ( I ~ IV )",
+    )
+    summoner_id: str = Field(
+        max_length=47,
+        nullable=False,
+        description="라이엇 API에서 제공하는 소환사를 구별하기 위한 고유 번호. 라이엇 API의 league 정보를 불러오는데 쓰이는 고유번호.  해당 Current Season Summary의 소환사를 가리킨다.",
+    )
+    puu_id: str = Field(
+        max_length=78,
+        primary_key=True,
+        nullable=False,
+        description="라이엇 API에서 제공하는 글로벌한 소환사의 고유 번호. lol profile을 구분하기 위한 필수 요소. 또한 라이엇 API에서 Match ID를 불러오는데 쓰이는 고유번호.",
+    )
+    tier_name: str = Field(
+        nullable=False, description="해당 Season Summary가 속한 tier의 고유 번호."
+    )
+    wins: int = Field(
+        nullable=False, description="해당 current season summary의 시즌 전체 승리 횟수."
+    )
+
+class CurrentSeasonSummariesFlex(CurrentSeasonSummariesFlexBase, table=True):
     pass
 
 

@@ -32,4 +32,3 @@ seaborn
 matplotlib
 IPython
 scikit-learn
-mpl_toolkits
