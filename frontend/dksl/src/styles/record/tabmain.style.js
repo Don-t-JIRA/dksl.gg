@@ -222,8 +222,8 @@ export const RecentCard = styled.div`
       align-items: center;
 
       & .image {
-        max-width: 2rem;
-        max-height: 2rem;
+        max-width: 1.5rem;
+        max-height: 1.5rem;
         border-radius: 50%;
         margin-right: 0.5rem;
       }
@@ -383,8 +383,8 @@ export const RecordCard = styled.div`
         align-self: center;
 
         & .image {
-          width: 25%;
-          height: 30%;
+          width: 24%;
+          margin: 0.5px;
         }
       }
     }
@@ -401,6 +401,7 @@ export const RecordCard = styled.div`
         & .image {
           width: 15%;
           height: 90%;
+          margin-right: 4px;
         }
       }
 
@@ -410,6 +411,7 @@ export const RecordCard = styled.div`
         & .image {
           width: 15%;
           height: 90%;
+          margin-right: 4px;
         }
       }
 

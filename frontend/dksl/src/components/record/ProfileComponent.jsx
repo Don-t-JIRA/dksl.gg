@@ -14,14 +14,14 @@ const ProfileComponent = ({ data }) => {
         <S.ProfileContainer>
           <img
             className="logo"
-            src={`http://ddragon.leagueoflegends.com/cdn/10.6.1/img/profileicon/${data.iconId}.png`}
+            src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${data.profile_icon_id}.png`}
           />
           <div className="userBox">
             <div className="title">
-              <h1>{data.name}</h1>
-              <img src={`/image/rank-icons/${data.tier}.png`} />
+              <h1>{data.summoner_name}</h1>
+              <img src={`/image/rank-icons/${data.tier_name}.png`} />
             </div>
-            <p className="lbti">{data.lbti}</p>
+            <p className="lbti">CVSD</p>
             <div className="record-update">
               <button>전적 갱신</button>
               <p className="desc">최근 업데이트 : 5분 전</p>

@@ -47,6 +47,7 @@ const animatedComponent = makeAnimated();
  *
  */
 const RecordCardComponent = (props) => {
+  console.log(props);
   const [isOpen, setIsOpen] = useState(false);
 
   const openDetail = () => {
@@ -59,16 +60,18 @@ const RecordCardComponent = (props) => {
         <div className="record-info">
           <div className="left-section">
             <div className="area-1">
-              <p className="win">승리</p>
+              <p className="win">{props.win ? '승리' : '패배'}</p>
               <p>솔로랭크</p>
-              <p>26:09</p>
+              <p>{props.data[0].play_duration}</p>
               <p>1시간 전</p>
             </div>
             <div className="area-2">
               <div className="champ">
                 <img
                   className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
+                  src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${
+                    props.data[props.curIdx].champion_name_en
+                  }.png`}
                 />
               </div>
               <div className="another">
@@ -80,10 +83,12 @@ const RecordCardComponent = (props) => {
             </div>
             <div className="area-3">
               <div className="kda">
-                <p>9</p>/<p className="red">1</p>/<p>4</p>
+                <p>{props.data[props.curIdx].kill}</p>/
+                <p className="red">{props.data[props.curIdx].death}</p>/
+                <p>{props.data[props.curIdx].assist}</p>
               </div>
               <p className="red">
-                <b>13.00</b> 평점
+                <b>{props.data[props.curIdx].kda}</b> 평점
               </p>
               <p className="tag">
                 <b>더블킬</b>
@@ -91,99 +96,83 @@ const RecordCardComponent = (props) => {
             </div>
             <div className="area-4">
               <p>
-                킬 관여 <b>62</b>%
+                킬 관여{' '}
+                <b>{props.data[props.curIdx].kill_participation * 100}</b>%
               </p>
               <p>
-                CS <b>279</b>
+                CS <b>{props.data[props.curIdx].CS}</b>
               </p>
               <p>
-                시야점수 <b>31</b>
+                시야점수 <b>{props.data[props.curIdx].vision_score}</b>
               </p>
             </div>
             <div className="area-5">
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
-              <img className="image" src="/image/dkslhead.svg" />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_0_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_1_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_2_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_6_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_4_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_5_id
+                }.png`}
+              />
+              <img
+                className="image"
+                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
+                  props.data[props.curIdx].item_3_id
+                }.png`}
+              />
             </div>
           </div>
           <div className="right-section">
             <div className="team-1">
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
+              {props.summary[0].map((e, i) => (
+                <div className="summoner" key={`winner_${i}`}>
+                  <img
+                    className="image"
+                    src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champ}.png`}
+                  />
+                  <p>{e.name}</p>
+                </div>
+              ))}
             </div>
             <div className="team-2">
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
-              <div className="summoner">
-                <img
-                  className="image"
-                  src="http://ddragon.leagueoflegends.com/cdn/13.18.1/img/champion/Aatrox.png"
-                />
-                <p>nickname</p>
-              </div>
+              {props.summary[1].map((e, i) => (
+                <div className="summoner" key={`loser_${i}`}>
+                  <img
+                    className="image"
+                    src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champ}.png`}
+                  />
+                  <p>{e.name}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -795,7 +784,11 @@ const RecordCardComponent = (props) => {
   );
 };
 
-const TabMainComponent = ({ data }) => {
+const setRound = (num) => {
+  return +(Math.round(num + 'e+2') + 'e-2');
+};
+
+const TabMainComponent = ({ data, piedata }) => {
   if (data == null) {
     return <LoadingComponent />;
   }
@@ -822,16 +815,6 @@ const TabMainComponent = ({ data }) => {
                 <div className="description">
                   <p className="tier">Master</p>
                   <p className="point">22P</p>
-                </div>
-              </div>
-            </div>
-            <div className="result-box">
-              <div className="rank-type">전략적 팀 전투</div>
-              <div className="rank-detail">
-                <img src="/image/rank-icons/master.png" />
-                <div className="description">
-                  <p className="tier">Master</p>
-                  <p className="point">1P</p>
                 </div>
               </div>
             </div>
@@ -897,7 +880,7 @@ const TabMainComponent = ({ data }) => {
               <p className="sub-title">20전 9승 11패</p>
               <div className="percentage-pie">
                 <ResponsivePie
-                  data={data}
+                  data={piedata}
                   margin={{ top: 5, right: 5, bottom: 5, left: 10 }}
                   innerRadius={0.75}
                   padAngle={0.7}
@@ -923,24 +906,17 @@ const TabMainComponent = ({ data }) => {
             </div>
             <div className="recent-played">
               <p className="sub-title">플레이한 챔피언&nbsp;(최근 20게임)</p>
-              <div className="most-champ">
-                <img className="image" src="/image/dkslhead.svg" />
-                <p className="percent">56%</p>
-                <p className="score">(5승 4패)</p>
-                <p className="grade">2.88&nbsp;평점</p>
-              </div>
-              <div className="most-champ">
-                <img className="image" src="/image/dkslhead.svg" />
-                <p className="percent">56%</p>
-                <p className="score">(5승 4패)</p>
-                <p className="grade">2.88&nbsp;평점</p>
-              </div>
-              <div className="most-champ">
-                <img className="image" src="/image/dkslhead.svg" />
-                <p className="percent">56%</p>
-                <p className="score">(5승 4패)</p>
-                <p className="grade">2.88&nbsp;평점</p>
-              </div>
+              {data.profile.champions.map((e, i) => (
+                <div className="most-champ" key={`current_Card_Champ_${i}`}>
+                  <img
+                    className="image"
+                    src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champion_name}.png`}
+                  />
+                  <p className="percent">{e.win_rate * 100}%</p>
+                  <p className="score">(5승 4패)</p>
+                  <p className="grade">{setRound(e.kda)}&nbsp;평점</p>
+                </div>
+              ))}
             </div>
             <div className="favo-position">
               <p className="sub-title">선호 포지션&nbsp;(랭크)</p>
@@ -985,8 +961,15 @@ const TabMainComponent = ({ data }) => {
           </div>
         </S.RecentCard>
         <S.RecordTable>
-          <RecordCardComponent key={1} win="true" />
-          <RecordCardComponent key={2} />
+          {data.match_histories.map((e, i) => (
+            <RecordCardComponent
+              key={`match_history_` + i}
+              win={e.win}
+              data={e.data}
+              curIdx={e.cur}
+              summary={e.summary}
+            />
+          ))}
         </S.RecordTable>
       </S.RightLayout>
     </S.TabMainLayout>

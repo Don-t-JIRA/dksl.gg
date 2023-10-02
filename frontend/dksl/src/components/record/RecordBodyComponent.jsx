@@ -48,7 +48,9 @@ const RecordBodyComponent = (props) => {
           </div>
         </div>
         <div className="tab-body">
-          {props.tab == 0 && <TabMainComponent data={props.recorddata} />}
+          {props.tab == 0 && (
+            <TabMainComponent data={props.recorddata} piedata={props.piedata} />
+          )}
           {props.tab == 1 && <TabAnalyzeComponent data={props.analyzedata} />}
           {props.tab == 2 && <TabGroupComponent />}
           {props.tab == 3 && <TabReviewComponent />}
