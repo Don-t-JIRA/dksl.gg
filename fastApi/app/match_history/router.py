@@ -62,8 +62,6 @@ def get_match_history(
         start_time = match_histories[0].get(
             "info", {}).get("gameStartTimestamp")
 
-        match_ids = riot_api.get_match_list(count=20, start_time=start_time)
-
         # 1번만 하기
         break
     match_histories_mapped = []
@@ -436,7 +434,6 @@ def put_match_history(
 
 @router.post("")
 def add_match_history(
-    puu_id: Union[str, None] = "",
     summoner_name: Union[str, None] = "",
     db_session=Depends(get_db),
 ) -> IResponseBase[IMatchHistoriesCreate]:
@@ -484,7 +481,6 @@ def add_match_history(
     finally:
         puu_id = summoner_info['puuid']
 
-        # * TODO token 기반 user get 으로 변경
         current_lol_profile = lol_profiles_crud.get(
             puu_id=puu_id, db_session=db_session)
         if current_lol_profile == None:
@@ -514,8 +510,6 @@ def add_match_history(
 
             start_time = match_histories[0].get(
                 "info", {}).get("gameStartTimestamp")
-
-            match_ids = riot_api.get_match_list(count=100, start_time=start_time)
 
             # 1번만 하기
             break
