@@ -47,7 +47,6 @@ const animatedComponent = makeAnimated();
  *
  */
 const RecordCardComponent = (props) => {
-  console.log(props);
   const [isOpen, setIsOpen] = useState(false);
 
   const openDetail = () => {
@@ -445,20 +444,18 @@ const TabMainComponent = ({ data, piedata }) => {
             <div className="result-box">
               <div className="rank-type">솔로 랭크</div>
               <div className="rank-detail">
-                <img src="/image/rank-icons/master.png" />
+                <img src={`/image/rank-icons/${data.profile.tier_name}.png`} />
                 <div className="description">
-                  <p className="tier">Master</p>
-                  <p className="point">68P</p>
+                  <p className="tier">{data.profile.tier_name}</p>
                 </div>
               </div>
             </div>
             <div className="result-box">
               <div className="rank-type">자유 랭크</div>
               <div className="rank-detail">
-                <img src="/image/rank-icons/master.png" />
+                <img src={`/image/rank-icons/${data.profile.tier_name}.png`} />
                 <div className="description">
-                  <p className="tier">Master</p>
-                  <p className="point">22P</p>
+                  <p className="tier">{data.profile.tier_name}</p>
                 </div>
               </div>
             </div>

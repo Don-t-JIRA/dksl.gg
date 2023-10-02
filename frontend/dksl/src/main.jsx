@@ -8,7 +8,6 @@ import { Provider } from 'jotai';
 // Component
 import ErrorComponent from './components/common/ErrorComponent.jsx';
 // Container
-import TestContainer from './pages/TestContainer.jsx';
 import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
@@ -24,7 +23,6 @@ const router = createBrowserRouter([
   { path: '/user/:type', element: <UserContainer /> },
   { path: '/record/:summoner', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
-  { path: '/test', element: <TestContainer /> },
   { path: '*', element: <NotFound /> },
 ]);
 
