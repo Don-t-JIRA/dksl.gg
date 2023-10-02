@@ -840,6 +840,7 @@ CREATE TABLE match_histories (
     kda DOUBLE NOT NULL,
     kill_participation DOUBLE NOT NULL,
     control_wards_placed INT NOT NULL,
+    total_damage_dealt_to_champions INT NOT NULL,
     damage_taken_on_team_percentage DOUBLE NOT NULL,
     vision_score INT NOT NULL,
     win_or_lose INT NOT NULL,
