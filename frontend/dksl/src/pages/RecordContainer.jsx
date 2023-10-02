@@ -8,15 +8,30 @@ import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // 더미 데이터
 import { laderData, sample } from '../data';
 import { spell } from '../spell';
+import { rune } from '../rune';
 
 const sampleData = () => {
   let win = 0;
   const user = sample.profile[0].summoner_name;
-  console.log(spell);
   const arr = sample.match_histories.map((e) => {
     win = 0;
     let cur;
     let summary = [[], []];
+    const timestamp = e[0].play_time;
+    const now = new Date();
+    const time = Math.floor((now - timestamp) / 1000);
+    console.log(time / 3600);
+    let match_ago;
+    if (time / 3600 > 23) {
+      match_ago = `${Math.floor(time / 3600 / 24)}일 전`;
+    } else {
+      if ((time % 3600) / 60 < 60) {
+        match_ago = `${Math.floor((time % 3600) / 60)}분 전`;
+      } else {
+        match_ago = `${Math.floor(time / 3600)}시간 전`;
+      }
+    }
+
     e.forEach((v, i) => {
       if (v.win_or_lose == 0) {
         summary[1].push({
@@ -29,22 +44,45 @@ const sampleData = () => {
           champ: v.champion_name_en,
         });
       }
+
       const spell_0 = v.spell_0_id;
       const spell_1 = v.spell_1_id;
-      console.log(spell_0);
-      // if (typeof number )
-      v.spell_0_id = spell.data[spell_0].id;
-      v.spell_1_id = spell.data[spell_1].id;
+
+      if (typeof spell_0 == 'number') {
+        v.spell_0_id = spell.data[spell_0].id;
+        v.spell_1_id = spell.data[spell_1].id;
+      }
+
+      const rune_0 = v.rune_0_id;
+      const rune_1 = v.rune_1_id;
+
+      if (typeof rune_0 == 'number') {
+        rune.forEach((e) => {
+          if (e.id == rune_0) {
+            const rune_icon = e.icon.split('/');
+            const end_str = rune_icon[rune_icon.length - 1].split('.')[0];
+            v.rune_0_id = end_str;
+          }
+          if (e.id == rune_1) {
+            const rune_icon = e.icon.split('/');
+            const end_str = rune_icon[rune_icon.length - 1].split('.')[0];
+            v.rune_1_id = end_str;
+          }
+        });
+      }
+
       const str = v.play_duration.split('');
       if (str.length < 5) {
         v.play_duration = str[0] + str[1] + ':' + str[2] + str[3];
       }
-      // v.play_duration = duration;
       if (v.summoner_name == user) {
         cur = i;
         if (v.win_or_lose != 0) win = v.win_or_lose;
       }
     });
+
+    e[cur].play_time = match_ago;
+
     return {
       win,
       cur,

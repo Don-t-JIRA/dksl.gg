@@ -63,7 +63,7 @@ const RecordCardComponent = (props) => {
               <p className="win">{props.win ? '승리' : '패배'}</p>
               <p>솔로랭크</p>
               <p>{props.data[0].play_duration}</p>
-              <p>1시간 전</p>
+              <p>{props.data[props.curIdx].play_time}</p>
             </div>
             <div className="area-2">
               <div className="champ">
@@ -75,10 +75,30 @@ const RecordCardComponent = (props) => {
                 />
               </div>
               <div className="another">
-                <img className="image" src="/image/dkslhead.svg" />
-                <img className="image" src="/image/dkslhead.svg" />
-                <img className="image" src="/image/dkslhead.svg" />
-                <img className="image" src="/image/dkslhead.svg" />
+                <img
+                  className="image"
+                  src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${
+                    props.data[props.curIdx].spell_0_id
+                  }.png`}
+                />
+                <img
+                  className="image"
+                  src={`https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/${
+                    props.data[props.curIdx].rune_0_id
+                  }.png`}
+                />
+                <img
+                  className="image"
+                  src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${
+                    props.data[props.curIdx].spell_1_id
+                  }.png`}
+                />
+                <img
+                  className="image"
+                  src={`https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/${
+                    props.data[props.curIdx].rune_1_id
+                  }.png`}
+                />
               </div>
             </div>
             <div className="area-3">
@@ -91,7 +111,7 @@ const RecordCardComponent = (props) => {
                 <b>{props.data[props.curIdx].kda}</b> 평점
               </p>
               <p className="tag">
-                <b>더블킬</b>
+                <b>{props.data[props.curIdx].line_name}</b>
               </p>
             </div>
             <div className="area-4">

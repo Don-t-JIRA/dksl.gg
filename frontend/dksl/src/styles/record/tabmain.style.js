@@ -324,26 +324,34 @@ export const RecordCard = styled.div`
       }
 
       & .area-2 {
+        height: 3rem;
         display: flex;
         flex-basis: 20%;
         align-self: center;
+        align-items: center;
 
         & .champ {
+          height: 100%;
+          display: flex;
           flex-basis: 50%;
+          align-items: center;
 
           & .image {
+            margin: auto;
             width: 90%;
           }
         }
 
         & .another {
+          height: 100%;
           display: flex;
           flex-wrap: wrap;
           flex-basis: 50%;
+          justify-content: space-evenly;
 
           & .image {
+            margin: auto;
             width: 40%;
-            height: 50%;
           }
         }
       }
