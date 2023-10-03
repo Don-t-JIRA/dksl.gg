@@ -34,20 +34,29 @@ const GroupContainer = () => {
     };
 
     const fetchDetailGroupData = async (name) => {
-      console.log('fetch start');
-      // const data = await groupDetail(name, auth ? true : false);
-      // console.log(data);
-      // setDetailList(data.data);
-      setDetailList('test');
+      const data = await groupDetail(name, auth ? true : false);
+
+      const current = data.data.chairman;
+
+      data.data.summonerResponse = data.data.summonerResponse.filter((e) => {
+        if (e.name == current) {
+          data.data.currentSummoner = e;
+        } else return e;
+      });
+
+      console.log(data);
+
+      setDetailList(data.data);
     };
+
     setPath(url.pathname);
+
     if (url.pathname == '/group/main' && teamList == null) {
       fetchAllGroupData();
     } else if (url.pathname == '/group/detail' && detailList == null) {
-      console.log('comtainer in ');
       fetchDetailGroupData(url.search.split('=')[1]);
     }
-  }, [url, teamList, detailList]);
+  }, [url, teamList, detailList, auth]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);
@@ -78,8 +87,8 @@ const GroupContainer = () => {
           confirmButtonText: '확인',
         });
         setTeamList({
+          ...teamList,
           teamList: data.data,
-          recentTeamList: teamList.recentTeamList,
         });
       }
     },

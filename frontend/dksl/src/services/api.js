@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { useUpdateAuth } from '../jotai/auth';
 import Swal from 'sweetalert2';
 
-const BASE_URL = 'http://192.168.1.239:8080';
+const BASE_URL = 'http://172.30.1.49:8080';
 // const BASE_URL = 'http://70.12.247.95:8080';
 
 const common = Axios.create({
@@ -16,7 +16,7 @@ const common = Axios.create({
 
 const auth = Axios.create({
   baseURL: BASE_URL,
-  withCredentials: true,
+  withCredentials: false,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
     // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000/',

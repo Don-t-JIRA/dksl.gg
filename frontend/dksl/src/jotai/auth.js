@@ -5,7 +5,7 @@ import { getMember, reAccessToken } from '../services/UserService';
 const getAuth = async () => {
   const token = {
     access: sessionStorage.getItem('accessToken'),
-    refresh: sessionStorage.getItem('refreshToken'),
+    refresh: localStorage.getItem('refreshToken'),
   };
 
   if (token.access) {

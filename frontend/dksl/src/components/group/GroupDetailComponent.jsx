@@ -20,22 +20,27 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
               />
             </div>
             <div className="group-desc">
-              <p className="group-title">SSAFY 9기</p>
+              <p className="group-title">{detailList.name}</p>
               <div className="info">
                 <p className="group-personnel">
-                  <b>인원</b> 297명
+                  <b>인원</b>{' '}
+                  {detailList.currentSummoner
+                    ? detailList.summonerResponse.length + 1
+                    : detailList.summonerResponse.length}
+                  명
                 </p>
                 <p className="group-tier">
-                  <b>평균티어</b> 플레티넘
+                  <b>평균티어</b> {detailList.avgTier.name}
                 </p>
                 <p className="group-leader">
-                  <b>소속장</b> 싸진남
+                  <b>소속장</b> {detailList.chairman}
                 </p>
               </div>
               <p className="group-content">
-                &#127775; SSAFY 9기 모여라~~ <br />
-                Samsung Software Academy For Youth의 9기 교육생들이 모인
-                소속입니다.
+                <b>
+                  &#127775; 소속 소개 <br />
+                </b>
+                {detailList.description}
               </p>
             </div>
           </div>
@@ -43,7 +48,13 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
         <div className="detail-body">
           <div className="left-box">
             {auth ? (
-              <button className="group-join">이 소속에 가입하기</button>
+              detailList.joined ? (
+                <button className="group-join" disabled>
+                  이미 가입되셨습니다.
+                </button>
+              ) : (
+                <button className="group-join">이 소속에 가입하기</button>
+              )
             ) : (
               <button className="group-join" disabled>
                 로그인 후 이용해주세요.
@@ -55,14 +66,13 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
               <div className="tier-body">
                 <div className="img-box">
                   <img
-                    src="/image/rank-icons/master.png"
+                    src={`/image/rank-icons/${detailList.avgTier.id.toUpperCase()}.png`}
                     alt="group-tier"
                     className="image"
                   />
                 </div>
                 <div className="desc">
-                  <p className="tier">Master</p>
-                  <p className="point">68P</p>
+                  <p className="tier">{detailList.avgTier.name}</p>
                 </div>
               </div>
             </div>
@@ -88,34 +98,45 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
                   </div>
                 </div>
                 <div className="table-body">
-                  <div className="table-row current">
-                    <p className="rank">297</p>
-                    <div className="member-name">
-                      <img
-                        className="image"
-                        src="/image/lbti-img.svg"
-                        alt="member-profile_img"
-                      />
-                      <p className="member-level">123레벨</p>
-                      갓뎀뻑
+                  {detailList.currentSummoner && (
+                    <div className="table-row current">
+                      <p className="rank">{detailList.currentSummoner.rank}</p>
+                      <div className="member-name">
+                        <img
+                          className="image"
+                          src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${detailList.currentSummoner.profileIconId}.png`}
+                          alt="!"
+                        />
+                        <p className="member-level">
+                          {detailList.currentSummoner.level}레벨
+                        </p>
+                        {detailList.currentSummoner.name}
+                      </div>
+                      <p className="member-tier">
+                        {detailList.currentSummoner.tier.name}
+                      </p>
+                      <p className="member-persent">
+                        {detailList.currentSummoner.tier.orderNum}%
+                      </p>
                     </div>
-                    <p className="member-tier">Unranked</p>
-                    <p className="member-persent">99%</p>
-                  </div>
-                  <div className="table-row">
-                    <p className="rank">1</p>
-                    <div className="member-name">
-                      <img
-                        className="image"
-                        src="/image/lbti-img.svg"
-                        alt="member-profile_img"
-                      />
-                      <p className="member-level">400레벨</p>
-                      롤진남
+                  )}
+
+                  {detailList.summonerResponse.map((e, i) => (
+                    <div className="table-row" key={`member_${i}`}>
+                      <p className="rank">{e.rank}</p>
+                      <div className="member-name">
+                        <img
+                          className="image"
+                          src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${e.profileIconId}.png`}
+                          alt="!"
+                        />
+                        <p className="member-level">{e.level}레벨</p>
+                        {e.name}
+                      </div>
+                      <p className="member-tier">{e.tier.name}</p>
+                      <p className="member-persent">{e.tier.orderNum}%</p>
                     </div>
-                    <p className="member-tier">챌린저</p>
-                    <p className="member-persent">1%</p>
-                  </div>
+                  ))}
                 </div>
               </div>
               <div className="card-footer">

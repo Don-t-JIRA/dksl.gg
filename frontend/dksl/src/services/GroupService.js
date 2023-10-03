@@ -19,7 +19,6 @@ const setNewGroup = async (formData) => {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
-      withCredentials: false,
     });
 
     return response;
@@ -42,11 +41,10 @@ const groupDetail = async (name, hasToken) => {
   console.log('service in : ', name, hasToken);
   try {
     if (hasToken) {
-      const response = await auth.get(`/team/detail?name=${name}`);
+      const response = await auth.get(`/team/${name}`);
       return response;
     } else {
-      console.log('ajax start');
-      const response = await common.get(`/team/detail?name=${name}`);
+      const response = await common.get(`/team/${name}`);
       return response;
     }
   } catch (error) {

@@ -24,7 +24,7 @@ const signIn = async (data) => {
 
     if (response.status == 200) {
       sessionStorage.setItem('accessToken', response.data.accessToken);
-      sessionStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
     }
 
     return response;
@@ -51,9 +51,7 @@ const signout = async () => {
 // 현재 로그인 된 유저 정보 API
 const getMember = async () => {
   try {
-    const response = await auth.get('/member', {
-      withCredentials: false,
-    });
+    const response = await auth.get('/member');
     return response;
   } catch (error) {
     console.log(error.response);
