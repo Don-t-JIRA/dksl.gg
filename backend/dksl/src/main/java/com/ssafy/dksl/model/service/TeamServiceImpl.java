@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -88,13 +89,16 @@ public class TeamServiceImpl implements TeamService {
                     .name(createTeamCommand.getName())
                     .description(createTeamCommand.getDescription())
                     .chairman(chairman)
+                    .submitAt(LocalDateTime.now())
                     .img("tmp")  // 임시 img 이름
                     .build();
             team = teamRepository.save(team);  // ID를 받기 위한 임시 저장
+            boolean flag = createTeamMember(TeamMemberCommand.builder().token(createTeamCommand.getAccessToken()).teamName(createTeamCommand.getName()).build());
+            if(!flag) throw new MemberTeamCreateException();
 
             String imgName = team.getId() + originalFileExtension;
             File imgFile = new File(BASE_IMG_URI + "team" + File.separator + imgName);
-            boolean flag = imgFile.setExecutable(false);  // 실행 권한 없애기
+            flag = imgFile.setExecutable(false);  // 실행 권한 없애기
             createTeamCommand.getImg().transferTo(imgFile);  // 이미지 저장
 
             team = Team.builder()
@@ -102,10 +106,12 @@ public class TeamServiceImpl implements TeamService {
                     .name(team.getName())
                     .description(team.getDescription())
                     .chairman(chairman)
+                    .submitAt(null)
                     .img(imgName)  // 실제 이미지 이름으로 다시 저장
                     .build();
 
             teamRepository.save(team);
+
 
             return true;
         } catch (Exception e) {
@@ -261,6 +267,7 @@ public class TeamServiceImpl implements TeamService {
             if(member != null && memberTeam.getMember().getName().equals(member.getName())) isJoined = true;
             summonerResponseList.add(SummonerResponse.builder()
                     .name(memberTeam.getMember().getName())
+                            .profileIconId(memberTeam.getMember().getProfileIconId())
                             .tier(memberTeam.getMember().getTier().toTierResponse())
                             .rank(memberTeam.getMember().getRank())
                             .level(memberTeam.getMember().getLevel())
@@ -275,6 +282,7 @@ public class TeamServiceImpl implements TeamService {
         return TeamDetailResponse.builder()
                 .isJoined(isJoined)
                 .name(team.getName())
+                .chairman(team.getChairman().getName())
                 .description(team.getDescription())
                 .imgByteArray(imgToByteArray(team.getImg()))
                 .tierResponse(calAvgTier(team.getMembers()))
