@@ -1,29 +1,55 @@
 // React
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 // Component
 import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
 import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // 더미 데이터
 import { laderData } from '../data';
-
-const recorddumydata = [
-  {
-    id: '승리',
-    label: '승리',
-    value: 9,
-    color: '#237ac5',
-  },
-  {
-    id: '패배',
-    label: '패배',
-    value: 11,
-    color: '#ef3d3d',
-  },
-];
+// Jotai
+import { useRecord } from '../jotai/record';
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
+  const [recorddata, setRecorddata] = useState(null);
+  const [piedata, setPiedata] = useState([{ id: '', label: '', value: 0 }]);
+  const [profile, setProfile] = useState({
+    name: '유 용',
+    level: '800',
+    lbti: 'CVSD',
+    iconId: 6,
+    tier: 'master',
+  });
+  const { summoner } = useParams();
+  const data = useRecord();
+
+  useEffect(() => {
+    if (summoner == 'noname') {
+      console.log('noname enter');
+    }
+    if (data != null) {
+      setProfile(data.profile);
+      setRecorddata(data);
+      setPiedata([
+        {
+          id: '승리',
+          label: '승리',
+          value: data.recent.win,
+        },
+        {
+          id: '패배',
+          label: '패배',
+          value: data.recent.lose,
+        },
+      ]);
+    }
+    // const fetchData = async () => {
+    //   const data = await getSearchData(summoner);
+    //   setRecorddata(data);
+    // }
+    // fetchData();
+  }, [summoner, data]);
 
   /**
    * 여기서는 search 메서드를 통해 소환사명 입력 받으면
@@ -35,9 +61,10 @@ const RecordContainer = () => {
   return (
     <>
       <HeaderComponent />
-      <ProfileComponent data={null} />
+      <ProfileComponent data={profile} />
       <RecordBodyComponent
-        recorddata={recorddumydata}
+        recorddata={recorddata}
+        piedata={piedata}
         analyzedata={laderData}
         tab={recordTab}
         setTab={setRecordTab}
