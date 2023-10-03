@@ -13,21 +13,21 @@ export const sample = {
       champions: [
         {
           queue_id: 420,
-          img: null,
+          cnt: 14,
           win_rate: 0.5,
           kda: 1.9753011735831447,
           champion_name: 'Tristana',
         },
         {
           queue_id: 420,
-          img: null,
+          cnt: 4,
           win_rate: 0.75,
           kda: 3.727272727272727,
           champion_name: 'Lissandra',
         },
         {
           queue_id: 420,
-          img: null,
+          cnt: 4,
           win_rate: 1,
           kda: 8.166666666666666,
           champion_name: 'Yone',

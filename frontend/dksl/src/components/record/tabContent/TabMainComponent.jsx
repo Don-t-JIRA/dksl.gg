@@ -10,42 +10,13 @@ import { ResponsivePie } from '@nivo/pie';
 // Component
 import LoadingComponent from '../../common/LoadingComponent';
 
-const options = [{ value: 'default', label: '큐 타입' }];
+const options = [
+  { value: 'default', label: '큐 타입' },
+  { value: '420', label: '솔로 랭크' },
+];
 
 const animatedComponent = makeAnimated();
 
-/**
- *
- * @param {*} props
- * kda, killParticipation, damageTakenOnTeamPercentage, controlWardsPlaced
- * win_or_lose: 0 or 1
- * queue_type: string
- * play_duration: string
- * play_time: string => 현재 시간과 차이 계산해서 출력
- * champion_name_en: string
- * spell_0,1_id: number
- * rune_0,1_id: number
- * kill, death, assist: number
- * grade: number => 평점 계산해서 넣어주기
- * 더블킬은 어찌 해야할까나? 뺄까?
- * kill_involvement: number
- * cs: number
- * 시야점수는 어찌 해야할까나? 뺄까?
- * item_0,1,2,3,4,5,6(length 7)_id: number
- * team_summary: [[string, string]] => 해당 매치 참여 챔피언 이름과 닉네임 배열 (length 10)
- * recordDatail: [[{}, {}]] => 한 매치에 대해 승, 패에 따라 팀 구분해서 객체 배열
- * [{
- *  champion_name_en: string
- *  spell_0,1_id: number
- *  rune_0,1_id: number
- *  summoner_name: string
- *  티어는 어찌 해야할까나? 뺄까?
- *  kill, death, assist: number
- *  grade: number => 평점 계산해서 넣어주기
- *
- * }]
- *
- */
 const RecordCardComponent = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -451,13 +422,29 @@ const TabMainComponent = ({ data, piedata }) => {
               </div>
             </div>
             <div className="result-box">
-              <div className="rank-type">자유 랭크</div>
+              {/* <div className="rank-type">자유 랭크</div>
               <div className="rank-detail">
                 <img src={`/image/rank-icons/${data.profile.tier_name}.png`} />
                 <div className="description">
                   <p className="tier">{data.profile.tier_name}</p>
                 </div>
-              </div>
+              </div> */}
+              <ResponsivePie
+                data={piedata}
+                margin={{ top: 5, right: 5, bottom: 5, left: 10 }}
+                innerRadius={0.75}
+                padAngle={0.7}
+                cornerRadius={1}
+                colors={['#5393CA', '#ff5858']}
+                activeOuterRadiusOffset={3}
+                borderWidth={1}
+                borderColor={{
+                  from: 'color',
+                  modifiers: [['darker', '0.2']],
+                }}
+                enableArcLinkLabels={false}
+                enableArcLabels={false}
+              />
             </div>
           </div>
         </S.TierCard>
@@ -497,8 +484,6 @@ const TabMainComponent = ({ data, piedata }) => {
             <label>랭크 전체</label>
             <input type="radio" name="rank-type" />
             <label>솔로 랭크</label>
-            <input type="radio" name="rank-type" />
-            <label>자유 랭크</label>
           </div>
           <div className="select-group">
             <Select
@@ -510,7 +495,7 @@ const TabMainComponent = ({ data, piedata }) => {
           </div>
         </div>
         <S.RecentCard>
-          <p className="title">&#128202; 최근 20게임 분석</p>
+          <p className="title">&#128202; 최근 게임 분석</p>
           <div className="card-body">
             <div className="circle-graph">
               <p className="sub-title">
@@ -555,6 +540,10 @@ const TabMainComponent = ({ data, piedata }) => {
                   <p className="percent">{e.win_rate * 100}%</p>
                   <p className="grade">
                     <b>{setRound(e.kda)}&nbsp;평점</b>
+                  </p>
+                  <p className="cnt">
+                    {e.cnt}
+                    <b>&nbsp;판</b>
                   </p>
                 </div>
               ))}
