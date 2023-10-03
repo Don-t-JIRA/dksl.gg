@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("team")
-@CrossOrigin
 public class TeamController {
     private final TeamService teamService;
 

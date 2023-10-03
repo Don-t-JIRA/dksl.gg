@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("member")
-@CrossOrigin
 public class MemberController {
 
     private final MemberService memberService;
