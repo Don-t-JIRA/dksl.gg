@@ -7,7 +7,7 @@ export const ProfileLayout = styled.div`
   padding-left: 20%;
   padding-right: 20%;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('image/bg/search_bg_${(props) => props.bgnum}.jpg');
+    url('/image/bg/search_bg_${(props) => props.$bgnum}.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -20,9 +20,10 @@ export const ProfileContainer = styled.div`
   display: flex;
 
   & .logo {
-    width: 7rem;
-    height: 8rem;
+    width: 10rem;
+    height: 10rem;
     align-self: center;
+    border-radius: 50%;
   }
 
   & .userBox {
@@ -33,16 +34,18 @@ export const ProfileContainer = styled.div`
 
   & .userBox .title {
     display: flex;
-    align-items: end;
-  }
+    align-items: center;
 
-  & .userBox .title h1 {
-    margin-bottom: 0;
-    font-size: 4rem;
-  }
+    & h1 {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 4rem;
+    }
 
-  & .userBox .title img {
-    height: 100%;
+    & img {
+      margin-left: 1rem;
+      height: 7.5rem;
+    }
   }
 
   & .userBox .lbti {

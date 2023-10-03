@@ -47,7 +47,7 @@ const TabGroupComponent = () => {
                   <div className="profile-img">
                     <img
                       className="image"
-                      src="image/lbti-img.svg"
+                      src="/image/lbti-img.svg"
                       alt="group-profile_img"
                     />
                   </div>
@@ -89,7 +89,7 @@ const TabGroupComponent = () => {
                       <div className="group-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="group-profile_img"
                         />
                         SSAFY 9기
@@ -101,7 +101,7 @@ const TabGroupComponent = () => {
                       <div className="group-name">
                         <img
                           className="image"
-                          src="image/lbti-img.svg"
+                          src="/image/lbti-img.svg"
                           alt="group-profile_img"
                         />
                         KT
@@ -117,7 +117,7 @@ const TabGroupComponent = () => {
                 <p className="title">&#127942; 우리 소속원 손위</p>
 
                 <div className="radio-group">
-                  <input type="radio" name="rank-type" defaultChecked />
+                  <input type="radio" name="rank-type" />
                   <label>랭크 전체</label>
                   <input type="radio" name="rank-type" />
                   <label>솔로 랭크</label>

@@ -104,7 +104,7 @@ export const CreateLayout = styled.div`
 `;
 
 export const LabelForFile = styled.label.attrs((props) => ({
-  for: props.for,
+  htmlFor: props.$for,
 }))`
   width: 100%;
   height: 100%;

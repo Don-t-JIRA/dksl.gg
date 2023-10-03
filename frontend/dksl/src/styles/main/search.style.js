@@ -5,7 +5,7 @@ export const SearchLayout = styled.div`
   height: 70vh;
   margin-top: 12.5vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url('image/bg/main_bg_${(props) => props.bgnum}.jpg');
+    url('/image/bg/main_bg_${(props) => props.$bgnum}.jpg');
   background-size: cover;
   background-position: center;
   display: flex;
@@ -18,8 +18,8 @@ export const SearchLayout = styled.div`
 
   & .container .title {
     width: fit-content;
-    margin: 2rem auto;
-    margin-top: -2rem;
+    margin: 2.5rem auto;
+    margin-top: -2.5rem;
     font-weight: bold;
     color: #ffffff;
     display: grid;
@@ -33,7 +33,7 @@ export const SearchLayout = styled.div`
       white-space: nowrap;
       overflow: hidden;
       border-right: 3px solid;
-      font-size: 2em;
+      font-size: 2.5em;
     }
   }
 
