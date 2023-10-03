@@ -4,9 +4,7 @@ import com.ssafy.dksl.model.dto.command.TokenCommand;
 import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
 import com.ssafy.dksl.model.dto.request.LoginRequest;
 import com.ssafy.dksl.model.dto.request.RegisterRequest;
-import com.ssafy.dksl.model.dto.response.MyTeamResponse;
-import com.ssafy.dksl.model.service.MemberServiceImpl;
-import com.ssafy.dksl.model.service.TeamServiceImpl;
+import com.ssafy.dksl.model.service.MemberService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("member")
-@CrossOrigin
 public class MemberController {
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @Autowired
-    MemberController(MemberServiceImpl memberService) {
+    MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 

@@ -1,6 +1,5 @@
 package com.ssafy.dksl.filter;
 
-import com.ssafy.dksl.model.repository.RefreshTokenRepository;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.exception.TokenInvalidException;
 import jakarta.servlet.FilterChain;
@@ -17,18 +16,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
-// 여기서 UsernamePasswordAuthenticationToken 생성
-// UsernamePasswordAuthenticationToken : 인증용 객체 생성
 @Slf4j
 @Component
     public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
 
-    public AuthenticationFilter(JwtUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
+    public AuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.refreshTokenRepository = refreshTokenRepository;
     }
 
     @Override
@@ -37,19 +32,19 @@ import java.nio.charset.StandardCharsets;
 
         try {
             // permitAll일 경우 거치지 X
-            if (request.getHeader("Authorization") != null  && jwtUtil.validateToken(token)) {
+            if (request.getHeader("Authorization") != null && jwtUtil.validateToken(token)) {
                 Authentication authentication = jwtUtil.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
             filterChain.doFilter(request, response);
         } catch (TokenInvalidException e) {
             log.error(e.getMessage());
-            errorResponse(request, response, e);
+            errorResponse(response, e);
         }
 
     }
 
-    private void errorResponse(HttpServletRequest request, HttpServletResponse response, TokenInvalidException e) throws IOException {
+    private void errorResponse(HttpServletResponse response, TokenInvalidException e) throws IOException {
         response.setStatus(HttpStatus.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         String errorMessage = e.getMessage();
