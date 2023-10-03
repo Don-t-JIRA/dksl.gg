@@ -20,7 +20,9 @@ const ProfileComponent = ({ data }) => {
             <div className="title">
               <h1>{data.summoner_name}</h1>
               <img
-                src={`/image/rank-icons/${data.tier_name.toLowerCase()}.png`}
+                src={`/image/rank-icons/${
+                  data.tier_name ? data.tier_name.toLowerCase() : `unranked`
+                }.png`}
               />
             </div>
             <p className="lbti">CVSD</p>
