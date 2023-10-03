@@ -145,7 +145,7 @@ def get_match_history(
     current_season_summary_id = summoner_info[0]['current_season_summary_id']
 
     query_2 = f"""
-        SELECT MCS.*, C.image_url as image_url, CSS.queue_id as queue_id
+        SELECT MCS.*, CSS.queue_id as queue_id
           FROM MOST_CHAMPION_SUMMARIES MCS
           LEFT OUTER JOIN CHAMPIONS C
             ON C.name_en = MCS.champion_name
@@ -160,7 +160,7 @@ def get_match_history(
         map(
             lambda item: {
                 "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
+                "cnt": item.get("count"),
                 "win_rate": item.get("win_rate", 0),
                 "kda": item.get("kda", 0),
                 "champion_name": item.get("champion_name"),
@@ -170,7 +170,7 @@ def get_match_history(
     )
 
     query_3 = f"""
-        SELECT MLS.*, L.image_url as image_url, CSS.queue_id as queue_id, L.name as line_name
+        SELECT MLS.*, CSS.queue_id as queue_id, L.name as line_name
           FROM MOST_LINE_SUMMARIES MLS
           LEFT OUTER JOIN `LINES` L
             ON L.name = MLS.line_name
@@ -186,7 +186,7 @@ def get_match_history(
         map(
             lambda item: {
                 "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
+                "cnt": item.get("count"),
                 "win_rate": item.get("win_rate", 0),
                 "kda": item.get("kda", 0),
                 "line": item.get("line_name", "NONE"),
