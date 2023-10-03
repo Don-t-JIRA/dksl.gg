@@ -9,14 +9,17 @@ const ProfileComponent = ({ data }) => {
   const num = useMemo(() => Math.floor(Math.random() * 6) + 1, []);
 
   return (
-    <S.ProfileLayout bgnum={num}>
+    <S.ProfileLayout $bgnum={num}>
       {data ? (
         <S.ProfileContainer>
-          <img className="logo" src="image/dkslhead.svg" />
+          <img
+            className="logo"
+            src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${data.profile_icon_id}.png`}
+          />
           <div className="userBox">
             <div className="title">
-              <h1>닉네임</h1>
-              <img src="image/rank-icons/bronze.png" />
+              <h1>{data.summoner_name}</h1>
+              <img src={`/image/rank-icons/${data.tier_name}.png`} />
             </div>
             <p className="lbti">CVSD</p>
             <div className="record-update">
@@ -27,7 +30,7 @@ const ProfileComponent = ({ data }) => {
         </S.ProfileContainer>
       ) : (
         <S.ProfileContainer>
-          <LoadingComponent white />
+          <LoadingComponent white={true} />
         </S.ProfileContainer>
       )}
     </S.ProfileLayout>

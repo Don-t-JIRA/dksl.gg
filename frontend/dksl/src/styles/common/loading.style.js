@@ -8,7 +8,7 @@ export const LoadingLayout = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${(props) => (props.white ? `var(--maincolor-depth2)` : `#ccc`)};
+  color: ${(props) => (props.$white ? `var(--maincolor-depth2)` : `#ccc`)};
   transition: 0.3s linear;
 
   & .loader {
@@ -17,9 +17,9 @@ export const LoadingLayout = styled.section`
     display: inline-block;
     position: relative;
     border-radius: 4px;
-    color: ${(props) => (props.white ? `var(--maincolor-depth2)` : `#263238`)};
+    color: ${(props) => (props.$white ? `var(--maincolor-depth2)` : `#263238`)};
     background: ${(props) =>
-      props.white ? `var(--maincolor-depth2)` : `#263238`};
+      props.$white ? `var(--maincolor-depth2)` : `#263238`};
     animation: animloader 0.3s 0.3s linear infinite alternate;
     &::after,
     &::before {
@@ -28,7 +28,7 @@ export const LoadingLayout = styled.section`
       height: ${48 / 10}px;
       border-radius: 4px;
       background: ${(props) =>
-        props.white ? `var(--maincolor-depth2)` : `#263238`};
+        props.$white ? `var(--maincolor-depth2)` : `#263238`};
       position: absolute;
       left: 50%;
       transform: translateX(-50%);
