@@ -6,6 +6,15 @@ pipeline {
 	}
 
 	stages {
+		
+		stage('Install Dependencies') {
+			steps {
+				dir('frontend/dksl') {
+					sh 'pnpm install'
+				}
+			}
+		}
+
 		stage('React Build') {
 			steps {
 				dir('frontend/dksl') {
