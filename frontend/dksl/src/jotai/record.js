@@ -7,16 +7,121 @@ import { useAtomValue } from 'jotai';
 // 함께한 소환사 아이콘, 이름, 게임 수, 승-패, 승률 메서드
 // 20 게임의 매치 데이터와 검색된 소환사 받기
 const getDuoPlayer = (data, cur) => {
-  const result = [];
   const map = new Map();
+  const line = new Map();
+  line.set('TOP', 0);
+  line.set('MIDDLE', 0);
+  line.set('JUNGLE', 0);
+  line.set('AD', 0);
+  line.set('UTILITY', 0);
 
-  data.forEach((e, i) => {
-    // e.forEach((v, j) => {
-    //   if (!map.has(v.summoner_name))
-    // })
+  let recentData = {
+    win: 0,
+    lose: 0,
+    count: 0,
+    kill: 0,
+    death: 0,
+    assist: 0,
+    score: 0,
+    kill_participation: 0,
+    line: [],
+  };
+
+  data.forEach((e) => {
+    if (e.win == 1) {
+      e.winner.forEach((v) => {
+        if (v.summoner_name != cur) {
+          if (map.has(v.summoner_name)) {
+            const getUser = map.get(v.summoner_name);
+            map.set(v.summoner_name, {
+              name: getUser.name,
+              win: getUser.win + 1,
+              lose: getUser.lose,
+              count: getUser.count + 1,
+              percent: 0,
+            });
+          } else {
+            map.set(v.summoner_name, {
+              name: v.summoner_name,
+              win: 1,
+              lose: 0,
+              count: 1,
+              percent: 0,
+            });
+          }
+        } else {
+          recentData = {
+            ...recentData,
+            win: recentData.win + 1,
+            count: recentData.count + 1,
+            kill: recentData.kill + v.kill,
+            death: recentData.death + v.death,
+            assist: recentData.assist + v.assist,
+            score: recentData.score + v.kda,
+            kill_participation:
+              recentData.kill_participation + v.kill_participation,
+          };
+          line.set(v.line_name, line.get(v.line_name) + 1);
+        }
+      });
+    } else if (e.win == 0) {
+      e.loser.forEach((v) => {
+        if (v.summoner_name != cur) {
+          if (map.has(v.summoner_name)) {
+            const getUser = map.get(v.summoner_name);
+            map.set(v.summoner_name, {
+              name: getUser.name,
+              win: getUser.win,
+              lose: getUser.lose + 1,
+              count: getUser.count + 1,
+              percent: 0,
+            });
+          } else {
+            map.set(v.summoner_name, {
+              name: v.summoner_name,
+              win: 0,
+              lose: 1,
+              count: 1,
+              percent: 0,
+            });
+          }
+        } else {
+          recentData = {
+            ...recentData,
+            lose: recentData.lose + 1,
+            count: recentData.count + 1,
+            kill: recentData.kill + v.kill,
+            death: recentData.death + v.death,
+            assist: recentData.assist + v.assist,
+            score: recentData.score + v.kda,
+            kill_participation:
+              recentData.kill_participation + v.kill_participation,
+          };
+          line.set(v.line_name, line.get(v.line_name) + 1);
+        }
+      });
+    }
+  });
+  const result = Array.from(map.entries()).map((e) => {
+    return [
+      e[0],
+      { ...e[1], percent: Math.floor((e[1].win / e[1].count) * 100) },
+    ];
   });
 
-  return result;
+  recentData.line = line;
+  console.log(line);
+  console.log(recentData.count);
+  // kill death assist score participation
+  recentData.kill = Number((recentData.kill / recentData.count).toFixed(2));
+  recentData.death = Number((recentData.death / recentData.count).toFixed(2));
+  recentData.assist = Number((recentData.assist / recentData.count).toFixed(2));
+  recentData.score = Number((recentData.score / recentData.count).toFixed(2));
+  recentData.kill_participation = Number(
+    (recentData.kill_participation / recentData.count).toFixed(2)
+  );
+
+  return { result, recentData };
 };
 
 // 획득 골드량 포맷팅 메서드
@@ -36,9 +141,6 @@ const formatGold = (number) => {
 const formattingData = async () => {
   let win = 0;
   const user = sample.profile[0].summoner_name;
-
-  const duoPlayer = await getDuoPlayer(sample.match_histories, user);
-  console.log(duoPlayer);
 
   const arr = sample.match_histories.map((e) => {
     let cur;
@@ -135,10 +237,22 @@ const formattingData = async () => {
       loser,
     };
   });
+  const result = await getDuoPlayer(arr, user);
+  const duoPlayer = result.result.filter((e) => {
+    if (e[1].count > 1) return e;
+  });
+
+  duoPlayer.sort(function (a, b) {
+    return b[1].count - a[1].count;
+  });
+
+  const recent = result.recentData;
 
   // 가공된 데이터 리턴
   return {
     profile: sample.profile[0],
+    duoPlayer,
+    recent,
     match_histories: arr,
   };
 };

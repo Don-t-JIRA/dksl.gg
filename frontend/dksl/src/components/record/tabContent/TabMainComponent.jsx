@@ -473,24 +473,19 @@ const TabMainComponent = ({ data, piedata }) => {
               </tr>
             </thead>
             <tbody>
-              <tr className="table-row">
-                <td className="summoner">
-                  <img className="image" src="/image/dkslhead.svg" />
-                  <p>NickName</p>
-                </td>
-                <td className="game">4</td>
-                <td className="result">2-2</td>
-                <td className="percentage">50%</td>
-              </tr>
-              <tr className="table-row">
-                <td className="summoner">
-                  <img className="image" src="/image/dkslhead.svg" />
-                  <p>NickName</p>
-                </td>
-                <td className="game">4</td>
-                <td className="result">2-2</td>
-                <td className="percentage">50%</td>
-              </tr>
+              {data.duoPlayer.map((e, i) => (
+                <tr className="table-row" key={`duoplayer_${i}`}>
+                  <td className="summoner">
+                    <img className="image" src="/image/dkslhead.svg" />
+                    <p>{e[0]}</p>
+                  </td>
+                  <td className="game">{e[1].count}</td>
+                  <td className="result">
+                    {e[1].win}-{e[1].lose}
+                  </td>
+                  <td className="percentage">{e[1].percent}%</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </S.DuoCard>
@@ -518,7 +513,9 @@ const TabMainComponent = ({ data, piedata }) => {
           <p className="title">&#128202; 최근 20게임 분석</p>
           <div className="card-body">
             <div className="circle-graph">
-              <p className="sub-title">20전 9승 11패</p>
+              <p className="sub-title">
+                {data.recent.count}전 {data.recent.win}승 {data.recent.lose}패
+              </p>
               <div className="percentage-pie">
                 <ResponsivePie
                   data={piedata}
@@ -538,15 +535,17 @@ const TabMainComponent = ({ data, piedata }) => {
                 />
                 <div className="description">
                   <div className="kda">
-                    5.7/<p className="death">5.4</p>/6.4
+                    {data.recent.kill}/
+                    <p className="death">{data.recent.death}</p>/
+                    {data.recent.assist}
                   </div>
-                  <p className="middle">2.24:1</p>
-                  <p>킬관여 51%</p>
+                  <p className="middle">{data.recent.score}:1</p>
+                  <p>킬관여 {data.recent.kill_participation * 100}%</p>
                 </div>
               </div>
             </div>
             <div className="recent-played">
-              <p className="sub-title">플레이한 챔피언&nbsp;(최근 20게임)</p>
+              <p className="sub-title">플레이한 챔피언&nbsp;</p>
               {data.profile.champions.map((e, i) => (
                 <div className="most-champ" key={`current_Card_Champ_${i}`}>
                   <img
@@ -554,8 +553,9 @@ const TabMainComponent = ({ data, piedata }) => {
                     src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champion_name}.png`}
                   />
                   <p className="percent">{e.win_rate * 100}%</p>
-                  <p className="score">(5승 4패)</p>
-                  <p className="grade">{setRound(e.kda)}&nbsp;평점</p>
+                  <p className="grade">
+                    <b>{setRound(e.kda)}&nbsp;평점</b>
+                  </p>
                 </div>
               ))}
             </div>
@@ -563,35 +563,77 @@ const TabMainComponent = ({ data, piedata }) => {
               <p className="sub-title">선호 포지션&nbsp;(랭크)</p>
               <div className="position-area">
                 <div className="line">
-                  <S.LineGraph $gray={90} $blue={10}>
+                  <S.LineGraph
+                    $gray={
+                      100 -
+                      (data.recent.line.get('TOP') / data.recent.count) * 100
+                    }
+                    $blue={
+                      (data.recent.line.get('TOP') / data.recent.count) * 100
+                    }
+                  >
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>TOP</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph $gray={90} $blue={10}>
+                  <S.LineGraph
+                    $gray={
+                      100 -
+                      (data.recent.line.get('JUNGLE') / data.recent.count) * 100
+                    }
+                    $blue={
+                      (data.recent.line.get('JUNGLE') / data.recent.count) * 100
+                    }
+                  >
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>JUG</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph $gray={30} $blue={70}>
+                  <S.LineGraph
+                    $gray={
+                      100 -
+                      (data.recent.line.get('MIDDLE') / data.recent.count) * 100
+                    }
+                    $blue={
+                      (data.recent.line.get('MIDDLE') / data.recent.count) * 100
+                    }
+                  >
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>MID</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph $gray={100} $blue={0}>
+                  <S.LineGraph
+                    $gray={
+                      100 -
+                      (data.recent.line.get('AD') / data.recent.count) * 100
+                    }
+                    $blue={
+                      (data.recent.line.get('AD') / data.recent.count) * 100
+                    }
+                  >
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>
                   <p>AD</p>
                 </div>
                 <div className="line">
-                  <S.LineGraph $gray={90} $blue={10}>
+                  <S.LineGraph
+                    $gray={
+                      100 -
+                      (data.recent.line.get('UTILITY') / data.recent.count) *
+                        100
+                    }
+                    $blue={
+                      (data.recent.line.get('UTILITY') / data.recent.count) *
+                      100
+                    }
+                  >
                     <div className="gray-area"></div>
                     <div className="blue-area"></div>
                   </S.LineGraph>

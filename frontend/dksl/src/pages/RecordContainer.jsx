@@ -10,25 +10,10 @@ import { laderData } from '../data';
 // Jotai
 import { useRecord } from '../jotai/record';
 
-const recorddumydata = [
-  {
-    id: '승리',
-    label: '승리',
-    value: 9,
-    // color: '#237ac5',
-    // color: '#ffffff',
-  },
-  {
-    id: '패배',
-    label: '패배',
-    value: 11,
-    // color: '#ef3d3d',
-  },
-];
-
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
   const [recorddata, setRecorddata] = useState(null);
+  const [piedata, setPiedata] = useState([{ id: '', label: '', value: 0 }]);
   const [profile, setProfile] = useState({
     name: '유 용',
     level: '800',
@@ -40,13 +25,25 @@ const RecordContainer = () => {
   const data = useRecord();
 
   useEffect(() => {
-    console.log(summoner);
-    console.log(data);
-    setProfile(data.profile);
     if (summoner == 'noname') {
       console.log('noname enter');
     }
-    setRecorddata(data);
+    if (data != null) {
+      setProfile(data.profile);
+      setRecorddata(data);
+      setPiedata([
+        {
+          id: '승리',
+          label: '승리',
+          value: data.recent.win,
+        },
+        {
+          id: '패배',
+          label: '패배',
+          value: data.recent.lose,
+        },
+      ]);
+    }
     // const fetchData = async () => {
     //   const data = await getSearchData(summoner);
     //   setRecorddata(data);
@@ -67,7 +64,7 @@ const RecordContainer = () => {
       <ProfileComponent data={profile} />
       <RecordBodyComponent
         recorddata={recorddata}
-        piedata={recorddumydata}
+        piedata={piedata}
         analyzedata={laderData}
         tab={recordTab}
         setTab={setRecordTab}
