@@ -50,7 +50,7 @@ def get_match_history(
 
     match_histories = []
     match_ids = []
-    match_ids = riot_api.get_match_list_timeless(count=3)
+    match_ids = riot_api.get_match_list_timeless(count=20)
 
     while match_ids:
         for match_id in match_ids:
