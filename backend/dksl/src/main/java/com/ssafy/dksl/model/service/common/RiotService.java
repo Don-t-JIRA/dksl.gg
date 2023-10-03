@@ -6,4 +6,5 @@ import com.ssafy.dksl.util.exception.common.CustomException;
 public interface RiotService {
     JsonNode findSummonerByName(String name) throws CustomException;
     JsonNode findLeagueBySummonerId(String summonerId) throws CustomException;
+    JsonNode findMatchTimelineByMatchId(String matchId) throws CustomException;
 }

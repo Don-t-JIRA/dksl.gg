@@ -35,7 +35,7 @@ def get_my_lol_profile(
 
     # 1번 쿼리
     query = """
-            SELECT LP.summoner_name, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
+            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
               LEFT OUTER JOIN LOL_PROFILES LP
                 ON U.puu_id = LP.puu_id
               LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS

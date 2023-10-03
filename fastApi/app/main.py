@@ -5,7 +5,6 @@ from sqlalchemy import select
 
 # Routes
 from app.match_history.router import router as match_history_router
-from app.users.router import  router as lol_profile_router
 
 # Models
 # * DB 생성 전 import 하여 불러오기
@@ -21,7 +20,6 @@ Base.metadata.create_all(bind=engine)
 
 # attach routers
 app.include_router(match_history_router, prefix="/match-histories", tags=["유저 매치 히스토리"])
-app.include_router(lol_profile_router, prefix="/lol-profiles", tags=["유저 랭크 정보"])
 
 @app.get("/")
 async def root(request: Request):
