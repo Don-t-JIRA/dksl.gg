@@ -29,8 +29,8 @@ public class JwtUtil implements InitializingBean {
 
     public JwtUtil(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}") long validityInSeconds) {
         this.secret = secret;
-        //this.accessValidityIn = 2 * 60 * 60 * validityInSeconds;  // 2시간
-        this.accessValidityIn = 3 * validityInSeconds;  // 3초
+        this.accessValidityIn = 2 * 60 * 60 * validityInSeconds;  // 2시간
+        // this.accessValidityIn = 3 * validityInSeconds;  // 3초
         this.refreshValidityIn = 14 * 24 * 60 * 60 * validityInSeconds;  // 2주일
     }
 

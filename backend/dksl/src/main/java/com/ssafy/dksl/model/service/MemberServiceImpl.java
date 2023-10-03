@@ -27,8 +27,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.LoginException;
-
 @Service
 @Slf4j
 public class MemberServiceImpl extends RiotServiceImpl implements MemberService, RankData {
@@ -132,11 +130,15 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         }
     }
 
-    @Override
     public MemberResponse getMember(TokenCommand tokenCommand) throws CustomException {
         // 회원 찾기
-        Member member = memberRepository.findByClientId(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(MemberNotFoundException::new);
-        return updateMember(member);
+        try {
+            Member member = memberRepository.findByClientId(jwtUtil.getClientId(tokenCommand.getToken())).orElseThrow(MemberNotFoundException::new);
+            return updateMember(member);
+        } catch (CustomException e) {
+            log.error(e.getMessage());
+            throw e;
+        }
     }
 
     @Override
@@ -167,8 +169,14 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
     @Override
     public String reissue(TokenCommand tokenCommand) throws CustomException {
         // refresh 토큰 만료 확인
-        System.out.println(jwtUtil.getToken(tokenCommand.getToken()));
-        RefreshToken refreshToken = refreshTokenRepository.findByRefreshToken(jwtUtil.getToken(tokenCommand.getToken())).orElseThrow(LogoutInvalidException::new);
+        String clientId = null;
+        try {
+            clientId = jwtUtil.getClientId(jwtUtil.getToken(tokenCommand.getToken()));
+        } catch(Exception e) {
+            log.error("토큰에서 아이디를 가져올 수 없습니다.");
+            throw new TokenInvalidException();
+        }
+        RefreshToken refreshToken = refreshTokenRepository.findById(clientId).orElseThrow(LogoutInvalidException::new);
 
         // refresh 토큰 검증을 통한 access 토큰 재발급
         try {
