@@ -81,7 +81,7 @@ export const TierCard = styled.div`
 
   & .result-box .rank-detail .description .tier {
     margin: 0;
-    font-size: large;
+    font-size: x-large;
     font-weight: bold;
   }
 

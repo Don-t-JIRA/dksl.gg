@@ -402,6 +402,10 @@ const setRound = (num) => {
   return +(Math.round(num + 'e+2') + 'e-2');
 };
 
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const TabMainComponent = ({ data, piedata }) => {
   if (data == null) {
     return <LoadingComponent />;
@@ -415,9 +419,15 @@ const TabMainComponent = ({ data, piedata }) => {
             <div className="result-box">
               <div className="rank-type">솔로 랭크</div>
               <div className="rank-detail">
-                <img src={`/image/rank-icons/${data.profile.tier_name}.png`} />
+                <img
+                  src={`/image/rank-icons/${data.profile.tier_name.toLowerCase()}.png`}
+                />
                 <div className="description">
-                  <p className="tier">{data.profile.tier_name}</p>
+                  <p className="tier">
+                    {capitalizeFirstLetter(
+                      data.profile.tier_name.toLowerCase()
+                    )}
+                  </p>
                 </div>
               </div>
             </div>
