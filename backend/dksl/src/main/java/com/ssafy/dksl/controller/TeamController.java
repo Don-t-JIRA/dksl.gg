@@ -4,10 +4,9 @@ import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
 import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
 import com.ssafy.dksl.model.dto.response.AllTeamResponse;
-import com.ssafy.dksl.model.service.TeamServiceImpl;
+import com.ssafy.dksl.model.service.TeamService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("team")
-@CrossOrigin
 public class TeamController {
-    private final TeamServiceImpl teamService;
+    private final TeamService teamService;
 
     @Autowired
-    public TeamController(TeamServiceImpl teamService) {
+    public TeamController(TeamService teamService) {
         this.teamService = teamService;
     }
 
@@ -76,14 +74,14 @@ public class TeamController {
     @GetMapping("search")
     private ResponseEntity<?> getSearchTeamList(@RequestParam(value = "word") String searchStr) {
         try {
-            return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr).build()));
+            return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr.trim()).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
-    @GetMapping("detail")
-    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @RequestParam("name") String teamName) {
+    @GetMapping("{name}")
+    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("name") String teamName) {
         try {
             return ResponseEntity.ok(teamService.getTeamDetail(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {

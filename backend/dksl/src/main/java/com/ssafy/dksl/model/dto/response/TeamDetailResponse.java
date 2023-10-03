@@ -13,6 +13,8 @@ public class TeamDetailResponse {
     @NotNull
     private boolean isJoined;
     @NotNull
+    private String chairman;
+    @NotNull
     private String name;
     @NotNull
     private String description;

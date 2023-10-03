@@ -22,5 +22,5 @@ public interface MemberService {
     boolean logout(TokenCommand tokenCommand) throws CustomException;
     SummonerResponse updateSummoner(UpdateSummonerCommand updateSummonerCommand) throws CustomException;
     MemberResponse updateMember(Member member) throws CustomException;
-    String reissue(TokenCommand tokenCommand) throws LoginException, CustomException;
+    String reissue(TokenCommand tokenCommand) throws CustomException;
 }
