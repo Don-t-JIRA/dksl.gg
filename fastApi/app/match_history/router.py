@@ -45,6 +45,9 @@ def get_match_history(
                               "%Y-%m-%d %H:%M:%S").timetuple()
         )
     )
+    current_lol_profile.last_updated_at = datetime.now()
+    db_session.commit()
+
     match_histories = []
     match_ids = []
     match_ids = riot_api.get_match_list(count=20, start_time=start_time)
@@ -126,14 +129,15 @@ def get_match_history(
 
     # 1번 쿼리
     query = """
-            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
-              LEFT OUTER JOIN LOL_PROFILES LP
+            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id, LP.last_updated_at as last_updated_at 
+            FROM LOL_PROFILES U
+            LEFT OUTER JOIN LOL_PROFILES LP
                 ON U.puu_id = LP.puu_id
-              LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
+            LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
                 ON CSS.puu_id = LP.puu_id
-              LEFT OUTER JOIN TIERS T
+            LEFT OUTER JOIN TIERS T
                 ON T.name_en = CSS.tier_name
-             WHERE LP.summoner_name = %(summoner_name)s
+            WHERE LP.summoner_name = %(summoner_name)s
              ;
         """
 
@@ -212,6 +216,8 @@ def get_match_history(
                 "positions": lines,
             }
         )
+
+
 
     return {"profile": ret,
             "match_histories": match_histories_mapped
