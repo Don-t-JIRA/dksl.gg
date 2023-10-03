@@ -1,9 +1,12 @@
 package com.ssafy.dksl.config;
 
 import com.ssafy.dksl.filter.AuthenticationFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +21,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -27,7 +32,6 @@ public class SecurityConfig {
 
     private final AuthenticationFilter authenticationFilter;
 
-    @Autowired
     public SecurityConfig(AuthenticationFilter authenticationFilter) {
         this.authenticationFilter = authenticationFilter;
     }
@@ -39,41 +43,40 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(AbstractHttpConfigurer::disable)  // 쿠키 기반이 아닌 JWT 기반이므로 사용하지 않음
+        http
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)  // 쿠키 기반이 아닌 JWT 기반이므로 사용하지 않음
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+                        authorizationManagerRequestMatcherRegistry
+                                .requestMatchers(new AntPathRequestMatcher("/**", HttpMethod.OPTIONS.name())).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/team/create", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/team/add", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/member", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/member/logout", HttpMethod.POST.name())).authenticated()
+                                .anyRequest().permitAll()
+                )
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         // Spring Security 세션 정책 : 세션을 생성 및 사용하지 않음
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-                        authorizationManagerRequestMatcherRegistry
-                                // .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                                .requestMatchers(new AntPathRequestMatcher("/team/create", "team/add")).authenticated()
-                                .requestMatchers(new AntPathRequestMatcher("/member", "/member/logout")).authenticated()
-                                .anyRequest().permitAll()
-                )
                 // UsernamePasswordAuthenticationFilter 에 도달하기 전에 커스텀한 필터를 먼저 동작
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000", "http://localhost", "http://127.0.0.1"));
-        config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        // config.setAllowedHeaders(List.of("Content-Type", "Authorization"));
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1", "http://localhost", "http://127.0.0.1:3000", "http://localhost:3000"));
+        configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name()));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
+
     }
-
-
 }
