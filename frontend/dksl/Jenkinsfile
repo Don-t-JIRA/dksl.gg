@@ -8,7 +8,7 @@ pipeline {
 	stages {
 		stage('React Build') {
 			steps {
-				dir('Frontend') {
+				dir('frontend/dksl') {
 					sh 'pnpm install'
 					sh 'pnpm dev'
 				}
@@ -17,7 +17,7 @@ pipeline {
 
 		stage('Docker Build') {
 			steps {
-				dir('Frontend') {
+				dir('frontend/dksl') {
 					sh 'docker build -t dksl_front:latest .'
 				}
 			}
