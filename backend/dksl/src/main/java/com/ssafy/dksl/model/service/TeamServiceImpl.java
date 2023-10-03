@@ -225,10 +225,11 @@ public class TeamServiceImpl implements TeamService {
         List<Team> teamList;
         try {
             teamList = teamRepository
-                    .findAllByNameContainingOrDescriptionContainingAndSubmitAtIsNotNull(searchTeamCommand.getSearchStr(), searchTeamCommand.getSearchStr());
+                    .findAllByNameContainingOrDescriptionContainingAndSubmitAtIsNotNull(searchTeamCommand.getSearchStr().trim(), searchTeamCommand.getSearchStr().trim());
         } catch(DataAccessException e) {
             throw new TeamInvalidException();
         }
+
         return getTeamList(teamList);
     }
 

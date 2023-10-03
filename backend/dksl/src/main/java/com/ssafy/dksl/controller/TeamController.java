@@ -75,14 +75,14 @@ public class TeamController {
     @GetMapping("search")
     private ResponseEntity<?> getSearchTeamList(@RequestParam(value = "word") String searchStr) {
         try {
-            return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr).build()));
+            return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr.trim()).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
 
-    @GetMapping("detail")
-    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @RequestParam("name") String teamName) {
+    @GetMapping("{name}")
+    private ResponseEntity<?> getTeamDetail(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("name") String teamName) {
         try {
             return ResponseEntity.ok(teamService.getTeamDetail(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
