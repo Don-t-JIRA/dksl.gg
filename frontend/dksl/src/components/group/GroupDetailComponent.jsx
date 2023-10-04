@@ -66,7 +66,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
               <div className="tier-body">
                 <div className="img-box">
                   <img
-                    src={`/image/rank-icons/${detailList.avgTier.id.toUpperCase()}.png`}
+                    src={`/image/rank-icons/${detailList.avgTier.id}.png`}
                     alt="group-tier"
                     className="image"
                   />

@@ -19,7 +19,11 @@ const ProfileComponent = ({ data }) => {
           <div className="userBox">
             <div className="title">
               <h1>{data.summoner_name}</h1>
-              <img src={`/image/rank-icons/${data.tier_name}.png`} />
+              <img
+                src={`/image/rank-icons/${
+                  data.tier_name ? data.tier_name.toLowerCase() : `unranked`
+                }.png`}
+              />
             </div>
             <p className="lbti">CVSD</p>
             <div className="record-update">
