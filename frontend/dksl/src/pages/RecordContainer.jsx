@@ -1,6 +1,6 @@
 // React
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 // Component
 import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
@@ -8,7 +8,7 @@ import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // 더미 데이터
 import { laderData } from '../data';
 // Jotai
-import { useRecord } from '../jotai/record';
+import { useRecord, useUpdateRecord } from '../jotai/record';
 import { groupLeave } from '../services/GroupService';
 import Swal from 'sweetalert2';
 import { useUpdateGroup } from '../jotai/group';
@@ -25,11 +25,17 @@ const RecordContainer = () => {
     tier: 'master',
   });
   const { summoner } = useParams();
+  const navigate = useNavigate();
   const data = useRecord();
+  const setRecord = useUpdateRecord();
   const setGroup = useUpdateGroup();
-
+  
   useEffect(() => {
     if (data != null) {
+      if (data == 'NoData') {
+        Swal.fire('이런!', '정보가 없는 소환사입니다!', 'info');
+        navigate('/');
+      }
       setProfile(data.profile);
       setRecorddata(data);
       setPiedata([
@@ -45,18 +51,14 @@ const RecordContainer = () => {
         },
       ]);
     }
-    // const fetchRecordData = async () => {
-    //   const data = await getSearchData(summoner);
-    //   setRecorddata(data);
-    // }
-    
-    // if (summoner != null || summoner != undefined) {
-    //   fetchRecordData();
-    //   setGroup(summoner);
-    // }
+    if (summoner != null || summoner != undefined) {
+      console.log(summoner);
+      setGroup(summoner);
+      setRecord(summoner);
+    }
     // Test
-    setGroup('유한이');
-  }, [summoner, data, setGroup]);
+    // setGroup('유한이');
+  }, [summoner, setGroup, setRecord, navigate]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);

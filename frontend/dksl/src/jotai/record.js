@@ -4,7 +4,10 @@ import { spell } from '../spell';
 import { rune } from '../rune';
 // Jotai
 import { atomWithDefault } from 'jotai/utils';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom, atom } from 'jotai';
+// import { getSearchData } from '../services/RecordService';
+// Swal
+// import Swal from 'sweetalert2';
 
 // 함께한 소환사 아이콘, 이름, 게임 수, 승-패, 승률 메서드
 // 20 게임의 매치 데이터와 검색된 소환사 받기
@@ -129,10 +132,15 @@ const formatGold = (number) => {
 };
 
 // 요청 데이터 가공 메서드
-const formattingData = async () => {
+const formattingData = async (user) => {
   let win = 0;
-  const user = sample.profile[0].summoner_name;
 
+  // if (user == null || user == undefined || typeof user != 'string') return null;
+  user = sample.profile[0].summoner_name;
+  // const sample = await getSearchData(user).catch((error) => {
+  //   Swal.fire('Error', error.message, 'error');
+  // });
+  if (sample == 'NoData') return sample;
   const arr = sample.match_histories.map((e) => {
     let cur;
     let summary = [[], []];
@@ -284,10 +292,10 @@ const formattingData = async () => {
 
 const recordAtom = atomWithDefault(formattingData);
 
-// const updateRecordAtom = atom(null, async (get, set) => {
-//   set(recordAtom, await getRecord());
-// });
+const updateRecordAtom = atom(null, async (get, set, update) => {
+  set(recordAtom, await formattingData(update));
+});
 
 export const useRecord = () => useAtomValue(recordAtom);
 
-// export const useUpdateRecord = () => useSetAtom(updateRecordAtom);
+export const useUpdateRecord = () => useSetAtom(updateRecordAtom);

@@ -9,6 +9,8 @@ import { reAccessToken } from './UserService';
 // const BASE_URL = 'http://192.168.79.239:8080';
 // 싸피
 const BASE_URL = 'http://70.12.247.95:8080';
+// FastAPI
+const RECORD_URL = 'http://70.12.246.196:8000';
 
 const common = Axios.create({
   baseURL: BASE_URL,
@@ -24,6 +26,10 @@ const auth = Axios.create({
     'Content-Type': 'application/json;charset=UTF-8',
   },
 });
+
+const record = Axios.create({
+  baseURL: RECORD_URL,
+})
 
 auth.interceptors.request.use(
   async function (config) {
@@ -65,4 +71,4 @@ auth.interceptors.request.use(
 //     return Promise.reject(error);
 //   });
 
-export { auth, common };
+export { auth, common, record };

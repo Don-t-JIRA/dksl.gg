@@ -8,7 +8,7 @@ const getGroup = async (name) => {
   if (name == null || name == undefined) {
     return null;
   }
-
+  console.log(name);
   const data = await getSummonerGroup(name);
   if (data.status == 200) {
     return data.data;
