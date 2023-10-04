@@ -11,8 +11,8 @@ USE dksl;
 -- SELECT * FROM match_histories;	
 
 -- SELECT * FROM most_champion_summaries;
--- SELECT * FROM current_season_summaries;
--- SELECT * FROM current_season_summaries_flex;
+SELECT * FROM current_season_summaries;
+SELECT * FROM current_season_summaries_flex;
 -- SELECT * FROM most_line_summaries;
 -- SELECT * FROM champions;
 -- SELECT * FROM items;

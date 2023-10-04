@@ -1,6 +1,6 @@
 from sqlmodel import Field, SQLModel
 
-class RecommendUser(SQLModel, table=True):
+class RecommendUserBase(SQLModel):
     id: int = Field(default=None, primary_key=True)
     champ_level: int = Field(default=None)
     solo_kills: int = Field(default=None)
@@ -12,3 +12,7 @@ class RecommendUser(SQLModel, table=True):
     total_damage: int = Field(default=None)
     vision_score: int = Field(default=None)
     control_ward: int = Field(default=None)
+
+
+class MatchHistories(BaseIdModel, RecommendUserBase, table=True):
+    __tablename__ = "RECOMMEND_LIST"
