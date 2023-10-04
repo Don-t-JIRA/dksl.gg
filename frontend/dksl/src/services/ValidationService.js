@@ -5,36 +5,79 @@ const emailVaildationCheck = (email) => {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   );
   if (email.length == 0 || !regexEmail.test(email)) {
-    return '이메일 형식이 올바르지 않습니다.';
+    return false;
   }
-  return 'SUCCESS';
+  return true;
 };
 
-const pwValidationCheck = (pw, pwCheck) => {
+const pwValidationCheck = (password) => {
   // pw Checking
   const regexPw = new RegExp(
     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/
   );
 
-  if (pw != pwCheck || pw.length == 0) {
-    return '비밀번호가 일치하지 않습니다.';
+  if (!regexPw.test(password)) {
+    return false;
   }
-  if (!regexPw.test(pw)) {
-    return `영어, 숫자, 특수문자를 조합해 8자 이상 설정해주세요.`;
+  return true;
+};
+
+const pwEqualValidationCheck = (pw, pwCheck) => {
+  // pw Checking
+  if (pwCheck.length == 0 || pwCheck.length == 0 || pw != pwCheck) {
+    return false;
   }
-  return 'SUCCESS';
+  return true;
+};
+
+const nameValidationCheck = (name) => {
+  // name Checking
+  if (name.length == 0) {
+    return false;
+  }
+  return true;
+};
+
+const idValidationCheck = (clientId) => {
+  // ID Checking
+  const regexId = new RegExp(/^[0-9a-zA-Z_]{3,20}$/);
+
+  if (!regexId.test(clientId)) {
+    return false;
+  }
+  return true;
+};
+
+const phoneValidationCheck = (phone) => {
+  // phoneNumber formatting & Checking
+  const numArr = phone.split('');
+  const regexPhone = new RegExp(/^\d{3}-\d{3,4}-\d{4}$/);
+
+  if (
+    numArr[0] != '0' ||
+    numArr[1] != '1' ||
+    numArr.length != 11 ||
+    regexPhone.test(phone)
+  ) {
+    return false;
+  }
+  return true;
 };
 
 const userValidationCheck = (user) => {
-  // email Checking
-  const regexEmail = new RegExp(
-    // eslint-disable-next-line no-useless-escape
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  );
-  const email = user.email;
+  // name Checking
+  const name = user.name;
 
-  if (email.length == 0 || !regexEmail.test(email)) {
-    return '이메일 형식이 올바르지 않습니다.';
+  if (name.length == 0) {
+    return '리그오브레전드 소환사명을 입력해주세요.';
+  }
+
+  // ID Checking
+  const id = user.clientId;
+  const regexId = new RegExp(/^[0-9a-zA-Z_]{3,20}$/);
+
+  if (!regexId.test(id)) {
+    return '아이디는 영어 및 숫자를 사용해 20자 이하로 설정해주세요.';
   }
 
   // pw Checking
@@ -51,22 +94,6 @@ const userValidationCheck = (user) => {
     return '영어, 숫자, 특수문자를 조합해 8자 이상 설정해주세요.';
   }
 
-  // name Checking
-  const name = user.name;
-  const regexName = new RegExp(/^[a-zA-Zㄱ-힣_]{1,20}$/);
-
-  if (!regexName.test(name)) {
-    return '이름에는 한글만 들어갈 수 있습니다.';
-  }
-
-  // ID Checking
-  const id = user.clientId;
-  const regexId = new RegExp(/^[a-zA-Z_]{3,20}$/);
-
-  if (!regexId.test(id)) {
-    return '아이디는 20자 이하, 영어로 설정해주세요.';
-  }
-
   // phoneNumber formatting & Checking
   const phone = user.phone;
   const numArr = phone.split('');
@@ -81,7 +108,26 @@ const userValidationCheck = (user) => {
     return '잘못된 전화번호 형식입니다.';
   }
 
+  // email Checking
+  const regexEmail = new RegExp(
+    // eslint-disable-next-line no-useless-escape
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  );
+  const email = user.email;
+
+  if (email.length == 0 || !regexEmail.test(email)) {
+    return '이메일 형식이 올바르지 않습니다.';
+  }
+
   return 'SUCCESS';
 };
 
-export { userValidationCheck, pwValidationCheck, emailVaildationCheck };
+export {
+  userValidationCheck,
+  pwValidationCheck,
+  emailVaildationCheck,
+  pwEqualValidationCheck,
+  idValidationCheck,
+  phoneValidationCheck,
+  nameValidationCheck,
+};

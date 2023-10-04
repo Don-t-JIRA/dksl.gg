@@ -1,5 +1,5 @@
 // React
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/user/signin.style';
 
@@ -18,29 +18,8 @@ const SigninComponent = ({ getter, setter, onSignIn }) => {
     });
   };
 
-  
-
-  useEffect(() => {
-    console.log(getter);
-  }, [getter])
-
-  /**
-   * @value 
-   * getter: {
-   *  id: string,
-   *  pw: string
-   * }
-  const getSignin = async () => {
-    await signIn(getter).then((res) => {
-      // 응답에 따라 처리 로직 분기
-    }).catch((error) => {
-      // 에러 메세지 출력이나 에러 컴포넌트로 이동 등 에러 처리
-    });
-  }
-  */
-
   return (
-    <S.SigninLayout bgnum={num}>
+    <S.SigninLayout $bgnum={num}>
       <S.SigninContainer>
         <div className="box">
           <img className="logo" src="../image/dkslhead.svg" />

@@ -4,9 +4,7 @@ import com.ssafy.dksl.model.dto.command.TokenCommand;
 import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
 import com.ssafy.dksl.model.dto.request.LoginRequest;
 import com.ssafy.dksl.model.dto.request.RegisterRequest;
-import com.ssafy.dksl.model.dto.response.MyTeamResponse;
-import com.ssafy.dksl.model.service.MemberServiceImpl;
-import com.ssafy.dksl.model.service.TeamServiceImpl;
+import com.ssafy.dksl.model.service.MemberService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("member")
-@CrossOrigin
 public class MemberController {
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @Autowired
-    MemberController(MemberServiceImpl memberService) {
+    MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
@@ -52,9 +49,9 @@ public class MemberController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getUser(@RequestHeader("Authorization") String accessToken) {
+    private ResponseEntity<?> getMember(@RequestHeader("Authorization") String accessToken) {
         try {
-            return ResponseEntity.ok(memberService.getUser(TokenCommand.builder().token(accessToken).build()));
+            return ResponseEntity.ok(memberService.getMember(TokenCommand.builder().token(accessToken).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
@@ -70,7 +67,7 @@ public class MemberController {
     }
 
     @GetMapping("/reissue")
-    private ResponseEntity<?> reissue(@RequestBody String refreshToken) {
+    private ResponseEntity<?> reissue(@RequestHeader("Authorization") String refreshToken) {
         try {
             return ResponseEntity.ok(memberService.reissue(TokenCommand.builder().token(refreshToken).build()));
         } catch (CustomException e) {

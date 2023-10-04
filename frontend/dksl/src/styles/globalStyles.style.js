@@ -3,7 +3,7 @@ import { createGlobalStyle, css } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
 
 #root {
-  width: 100vw;
+  width: 100%;
   height: 100%;
 }
 
@@ -15,8 +15,8 @@ const GlobalStyles = createGlobalStyle`
   width: 100vw !important;
   height: 100vh !important;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #f0f0f0;
   background-attachment: fixed;
 
@@ -39,8 +39,9 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 720px;
   min-height: 100vh;
+
 }
 
 body.swal2-shown > [aria-hidden="true"] {

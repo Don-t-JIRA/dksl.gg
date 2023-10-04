@@ -14,6 +14,7 @@ export const LeftLayout = styled.div`
   width: 30%;
   min-width: 300px;
   height: 100%;
+  min-height: 900px;
   padding-top: 4.3rem;
 `;
 
@@ -80,7 +81,7 @@ export const TierCard = styled.div`
 
   & .result-box .rank-detail .description .tier {
     margin: 0;
-    font-size: x-large;
+    font-size: large;
     font-weight: bold;
   }
 
@@ -196,6 +197,7 @@ export const RecentCard = styled.div`
       }
       & .kda {
         display: inline-flex;
+        font-size: medium;
       }
       & .death {
         color: red;
@@ -220,8 +222,8 @@ export const RecentCard = styled.div`
       align-items: center;
 
       & .image {
-        max-width: 2rem;
-        max-height: 2rem;
+        max-width: 1.5rem;
+        max-height: 1.5rem;
         border-radius: 50%;
         margin-right: 0.5rem;
       }
@@ -261,12 +263,12 @@ export const LineGraph = styled.div`
   flex-direction: column;
 
   & .gray-area {
-    flex-basis: ${(props) => props.gray}%;
+    flex-basis: ${(props) => props.$gray}%;
     background-color: #dbe0e4;
   }
 
   & .blue-area {
-    flex-basis: ${(props) => props.blue}%;
+    flex-basis: ${(props) => props.$blue}%;
     background-color: #5383e8;
   }
 `;
@@ -292,14 +294,14 @@ export const RecordCard = styled.div`
   display: flex;
   margin-bottom: 0;
   border-radius: 0;
-  background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+  background-color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
 
   & .record-info {
     width: 94%;
     height: 100%;
     display: flex;
     margin-left: 2%;
-    background-color: ${(props) => (props.win ? `#bedaf7` : `#f9c6c6`)};
+    background-color: ${(props) => (props.$win ? `#bedaf7` : `#f9c6c6`)};
     font-size: x-small;
 
     & p {
@@ -317,31 +319,39 @@ export const RecordCard = styled.div`
         & .win {
           font-size: small;
           font-weight: bold;
-          color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+          color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
         }
       }
 
       & .area-2 {
+        height: 3rem;
         display: flex;
         flex-basis: 20%;
         align-self: center;
+        align-items: center;
 
         & .champ {
+          height: 100%;
+          display: flex;
           flex-basis: 50%;
+          align-items: center;
 
           & .image {
+            margin: auto;
             width: 90%;
           }
         }
 
         & .another {
+          height: 100%;
           display: flex;
           flex-wrap: wrap;
           flex-basis: 50%;
+          justify-content: space-evenly;
 
           & .image {
+            margin: auto;
             width: 40%;
-            height: 50%;
           }
         }
       }
@@ -381,8 +391,8 @@ export const RecordCard = styled.div`
         align-self: center;
 
         & .image {
-          width: 25%;
-          height: 30%;
+          width: 24%;
+          margin: 0.5px;
         }
       }
     }
@@ -399,6 +409,7 @@ export const RecordCard = styled.div`
         & .image {
           width: 15%;
           height: 90%;
+          margin-right: 4px;
         }
       }
 
@@ -408,6 +419,7 @@ export const RecordCard = styled.div`
         & .image {
           width: 15%;
           height: 90%;
+          margin-right: 4px;
         }
       }
 
@@ -458,7 +470,7 @@ export const RecordDetail = styled.div`
 
 export const TeamDetail = styled.div`
   width: 50%;
-  background-color: ${(props) => (props.win ? `#F9FBFD` : `#FEF9F9`)};
+  background-color: ${(props) => (props.$win ? `#F9FBFD` : `#FEF9F9`)};
 
   & .title {
     width: 100%;
@@ -466,7 +478,7 @@ export const TeamDetail = styled.div`
     display: table;
     margin: 0;
     padding: 0;
-    background-color: ${(props) => (props.win ? `#237ac5` : `#ef3d3d`)};
+    background-color: ${(props) => (props.$win ? `#237ac5` : `#ef3d3d`)};
 
     & p {
       width: auto;
@@ -494,21 +506,27 @@ export const TeamDetail = styled.div`
       align-self: center;
 
       & .champ {
+        height: 100%;
+        display: flex;
         flex-basis: 25%;
+        align-items: center;
 
         & .image {
+          margin: auto;
           width: 90%;
         }
       }
 
       & .another {
+        height: 100%;
         display: flex;
         flex-wrap: wrap;
         flex-basis: 25%;
+        justify-content: space-evenly;
 
         & .image {
+          margin: auto;
           width: 40%;
-          height: 50%;
         }
       }
 
@@ -597,13 +615,13 @@ export const HorizenGraph = styled.div`
   display: flex;
 
   & .red {
-    width: ${(props) => props.red}%;
+    width: ${(props) => props.$red}%;
     height: 100%;
     background-color: #ff5858;
   }
 
   & .gray {
-    width: ${(props) => props.gray}%;
+    width: ${(props) => props.$gray}%;
     height: 100%;
     background-color: #dbe0e4;
   }

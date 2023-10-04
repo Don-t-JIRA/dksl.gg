@@ -63,23 +63,23 @@ export const AnalyzeCard = styled.div`
     & .subtitle {
       display: flex;
       justify-content: center;
-      margin-top: .1rem;
+      margin-top: 0.1rem;
 
       & p {
-        margin: 0 .2rem;
+        margin: 0 0.2rem;
         font-size: large;
         font-weight: bold;
       }
 
       & .lbti {
-        color: var(--maincolor-depth1)
+        color: var(--maincolor-depth1);
       }
     }
 
     & .tag-box {
       display: flex;
       justify-content: space-around;
-      margin: 0 .5rem;
+      margin: 0 0.5rem;
       margin-bottom: 1rem;
     }
   }
@@ -87,9 +87,8 @@ export const AnalyzeCard = styled.div`
 
 export const TagItem = styled.div`
   ${Tag};
-  background-color: ${(props) => props.bg};
-  
-`
+  background-color: ${(props) => props.$bg};
+`;
 
 export const GraphCard = styled.div`
   ${Card}
@@ -105,7 +104,6 @@ export const GraphCard = styled.div`
     width: 100%;
     height: 100%;
   }
-  
 `;
 
 export const RecentCard = styled.div`
@@ -140,7 +138,7 @@ export const RecentCard = styled.div`
 
     & .sub-title {
       margin-left: 1rem;
-      margin-bottom: 0;
+      margin-bottom: 1rem;
     }
 
     & p {
