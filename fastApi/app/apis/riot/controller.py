@@ -48,11 +48,10 @@ class RiotApiController:
             "Content-Type": "application/x-www-form-urlencoded",
             "api_key": self.api_key,
         }
-        print("API에서 데이터 불러오기")
+
         self.base_params = {}
 
     def get_summoner_info(self):
-        print("소환사 정보 가져오기")
         return self.lol_watcher._summoner.by_name(
             region=self.my_region, summoner_name=self.summoner_name
         )
@@ -65,6 +64,14 @@ class RiotApiController:
             puuid=self.puu_id,
             region=self.my_region,
             start_time=start_time,
+            count=count,
+        )
+        return ret
+
+    def get_match_list_timeless(self, count: int):
+        ret = self.lol_watcher.match.matchlist_by_puuid(
+            puuid=self.puu_id,
+            region=self.my_region,
             count=count,
         )
         return ret

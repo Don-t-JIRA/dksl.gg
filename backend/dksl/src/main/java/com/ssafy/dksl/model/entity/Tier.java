@@ -1,21 +1,12 @@
 package com.ssafy.dksl.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ssafy.dksl.model.dto.response.TierResponse;
+import com.ssafy.dksl.model.dto.response.common.TierResponse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Comment;
-import org.springframework.beans.factory.annotation.Value;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 @Entity
 @Getter

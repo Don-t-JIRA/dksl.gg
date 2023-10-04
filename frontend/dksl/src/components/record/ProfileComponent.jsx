@@ -27,8 +27,8 @@ const ProfileComponent = ({ data }) => {
             </div>
             <p className="lbti">CVSD</p>
             <div className="record-update">
-              <button>전적 갱신</button>
-              <p className="desc">최근 업데이트 : 5분 전</p>
+              <button onClick={() => location.reload()}>전적 갱신</button>
+              <p className="desc">최근 업데이트 : {data.last_updated_at}</p>
             </div>
           </div>
         </S.ProfileContainer>

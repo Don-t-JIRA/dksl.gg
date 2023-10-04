@@ -12,6 +12,7 @@ venv
 *.pyc
 __pycache__/
 .gitlab/
+alembic.ini
 
 # MacOS
 ./.DS_Store

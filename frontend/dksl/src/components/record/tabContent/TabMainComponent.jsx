@@ -431,31 +431,23 @@ const TabMainComponent = ({ data, piedata }) => {
                 </div>
               </div>
             </div>
-            <div className="result-box">
-              {/* <div className="rank-type">자유 랭크</div>
-              <div className="rank-detail">
-                <img src={`/image/rank-icons/${data.profile.tier_name}.png`} />
-                <div className="description">
-                  <p className="tier">{data.profile.tier_name}</p>
+            {data.freeRank && (
+              <div className="result-box">
+                <div className="rank-type">자유 랭크</div>
+                <div className="rank-detail">
+                  <img
+                    src={`/image/rank-icons/${data.freeRank.tier_name.toLowerCase()}.png`}
+                  />
+                  <div className="description">
+                    <p className="tier">
+                      {capitalizeFirstLetter(
+                        data.freeRank.tier_name.toLowerCase()
+                      )}
+                    </p>
+                  </div>
                 </div>
-              </div> */}
-              <ResponsivePie
-                data={piedata}
-                margin={{ top: 5, right: 5, bottom: 5, left: 10 }}
-                innerRadius={0.75}
-                padAngle={0.7}
-                cornerRadius={1}
-                colors={['#5393CA', '#ff5858']}
-                activeOuterRadiusOffset={3}
-                borderWidth={1}
-                borderColor={{
-                  from: 'color',
-                  modifiers: [['darker', '0.2']],
-                }}
-                enableArcLinkLabels={false}
-                enableArcLabels={false}
-              />
-            </div>
+              </div>
+            )}
           </div>
         </S.TierCard>
         <S.DuoCard>
@@ -473,7 +465,6 @@ const TabMainComponent = ({ data, piedata }) => {
               {data.duoPlayer.map((e, i) => (
                 <tr className="table-row" key={`duoplayer_${i}`}>
                   <td className="summoner">
-                    <img className="image" src="/image/dkslhead.svg" />
                     <p>{e[0]}</p>
                   </td>
                   <td className="game">{e[1].count}</td>
@@ -494,6 +485,8 @@ const TabMainComponent = ({ data, piedata }) => {
             <label>랭크 전체</label>
             <input type="radio" name="rank-type" />
             <label>솔로 랭크</label>
+            <input type="radio" name="rank-type" />
+            <label>자유 랭크</label>
           </div>
           <div className="select-group">
             <Select
@@ -559,85 +552,20 @@ const TabMainComponent = ({ data, piedata }) => {
               ))}
             </div>
             <div className="favo-position">
-              <p className="sub-title">선호 포지션&nbsp;(랭크)</p>
+              <p className="sub-title">선호 포지션</p>
               <div className="position-area">
-                <div className="line">
-                  <S.LineGraph
-                    $gray={
-                      100 -
-                      (data.recent.line.get('TOP') / data.recent.count) * 100
-                    }
-                    $blue={
-                      (data.recent.line.get('TOP') / data.recent.count) * 100
-                    }
-                  >
-                    <div className="gray-area"></div>
-                    <div className="blue-area"></div>
-                  </S.LineGraph>
-                  <p>TOP</p>
-                </div>
-                <div className="line">
-                  <S.LineGraph
-                    $gray={
-                      100 -
-                      (data.recent.line.get('JUNGLE') / data.recent.count) * 100
-                    }
-                    $blue={
-                      (data.recent.line.get('JUNGLE') / data.recent.count) * 100
-                    }
-                  >
-                    <div className="gray-area"></div>
-                    <div className="blue-area"></div>
-                  </S.LineGraph>
-                  <p>JUG</p>
-                </div>
-                <div className="line">
-                  <S.LineGraph
-                    $gray={
-                      100 -
-                      (data.recent.line.get('MIDDLE') / data.recent.count) * 100
-                    }
-                    $blue={
-                      (data.recent.line.get('MIDDLE') / data.recent.count) * 100
-                    }
-                  >
-                    <div className="gray-area"></div>
-                    <div className="blue-area"></div>
-                  </S.LineGraph>
-                  <p>MID</p>
-                </div>
-                <div className="line">
-                  <S.LineGraph
-                    $gray={
-                      100 -
-                      (data.recent.line.get('AD') / data.recent.count) * 100
-                    }
-                    $blue={
-                      (data.recent.line.get('AD') / data.recent.count) * 100
-                    }
-                  >
-                    <div className="gray-area"></div>
-                    <div className="blue-area"></div>
-                  </S.LineGraph>
-                  <p>AD</p>
-                </div>
-                <div className="line">
-                  <S.LineGraph
-                    $gray={
-                      100 -
-                      (data.recent.line.get('UTILITY') / data.recent.count) *
-                        100
-                    }
-                    $blue={
-                      (data.recent.line.get('UTILITY') / data.recent.count) *
-                      100
-                    }
-                  >
-                    <div className="gray-area"></div>
-                    <div className="blue-area"></div>
-                  </S.LineGraph>
-                  <p>SUP</p>
-                </div>
+                {data.profile.positions.map((e, i) => (
+                  <div className="line" key={`positions_${i}`}>
+                    <S.LineGraph
+                      $gray={100 - (e.cnt / data.profile.positions_cnt) * 100}
+                      $blue={(e.cnt / data.profile.positions_cnt) * 100}
+                    >
+                      <div className="gray-area"></div>
+                      <div className="blue-area"></div>
+                    </S.LineGraph>
+                    <p>{e.line}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
