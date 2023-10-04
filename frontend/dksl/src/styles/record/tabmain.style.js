@@ -81,7 +81,7 @@ export const TierCard = styled.div`
 
   & .result-box .rank-detail .description .tier {
     margin: 0;
-    font-size: large;
+    font-size: x-large;
     font-weight: bold;
   }
 
@@ -123,15 +123,8 @@ export const DuoCard = styled.div`
 
   & .duo-table .table-row .summoner {
     display: flex;
-    margin-left: 0.5rem;
+    margin-left: 1rem;
     text-align: start;
-  }
-
-  & .duo-table .table-row .summoner .image {
-    max-width: 1.5rem;
-    max-height: 1.5rem;
-    border-radius: 50%;
-    margin-right: 0.5rem;
   }
 
   & .duo-table .table-row .summoner p {
@@ -218,7 +211,7 @@ export const RecentCard = styled.div`
       display: flex;
       margin-left: auto;
       margin-right: auto;
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
       align-items: center;
 
       & .image {
@@ -244,11 +237,16 @@ export const RecentCard = styled.div`
       margin-left: auto;
       margin-right: auto;
       display: flex;
+      flex-direction: column;
       justify-content: space-around;
       text-align: center;
 
       & .line {
-        width: 15%;
+        width: 100%;
+        height: 20%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
       }
     }
   }
@@ -258,9 +256,7 @@ export const LineGraph = styled.div`
   width: 70%;
   height: 75%;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  flex-direction: column;
+  margin-right: .5rem;
 
   & .gray-area {
     flex-basis: ${(props) => props.$gray}%;

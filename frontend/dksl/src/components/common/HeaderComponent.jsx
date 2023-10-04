@@ -55,7 +55,11 @@ const HeaderComponent = () => {
         confirmButtonColor: '#6E8387',
         confirmButtonText: '확인',
       }).then((res) => {
-        if (res.isConfirmed) location.reload();
+        if (res.isConfirmed) {
+          console.log("Success, Logout!");
+          navigate('/');
+          location.reload();
+        }
       });
     }
   };

@@ -10,6 +10,7 @@ export const sample = {
       losses: 151,
       current_season_summary_id:
         '5dA097C13W5gg66X_GeX3iFy_ZFvqxQi1bMFd8I9IA5uYnwxvOLbAskzW0qdBLGXanX6LVoq42nUFg',
+      last_updated_at: '2023-10-03T20:14:17',
       champions: [
         {
           queue_id: 420,
@@ -36,21 +37,21 @@ export const sample = {
       positions: [
         {
           queue_id: 420,
-          img: null,
+          cnt: 14,
           win_rate: 0.5135,
           kda: 2.4342981584455674,
           line: 'MIDDLE',
         },
         {
           queue_id: 420,
-          img: null,
+          cnt: 4,
           win_rate: 0.8,
           kda: 1.6491228070175439,
           line: 'TOP',
         },
         {
           queue_id: 420,
-          img: null,
+          cnt: 2,
           win_rate: 1,
           kda: 13.25,
           line: 'UTILITY',

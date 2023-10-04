@@ -45,9 +45,12 @@ def get_match_history(
                               "%Y-%m-%d %H:%M:%S").timetuple()
         )
     )
+    current_lol_profile.last_updated_at = datetime.now()
+    db_session.commit()
+
     match_histories = []
     match_ids = []
-    match_ids = riot_api.get_match_list(count=20, start_time=start_time)
+    match_ids = riot_api.get_match_list_timeless(count=20)
 
     while match_ids:
         for match_id in match_ids:
@@ -61,8 +64,6 @@ def get_match_history(
 
         start_time = match_histories[0].get(
             "info", {}).get("gameStartTimestamp")
-
-        match_ids = riot_api.get_match_list(count=20, start_time=start_time)
 
         # 1번만 하기
         break
@@ -98,11 +99,11 @@ def get_match_history(
                     kill=participant.get("kills", ""),
                     death=participant.get("deaths", ""),
                     assist=participant.get("assists", ""),
-                    kda=challenges.get("kda", ""),
-                    kill_participation=challenges.get("killParticipation", ""),
+                    kda=challenges.get("kda", 0.0),
+                    kill_participation=challenges.get("killParticipation", 0.0),
                     control_wards_placed=challenges.get("controlWardsPlaced", ""),
                     total_damage_dealt_to_champions=participant.get("totalDamageDealtToChampions", ""),
-                    damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", ""),
+                    damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", 0.0),
                     vision_score=participant.get("visionScore", ""),
                     win_or_lose=1 if participant.get("win", False) else 0,
                 )
@@ -128,22 +129,39 @@ def get_match_history(
 
     # 1번 쿼리
     query = """
-            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
-              LEFT OUTER JOIN LOL_PROFILES LP
+            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id, LP.last_updated_at as last_updated_at 
+            FROM LOL_PROFILES U
+            LEFT OUTER JOIN LOL_PROFILES LP
                 ON U.puu_id = LP.puu_id
-              LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
+            LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
                 ON CSS.puu_id = LP.puu_id
-              LEFT OUTER JOIN TIERS T
+            LEFT OUTER JOIN TIERS T
                 ON T.name_en = CSS.tier_name
-             WHERE LP.summoner_name = %(summoner_name)s
+            WHERE LP.summoner_name = %(summoner_name)s
              ;
         """
 
     summoner_info = exec_query(db_session, query, input_params={"summoner_name": summoner_name})
+
+    # 1.5번 쿼리
+    query_1 = """
+            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSSF.queue_id, CSSF.rank , CSSF.wins, CSSF.losses, CSSF.puu_id as current_season_summary_id, CSSF.queue_id as queue_id, LP.last_updated_at as last_updated_at 
+            FROM LOL_PROFILES U
+            LEFT OUTER JOIN LOL_PROFILES LP
+                ON U.puu_id = LP.puu_id
+            LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES_FLEX CSSF
+                ON CSSF.puu_id = LP.puu_id
+            LEFT OUTER JOIN TIERS T
+                ON T.name_en = CSSF.tier_name
+            WHERE LP.summoner_name = %(summoner_name)s
+             ;
+        """
+
+    summoner_info_flex = exec_query(db_session, query_1, input_params={"summoner_name": summoner_name})
     current_season_summary_id = summoner_info[0]['current_season_summary_id']
 
     query_2 = f"""
-        SELECT MCS.*, C.image_url as image_url, CSS.queue_id as queue_id
+        SELECT MCS.*, CSS.queue_id as queue_id
           FROM MOST_CHAMPION_SUMMARIES MCS
           LEFT OUTER JOIN CHAMPIONS C
             ON C.name_en = MCS.champion_name
@@ -158,7 +176,7 @@ def get_match_history(
         map(
             lambda item: {
                 "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
+                "cnt": item.get("count"),
                 "win_rate": item.get("win_rate", 0),
                 "kda": item.get("kda", 0),
                 "champion_name": item.get("champion_name"),
@@ -168,7 +186,7 @@ def get_match_history(
     )
 
     query_3 = f"""
-        SELECT MLS.*, L.image_url as image_url, CSS.queue_id as queue_id, L.name as line_name
+        SELECT MLS.*, CSS.queue_id as queue_id, L.name as line_name
           FROM MOST_LINE_SUMMARIES MLS
           LEFT OUTER JOIN `LINES` L
             ON L.name = MLS.line_name
@@ -184,7 +202,7 @@ def get_match_history(
         map(
             lambda item: {
                 "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
+                "cnt": item.get("count"),
                 "win_rate": item.get("win_rate", 0),
                 "kda": item.get("kda", 0),
                 "line": item.get("line_name", "NONE"),
@@ -215,6 +233,10 @@ def get_match_history(
             }
         )
 
+    for info in summoner_info_flex:
+        if info.get('tier_name') is not None:
+            ret.append(summoner_info_flex)
+
     return {"profile": ret,
             "match_histories": match_histories_mapped
     }
@@ -237,10 +259,6 @@ def put_match_history(
 
     # 1
     tiers = exec_query(db_session, "SELECT * FROM TIERS;")
-    # tiers_map = {}
-    # for tier in tiers:
-    #     tiers_map[tier.get("name_en")] = tier.get("name_en")
-    #     print(tier.get("name_en"))
 
     rank_map = {"IV": 4, "III": 3, "II": 2, "I": 1}
     queues = exec_query(db_session, "SELECT * FROM QUEUES;")
@@ -253,24 +271,137 @@ def put_match_history(
     league_infos = riot_api.get_league_info()
 
     # 2
-    match_histories = match_history_crud.get_user_match_histories(
-        summoner_name=summoner_name, db_session=db_session
-    )
-
     for league_info in league_infos:
         queue_type = league_info.get("queueType")
+
+        if queue_type != "RANKED_SOLO_5x5" and queue_type != "RANKED_FLEX_SR":
+            continue
+
         # 큐 타입에 해당하는 큐를 찾기
         matching_queue = next((q for q in queues if q.get("name_en") == queue_type), None)
-
         # 큐를 찾았을 때 큐의 id를 사용하고, 찾지 못했을 때 기본값 0 사용
         queue = matching_queue.get("id", 0)
 
         # tier_id 찾기
         tier_name = league_info.get("tier")
 
-        current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
-            puu_id=puu_id, queue_id=queue, db_session=db_session
-        )
+        if queue == 420:
+            # 솔로랭크 요약이 존재하는가?
+            current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
+                puu_id=puu_id, queue_id=queue, db_session=db_session
+            )
+
+            obj_new = ICurrentSeasonSummariesCreate(
+                losses=league_info.get("losses"),
+                lp=league_info.get("leaguePoints"),
+                queue_id=queue,
+                rank=rank_map.get(league_info.get("rank"), "IV"),
+                summoner_id=league_info.get("summonerId"),
+                puu_id=puu_id,
+                tier_name=tier_name,
+                wins=league_info.get("wins"),
+            )
+            # current_season summary 가 이미 존재할 때
+            if current_season_summary:
+                current_season_summaries_crud.update(
+                    obj_current=current_season_summary,
+                    obj_new=obj_new,
+                    db_session=db_session,
+                )
+            # 존재하지 않을 때
+            else:
+                current_season_summaries_crud.create(
+                    obj_in=obj_new, db_session=db_session)
+
+            current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
+                puu_id=puu_id, queue_id=queue, db_session=db_session
+            )
+            ########## 3 ##########
+            exec_query(
+                conn=db_session,
+                select_flag=False,
+                query_str="""
+                            DELETE 
+                              FROM MOST_CHAMPION_SUMMARIES
+                             WHERE current_season_summary_id = %(current_season_summary_id)s
+                            ;
+                            """,
+                input_params={
+                    "current_season_summary_id": current_season_summary.puu_id,
+                },
+            )
+            most_champion_summaries = exec_query(
+                conn=db_session,
+                select_flag=False,
+                query_str="""
+                        INSERT INTO MOST_CHAMPION_SUMMARIES (champion_name, count, win_rate, kda, current_season_summary_id)
+                        SELECT M.champion_name_en AS champion_name
+                                , COUNT(M.champion_name_en) AS count
+                                , AVG(IF(M.win_or_lose, 1, 0)) AS win_rate
+                                , (AVG(M.kill) + AVG(M.assist)) / IF(AVG(M.death) <> 0, AVG(M.death), 1) as kda
+                                , CONVERT(%(current_season_summary_id)s, CHAR(78)) AS current_season_summary_id
+                          FROM MATCH_HISTORIES M
+                         WHERE M.summoner_name = %(summoner_name)s
+                           AND M.queue_type in (
+                                SELECT Q.id
+                                    FROM QUEUES Q
+                                )
+                           AND M.queue_type = %(queue_type)s
+                         GROUP BY M.summoner_name, M.champion_name_en, M.queue_type
+                         ORDER BY count desc
+                         LIMIT 3
+                        ;
+                        """,
+                # 쿼리 안의 값을 조정할 수 있다.
+                input_params={
+                    "current_season_summary_id": current_season_summary.puu_id,
+                    "summoner_name": summoner_name,
+                    "queue_type": queue,
+                },
+            )
+
+            ########## 3 ##########
+            exec_query(
+                conn=db_session,
+                select_flag=False,
+                query_str="""
+                            DELETE 
+                              FROM MOST_LINE_SUMMARIES
+                             WHERE current_season_summary_id = %(current_season_summary_id)s
+                            ;
+                            """,
+                input_params={
+                    "current_season_summary_id": current_season_summary.puu_id,
+                },
+            )
+            most_line_summaries = exec_query(
+                conn=db_session,
+                select_flag=False,
+                query_str="""
+                        INSERT INTO MOST_LINE_SUMMARIES (line_name, count, win_rate, kda, current_season_summary_id)
+                        SELECT M.line_name AS line_name
+                                , COUNT(M.line_name) AS count
+                                , AVG(IF(M.win_or_lose, 1, 0)) AS win_rate
+                                , (AVG(M.kill) + AVG(M.assist)) / IF(AVG(M.death) <> 0, AVG(M.death), 1) as kda
+                                , CONVERT(%(current_season_summary_id)s, CHAR(78)) AS current_season_summary_id
+                          FROM MATCH_HISTORIES M
+                         WHERE M.summoner_name = %(summoner_name)s
+                           AND M.queue_type in (
+                                SELECT Q.id
+                                    FROM QUEUES Q
+                                )
+                           AND M.queue_type = %(queue_type)s
+                         GROUP BY M.summoner_name, M.line_name, M.queue_type
+                         ORDER BY count desc
+                         LIMIT 3
+                        ;
+                        """,
+                input_params={
+                    "current_season_summary_id": current_season_summary.puu_id,
+                    "summoner_name": summoner_name,
+                    "queue_type": queue,
+                },
+            )
 
         if queue == 440:
             # 자유랭크 요약이 존재하는가?
@@ -304,128 +435,6 @@ def put_match_history(
                     puu_id=puu_id, queue_id=queue, db_session=db_session
                 )
 
-            break
-
-        else:
-            # 솔로랭크 요약이 존재하는가?
-            current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
-                puu_id=puu_id, queue_id=queue, db_session=db_session
-            )
-
-            obj_new = ICurrentSeasonSummariesCreate(
-                losses=league_info.get("losses"),
-                lp=league_info.get("leaguePoints"),
-                queue_id=queue,
-                rank=rank_map.get(league_info.get("rank"), "IV"),
-                summoner_id=league_info.get("summonerId"),
-                puu_id=puu_id,
-                tier_name=tier_name,
-                wins=league_info.get("wins"),
-            )
-            # current_season summary 가 이미 존재할 때
-            if current_season_summary:
-                current_season_summaries_crud.update(
-                    obj_current=current_season_summary,
-                    obj_new=obj_new,
-                    db_session=db_session,
-                )
-            # 존재하지 않을 때
-            else:
-                current_season_summaries_crud.create(
-                    obj_in=obj_new, db_session=db_session)
-
-                current_season_summary = current_season_summaries_crud.get_by_puu_id_queue(
-                    puu_id=puu_id, queue_id=queue, db_session=db_session
-                )
-
-
-        ########## 3 ##########
-        exec_query(
-            conn=db_session,
-            select_flag=False,
-            query_str="""
-                DELETE 
-                  FROM MOST_CHAMPION_SUMMARIES
-                 WHERE current_season_summary_id = %(current_season_summary_id)s
-                ;
-                """,
-            input_params={
-                "current_season_summary_id": current_season_summary.puu_id,
-            },
-        )
-        most_champion_summaries = exec_query(
-            conn=db_session,
-            select_flag=False,
-            query_str="""
-            INSERT INTO MOST_CHAMPION_SUMMARIES (champion_name, count, win_rate, kda, current_season_summary_id)
-            SELECT M.champion_name_en AS champion_name
-                    , COUNT(M.champion_name_en) AS count
-                    , AVG(IF(M.win_or_lose, 1, 0)) AS win_rate
-                    , (AVG(M.kill) + AVG(M.assist)) / IF(AVG(M.death) <> 0, AVG(M.death), 1) as kda
-                    , CONVERT(%(current_season_summary_id)s, CHAR(78)) AS current_season_summary_id
-              FROM MATCH_HISTORIES M
-             WHERE M.summoner_name = %(summoner_name)s
-               AND M.queue_type in (
-                    SELECT Q.id
-                        FROM QUEUES Q
-                    )
-               AND M.queue_type = %(queue_type)s
-             GROUP BY M.summoner_name, M.champion_name_en, M.queue_type
-             ORDER BY count desc
-             LIMIT 3
-            ;
-            """,
-            # 쿼리 안의 값을 조정할 수 있다.
-            input_params={
-                "current_season_summary_id": current_season_summary.puu_id,
-                "summoner_name": summoner_name,
-                "queue_type": queue,
-            },
-        )
-
-        ########## 3 ##########
-        exec_query(
-            conn=db_session,
-            select_flag=False,
-            query_str="""
-                DELETE 
-                  FROM MOST_LINE_SUMMARIES
-                 WHERE current_season_summary_id = %(current_season_summary_id)s
-                ;
-                """,
-            input_params={
-                "current_season_summary_id": current_season_summary.puu_id,
-            },
-        )
-        most_line_summaries = exec_query(
-            conn=db_session,
-            select_flag=False,
-            query_str="""
-            INSERT INTO MOST_LINE_SUMMARIES (line_name, count, win_rate, kda, current_season_summary_id)
-            SELECT M.line_name AS line_name
-                    , COUNT(M.line_name) AS count
-                    , AVG(IF(M.win_or_lose, 1, 0)) AS win_rate
-                    , (AVG(M.kill) + AVG(M.assist)) / IF(AVG(M.death) <> 0, AVG(M.death), 1) as kda
-                    , CONVERT(%(current_season_summary_id)s, CHAR(78)) AS current_season_summary_id
-              FROM MATCH_HISTORIES M
-             WHERE M.summoner_name = %(summoner_name)s
-               AND M.queue_type in (
-                    SELECT Q.id
-                        FROM QUEUES Q
-                    )
-               AND M.queue_type = %(queue_type)s
-             GROUP BY M.summoner_name, M.line_name, M.queue_type
-             ORDER BY count desc
-             LIMIT 3
-            ;
-            """,
-            input_params={
-                "current_season_summary_id": current_season_summary.puu_id,
-                "summoner_name": summoner_name,
-                "queue_type": queue,
-            },
-        )
-
     db_session.commit()
 
     return ""
@@ -436,7 +445,6 @@ def put_match_history(
 
 @router.post("")
 def add_match_history(
-    puu_id: Union[str, None] = "",
     summoner_name: Union[str, None] = "",
     db_session=Depends(get_db),
 ) -> IResponseBase[IMatchHistoriesCreate]:
@@ -449,7 +457,6 @@ def add_match_history(
     riot_api = RiotApiController(summoner_name=summoner_name)
 
     summoner_info = riot_api.get_summoner_info()
-    print(summoner_info)
 
     lol_profile_data = {
         "puu_id": summoner_info['puuid'],
@@ -484,7 +491,6 @@ def add_match_history(
     finally:
         puu_id = summoner_info['puuid']
 
-        # * TODO token 기반 user get 으로 변경
         current_lol_profile = lol_profiles_crud.get(
             puu_id=puu_id, db_session=db_session)
         if current_lol_profile == None:
@@ -515,13 +521,10 @@ def add_match_history(
             start_time = match_histories[0].get(
                 "info", {}).get("gameStartTimestamp")
 
-            match_ids = riot_api.get_match_list(count=100, start_time=start_time)
-
             # 1번만 하기
             break
         match_histories_mapped = []
         for match in match_histories:
-
             for participant in match.get("info", {}).get("participants", []):
                 challenges = participant.get("challenges", {})
                 match_histories_mapped.append(
@@ -557,11 +560,11 @@ def add_match_history(
                         kill=participant.get("kills", ""),
                         death=participant.get("deaths", ""),
                         assist=participant.get("assists", ""),
-                        kda=challenges.get("kda", ""),
-                        kill_participation=challenges.get("killParticipation", ""),
+                        kda=challenges.get("kda", 0.0),
+                        kill_participation=challenges.get("killParticipation", 0.0),
                         control_wards_placed=challenges.get("controlWardsPlaced", ""),
                         total_damage_dealt_to_champions=participant.get("totalDamageDealtToChampions", ""),
-                        damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", ""),
+                        damage_taken_on_team_percentage=challenges.get("damageTakenOnTeamPercentage", 0.0),
                         vision_score=participant.get("visionScore", ""),
                         win_or_lose=1 if participant.get("win", False) else 0,
                     )
