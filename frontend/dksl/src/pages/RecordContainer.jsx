@@ -1,5 +1,5 @@
 // React
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 // Component
 import ProfileComponent from '../components/record/ProfileComponent';
@@ -9,6 +9,8 @@ import RecordBodyComponent from '../components/record/RecordBodyComponent';
 import { laderData } from '../data';
 // Jotai
 import { useRecord } from '../jotai/record';
+import { groupLeave } from '../services/GroupService';
+import Swal from 'sweetalert2';
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
@@ -51,6 +53,18 @@ const RecordContainer = () => {
     // fetchData();
   }, [summoner, data]);
 
+  const leaveTeam = useCallback(async (name) => {
+    if (name == 'test') {
+      console.log('Call leaveTeam');
+      return;
+    }
+    const result = await groupLeave(name);
+
+    if (result) {
+      Swal.fire('Success', name + '소속에서 탈퇴되셨습니다.', 'success');
+    }
+  }, []);
+
   /**
    * 여기서는 search 메서드를 통해 소환사명 입력 받으면
    * 소환사명으로 전적 요청을 FastAPI 서버로 보내서
@@ -68,6 +82,7 @@ const RecordContainer = () => {
         analyzedata={laderData}
         tab={recordTab}
         setTab={setRecordTab}
+        leaveTeam={leaveTeam}
       />
     </>
   );

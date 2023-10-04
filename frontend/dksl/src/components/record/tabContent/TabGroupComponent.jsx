@@ -14,7 +14,7 @@ const options = [
 
 const animatedComponent = makeAnimated();
 
-const TabGroupComponent = () => {
+const TabGroupComponent = ({ leave }) => {
   let groupList = null;
   // test Code
   groupList = ['NoDasta'];
@@ -62,7 +62,7 @@ const TabGroupComponent = () => {
                     <p className="group-leader">
                       <b>소속장</b> 싸진남
                     </p>
-                    <button className="quit-btn">탈퇴</button>
+                    <button className="quit-btn" onClick={() => leave('test')}>탈퇴</button>
                   </div>
                   <div className="group-desc">
                     <p className="desc-title">&#127775; SSAFY 9기 모여라잇</p>

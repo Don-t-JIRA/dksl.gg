@@ -52,4 +52,13 @@ const groupDetail = async (name, hasToken) => {
   }
 };
 
-export { getGroupList, setNewGroup, searchGroup, groupDetail };
+const groupLeave = async (name) => {
+  try {
+    const response = await auth.post('/team/leave', { name });
+    return response.data;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+}
+
+export { getGroupList, setNewGroup, searchGroup, groupDetail, groupLeave };

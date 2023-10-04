@@ -8,12 +8,6 @@ import { useAtomValue } from 'jotai';
 // 20 게임의 매치 데이터와 검색된 소환사 받기
 const getDuoPlayer = (data, cur) => {
   const map = new Map();
-  const line = new Map();
-  line.set('TOP', 0);
-  line.set('MIDDLE', 0);
-  line.set('JUNGLE', 0);
-  line.set('AD', 0);
-  line.set('UTILITY', 0);
 
   let recentData = {
     win: 0,
@@ -61,7 +55,6 @@ const getDuoPlayer = (data, cur) => {
             kill_participation:
               recentData.kill_participation + v.kill_participation,
           };
-          line.set(v.line_name, line.get(v.line_name) + 1);
         }
       });
     } else if (e.win == 0) {
@@ -97,7 +90,6 @@ const getDuoPlayer = (data, cur) => {
             kill_participation:
               recentData.kill_participation + v.kill_participation,
           };
-          line.set(v.line_name, line.get(v.line_name) + 1);
         }
       });
     }
@@ -109,9 +101,6 @@ const getDuoPlayer = (data, cur) => {
     ];
   });
 
-  recentData.line = line;
-  console.log(line);
-  console.log(recentData.count);
   // kill death assist score participation
   recentData.kill = Number((recentData.kill / recentData.count).toFixed(2));
   recentData.death = Number((recentData.death / recentData.count).toFixed(2));
@@ -248,9 +237,40 @@ const formattingData = async () => {
 
   const recent = result.recentData;
 
+  let positions_cnt = 0;
+
+  sample.profile[0].positions.forEach(e => positions_cnt += e.cnt);
+
+  const now = new Date();
+  const recordTime = new Date(sample.profile[0].last_updated_at);
+
+  const refreshAgo = now - recordTime;
+  let refreshResult;
+
+  let secondsDifference = Math.floor(refreshAgo / 1000);
+  let minutesDifference = Math.floor(secondsDifference / 60);
+  let hoursDifference = Math.floor(minutesDifference / 60);
+  let daysDifference = Math.floor(hoursDifference / 24);
+
+  if (secondsDifference < 60) {
+    refreshResult = secondsDifference + '초 전';
+  } else if (minutesDifference < 60) {
+    refreshResult = minutesDifference + '분 전';
+  } else if (hoursDifference < 24) {
+    refreshResult = hoursDifference + '시간 전';
+  } else {
+    refreshResult = daysDifference + '일 전';
+  }
+
+  const profileData = {
+    ...sample.profile[0],
+    positions_cnt,
+    last_updated_at: refreshResult
+  }
+
   // 가공된 데이터 리턴
   return {
-    profile: sample.profile[0],
+    profile: profileData,
     duoPlayer,
     recent,
     match_histories: arr,
