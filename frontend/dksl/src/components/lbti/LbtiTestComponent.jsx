@@ -1,39 +1,46 @@
 import * as S from '@/styles/lbti/test.style';
 
-const LbtiTestComponent = () => {
+const LbtiTestComponent = ({questionList, index, setIndex, fetchLbtiData, selectList}) => {
     return (
         <S.LbtiTestLayout>
             <S.TestContainer>
                 <div className="test-box">
                     <div className="question-box">
                         <div className="question">
-                            자신이 즐겨하던 챔피언이 너프로 큰 타격을 받았습니다.
+                            {(questionList)? questionList[index].firstParagraph:null}
                         </div>
                         <div className="question">
-                            랭크 게임에서 당신은 어떤 챔피언을 선택하실 건가요?
+                            {(questionList)? questionList[index].secondParagraph:null}
                         </div>
                     </div>
                     <div className="radio-box">
-                        <div className="radio-group">
-                            <input type="radio" name="rank-type" />
-                            <label>티어</label>
-                        </div>
-                        <div className="radio-group">
-                            <input type="radio" name="rank-type" />
-                            <label>레벨</label>
-                        </div>
-                        <div className="radio-group">
-                            <input type="radio" name="rank-type" />
-                            <label>플레이</label>
-                        </div>
+                        {questionList ? 
+                            questionList[index].questionList.map((e, i) => (
+                            <div className="radio-group" key={`${index}+${i}`}>
+                                <input type="radio" name={index} defaultChecked={e.id == selectList[index]} onChange={() => {
+                                    const tmp = selectList;
+                                    tmp[index] = e.id;
+                                    selectList = tmp;
+                                }} />
+                                <label>{e.paragraph}</label>
+                            </div>
+                        )) : null}
                     </div>
                     <div className="btn-box">
-                        <button className="prev-btn">
-                            이전
-                        </button>
-                        <button className="next-btn">
+                        {(0 < index)? 
+                            (<button className="prev-btn" onClick={() => {setIndex(index - 1);}}>
+                                이전
+                            </button>) : (<div></div>)
+                        }
+                        {(questionList && index < questionList.length - 1)? 
+                        (<button className="next-btn" onClick={() => {setIndex(index + 1);}}>
                             다음
-                        </button>
+                        </button>)
+                         : (questionList && index == questionList.length - 1)? 
+                            (<button className="submit-btn" onClick={fetchLbtiData}>
+                                제출
+                            </button>) : (<div></div>)
+                        }
                     </div>
                 </div>
             </S.TestContainer>

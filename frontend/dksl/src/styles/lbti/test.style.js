@@ -66,7 +66,7 @@ export const TestContainer = styled.div`
         justify-content: space-between;
         margin-bottom: 8vh;
         
-        & .prev-btn, .next-btn {
+        & .prev-btn, .next-btn, submit-btn {
             width: fit-content;
         }
     }
