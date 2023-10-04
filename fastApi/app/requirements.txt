@@ -19,16 +19,10 @@ typing_extensions
 uvicorn
 requests
 alembic
-bcrypt
-PyJWT
-fastapi-mail
 sqlalchemy
 sqlModel
-selenium
 riotwatcher
 pandas
 numpy
-seaborn
-matplotlib
-IPython
 scikit-learn
+python-decouple
