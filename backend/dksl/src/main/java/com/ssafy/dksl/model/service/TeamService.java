@@ -20,6 +20,8 @@ public interface TeamService {
     List<TeamResponse> getTeamList(List<Team> teamList) throws CustomException;
     List<TeamResponse> getAllTeamList() throws CustomException;
     List<TeamResponse> getRecentTeamList() throws CustomException;
+    List<TeamResponse> getTeamRankList() throws CustomException;
     List<TeamResponse> getSearchTeamList(SearchTeamCommand searchTeamCommand) throws CustomException;
+    List<TeamDetailResponse> getSummonerTeamList(SearchTeamCommand searchTeamCommand) throws CustomException;
     TeamDetailResponse getTeamDetail(TeamMemberCommand teamMemberCommand) throws CustomException;
 }
