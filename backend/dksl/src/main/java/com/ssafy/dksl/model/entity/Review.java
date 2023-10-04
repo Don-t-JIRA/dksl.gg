@@ -43,8 +43,9 @@ public class Review extends Base{
 
     public ReviewSearchResponseDto to() {
         return ReviewSearchResponseDto.builder()
+                .id(id)
                 .createdAt(super.getCreatedAt())
-                .clientId(member.getClientId())
+                .summonerName(member.getName())
                 .matchId(matchId)
                 .content(content)
                 .build();
