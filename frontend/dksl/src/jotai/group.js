@@ -10,10 +10,11 @@ const getGroup = async (name) => {
   }
   console.log(name);
   const data = await getSummonerGroup(name);
-  if (data.status == 200) {
+  console.log(data)
+  if (data != undefined && data.status == 200) {
     return data.data;
   } else {
-    throw new Error('Group Data Fetching Error');
+    return null;
   }
 
 };
