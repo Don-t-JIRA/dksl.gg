@@ -1,4 +1,4 @@
-package com.ssafy.dksl.model.dto.command;
+package com.ssafy.dksl.model.dto.command.member;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

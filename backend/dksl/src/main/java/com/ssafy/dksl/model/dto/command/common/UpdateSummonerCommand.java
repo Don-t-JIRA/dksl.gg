@@ -1,4 +1,4 @@
-package com.ssafy.dksl.model.dto.command;
+package com.ssafy.dksl.model.dto.command.common;
 
 import lombok.Builder;
 import lombok.Getter;
