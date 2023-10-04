@@ -40,6 +40,9 @@ public class RiotServiceImpl implements RiotService {
     @Value("${riot.timeline.api.uri.suffix}")
     private String RIOT_TIMELINE_API_URI_SUFFIX;
 
+    @Value("${riot.summoner.puuid.api.uri}")
+    private String RIOT_SUMMONER_PUUID_API_URI;
+
     public JsonNode findSummonerByName(String name) throws CustomException {
         HttpClient client = HttpClient.newBuilder().build();
 
@@ -172,6 +175,36 @@ public class RiotServiceImpl implements RiotService {
         try {
 //            if(objectmapper.readTree(response.body())==null) log.info("Cannot read response body!!");
             log.info("body size: {}", response.body().length());
+            return objectmapper.readTree(response.body());
+        } catch (JsonProcessingException e) {
+            log.error(e.getMessage());
+            throw new RiotApiInvalidException();
+        }
+    }
+
+    public JsonNode findSummonerByPuuid(String encryptedPuuid) throws RiotApiInvalidException, SummonerNotFoundException {
+        HttpClient client = HttpClient.newBuilder().build();
+
+        HttpRequest getRequest = HttpRequest.newBuilder()
+                .header("X-Riot-Token", RIOT_API_KEY)
+                .uri(URI.create(RIOT_SUMMONER_PUUID_API_URI + URLEncoder.encode(encryptedPuuid)))
+                .GET().build();
+
+        HttpResponse<String> response;  // Response 받을 변수
+        try {
+            response = client.send(getRequest, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            log.error(e.getMessage());
+            throw new RiotApiInvalidException();
+        }
+
+        // 응답 코드 확인
+        int statusCode = response.statusCode();
+        if (statusCode == HttpStatus.SC_NOT_FOUND) throw new SummonerNotFoundException();  // 닉네임 없음
+        else if (statusCode != HttpStatus.SC_OK) throw new RiotApiInvalidException();  // 라이엇 API 호출 실패
+
+        ObjectMapper objectmapper = new ObjectMapper();
+        try {
             return objectmapper.readTree(response.body());
         } catch (JsonProcessingException e) {
             log.error(e.getMessage());
