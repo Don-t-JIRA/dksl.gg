@@ -11,7 +11,7 @@ pipeline {
 			steps {
 				dir('frontend/dksl') {
 					sh 'npm install'
-					sh 'npm start'
+					sh 'npm run dev'
 				}
 			}
 		}
