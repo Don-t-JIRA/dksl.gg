@@ -1,7 +1,7 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.response.SummonerTeamResponse;
+import com.ssafy.dksl.model.dto.command.team.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.response.team.SummonerTeamResponse;
 import com.ssafy.dksl.model.service.TeamService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
