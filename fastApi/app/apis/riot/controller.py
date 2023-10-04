@@ -48,11 +48,10 @@ class RiotApiController:
             "Content-Type": "application/x-www-form-urlencoded",
             "api_key": self.api_key,
         }
-        print("API에서 데이터 불러오기")
+
         self.base_params = {}
 
     def get_summoner_info(self):
-        print("소환사 정보 가져오기")
         return self.lol_watcher._summoner.by_name(
             region=self.my_region, summoner_name=self.summoner_name
         )
