@@ -1,6 +1,13 @@
 import * as S from '@/styles/lbti/test.style';
 
-const LbtiTestComponent = ({questionList, index, setIndex, fetchLbtiData, selectList}) => {
+const LbtiTestComponent = ({questionList, index, setIndex, fetchLbtiData, selectList, setSelectList}) => {
+
+    const changeSelect = (id) => {
+        const tmp = selectList;
+        tmp[index] = id;
+        setSelectList([...tmp]);
+    }
+
     return (
         <S.LbtiTestLayout>
             <S.TestContainer>
@@ -15,13 +22,9 @@ const LbtiTestComponent = ({questionList, index, setIndex, fetchLbtiData, select
                     </div>
                     <div className="radio-box">
                         {questionList ? 
-                            questionList[index].questionList.map((e, i) => (
+                            questionList[index].answerList .map((e, i) => (
                             <div className="radio-group" key={`${index}+${i}`}>
-                                <input type="radio" name={index} defaultChecked={e.id == selectList[index]} onChange={() => {
-                                    const tmp = selectList;
-                                    tmp[index] = e.id;
-                                    selectList = tmp;
-                                }} />
+                                <input type="radio" name={index} defaultChecked={e.id == selectList[index]} onChange={() => changeSelect(e.id)} />
                                 <label>{e.paragraph}</label>
                             </div>
                         )) : null}
@@ -33,11 +36,11 @@ const LbtiTestComponent = ({questionList, index, setIndex, fetchLbtiData, select
                             </button>) : (<div></div>)
                         }
                         {(questionList && index < questionList.length - 1)? 
-                        (<button className="next-btn" onClick={() => {setIndex(index + 1);}}>
+                        (<button className="next-btn" disabled={!selectList[index]} onClick={() => {setIndex(index + 1);}}>
                             다음
                         </button>)
                          : (questionList && index == questionList.length - 1)? 
-                            (<button className="submit-btn" onClick={fetchLbtiData}>
+                            (<button className="submit-btn" disabled={!selectList[index]} onClick={() => {fetchLbtiData()}}>
                                 제출
                             </button>) : (<div></div>)
                         }
