@@ -11,6 +11,7 @@ import { laderData } from '../data';
 import { useRecord } from '../jotai/record';
 import { groupLeave } from '../services/GroupService';
 import Swal from 'sweetalert2';
+import { useUpdateGroup } from '../jotai/group';
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
@@ -25,11 +26,9 @@ const RecordContainer = () => {
   });
   const { summoner } = useParams();
   const data = useRecord();
+  const setGroup = useUpdateGroup();
 
   useEffect(() => {
-    if (summoner == 'noname') {
-      console.log('noname enter');
-    }
     if (data != null) {
       setProfile(data.profile);
       setRecorddata(data);
@@ -46,12 +45,33 @@ const RecordContainer = () => {
         },
       ]);
     }
-    // const fetchData = async () => {
+    // const fetchRecordData = async () => {
     //   const data = await getSearchData(summoner);
     //   setRecorddata(data);
     // }
-    // fetchData();
-  }, [summoner, data]);
+    
+    // if (summoner != null || summoner != undefined) {
+    //   fetchRecordData();
+    //   setGroup(summoner);
+    // }
+    // Test
+    setGroup('유한이');
+  }, [summoner, data, setGroup]);
+
+  const getByteToImage = useCallback((imgSrc) => {
+    const binaryString = atob(imgSrc);
+    const bytes = new Uint8Array(binaryString.length);
+
+    for (let i = 0; i < binaryString.length; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+
+    const img = new Blob([bytes], {
+      type: 'image/jpg',
+    });
+
+    return URL.createObjectURL(img);
+  }, []);
 
   const leaveTeam = useCallback(async (name) => {
     if (name == 'test') {
@@ -83,6 +103,7 @@ const RecordContainer = () => {
         tab={recordTab}
         setTab={setRecordTab}
         leaveTeam={leaveTeam}
+        getByteToImage={getByteToImage}
       />
     </>
   );

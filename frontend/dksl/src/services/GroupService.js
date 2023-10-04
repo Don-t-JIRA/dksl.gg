@@ -61,4 +61,13 @@ const groupLeave = async (name) => {
   }
 }
 
-export { getGroupList, setNewGroup, searchGroup, groupDetail, groupLeave };
+const getSummonerGroup = async (name) => {
+  try {
+    const response = await common.get(`/summoner/team/${name}`);
+    return response;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+}
+
+export { getGroupList, setNewGroup, searchGroup, groupDetail, groupLeave, getSummonerGroup };

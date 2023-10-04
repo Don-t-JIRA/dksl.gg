@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 
   /* --maincolor-depth1: #3E7CB1; */
   --maincolor-depth1: #6E8387;

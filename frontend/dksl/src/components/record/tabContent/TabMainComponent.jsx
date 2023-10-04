@@ -410,8 +410,6 @@ const TabMainComponent = ({ data, piedata }) => {
   if (data == null) {
     return <LoadingComponent />;
   }
-  const date = new Date();
-  console.log(date - new Date(data.profile.last_updated_at));
   return (
     <S.TabMainLayout>
       <S.LeftLayout>
