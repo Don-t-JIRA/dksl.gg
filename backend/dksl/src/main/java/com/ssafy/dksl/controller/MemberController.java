@@ -1,9 +1,9 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.command.TokenCommand;
-import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
-import com.ssafy.dksl.model.dto.request.LoginRequest;
-import com.ssafy.dksl.model.dto.request.RegisterRequest;
+import com.ssafy.dksl.model.dto.command.common.TokenCommand;
+import com.ssafy.dksl.model.dto.command.common.UpdateSummonerCommand;
+import com.ssafy.dksl.model.dto.request.member.LoginRequest;
+import com.ssafy.dksl.model.dto.request.member.RegisterRequest;
 import com.ssafy.dksl.model.service.MemberService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;

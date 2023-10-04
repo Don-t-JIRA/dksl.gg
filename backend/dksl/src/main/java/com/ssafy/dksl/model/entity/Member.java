@@ -66,6 +66,11 @@ public class Member extends Base {
     @Comment("레벨")
     private int level;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "lbti_id")
+    @Comment("롤BTI")
+    private Lbti lbti;
+
     @OneToMany(mappedBy = "member")
     private List<MemberTeam> teams = new ArrayList<>();
 

@@ -1,9 +1,8 @@
-package com.ssafy.dksl.model.dto.request;
+package com.ssafy.dksl.model.dto.request.team;
 
-import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
+import com.ssafy.dksl.model.dto.command.team.CreateTeamCommand;
 import com.ssafy.dksl.util.exception.FileNotFoundException;
 import com.ssafy.dksl.util.exception.common.CustomException;
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;

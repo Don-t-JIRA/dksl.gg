@@ -1,6 +1,7 @@
-package com.ssafy.dksl.model.dto.response;
+package com.ssafy.dksl.model.dto.response.team;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ssafy.dksl.model.dto.response.common.TierResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
