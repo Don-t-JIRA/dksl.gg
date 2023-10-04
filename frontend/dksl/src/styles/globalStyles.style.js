@@ -170,6 +170,7 @@ export const Card = css`
   margin-right: auto;
   border: 2px solid #dfdfdf;
   border-radius: 10px;
+  box-sizing: border-box;
 
   & .title {
     width: 98%;
