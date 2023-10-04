@@ -10,6 +10,7 @@ pipeline {
 		stage('React Build') {
 			steps {
 				dir('frontend/dksl') {
+				    sh 'npm cache clean --force'
 					sh 'npm install'
 					sh 'npm dev'
 				}
