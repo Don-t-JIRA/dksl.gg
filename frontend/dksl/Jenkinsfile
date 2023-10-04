@@ -10,8 +10,8 @@ pipeline {
 		stage('React Build') {
 			steps {
 				dir('frontend/dksl') {
-					sh 'pnpm install'
-					sh 'pnpm run dev'
+					sh 'npm install'
+					sh 'npm start'
 				}
 			}
 		}
