@@ -82,11 +82,8 @@ def get_recommend_list(
 
                 match_histories_mapped.append(data)
 
-    print(match_histories_mapped)
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
-
-    print(df_train)
 
     Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
     Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
