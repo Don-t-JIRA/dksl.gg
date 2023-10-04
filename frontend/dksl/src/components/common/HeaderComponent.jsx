@@ -15,7 +15,7 @@ const HeaderComponent = () => {
   const search = useRef();
   const url = useLocation();
   const navigate = useNavigate();
-  const token = useMemo(() => (auth ? auth.name : null), [auth]);
+  const token = useMemo(() => (auth ? auth : null), [auth]);
   const [user, setUser] = useState(null);
   useEffect(() => {
     setUser(token);
@@ -99,7 +99,7 @@ const HeaderComponent = () => {
       ) : (
         <S.LogoutContainer>
           <div className="profile">
-            <img src="/image/Riot.svg" alt="profile" className="image" />
+            <img src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${user.profileIconId}.png`} alt="profile" className="image" />
             <p className="name">{auth.name}</p>
             <button onClick={logout}>로그아웃</button>
           </div>
