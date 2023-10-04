@@ -69,6 +69,11 @@ export const TestContainer = styled.div`
         & .prev-btn, .next-btn, submit-btn {
             width: fit-content;
         }
+        
+        .next-btn:disabled, .submit-btn:disabled {
+            width: fit-content;
+            background-color: var(--maincolor-depth2);
+        }
     }
   }
 `;
