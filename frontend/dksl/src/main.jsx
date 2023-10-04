@@ -13,6 +13,7 @@ import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
 import GroupContainer from './pages/GroupContainer.jsx';
+import ArenaContainer from './pages/ArenaContainer.jsx';
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
 import LoadingComponent from './components/common/LoadingComponent.jsx';
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
   { path: '/record', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
   { path: '/test', element: <TestContainer /> },
+  { path: '/arena/:matchId', element: <ArenaContainer /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
