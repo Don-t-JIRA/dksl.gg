@@ -39,11 +39,6 @@ export const LeftLayout = styled.div`
   height: 100%;
 `;
 
-export const RightLayout = styled.div`
-  width: 70%;
-  height: 100%;
-`;
-
 export const AnalyzeCard = styled.div`
   ${Card}
   width: 95%;
@@ -66,7 +61,7 @@ export const AnalyzeCard = styled.div`
       margin-top: 0.1rem;
 
       & p {
-        margin: 0 0.2rem;
+        margin: 0.2rem 0.2rem;
         font-size: large;
         font-weight: bold;
       }
@@ -79,8 +74,7 @@ export const AnalyzeCard = styled.div`
     & .tag-box {
       display: flex;
       justify-content: space-around;
-      margin: 0 0.5rem;
-      margin-bottom: 1rem;
+      margin: 1rem 0.5rem;
     }
   }
 `;
@@ -217,4 +211,44 @@ export const RecentCard = styled.div`
       }
     }
   }
+`;
+
+export const RightLayout = styled.div`
+  width: 70%;
+  height: 100%;
+`;
+
+export const ChampionCard = styled.div`
+  ${Card}
+  width: 100%;
+  height: 50vh;
+
+  & .champion-box {
+    width: 95%;
+    height: 95%;
+    display: flex;
+    justify-content: space-evenly;
+
+    & .img {
+      height: 80%;
+
+      & img {
+        height: 90%;
+        border-radius: 10px;
+        transition: all 0.5s;
+
+        &:hover {
+          transform: scale(1.07);
+        }
+      }
+    }
+  }
+`;
+
+export const FamousCard = styled.div`
+  ${Card}
+  width: 100%;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
 `;

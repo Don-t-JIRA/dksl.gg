@@ -1,8 +1,5 @@
 // Styled
 import * as S from '@/styles/record/tabanalyze.style';
-// Select
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 // Chart
 import { ResponsiveRadar } from '@nivo/radar';
 
@@ -37,31 +34,9 @@ const data = [
   },
 ];
 
-const options = [{ value: 'default', label: '큐 타입' }];
-
-const animatedComponent = makeAnimated();
-
 const TabAnalyzeComponent = () => {
   return (
     <S.TabAnalyzeLayout>
-      <div className="rank-type">
-        <div className="radio-group">
-          <input type="radio" name="rank-type" />
-          <label>랭크 전체</label>
-          <input type="radio" name="rank-type" />
-          <label>솔로 랭크</label>
-          <input type="radio" name="rank-type" />
-          <label>자유 랭크</label>
-        </div>
-        <div className="select-group">
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponent}
-            defaultValue={options[0]}
-            options={options}
-          />
-        </div>
-      </div>
       <S.LeftLayout>
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
@@ -139,7 +114,39 @@ const TabAnalyzeComponent = () => {
           </div>
         </S.GraphCard>
       </S.LeftLayout>
-      <S.RightLayout></S.RightLayout>
+      <S.RightLayout>
+        <S.ChampionCard>
+          <p className="title">&#128077; 이 챔피언을 추천해요!</p>
+          <div className="champion-box">
+            <div className="img">
+              <img
+                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zed_0.jpg`}
+                alt="champion_analyze"
+              />
+            </div>
+            <div className="img">
+              <img
+                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Yasuo_0.jpg`}
+                alt="champion_analyze"
+              />
+            </div>
+            <div className="img">
+              <img
+                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Blitzcrank_0.jpg`}
+                alt="champion_analyze"
+              />
+            </div>
+          </div>
+        </S.ChampionCard>
+        <S.FamousCard>
+          <p className="title">&#128071; 이 사람은 어때요?</p>
+          <div className="content-box">
+            <div className="img">
+              <img src="/image/lbti-img.svg" alt="sample_img" />
+            </div>
+          </div>
+        </S.FamousCard>
+      </S.RightLayout>
     </S.TabAnalyzeLayout>
   );
 };

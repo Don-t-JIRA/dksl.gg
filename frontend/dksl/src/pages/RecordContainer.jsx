@@ -11,7 +11,7 @@ import { laderData } from '../data';
 import { useRecord, useUpdateRecord } from '../jotai/record';
 import { groupLeave } from '../services/GroupService';
 import Swal from 'sweetalert2';
-import { useUpdateGroup } from '../jotai/group';
+import { useGroup, useUpdateGroup } from '../jotai/group';
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
@@ -28,8 +28,11 @@ const RecordContainer = () => {
   const navigate = useNavigate();
   const data = useRecord();
   const setRecord = useUpdateRecord();
+  // LBTI 뽑기 위한 group Atom
+  // const group = useGroup();
+  // const [lbti, setLbti] = useState(null);
   const setGroup = useUpdateGroup();
-  
+
   useEffect(() => {
     if (data != null) {
       if (data == 'NoData') {
@@ -51,6 +54,9 @@ const RecordContainer = () => {
         },
       ]);
     }
+    // if (group && group.summoner_lbti) {
+    //   setLbti(group.summoner_lbti);
+    // }
     if (summoner != null || summoner != undefined) {
       console.log(summoner);
       setGroup(summoner);
@@ -106,6 +112,7 @@ const RecordContainer = () => {
         setTab={setRecordTab}
         leaveTeam={leaveTeam}
         getByteToImage={getByteToImage}
+        // lbti={lbti}
       />
     </>
   );
