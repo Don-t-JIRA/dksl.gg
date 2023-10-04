@@ -1,17 +1,17 @@
 package com.ssafy.dksl.model.service;
 
 // Command
-import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
-import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
+import com.ssafy.dksl.model.dto.command.member.TeamMemberCommand;
+import com.ssafy.dksl.model.dto.command.team.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.command.team.CreateTeamCommand;
 
 // Response
-import com.ssafy.dksl.model.dto.response.SummonerResponse;
-import com.ssafy.dksl.model.dto.response.TeamDetailResponse;
-import com.ssafy.dksl.model.dto.response.TeamResponse;
+import com.ssafy.dksl.model.dto.response.common.SummonerResponse;
+import com.ssafy.dksl.model.dto.response.team.TeamDetailResponse;
+import com.ssafy.dksl.model.dto.response.team.TeamResponse;
 
 // Entity
-import com.ssafy.dksl.model.dto.response.TierResponse;
+import com.ssafy.dksl.model.dto.response.common.TierResponse;
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.MemberTeam;
