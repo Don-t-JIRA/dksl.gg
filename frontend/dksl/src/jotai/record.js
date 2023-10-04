@@ -1,19 +1,18 @@
+// data
 import { sample } from '../data';
 import { spell } from '../spell';
 import { rune } from '../rune';
+// Jotai
 import { atomWithDefault } from 'jotai/utils';
-import { useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom, atom } from 'jotai';
+// import { getSearchData } from '../services/RecordService';
+// Swal
+// import Swal from 'sweetalert2';
 
 // 함께한 소환사 아이콘, 이름, 게임 수, 승-패, 승률 메서드
 // 20 게임의 매치 데이터와 검색된 소환사 받기
 const getDuoPlayer = (data, cur) => {
   const map = new Map();
-  const line = new Map();
-  line.set('TOP', 0);
-  line.set('MIDDLE', 0);
-  line.set('JUNGLE', 0);
-  line.set('AD', 0);
-  line.set('UTILITY', 0);
 
   let recentData = {
     win: 0,
@@ -61,7 +60,6 @@ const getDuoPlayer = (data, cur) => {
             kill_participation:
               recentData.kill_participation + v.kill_participation,
           };
-          line.set(v.line_name, line.get(v.line_name) + 1);
         }
       });
     } else if (e.win == 0) {
@@ -97,7 +95,6 @@ const getDuoPlayer = (data, cur) => {
             kill_participation:
               recentData.kill_participation + v.kill_participation,
           };
-          line.set(v.line_name, line.get(v.line_name) + 1);
         }
       });
     }
@@ -109,9 +106,6 @@ const getDuoPlayer = (data, cur) => {
     ];
   });
 
-  recentData.line = line;
-  console.log(line);
-  console.log(recentData.count);
   // kill death assist score participation
   recentData.kill = Number((recentData.kill / recentData.count).toFixed(2));
   recentData.death = Number((recentData.death / recentData.count).toFixed(2));
@@ -138,10 +132,15 @@ const formatGold = (number) => {
 };
 
 // 요청 데이터 가공 메서드
-const formattingData = async () => {
+const formattingData = async (user) => {
   let win = 0;
-  const user = sample.profile[0].summoner_name;
 
+  // if (user == null || user == undefined || typeof user != 'string') return null;
+  user = sample.profile[0].summoner_name;
+  // const sample = await getSearchData(user).catch((error) => {
+  //   Swal.fire('Error', error.message, 'error');
+  // });
+  if (sample == 'NoData') return sample;
   const arr = sample.match_histories.map((e) => {
     let cur;
     let summary = [[], []];
@@ -248,9 +247,43 @@ const formattingData = async () => {
 
   const recent = result.recentData;
 
+  let positions_cnt = 0;
+
+  sample.profile[0].positions.forEach(e => positions_cnt += e.cnt);
+
+  const now = new Date();
+  const recordTime = new Date(sample.profile[0].last_updated_at);
+
+  const refreshAgo = now - recordTime;
+  let refreshResult;
+
+  let secondsDifference = Math.floor(refreshAgo / 1000);
+  let minutesDifference = Math.floor(secondsDifference / 60);
+  let hoursDifference = Math.floor(minutesDifference / 60);
+  let daysDifference = Math.floor(hoursDifference / 24);
+
+  if (secondsDifference < 60) {
+    refreshResult = secondsDifference + '초 전';
+  } else if (minutesDifference < 60) {
+    refreshResult = minutesDifference + '분 전';
+  } else if (hoursDifference < 24) {
+    refreshResult = hoursDifference + '시간 전';
+  } else {
+    refreshResult = daysDifference + '일 전';
+  }
+
+  const profileData = {
+    ...sample.profile[0],
+    positions_cnt,
+    last_updated_at: refreshResult
+  }
+
+  const freeRank = sample.profile[1] ? sample.profile[1] : null;
+
   // 가공된 데이터 리턴
   return {
-    profile: sample.profile[0],
+    profile: profileData,
+    freeRank,
     duoPlayer,
     recent,
     match_histories: arr,
@@ -259,10 +292,10 @@ const formattingData = async () => {
 
 const recordAtom = atomWithDefault(formattingData);
 
-// const updateRecordAtom = atom(null, async (get, set) => {
-//   set(recordAtom, await getRecord());
-// });
+const updateRecordAtom = atom(null, async (get, set, update) => {
+  set(recordAtom, await formattingData(update));
+});
 
 export const useRecord = () => useAtomValue(recordAtom);
 
-// export const useUpdateRecord = () => useSetAtom(updateRecordAtom);
+export const useUpdateRecord = () => useSetAtom(updateRecordAtom);

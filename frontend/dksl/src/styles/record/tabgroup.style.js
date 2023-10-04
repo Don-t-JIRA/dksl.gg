@@ -35,10 +35,14 @@ export const LeftLayout = styled.div`
 
       & .profile-img {
         flex-basis: 48%;
-        height: fit-content;
+        width: 15rem;
         margin-left: 2%;
         display: flex;
-        justify-content: end;
+        justify-content: center;
+
+        & img {
+          width: 95%;
+        }
       }
 
       & .profile-desc {
@@ -133,7 +137,7 @@ export const LeftLayout = styled.div`
           text-align: start;
 
           & img {
-            height: 75%;
+            width: 10%;
             margin: 0 0.5rem;
           }
         }

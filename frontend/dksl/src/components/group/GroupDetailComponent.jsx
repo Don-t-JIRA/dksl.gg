@@ -66,7 +66,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
               <div className="tier-body">
                 <div className="img-box">
                   <img
-                    src={`/image/rank-icons/${detailList.avgTier.id.toUpperCase()}.png`}
+                    src={`/image/rank-icons/${detailList.avgTier.id}.png`}
                     alt="group-tier"
                     className="image"
                   />
@@ -123,7 +123,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
 
                   {detailList.summonerResponse.map((e, i) => (
                     <div className="table-row" key={`member_${i}`}>
-                      <p className="rank">{e.rank}</p>
+                      <p className="rank">{i + 1}</p>
                       <div className="member-name">
                         <img
                           className="image"
@@ -134,7 +134,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
                         {e.name}
                       </div>
                       <p className="member-tier">{e.tier.name}</p>
-                      <p className="member-persent">{e.tier.orderNum}%</p>
+                      <p className="member-persent">{101 - ((i+1) / detailList.summonerResponse.length) * 100}%</p>
                     </div>
                   ))}
                 </div>

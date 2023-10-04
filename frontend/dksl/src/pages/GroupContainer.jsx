@@ -37,7 +37,7 @@ const GroupContainer = () => {
       const data = await groupDetail(name, auth ? true : false);
 
       const current = data.data.chairman;
-
+      console.log(data.data);
       data.data.summonerResponse = data.data.summonerResponse.filter((e) => {
         if (e.name == current) {
           data.data.currentSummoner = e;
@@ -67,7 +67,7 @@ const GroupContainer = () => {
     }
 
     const img = new Blob([bytes], {
-      type: 'image/jpg',
+      type: 'image/jpg', 
     });
 
     return URL.createObjectURL(img);

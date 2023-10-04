@@ -1,11 +1,16 @@
+// Axios
 import Axios from 'axios';
-import { useUpdateAuth } from '../jotai/auth';
+// Swal
 import Swal from 'sweetalert2';
+/// Service
+import { reAccessToken } from './UserService';
 
 // 맥북
-const BASE_URL = 'http://192.168.79.239:8080';
+// const BASE_URL = 'http://192.168.79.239:8080';
 // 싸피
-// const BASE_URL = 'http://70.12.247.95:8080';
+const BASE_URL = 'http://70.12.247.95:8080';
+// FastAPI
+const RECORD_URL = 'http://70.12.246.196:8000';
 
 const common = Axios.create({
   baseURL: BASE_URL,
@@ -16,27 +21,36 @@ const common = Axios.create({
 
 const auth = Axios.create({
   baseURL: BASE_URL,
-  // withCredentials: true,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
 });
 
+const record = Axios.create({
+  baseURL: RECORD_URL,
+})
+
 auth.interceptors.request.use(
-  function (config) {
+  async function (config) {
     const access = sessionStorage.getItem('accessToken');
+    const refresh = localStorage.getItem('refreshToken');
     if (access) {
       config.headers.Authorization = `Bearer ${access}`;
     } else {
-      const response = useUpdateAuth();
-
-      if (response) {
-        config.headers.Authorization = `Bearer ${access}`;
+      if (refresh) {
+        const response = await reAccessToken(refresh);
+        if (response.status == 200) {
+          sessionStorage.setItem('accessToken', response);
+          config.headers.Authorization = `Bearer ${response}`;
+        } else {
+          Swal.fire('이런!', '재로그인이 필요합니다', 'warning');
+        }
       } else {
         Swal.fire('이런!', '로그인이 필요합니다', 'info');
       }
     }
-    config.withCredentials = false;
+    // config.withCredentials = false;
     return config;
   },
   function (error) {
@@ -57,4 +71,4 @@ auth.interceptors.request.use(
 //     return Promise.reject(error);
 //   });
 
-export { auth, common };
+export { auth, common, record };
