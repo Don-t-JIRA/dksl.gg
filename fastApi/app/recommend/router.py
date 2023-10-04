@@ -5,6 +5,7 @@ import time
 import pandas as pd
 from sklearn.cluster import KMeans
 import statistics
+import random
 
 from app.apis.riot.controller import RiotApiController
 from app.users.crud import lol_profiles as lol_profiles_crud
@@ -40,7 +41,7 @@ def get_recommend_list(
     )
     match_histories = []
     match_ids = []
-    match_ids = riot_api.get_match_list(count=20, start_time=start_time)
+    match_ids = riot_api.get_match_list_timeless(count=20)
 
     while match_ids:
         for match_id in match_ids:
@@ -84,7 +85,17 @@ def get_recommend_list(
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
 
-    print(df_train)
+    Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
+    Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
+    Cluster2 = ["Ezreal", "Xerath", "Zed", "Darius", "Olaf", "Talon", "LeBlanc",
+                "Kennen", "Warwick", 'Khazix']
+
+    celebrity0 = ['Insec', "oyo", "destiny", "Zeus", "Kingen"]
+    celebrity1 = ['Thal', 'paka', 'Irelking', "Rich", "Kanavi"]
+    celebrity2 = ['The Shy', "Pz_zzang", 'Baekk', "Showmaker", "Ruler"]
+
+    ans = []
+    dict = {}
 
     min_max_scaler = MinMaxScaler()
 
@@ -95,9 +106,7 @@ def get_recommend_list(
 
         def transform(self, X):
             # 필요한 컬럼 추출
-            columns = ['ChampLevel', 'SoloKills', 'Assists', 'DamagePerMinute',
-                       'DamageTakenOnTeamPercentage', 'Kda', 'LaneMinions10Min',
-                       'TotalDamageDealtToChampions', 'VisionScore', 'ControlWard']
+            columns = ['ChampLevel', 'SoloKills', 'Assists', 'DamagePerMinute', 'DamageTakenOnTeamPercentage', 'Kda', 'LaneMinions10Min', 'TotalDamageDealtToChampions', 'VisionScore', 'ControlWard']
 
             X = X[columns]
 
@@ -132,19 +141,14 @@ def get_recommend_list(
     cluster_labels = pipeline.predict(df_train)
 
     mode_value = statistics.mode(cluster_labels)
-    print(mode_value)
-
-    list0 = ['가렌', '나서스', "faker"]
-    list1 = ['베인', '케이틀린']
-    list2 = ['유미', '나미']
 
     def cluster_result(value):
         if value == 0:
-            return list0
+            ans.append((random.sample(Cluster0, 3), random.choice(celebrity0)))
         elif value == 1:
-            return list1
+            ans.append((random.sample(Cluster1, 3), random.choice(celebrity1)))
         elif value == 2:
-            return list2
+            ans.append((random.sample(Cluster2, 3), random.choice(celebrity2)))
         elif isinstance(value, str):
             return "error"
         else:
@@ -155,4 +159,9 @@ def get_recommend_list(
     except NameError:
         result = "Error"
 
-    return result
+    for i in range(len(ans[0][0])):
+        dict['champ' + str(i)] = ans[0][0][i]
+
+    dict['celeb'] = ans[0][1]
+
+    return dict

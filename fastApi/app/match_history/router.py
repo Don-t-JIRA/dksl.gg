@@ -259,10 +259,6 @@ def put_match_history(
 
     # 1
     tiers = exec_query(db_session, "SELECT * FROM TIERS;")
-    # tiers_map = {}
-    # for tier in tiers:
-    #     tiers_map[tier.get("name_en")] = tier.get("name_en")
-    #     print(tier.get("name_en"))
 
     rank_map = {"IV": 4, "III": 3, "II": 2, "I": 1}
     queues = exec_query(db_session, "SELECT * FROM QUEUES;")
@@ -275,9 +271,6 @@ def put_match_history(
     league_infos = riot_api.get_league_info()
 
     # 2
-
-    print(league_infos)
-
     for league_info in league_infos:
         queue_type = league_info.get("queueType")
 
@@ -464,7 +457,6 @@ def add_match_history(
     riot_api = RiotApiController(summoner_name=summoner_name)
 
     summoner_info = riot_api.get_summoner_info()
-    print(summoner_info)
 
     lol_profile_data = {
         "puu_id": summoner_info['puuid'],
