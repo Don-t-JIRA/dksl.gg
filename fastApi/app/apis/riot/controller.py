@@ -69,6 +69,14 @@ class RiotApiController:
         )
         return ret
 
+    def get_match_list_timeless(self, count: int):
+        ret = self.lol_watcher.match.matchlist_by_puuid(
+            puuid=self.puu_id,
+            region=self.my_region,
+            count=count,
+        )
+        return ret
+
     def get_match_info_by_id(self, match_id: str):
         return self.lol_watcher.match.by_id(region=self.my_region, match_id=match_id)
 
