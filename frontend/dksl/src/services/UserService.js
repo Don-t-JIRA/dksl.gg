@@ -70,7 +70,7 @@ const reAccessToken = async (refreshToken) => {
       },
     });
     if (response.status != 200) throw new Error('토큰 재발급 실패');
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error.response);
   }

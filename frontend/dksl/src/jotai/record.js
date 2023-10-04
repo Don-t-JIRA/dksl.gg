@@ -1,6 +1,8 @@
+// data
 import { sample } from '../data';
 import { spell } from '../spell';
 import { rune } from '../rune';
+// Jotai
 import { atomWithDefault } from 'jotai/utils';
 import { useAtomValue } from 'jotai';
 

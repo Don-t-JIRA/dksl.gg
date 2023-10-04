@@ -1,5 +1,7 @@
+// Jotai
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithDefault } from 'jotai/utils';
+// Service
 import { getSummonerGroup } from '../services/GroupService';
 
 const getGroup = async (name) => {
@@ -8,9 +10,7 @@ const getGroup = async (name) => {
   }
 
   const data = await getSummonerGroup(name);
-  console.log(data);
   if (data.status == 200) {
-    console.log(data.data);
     return data.data;
   } else {
     throw new Error('Group Data Fetching Error');
