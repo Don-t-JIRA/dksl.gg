@@ -2,14 +2,14 @@
 FROM nginx:stable-alpine
 
 # 작업 디렉터리를 '/app'으로 설정합니다.
-WORKDIR /app
+WORKDIR /
 
 # '/app' 디렉터리 내에 'build' 폴더를 생성합니다.
-RUN mkdir ./build
+# RUN mkdir ./build
 
 # 호스트의 'build' 폴더 내용을 컨테이너의 '/app/build'에 추가합니다.
 # 이 폴더는 일반적으로 React 빌드 결과물을 포함합니다.
-ADD . ./build
+ADD . .
 
 # 기존의 nginx 설정 파일을 삭제합니다.
 RUN rm /etc/nginx/conf.d/default.conf
