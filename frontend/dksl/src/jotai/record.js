@@ -270,9 +270,12 @@ const formattingData = async () => {
     last_updated_at: refreshResult
   }
 
+  const freeRank = sample.profile[1] ? sample.profile[1] : null;
+
   // 가공된 데이터 리턴
   return {
     profile: profileData,
+    freeRank,
     duoPlayer,
     recent,
     match_histories: arr,

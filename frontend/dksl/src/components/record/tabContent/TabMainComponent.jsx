@@ -431,21 +431,23 @@ const TabMainComponent = ({ data, piedata }) => {
                 </div>
               </div>
             </div>
-            {/* <div className="result-box">
-              <div className="rank-type">자유 랭크</div>
-              <div className="rank-detail">
-                <img
-                  src={`/image/rank-icons/${data.profile.tier_name.toLowerCase()}.png`}
-                />
-                <div className="description">
-                  <p className="tier">
-                    {capitalizeFirstLetter(
-                      data.profile.tier_name.toLowerCase()
-                    )}
-                  </p>
+            {data.freeRank && (
+              <div className="result-box">
+                <div className="rank-type">자유 랭크</div>
+                <div className="rank-detail">
+                  <img
+                    src={`/image/rank-icons/${data.freeRank.tier_name.toLowerCase()}.png`}
+                  />
+                  <div className="description">
+                    <p className="tier">
+                      {capitalizeFirstLetter(
+                        data.freeRank.tier_name.toLowerCase()
+                      )}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div> */}
+            )}
           </div>
         </S.TierCard>
         <S.DuoCard>
@@ -483,6 +485,8 @@ const TabMainComponent = ({ data, piedata }) => {
             <label>랭크 전체</label>
             <input type="radio" name="rank-type" />
             <label>솔로 랭크</label>
+            <input type="radio" name="rank-type" />
+            <label>자유 랭크</label>
           </div>
           <div className="select-group">
             <Select
@@ -553,13 +557,8 @@ const TabMainComponent = ({ data, piedata }) => {
                 {data.profile.positions.map((e, i) => (
                   <div className="line" key={`positions_${i}`}>
                     <S.LineGraph
-                      $gray={
-                        100 -
-                        (e.cnt / data.profile.positions_cnt) * 100
-                      }
-                      $blue={
-                        (e.cnt / data.profile.positions_cnt) * 100
-                      }
+                      $gray={100 - (e.cnt / data.profile.positions_cnt) * 100}
+                      $blue={(e.cnt / data.profile.positions_cnt) * 100}
                     >
                       <div className="gray-area"></div>
                       <div className="blue-area"></div>

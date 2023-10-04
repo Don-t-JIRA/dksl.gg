@@ -18,25 +18,27 @@ const TabGroupComponent = ({ leave, image }) => {
   const group = useGroup();
   const [options, setOptions] = useState([
     {
-      value: 'default',
+      value: 0,
       label: '가입 소속',
     },
   ]);
+  const [currentIdx, setCurrentIdx] = useState(options[0]);
   const [currentGroup, setCurrentGroup] = useState(null);
 
   useEffect(() => {
     if (group) {
+      console.log(currentIdx);
+      console.log(group.teamList[currentIdx.value], currentGroup);
       const arr = group.teamList.map((e, i) => {
         return {
           value: i,
           label: e.name,
         };
       });
-      setCurrentGroup(group.teamList[0]);
-      setOptions(arr);
+      setCurrentGroup(group.teamList[currentIdx.value]);
+      setOptions([...arr]);
     }
-    console.log(group);
-  }, [group]);
+  }, [group, currentIdx, currentGroup]);
 
   return (
     <S.TabGroupLayout>
@@ -58,6 +60,7 @@ const TabGroupComponent = ({ leave, image }) => {
                   components={animatedComponent}
                   defaultValue={options[0]}
                   options={options}
+                  onChange={setCurrentIdx}
                 />
               </div>
               {currentGroup ? (
@@ -135,7 +138,7 @@ const TabGroupComponent = ({ leave, image }) => {
             </S.LeftLayout>
             <S.RightLayout>
               <div className="mygroup-ranking">
-                <p className="title">&#127942; 우리 소속원 손위</p>
+                <p className="title">&#127942; 우리 소속원 순위</p>
 
                 <div className="radio-group">
                   <input type="radio" name="rank-type" />
