@@ -1,5 +1,5 @@
 from typing import Union, List, Dict
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from datetime import datetime
 import time
 import pandas as pd
@@ -31,14 +31,21 @@ def get_recommend_list(
     if current_lol_profile == None:
         return create_response(message="no lol_profile", data={})
 
-    # 마지막 전적 갱신 시간
-    last_updated_at = current_lol_profile.last_updated_at
-    start_time = int(
-        time.mktime(
-            datetime.strptime(str(last_updated_at),
-                              "%Y-%m-%d %H:%M:%S").timetuple()
-        )
-    )
+    league_infos = riot_api.get_league_info()
+
+    if len(league_infos) == 0:
+        raise HTTPException(status_code=400, detail="랭크 게임 데이터가 부족합니다.")
+
+    for league_info in league_infos:
+        queue_type = league_info.get("queueType")
+
+        if queue_type != "RANKED_SOLO_5x5" and queue_type != "RANKED_FLEX_SR":
+            continue
+
+        if queue_type == "RANKED_SOLO_5x5":
+            if league_info.get("losses") + league_info.get("wins") < 20:
+                raise HTTPException(status_code=400, detail="랭크 게임 데이터가 부족합니다.")
+
     match_histories = []
     match_ids = []
     match_ids = riot_api.get_match_list_timeless(count=20)
@@ -84,6 +91,8 @@ def get_recommend_list(
 
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
+
+    print(df_train)
 
     Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
     Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
