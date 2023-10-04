@@ -1,13 +1,13 @@
 package com.ssafy.dksl.model.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.ssafy.dksl.model.dto.command.LoginCommand;
-import com.ssafy.dksl.model.dto.command.TokenCommand;
-import com.ssafy.dksl.model.dto.command.RegisterCommand;
-import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
-import com.ssafy.dksl.model.dto.response.LoginResponse;
-import com.ssafy.dksl.model.dto.response.MemberResponse;
-import com.ssafy.dksl.model.dto.response.SummonerResponse;
+import com.ssafy.dksl.model.dto.command.member.LoginCommand;
+import com.ssafy.dksl.model.dto.command.common.TokenCommand;
+import com.ssafy.dksl.model.dto.command.member.RegisterCommand;
+import com.ssafy.dksl.model.dto.command.common.UpdateSummonerCommand;
+import com.ssafy.dksl.model.dto.response.member.LoginResponse;
+import com.ssafy.dksl.model.dto.response.member.MemberResponse;
+import com.ssafy.dksl.model.dto.response.common.SummonerResponse;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.RefreshToken;
 import com.ssafy.dksl.model.entity.Tier;
@@ -18,7 +18,6 @@ import com.ssafy.dksl.model.service.common.RiotServiceImpl;
 import com.ssafy.dksl.util.JwtUtil;
 import com.ssafy.dksl.util.data.RankData;
 import com.ssafy.dksl.util.exception.*;
-import com.ssafy.dksl.util.exception.common.CreateException;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import com.ssafy.dksl.util.exception.common.InvalidException;
 import lombok.extern.slf4j.Slf4j;

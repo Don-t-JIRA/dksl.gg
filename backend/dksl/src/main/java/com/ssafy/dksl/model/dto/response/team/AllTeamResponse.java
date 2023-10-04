@@ -1,4 +1,4 @@
-package com.ssafy.dksl.model.dto.response;
+package com.ssafy.dksl.model.dto.response.team;
 
 import lombok.Builder;
 import lombok.Getter;

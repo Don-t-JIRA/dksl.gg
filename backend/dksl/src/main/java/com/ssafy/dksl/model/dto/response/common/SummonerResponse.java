@@ -1,4 +1,4 @@
-package com.ssafy.dksl.model.dto.response;
+package com.ssafy.dksl.model.dto.response.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;

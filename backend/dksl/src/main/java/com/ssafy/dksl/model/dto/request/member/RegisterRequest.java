@@ -1,6 +1,6 @@
-package com.ssafy.dksl.model.dto.request;
+package com.ssafy.dksl.model.dto.request.member;
 
-import com.ssafy.dksl.model.dto.command.RegisterCommand;
+import com.ssafy.dksl.model.dto.command.member.RegisterCommand;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;

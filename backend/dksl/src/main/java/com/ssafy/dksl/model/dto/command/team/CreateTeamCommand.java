@@ -1,4 +1,4 @@
-package com.ssafy.dksl.model.dto.command;
+package com.ssafy.dksl.model.dto.command.team;
 
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.Team;

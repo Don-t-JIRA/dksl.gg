@@ -1,5 +1,6 @@
-package com.ssafy.dksl.model.dto.response;
+package com.ssafy.dksl.model.dto.response.member;
 
+import com.ssafy.dksl.model.dto.response.common.TierResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
