@@ -17,17 +17,13 @@ const TabGroupComponent = ({ leave, image }) => {
   const auth = useAuth();
   const group = useGroup();
   const [options, setOptions] = useState([
-    {
-      value: 0,
-      label: '가입 소속',
-    },
+    
   ]);
-  const [currentIdx, setCurrentIdx] = useState(options[0]);
+  const [currentIdx, setCurrentIdx] = useState({ value: 0, label: '' });
   const [currentGroup, setCurrentGroup] = useState(null);
 
   useEffect(() => {
     if (group) {
-      console.log(currentIdx);
       console.log(group.teamList[currentIdx.value], currentGroup);
       const arr = group.teamList.map((e, i) => {
         return {
@@ -58,7 +54,7 @@ const TabGroupComponent = ({ leave, image }) => {
                 <Select
                   closeMenuOnSelect={true}
                   components={animatedComponent}
-                  defaultValue={options[0]}
+                  defaultValue={group.teamList[currentIdx.value].name}
                   options={options}
                   onChange={setCurrentIdx}
                 />
@@ -184,7 +180,7 @@ const TabGroupComponent = ({ leave, image }) => {
                             {e.name}
                           </div>
                           <p className="member-tier">{e.tier.name}</p>
-                          <p className="member-persent">{101 - ((i+1) / currentGroup.summonerResponse.length) * 100}%</p>
+                          <p className="member-persent">{101 - Math.floor(((i+1) / currentGroup.summonerResponse.length) * 100)}%</p>
                         </div>
                       ))
                     ) : (
