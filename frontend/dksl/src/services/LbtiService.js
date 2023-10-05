@@ -12,11 +12,17 @@ const getQuestionList = async () => {
     console.log(error);
   }
 };
-const getLbti = async (data) => {
+const getLbti = async (data, hasToken) => {
   try {
+    if (hasToken) {
+    const response = await auth.post('/lbti', JSON.stringify(data));
+    if (response.status != 200) new Error('서버 오류');
+    return response.data;
+  } else {
     const response = await common.post('/lbti', JSON.stringify(data));
     if (response.status != 200) new Error('서버 오류');
     return response.data;
+  }
   } catch (error) {
     console.log(error);
   }

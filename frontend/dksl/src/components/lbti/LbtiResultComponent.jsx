@@ -1,18 +1,20 @@
 import * as S from '@/styles/lbti/result.style';
+import { useNavigate } from 'react-router-dom';
 
 const LbtiResultComponent = ({ lbti }) => {
+    const navigate = useNavigate();
     const lbtiStr = (lbti) ? (lbti.firstTendency.initial +
         lbti.secondTendency.initial +
         lbti.thirdTendency.initial +
-        lbti.fourthTendency.initial +
-        " - " + lbti.name) : null;
+        lbti.fourthTendency.initial + 
+        " : " + lbti.name) : null;
 
     return (
         <S.LbtiResultLayout>
             <S.ResultContainer>
                 <div className="result-box">
                     <div className="result-content">당신의 결과는...</div>
-                    <img src={`https://http.cat/200`} />
+                    <img src={`http://ddragon.leagueoflegends.com/cdn/img/champion/splash/${(lbti)? lbti.championName: 'Aatrox'}_0.jpg`} />
                     <div className="result-title">💡 {lbtiStr}</div>
                     <div className="tag-box">
                         <S.TagItem $bg="red">
@@ -37,6 +39,8 @@ const LbtiResultComponent = ({ lbti }) => {
                         </S.TagItem>
                     </div>
                     <div className="description-content">{(lbti) ? lbti.description : null}</div>
+                    <button onClick={() => {location.reload()}}>다시 테스트하기</button>
+                    <button onClick={() => {navigate('/')}}>메인으로</button>
                 </div>
             </S.ResultContainer>
         </S.LbtiResultLayout>

@@ -13,6 +13,8 @@ public class LbtiResponse {
 
     private String description;
 
+    private String championName;
+
     private TendencyResponse firstTendency;
 
     private TendencyResponse secondTendency;

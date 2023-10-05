@@ -39,11 +39,12 @@ export const TestContainer = styled.div`
     }
 
     & .radio-box {
-        width: 60%;
+        width: 80%;
         margin: 5vh;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        text-align: left;
         color: var(--text-gray);
 
         & input {
