@@ -161,6 +161,7 @@ public class TeamServiceImpl implements TeamService {
             try {
                 teamResponseList.add(TeamResponse.builder()
                         .name(team.getName())
+                        .memberCount(team.getMembers().size())
                         .description(team.getDescription())
                         .imgByteArray(imageByteArray)
                         .tierResponse(calAvgTier(team.getMembers()))
@@ -195,7 +196,7 @@ public class TeamServiceImpl implements TeamService {
                 int o1OrderNum = calAvgTier(o1.getMembers()).getOrderNum();
                 int o2OrderNum = calAvgTier(o2.getMembers()).getOrderNum();
 
-                if (o1OrderNum < o2OrderNum) return -1;
+                if (o1OrderNum < o2OrderNum) return 1;
                 else if (o1OrderNum > o2OrderNum) return -1;
 
                 return o1.getName().compareTo(o2.getName());
