@@ -39,34 +39,9 @@ const data = [
   },
 ];
 
-const TabAnalyzeComponent = () => {
-  const [champ, setChamp] = useState(null);
+const TabAnalyzeComponent = ({ data }) => {
 
-  useEffect(() => {
-    const arr = ['Zed', 'Aatrox', 'Yasuo'];
-
-    arr.forEach(async e => {
-      const data = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${e}.json`);
-      console.log(data.data);
-      const obj = {
-        en_name: e,
-        name: data.data.data[e].name,
-        title: data.data.data[e].title,
-        tags: data.data.data[e].tags,
-        tips: data.data.data[e].allytips,
-      };
-      if (champ)
-        setChamp(...champ, [obj]);
-      else 
-        setChamp([obj]);
-    })
-  }, []);
-
-  useEffect(() => {
-
-  }, [champ])
-
-  return (
+  return ( 
     <S.TabAnalyzeLayout>
       <S.LeftLayout>
         <S.AnalyzeCard>
@@ -149,19 +124,22 @@ const TabAnalyzeComponent = () => {
         <S.ChampionCard>
           <p className="title">&#128077; 이 챔피언을 추천해요!</p>
           <div className="champion-box">
-            {champ ? (
-              champ.map((e, i) => (
+            {data ? (
+              data.map((e, i) => (
                 <div className="container" key={`champion_card_${i}`}>
                   <div
                     className="card front"
                     style={{
-                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.origin}_0.jpg)`,
+                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.en_name}_0.jpg)`,
                     }}
                   ></div>
                   <div className="card back">
                     <div className="name">{e.name}</div>
-                    <p className="tags">{e.tags}</p>
-                    <p className="tips">{e.allytips}</p>
+                    <p className="tags">{e.tags.map((v, j) => {
+                      if (j == e.tags.length - 1) return v;
+                      else return v+', ';
+                    })}</p>
+                    <p className="tips">{e.tips[Math.floor(Math.random() * e.tips.length)]}</p>
                   </div>
                 </div>
               ))
@@ -174,7 +152,7 @@ const TabAnalyzeComponent = () => {
           <p className="title">&#128071; 이 사람은 어때요?</p>
           <div className="content-box">
             <div className="img">
-              <img src="/image/lbti-img.svg" alt="sample_img" />
+              <img src={`/image/star/Baekk.webp`} alt="star_img" />
             </div>
           </div>
         </S.FamousCard>

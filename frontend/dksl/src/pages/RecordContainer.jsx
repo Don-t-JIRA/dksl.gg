@@ -6,12 +6,15 @@ import ProfileComponent from '../components/record/ProfileComponent';
 import HeaderComponent from '../components/common/HeaderComponent';
 import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // 더미 데이터
-import { laderData } from '../data';
+// import { laderData } from '../data';
 // Jotai
 import { useRecord, useUpdateRecord } from '../jotai/record';
-import { groupLeave } from '../services/GroupService';
-import Swal from 'sweetalert2';
 import { useGroup, useUpdateGroup } from '../jotai/group';
+import { groupLeave } from '../services/GroupService';
+// Swal
+import Swal from 'sweetalert2';
+// Axios
+import axios from 'axios';
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
@@ -32,6 +35,47 @@ const RecordContainer = () => {
   // const group = useGroup();
   // const [lbti, setLbti] = useState(null);
   const setGroup = useUpdateGroup();
+
+  const [champ, setChamp] = useState(null);
+
+  useEffect(() => {
+    const arr = ['Zed', 'Aatrox', 'Yasuo'];
+
+    const fetchData = async (championName) => {
+      try {
+        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`);
+        const data = response.data.data[championName];
+        return {
+          en_name: championName,
+          name: data.name,
+          title: data.title,
+          tags: data.tags,
+          tips: data.allytips,
+        };
+      } catch (error) {
+        console.error('데이터 가져오기 실패:', error);
+        return null;
+      }
+    };
+
+    const fetchChampionData = async () => {
+      const newArr = [];
+
+      for (const championName of arr) {
+        const championData = await fetchData(championName);
+        if (championData) {
+          newArr.push(championData);
+        }
+      }
+
+      setChamp(newArr);
+    };
+
+    // champ가 null일 때만 데이터 가져오기
+    if (champ === null) {
+      fetchChampionData();
+    }
+  }, [champ]);
 
   useEffect(() => {
     if (data != null) {
@@ -107,7 +151,7 @@ const RecordContainer = () => {
       <RecordBodyComponent
         recorddata={recorddata}
         piedata={piedata}
-        analyzedata={laderData}
+        analyzedata={champ}
         tab={recordTab}
         setTab={setRecordTab}
         leaveTeam={leaveTeam}
