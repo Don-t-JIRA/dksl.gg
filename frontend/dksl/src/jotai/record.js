@@ -5,13 +5,13 @@ import { rune } from '../rune';
 // Jotai
 import { atomWithDefault } from 'jotai/utils';
 import { useAtomValue, useSetAtom, atom } from 'jotai';
-// import { getSearchData } from '../services/RecordService';
+import { getSearchData } from '../services/RecordService';
 // Swal
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 // 함께한 소환사 아이콘, 이름, 게임 수, 승-패, 승률 메서드
 // 20 게임의 매치 데이터와 검색된 소환사 받기
-const getDuoPlayer = (data, cur) => {
+function getDuoPlayer(data, cur) {
   const map = new Map();
 
   let recentData = {
@@ -116,7 +116,7 @@ const getDuoPlayer = (data, cur) => {
   );
 
   return { result, recentData };
-};
+}
 
 // 획득 골드량 포맷팅 메서드
 const formatGold = (number) => {
@@ -135,12 +135,12 @@ const formatGold = (number) => {
 const formattingData = async (user) => {
   let win = 0;
 
-  user = sample.profile[0].summoner_name;
-  
-  // if (user == null || user == undefined || typeof user != 'string') return null;
-  // const sample = await getSearchData(user).catch((error) => {
-  //   Swal.fire('Error', error.message, 'error');
-  // });
+  // user = sample.profile[0].summoner_name;
+
+  if (user == null || user == undefined || typeof user != 'string') return null;
+  const sample = await getSearchData(user).catch((error) => {
+    Swal.fire('Error', error.message, 'error');
+  });
   if (sample == 'NoData') return sample;
   const arr = sample.match_histories.map((e) => {
     let cur;
@@ -250,7 +250,7 @@ const formattingData = async (user) => {
 
   let positions_cnt = 0;
 
-  sample.profile[0].positions.forEach(e => positions_cnt += e.cnt);
+  sample.profile[0].positions.forEach((e) => (positions_cnt += e.cnt));
 
   const now = new Date();
   const recordTime = new Date(sample.profile[0].last_updated_at);
@@ -276,8 +276,8 @@ const formattingData = async (user) => {
   const profileData = {
     ...sample.profile[0],
     positions_cnt,
-    last_updated_at: refreshResult
-  }
+    last_updated_at: refreshResult,
+  };
 
   const freeRank = sample.profile[1] ? sample.profile[1] : null;
 
