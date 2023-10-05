@@ -26,9 +26,8 @@ const router = createBrowserRouter([
   { path: '/record/:summoner', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
   { path: '/lbti/:type', element: <LbtiContainer /> },
-  { path: '*', element: <NotFound /> },
-  { path: '/test', element: <TestContainer /> },
   { path: '/arena/:matchId', element: <ArenaContainer /> },
+  { path: '*', element: <NotFound /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
