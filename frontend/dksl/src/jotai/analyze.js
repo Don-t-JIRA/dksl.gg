@@ -4,6 +4,11 @@ import { atomWithDefault } from 'jotai/utils';
 // Service
 import { getAnalyzeData } from '../services/RecordService';
 
+const capitalizeStr = (string) => {
+  if (string == 'Jarvaniv') return 'JarvanIV';
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+};
+
 const getAnalyze = async (name) => {
   if (name == null || name == undefined || typeof name != 'string') return null;
   if (name) {
@@ -14,9 +19,9 @@ const getAnalyze = async (name) => {
     if (data) {
       return {
         chapmions: [
-          data.champ0.replace(/\s+/g, ''),
-          data.champ1.replace(/\s+/g, ''),
-          data.champ2.replace(/\s+/g, ''),
+          capitalizeStr(data.champ0.replace(/\s+/g, '')),
+          capitalizeStr(data.champ1.replace(/\s+/g, '')),
+          capitalizeStr(data.champ2.replace(/\s+/g, '')),
         ],
         celeb: {
           name: data.celeb,

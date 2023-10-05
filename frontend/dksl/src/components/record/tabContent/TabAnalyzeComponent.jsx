@@ -140,10 +140,6 @@ const TabAnalyzeComponent = ({ fetchData }) => {
                   tickSize: 5,
                   tickPadding: 0,
                   tickRotation: 0,
-                  legend: `${analyze.cluster.name}`,
-                  legendPosition: 'middle',
-                  legendOffset: 40,
-                  legendSize: 10,
                 }}
                 enableGridX={false}
                 enableGridY={true}
@@ -152,6 +148,12 @@ const TabAnalyzeComponent = ({ fetchData }) => {
             ) : (
               <LoadingComponent />
             )}
+            <div className="desc">
+              <p className="cluster-name">{analyze.cluster.name}</p>
+              <p className="minion">
+                평균 미니언: {analyze.cluster.minion_avg}
+              </p>
+            </div>
           </div>
         </S.GraphCard>
         <S.ChampionCard>
