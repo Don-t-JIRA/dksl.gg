@@ -7,6 +7,7 @@ import com.ssafy.dksl.model.repository.MemberRepository;
 import com.ssafy.dksl.model.service.common.RiotServiceImpl;
 import com.ssafy.dksl.util.exception.NonExistReviewException;
 import com.ssafy.dksl.util.exception.RiotApiInvalidException;
+import com.ssafy.dksl.util.exception.SummonerNotFoundException;
 import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.request.ReviewDeleteRequestDto;
 import com.ssafy.dksl.model.dto.request.ReviewSaveRequestDto;
@@ -20,9 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Spliterator;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -91,68 +90,80 @@ public class ReviewService extends RiotServiceImpl {
 
         // 매치 참가자 정보 가공 과정
         JsonNode matchInfoNode = findMatchMemberFromMatchId(matchId);
-        log.info("MatchInfoNode: {}", matchInfoNode.asText());
 
         JsonNode infosNode = matchInfoNode.get("info");
         if(infosNode.isNull()){
-            log.error("There is no info key in json response!");
             throw new RiotApiInvalidException();
         }
 
-        log.info("Pass 1");
         JsonNode participantsArrayNode = infosNode.get("participants");
         if(participantsArrayNode.isNull() || !participantsArrayNode.isArray()){
-            log.error("There is invalid participants value in json response!");
             throw new RiotApiInvalidException();
         }
 
         for(JsonNode participantNode : participantsArrayNode) {
             JsonNode championNode = participantNode.get("championName");
             if(championNode.isNull()){
-                log.error("");
                 throw new RiotApiInvalidException();
             }
-            log.info("ChampionNode: {}", championNode.asText());
             championNames.add(championNode.asText());
         }
 
         // 매치 타임라인 관련 정보 가공 과정
         JsonNode timelineNode = findMatchTimelineByMatchId(matchId);
-//        log.info("TimelineNode: {}", timelineNode);
 
         JsonNode infoNode = timelineNode.get("info");
-//        log.info("infoNode: {}", infoNode);
         if(infoNode.isNull()) {
-            log.error("There is no info value in gameInfoNode!");
             throw new RiotApiInvalidException();
         }
 
         JsonNode frameArrayNode = infoNode.get("frames");
-//        log.info("frameNode: {}", frameNode);
         if(frameArrayNode.isNull() || !frameArrayNode.isArray()) {
-            log.error("There is no frame value in gameInfoNode!");
             throw new RiotApiInvalidException();
         }
 
         for(JsonNode frameNode : frameArrayNode) {
             JsonNode eventsArrayNode = frameNode.get("events");
             if(eventsArrayNode.isNull() || !eventsArrayNode.isArray()) {
-                log.error("There is no events value in gameInfoNode!");
                 throw new RiotApiInvalidException();
             }
 
             for(JsonNode eventNode : eventsArrayNode) {
                 if (eventNode.get("type").asText().equals(CHAMPION_KILL)) {
                     TimelineInfoResponseDto timeline = createTimelineInfo(eventNode);
-                    log.info("Timeline: {}", timeline);
                     timelines.add(timeline);
                 }
+            }
+        }
+
+        // 각각의 플레이어의 소환사명을 추출
+        JsonNode participantsNodes = infoNode.get("participants");
+        if(participantsNodes.isNull() || !participantsNodes.isArray()){
+            throw new RiotApiInvalidException();
+        }
+
+        ArrayList<String> summonerNames = new ArrayList<>();
+        for(JsonNode participantNode : participantsNodes){
+            JsonNode puuid = participantNode.get("puuid");
+            if(puuid.isNull()){
+                throw new RiotApiInvalidException();
+            }
+
+            String encryptedPuuid = puuid.asText();
+            try{
+                JsonNode summonerNode = findSummonerByPuuid(encryptedPuuid);
+                String summonerName = summonerNode.get("name").asText();
+
+                summonerNames.add(summonerName);
+            } catch(RiotApiInvalidException | SummonerNotFoundException | NullPointerException e){
+                throw new RiotApiInvalidException();
             }
         }
 
         return ReviewSearchMatchTimelineResponseDto.builder()
                 .timelines(timelines)
                 .championNames(championNames)
+                .summonerNames(summonerNames)
                 .matchId(matchId)
                 .build();
     }
