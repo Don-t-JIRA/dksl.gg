@@ -11,11 +11,13 @@
     "test": "jest --transformIgnorePatterns \"node_modules/(?!axios)/\""
   },
   "dependencies": {
+    "@nivo/bar": "^0.83.0",
     "@nivo/calendar": "^0.83.0",
     "@nivo/core": "^0.83.0",
     "@nivo/pie": "^0.83.0",
     "@nivo/radar": "^0.83.0",
     "axios": "^1.5.0",
+    "dotenv": "^16.3.1",
     "jotai": "^2.4.1",
     "pnpm": "^8.8.0",
     "react": "18.2.0",

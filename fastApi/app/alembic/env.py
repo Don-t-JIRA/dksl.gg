@@ -22,7 +22,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 target_metadata = None
 
-# other values from the config, defined by the needs of env.py,
+# other values from the config, defined by the needs of .env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
@@ -40,7 +40,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    # .env 파일에서 설정 읽어오기
+    # ..env 파일에서 설정 읽어오기
     RDS_HOSTNAME = config('RDS_HOSTNAME')
     RDS_PORT = config('RDS_PORT')
     RDS_DB_NAME = config('RDS_DB_NAME')
