@@ -45,11 +45,11 @@ public class ReviewService extends RiotServiceImpl {
 
     @Transactional
     public Review saveReview(ReviewSaveRequestDto reviewSaveRequestDto) throws UserNotExistException{
-        String clientId = reviewSaveRequestDto.getClientId();
-        Member findUser = memberRepository.findByClientId(clientId).orElseThrow(() -> new UserNotExistException("롤 계정이 존재하지 않는 유저입니다."));
+        String summonerName = reviewSaveRequestDto.getSummonerName();
+        Member findMember = memberRepository.findByName(summonerName).orElseThrow(() -> new UserNotExistException("롤 계정이 존재하지 않는 유저입니다."));
 
         Review savedReview = Review.builder()
-                .member(findUser)
+                .member(findMember)
                 .matchId(reviewSaveRequestDto.getMatchId())
                 .content(reviewSaveRequestDto.getContent())
                 .build();
