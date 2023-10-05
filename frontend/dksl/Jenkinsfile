@@ -6,7 +6,6 @@ pipeline {
 	}
 
 	stages {
-
 		stage('React Build') {
 			steps {
 				dir('frontend/dksl') {
