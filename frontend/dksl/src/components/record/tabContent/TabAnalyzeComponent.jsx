@@ -192,7 +192,7 @@ const TabAnalyzeComponent = () => {
           <p className="title">&#128071; 이 사람은 어때요?</p>
           <div className="content-box">
             <div className="img">
-              <img src="/image/lbti-img.svg" alt="sample_img" />
+              <img src="/image/star/Baekk.webp" alt="sample_img" />
             </div>
           </div>
         </S.FamousCard>

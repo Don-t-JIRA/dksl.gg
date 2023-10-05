@@ -22,7 +22,7 @@ import { useAuth } from '../jotai/auth';
 const MySWal = withReactContent(Swal);
 
 const GroupContainer = () => {
-  const [teamList, setTeamList] = useState();
+  const [teamList, setTeamList] = useState(null);
   const [detailList, setDetailList] = useState(null);
   const [path, setPath] = useState(null);
   const auth = useAuth();
@@ -46,14 +46,15 @@ const GroupContainer = () => {
 
       console.log(data);
 
-      setDetailList(data.data);
+      if (data.data != detailList)
+        setDetailList(data.data);
     };
 
     setPath(url.pathname);
 
     if (url.pathname == '/group/main' && teamList == null) {
       fetchAllGroupData();
-    } else if (url.pathname == '/group/detail' && detailList == null) {
+    } else if (url.pathname == '/group/detail') {
       fetchDetailGroupData(url.search.split('=')[1]);
     }
   }, [url, teamList, detailList, auth]);
