@@ -5,9 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Builder
+//@Builder
 @Getter
+@NoArgsConstructor
 public class RegisterRequest {
     @NotNull
     @Size(max = 20)

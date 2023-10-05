@@ -2,6 +2,13 @@ pipeline {
     agent any
 
     stages {
+        // 보안상 중요한 정보는 git에 저장하지 않았기 때문에 ec2=>컨테이너로 직접 복사
+        stage("Set environment") {
+            steps {
+                echo "Copy require file to pipeline folder"
+                sh 'cp /var/jenkins_home/util/backend/application.yml ./backend/dksl/src/main/resources/application.yml'
+            }
+        }
         // Gradle 빌드 스테이지: Spring Boot 프로젝트를 빌드합니다.
         stage('Gradle Build') {
             steps {
@@ -11,6 +18,7 @@ pipeline {
                     sh 'chmod +x gradlew'
                     // gradlew를 사용해 프로젝트를 빌드하며 테스트는 제외합니다.
                     sh './gradlew clean build -x test'
+                    // -x test : 테스트 코드 적용 안함
                 }
             }
         }

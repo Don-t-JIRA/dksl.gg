@@ -27,9 +27,8 @@ app.include_router(recommend_router, prefix="/recommend", tags=["추천 시스�
 app.include_router(challenger_router, prefix="/challengers", tags=["챌린저 목록"])
 
 origins = [
-    "http://localhost",
-    "http://localhost:3000",  # 웹 애플리케이션 주소
     "http://127.0.0.1:3000",
+    "https://j9a703.p.ssafy.io"
 ]
 
 app.add_middleware(

@@ -1,6 +1,8 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.dto.command.common.TokenCommand;
 import com.ssafy.dksl.model.dto.command.lbti.SetLbtiCommand;
+import com.ssafy.dksl.model.dto.command.team.SearchTeamCommand;
 import com.ssafy.dksl.model.dto.response.lbti.LbtiResponse;
 import com.ssafy.dksl.model.dto.response.lbti.LbtiQuestionResponse;
 import com.ssafy.dksl.model.entity.*;
@@ -102,5 +104,17 @@ public class LbtiServiceImpl implements LbtiService {
                 .build());
 
         return lbti.toLbtiResponse();
+    }
+
+    @Override
+    public LbtiResponse getLbti(SearchTeamCommand searchTeamCommand) throws CustomException {
+        // 회원 확인
+        Member member = memberRepository.findByName(searchTeamCommand.getSearchStr()).orElseThrow(MemberNotFoundException::new);
+
+        if(member.getLbti() == null) {
+            return null;
+        }
+
+        return member.getLbti().toLbtiResponse();
     }
 }
