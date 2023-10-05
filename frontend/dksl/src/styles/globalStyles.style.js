@@ -176,7 +176,7 @@ export const Card = css`
     width: 98%;
     margin-top: 0.2rem;
     padding: 1.2rem 0;
-    padding-left: 3%;
+    padding-left: 1rem;
     border-bottom: 1px solid #dfdfdf;
     font-size: large;
     font-weight: bold;

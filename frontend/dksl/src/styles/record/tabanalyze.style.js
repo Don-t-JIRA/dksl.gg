@@ -224,24 +224,52 @@ export const ChampionCard = styled.div`
   height: 50vh;
 
   & .champion-box {
-    width: 95%;
+    width: 100%;
     height: 95%;
     display: flex;
     justify-content: space-evenly;
 
-    & .img {
+    & .container {
+      width: 100px;
+      /* flex-basis: 30%; */
       height: 80%;
-
-      & img {
-        height: 90%;
-        border-radius: 10px;
-        transition: all 0.5s;
-
-        &:hover {
-          transform: scale(1.07);
-        }
-      }
+      margin: 0 auto;
+      /* display: flex;
+      justify-content: center; */
+      perspective: 300px;
     }
+
+    & .container .card {
+        width: 137px;
+        height: 250px;
+        border: 1px solid black;
+        border-radius: 10px;
+        transition: all 0.75s;
+        backface-visibility: hidden;
+        /* background-size: cover; */
+      }
+
+      & .container .card.front {
+        position: absolute;
+        background-size: cover;
+        transform: rotateY(0deg);
+      }
+
+      & .container:hover .card.front {
+        transform: rotateY(180deg) scale(1.1);
+      }
+
+      & .container .card.back {
+        box-sizing: border-box;
+        padding: .5rem;
+        background-color: #202020;
+        color: white;
+        transform: rotateY(-180deg);
+      }
+
+      & .container:hover .card.back {
+        transform: rotateY(0deg) scale(1.1);
+      }
   }
 `;
 

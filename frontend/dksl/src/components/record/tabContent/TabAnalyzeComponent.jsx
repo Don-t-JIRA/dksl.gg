@@ -118,23 +118,12 @@ const TabAnalyzeComponent = () => {
         <S.ChampionCard>
           <p className="title">&#128077; 이 챔피언을 추천해요!</p>
           <div className="champion-box">
-            <div className="img">
-              <img
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zed_0.jpg`}
-                alt="champion_analyze"
-              />
-            </div>
-            <div className="img">
-              <img
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Yasuo_0.jpg`}
-                alt="champion_analyze"
-              />
-            </div>
-            <div className="img">
-              <img
-                src={`http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Blitzcrank_0.jpg`}
-                alt="champion_analyze"
-              />
+            <div className="container">
+              <div className="card front" style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zed_0.jpg)'}}>
+              </div>
+              <div className="card back">
+                Test asdfasdfasdfasdf
+              </div>
             </div>
           </div>
         </S.ChampionCard>
