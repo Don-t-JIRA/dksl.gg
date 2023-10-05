@@ -134,7 +134,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth, onJoinGroup })
                         {e.name}
                       </div>
                       <p className="member-tier">{e.tier.name}</p>
-                      <p className="member-persent">{101 - ((i+1) / detailList.summonerResponse.length) * 100}%</p>
+                      <p className="member-persent">{101 - Math.floor(((i+1) / detailList.summonerResponse.length) * 100)}%</p>
                     </div>
                   ))}
                 </div>

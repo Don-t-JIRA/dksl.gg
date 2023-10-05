@@ -44,7 +44,7 @@ const GroupContainer = () => {
       const data = await groupDetail(name, auth ? true : false);
 
       const current = data.data.chairman;
-      console.log(data.data);
+      
       data.data.summonerResponse = data.data.summonerResponse.filter((e) => {
         if (e.name == current) {
           data.data.currentSummoner = e;
@@ -158,7 +158,7 @@ const GroupContainer = () => {
     });
   }, []);
 
-  const onJoinGroup = async () => {
+  const onJoinGroup = useCallback(async () => {
     Swal.fire({
       icon: 'info',
       title: `${detailList.name}에 가입하시겠습니까?`,
@@ -183,7 +183,7 @@ const GroupContainer = () => {
         Swal.fire('가입이 취소 되었습니다.', '', 'info');
       }
     });
-  };
+  }, [detailList]);
 
   return path == '/group/main' ? (
     <>
