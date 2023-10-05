@@ -156,6 +156,7 @@ const RecordContainer = () => {
         setTab={setRecordTab}
         leaveTeam={leaveTeam}
         getByteToImage={getByteToImage}
+        searchSummonerName={summoner}
         // lbti={lbti}
       />
     </>
