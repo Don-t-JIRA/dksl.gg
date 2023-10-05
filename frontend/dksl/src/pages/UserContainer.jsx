@@ -24,7 +24,7 @@ const UserContainer = () => {
   // 회원가입 시 유저 정보 담을 상태 객체
   // id: string, pw: string, name: string, email: string, group: string
   const [signup, setSignup] = useState({
-    cliendId: '',
+    clientId: '',
     password: '',
     name: '',
     passwordCheck: '',
@@ -56,6 +56,7 @@ const UserContainer = () => {
         iconColor: 'var(--maincolor-depth1)',
         confirmButtonColor: 'var(--maincolor-depth1)',
       });
+      return;
     }
     const data = await register(signup);
     if (data.status == 200) {

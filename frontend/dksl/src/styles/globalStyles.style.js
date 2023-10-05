@@ -68,6 +68,10 @@ button:hover {
   filter: drop-shadow(0 0 .1rem var(--maincolor-depth1));
 }
 
+button:disabled {
+  background-color: var(--maincolor-depth2);
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -170,12 +174,13 @@ export const Card = css`
   margin-right: auto;
   border: 2px solid #dfdfdf;
   border-radius: 10px;
+  box-sizing: border-box;
 
   & .title {
     width: 98%;
     margin-top: 0.2rem;
     padding: 1.2rem 0;
-    padding-left: 3%;
+    padding-left: 1rem;
     border-bottom: 1px solid #dfdfdf;
     font-size: large;
     font-weight: bold;

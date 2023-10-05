@@ -21,7 +21,16 @@ const SearchComponent = () => {
         confirmButtonColor: 'var(--maincolor-depth1)',
       });
       return;
+    } else if (name.includes('/')) {
+      Swal.fire({
+        title: 'Error',
+        text: '잘못된 검색어입니다!',
+        icon: 'error',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+      return;
     }
+    
     console.log('검색 소환사 명 : ', name);
     navigate(`/record/${name}`);
   };
@@ -46,7 +55,7 @@ const SearchComponent = () => {
         <p className="title">
           &#128161; 나의 <b>롤BTI</b>는 무엇일까?
         </p>
-        <button className="btn" onClick={() => onSearch('noname')}>
+        <button className="btn" onClick={() => navigate('/lbti/main')}>
           검사하기
         </button>
       </S.TaggingContainer>

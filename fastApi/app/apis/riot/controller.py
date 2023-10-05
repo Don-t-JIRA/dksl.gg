@@ -30,7 +30,7 @@ class RiotApiController:
         self.signin_id = signin_id
         self.summoner_name = parse.quote(summoner_name)
         self.api_key = settings.RIOT_API_KEY
-        self.my_region = "kr"
+        self.my_region = "KR"
         self.lol_watcher = LolWatcher(self.api_key)
 
         self.summoner_info = self.lol_watcher.summoner.by_name(
@@ -79,5 +79,7 @@ class RiotApiController:
     def get_match_info_by_id(self, match_id: str):
         return self.lol_watcher.match.by_id(region=self.my_region, match_id=match_id)
 
+    def get_challengers_info(self):
+        return self.lol_watcher.league.challenger_by_queue(region=self.my_region, queue="RANKED_SOLO_5x5")
 
-riot_api = RiotApiController("Hide on bush")
+riot_api = RiotApiController("톰 클랜시")

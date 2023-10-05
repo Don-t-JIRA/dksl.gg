@@ -135,8 +135,9 @@ const formatGold = (number) => {
 const formattingData = async (user) => {
   let win = 0;
 
-  // if (user == null || user == undefined || typeof user != 'string') return null;
   user = sample.profile[0].summoner_name;
+  
+  // if (user == null || user == undefined || typeof user != 'string') return null;
   // const sample = await getSearchData(user).catch((error) => {
   //   Swal.fire('Error', error.message, 'error');
   // });

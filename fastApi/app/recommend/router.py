@@ -14,6 +14,7 @@ from app.database import get_db
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+from app.recommend.celebrity_data import celebrity_data
 
 router = APIRouter()
 
@@ -84,7 +85,8 @@ def get_recommend_list(
                     "LaneMinions10Min": int(challenges.get("laneMinionsFirst10Minutes", 0)),
                     "TotalDamageDealtToChampions": int(participant.get("totalDamageDealtToChampions", 0)),
                     "VisionScore": int(participant.get("visionScore", 0)),
-                    "ControlWard": int(challenges.get("controlWardsPlaced", 0))
+                    "ControlWard": int(challenges.get("controlWardsPlaced", 0)),
+                    "Win": bool(participant.get("win", False))
                 }
 
                 match_histories_mapped.append(data)
@@ -92,21 +94,17 @@ def get_recommend_list(
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
 
-    print(df_train)
-
     Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
     Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
     Cluster2 = ["Ezreal", "Xerath", "Zed", "Darius", "Olaf", "Talon", "LeBlanc",
                 "Kennen", "Warwick", 'Khazix']
 
     celebrity0 = ['Insec', "oyo", "destiny", "Zeus", "Kingen"]
-    celebrity1 = ['Thal', 'paka', 'Irelking', "Rich", "Kanavi"]
+    celebrity1 = ['Thal', 'paka', 'Irelking', "Soondangmoo", "Kanavi"]
     celebrity2 = ['The Shy', "Pz_zzang", 'Baekk', "Showmaker", "Ruler"]
 
     ans = []
     dict = {}
-
-    min_max_scaler = MinMaxScaler()
 
     class CustomPreprocessor(BaseEstimator, TransformerMixin):
 
@@ -114,6 +112,10 @@ def get_recommend_list(
             return self  # Nothing else to do
 
         def transform(self, X):
+            global minion_avg
+            # 승리 판 data 추출
+            # X = X[X['Win'] == True]
+
             # 필요한 컬럼 추출
             columns = ['ChampLevel', 'SoloKills', 'Assists', 'DamagePerMinute', 'DamageTakenOnTeamPercentage', 'Kda', 'LaneMinions10Min', 'TotalDamageDealtToChampions', 'VisionScore', 'ControlWard']
 
@@ -136,6 +138,8 @@ def get_recommend_list(
             X = X[X["assists_per_minutes"] > 0]
 
             X.drop(['Assists', 'min'], axis=1, inplace=True)
+
+            minion_avg = X['LaneMinions10Min'].sum() / 20
 
             return X
 
@@ -162,15 +166,61 @@ def get_recommend_list(
             return "error"
         else:
             return "error"
+        return value
 
-    try:
-        result = cluster_result(mode_value)
-    except NameError:
-        result = "Error"
+    result = cluster_result(mode_value)
 
     for i in range(len(ans[0][0])):
         dict['champ' + str(i)] = ans[0][0][i]
 
+    celeb_data = celebrity_data[ans[0][1]]
+
     dict['celeb'] = ans[0][1]
+    dict['line'] = celeb_data['line']
+    dict['desc'] = celeb_data['desc']
+    dict['url'] = celeb_data['url']
+    dict['minion_avg'] = minion_avg
+    dict['cluster_no'] = str(result)
+
+    if mode_value == 0:
+        dict['name'] = '맞으면서 때린다'
+        dict['챔피언 레벨'] = '3'
+        dict['솔로킬'] = '1'
+        dict['dpm'] = '1'
+        dict['받은 피해'] = '3'
+        dict['kda'] = '3'
+        dict['10분 미니언'] = '0'
+        dict['챔피언 딜량'] = '1'
+        dict['시야 점수'] = '4'
+        dict['핑크와드 구매'] = '4'
+        dict['분 당 어시'] = '4'
+    elif mode_value == 1:
+        dict['name'] = '날렵한 격투가'
+        dict['챔피언 레벨'] = '3'
+        dict['솔로킬'] = '3'
+        dict['dpm'] = '3'
+        dict['받은 피해'] = '1'
+        dict['kda'] = '2'
+        dict['10분 미니언'] = '4'
+        dict['챔피언 딜량'] = '3'
+        dict['시야 점수'] = '1'
+        dict['핑크와드 구매'] = '2'
+        dict['분 당 어시'] = '3'
+    elif mode_value == 2:
+        dict['name'] = '딜링머신'
+        dict['챔피언 레벨'] = '4'
+        dict['솔로킬'] = '5'
+        dict['dpm'] = '4'
+        dict['받은 피해'] = '3'
+        dict['kda'] = '3'
+        dict['10분 미니언'] = '4'
+        dict['챔피언 딜량'] = '4'
+        dict['시야 점수'] = '2'
+        dict['핑크와드 구매'] = '2'
+        dict['분 당 어시'] = '1'
+    else:
+        pass
+
+    len(ans[0][0])
 
     return dict

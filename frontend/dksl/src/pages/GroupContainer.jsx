@@ -16,13 +16,14 @@ import {
   setNewGroup,
   searchGroup,
   groupDetail,
+  joinGroup,
 } from '../services/GroupService';
 import { useAuth } from '../jotai/auth';
 
 const MySWal = withReactContent(Swal);
 
 const GroupContainer = () => {
-  const [teamList, setTeamList] = useState();
+  const [teamList, setTeamList] = useState(null);
   const [detailList, setDetailList] = useState(null);
   const [path, setPath] = useState(null);
   const auth = useAuth();
@@ -46,14 +47,15 @@ const GroupContainer = () => {
 
       console.log(data);
 
-      setDetailList(data.data);
+      if (data.data != detailList)
+        setDetailList(data.data);
     };
 
     setPath(url.pathname);
 
     if (url.pathname == '/group/main' && teamList == null) {
       fetchAllGroupData();
-    } else if (url.pathname == '/group/detail' && detailList == null) {
+    } else if (url.pathname == '/group/detail') {
       fetchDetailGroupData(url.search.split('=')[1]);
     }
   }, [url, teamList, detailList, auth]);
@@ -67,7 +69,7 @@ const GroupContainer = () => {
     }
 
     const img = new Blob([bytes], {
-      type: 'image/jpg', 
+      type: 'image/jpg',
     });
 
     return URL.createObjectURL(img);
@@ -127,22 +129,57 @@ const GroupContainer = () => {
         }
 
         const data = await setNewGroup(formData);
-
+        console.log(data);
+        if (data) {
+          Swal.fire({
+            title: '요청 성공',
+            text: '소속 생성이 요청되었습니다.',
+            iconColor: 'var(--maincolor-depth1)',
+            icon: 'success',
+            confirmButtonColor: 'var(--maincolor-depth1)',
+            confirmButtonText: '확인',
+          });
+        } else {
+          Swal.fire({
+            title: '요청 실패',
+            text: '소속 생성이 잘못되었습니다.',
+            icon: 'error',
+            confirmButtonColor: 'var(--maincolor-depth1)',
+            confirmButtonText: '확인',
+          });
+        }
         return data;
       },
-    }).then((res) => {
-      if (res.value) {
-        Swal.fire({
-          title: '요청 성공',
-          text: '소속 생성이 요청되었습니다.',
-          iconColor: 'var(--maincolor-depth1)',
-          icon: 'success',
-          confirmButtonColor: 'var(--maincolor-depth1)',
-          confirmButtonText: '확인',
-        });
-      }
     });
   }, []);
+
+  const onJoinGroup = async () => {
+    Swal.fire({
+      icon: 'info',
+      title: `${detailList.name}에 가입하시겠습니까?`,
+      showDenyButton: true,
+      confirmButtonText: '확인',
+      denyButtonText: `취소`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const data = await joinGroup(detailList.name);
+
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            title: `${detailList.name}에 가입되셨습니다.`,
+
+          }).then(() => {
+            location.reload();
+          })
+        } else {
+          Swal.fire('가입을 실패했습니다.', '', 'error');
+        }
+      } else if (result.isDenied) {
+        Swal.fire('가입이 취소 되었습니다.', '', 'info');
+      }
+    })
+  };
 
   return path == '/group/main' ? (
     <>
@@ -161,6 +198,7 @@ const GroupContainer = () => {
         auth={auth}
         detailList={detailList}
         getByteToImage={getByteToImage}
+        onJoinGroup={onJoinGroup}
       />
     </>
   ) : (
