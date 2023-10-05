@@ -12,23 +12,22 @@ router = APIRouter()
 
 
 @router.get("")
-def get_challengers(
-):
-    riot_api = RiotApiController(summoner_name="Hide on bush")
+def get_challengers():
+    riot_api = RiotApiController(summoner_name="톰 클랜시")
 
-    challengers = RiotApiController.get_challengers_info()
+    challengers = riot_api.get_challengers_info()
 
-    result = []
-    cnt = 0
-    for entry in challengers[0]["entries"]:
-        result.append({
-            "summonerName": entry["summonerName"],
-            "leaguePoints": entry["leaguePoints"]
-        })
-        cnt += 1
+    # 'entries' 키를 사용하여 항목들에 접근
+    entries = challengers.get("entries", [])
 
-        if cnt==30:
-            break
+    # 'leaguePoints'를 기준으로 내림차순 정렬
+    sorted_challengers = sorted(entries, key=lambda x: int(x["leaguePoints"]), reverse=True)
 
+    # 상위 30개 항목 선택
+    top_30_challengers = sorted_challengers[:30]
+
+    # 'leaguePoints'와 'summonerName'만 추출
+    result = [{"summonerName": entry["summonerName"], "leaguePoints": int(entry["leaguePoints"])} for entry in top_30_challengers]
 
     return result
+

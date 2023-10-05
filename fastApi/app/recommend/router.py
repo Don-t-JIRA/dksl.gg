@@ -84,7 +84,8 @@ def get_recommend_list(
                     "LaneMinions10Min": int(challenges.get("laneMinionsFirst10Minutes", 0)),
                     "TotalDamageDealtToChampions": int(participant.get("totalDamageDealtToChampions", 0)),
                     "VisionScore": int(participant.get("visionScore", 0)),
-                    "ControlWard": int(challenges.get("controlWardsPlaced", 0))
+                    "ControlWard": int(challenges.get("controlWardsPlaced", 0)),
+                    "Win": bool(participant.get("win", False))
                 }
 
                 match_histories_mapped.append(data)
@@ -106,8 +107,6 @@ def get_recommend_list(
     ans = []
     dict = {}
 
-    minion_ave = None
-
     min_max_scaler = MinMaxScaler()
 
     class CustomPreprocessor(BaseEstimator, TransformerMixin):
@@ -116,6 +115,10 @@ def get_recommend_list(
             return self  # Nothing else to do
 
         def transform(self, X):
+            global minion_avg
+            # 승리 판 data 추출
+            # X = X[X['Win'] == True]
+
             # 필요한 컬럼 추출
             columns = ['ChampLevel', 'SoloKills', 'Assists', 'DamagePerMinute', 'DamageTakenOnTeamPercentage', 'Kda', 'LaneMinions10Min', 'TotalDamageDealtToChampions', 'VisionScore', 'ControlWard']
 
@@ -139,7 +142,7 @@ def get_recommend_list(
 
             X.drop(['Assists', 'min'], axis=1, inplace=True)
 
-            minion_ave = X['LaneMinions10Min'].sum() / 20
+            minion_avg = X['LaneMinions10Min'].sum() / 20
 
             return X
 
@@ -155,6 +158,8 @@ def get_recommend_list(
 
     mode_value = statistics.mode(cluster_labels)
 
+    print(minion_avg)
+
     def cluster_result(value):
         if value == 0:
             ans.append((random.sample(Cluster0, 3), random.choice(celebrity0)))
@@ -166,18 +171,24 @@ def get_recommend_list(
             return "error"
         else:
             return "error"
+        return value
 
-    try:
-        result = cluster_result(mode_value)
-    except NameError:
-        result = "Error"
+    result = cluster_result(mode_value)
 
     for i in range(len(ans[0][0])):
         dict['champ' + str(i)] = ans[0][0][i]
 
+    if mode_value==0:
+        name = '맞으면서 때린다'
+    elif mode_value==1:
+        name = '날렵한 격투가'
+    else:
+        name = '딜링머신'
+
     dict['celeb'] = ans[0][1]
-    dict['minion_ave'] = minion_ave
-    dict['cluster'] = mode_value
+    dict['minion_avg'] = minion_avg
+    dict['cluster_no'] = str(result)
+    dict['name'] = name
     len(ans[0][0])
 
     return dict
