@@ -260,11 +260,23 @@ export const ChampionCard = styled.div`
       }
 
       & .container .card.back {
+        padding: .3rem;
         box-sizing: border-box;
-        padding: .5rem;
+        text-align: center;
         background-color: #202020;
         color: white;
         transform: rotateY(-180deg);
+        font-size: medium;fff
+
+        & .name {
+          margin-top: .3rem;
+          font-size: large;
+          font-weight: 600;
+        }
+
+        & .tips {
+          font-size: small;
+        }
       }
 
       & .container:hover .card.back {

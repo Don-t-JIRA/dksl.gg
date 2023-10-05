@@ -1,7 +1,12 @@
+// React
+import { useEffect, useState } from 'react';
+// Axios
+import axios from 'axios';
 // Styled
 import * as S from '@/styles/record/tabanalyze.style';
 // Chart
 import { ResponsiveRadar } from '@nivo/radar';
+import LoadingComponent from '../../common/LoadingComponent';
 
 const data = [
   {
@@ -35,6 +40,32 @@ const data = [
 ];
 
 const TabAnalyzeComponent = () => {
+  const [champ, setChamp] = useState(null);
+
+  useEffect(() => {
+    const arr = ['Zed', 'Aatrox', 'Yasuo'];
+
+    arr.forEach(async e => {
+      const data = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${e}.json`);
+      console.log(data.data);
+      const obj = {
+        en_name: e,
+        name: data.data.data[e].name,
+        title: data.data.data[e].title,
+        tags: data.data.data[e].tags,
+        tips: data.data.data[e].allytips,
+      };
+      if (champ)
+        setChamp(...champ, [obj]);
+      else 
+        setChamp([obj]);
+    })
+  }, []);
+
+  useEffect(() => {
+
+  }, [champ])
+
   return (
     <S.TabAnalyzeLayout>
       <S.LeftLayout>
@@ -118,13 +149,25 @@ const TabAnalyzeComponent = () => {
         <S.ChampionCard>
           <p className="title">&#128077; 이 챔피언을 추천해요!</p>
           <div className="champion-box">
-            <div className="container">
-              <div className="card front" style={{backgroundImage: 'url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zed_0.jpg)'}}>
-              </div>
-              <div className="card back">
-                Test asdfasdfasdfasdf
-              </div>
-            </div>
+            {champ ? (
+              champ.map((e, i) => (
+                <div className="container" key={`champion_card_${i}`}>
+                  <div
+                    className="card front"
+                    style={{
+                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.origin}_0.jpg)`,
+                    }}
+                  ></div>
+                  <div className="card back">
+                    <div className="name">{e.name}</div>
+                    <p className="tags">{e.tags}</p>
+                    <p className="tips">{e.allytips}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <LoadingComponent />
+            )}
           </div>
         </S.ChampionCard>
         <S.FamousCard>
