@@ -2,7 +2,7 @@ package com.ssafy.dksl.model.repository;
 
 import com.ssafy.dksl.config.JpaAuditingConfig;
 import com.ssafy.dksl.model.entity.Evaluation;
-import com.ssafy.dksl.model.entity.User;
+import com.ssafy.dksl.model.entity.Member;
 import jakarta.persistence.EntityManager;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.groups.Tuple;
@@ -44,11 +44,11 @@ class EvaluationRepositoryTest {
     @Test
     void findAllByEvaluatee() throws InterruptedException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        List<User> evaluators = new ArrayList<>();
+        List<Member> evaluators = new ArrayList<>();
         for(int i = 0; i<5; i++){
-            evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
+            evaluators.add(createMember("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
         memberRepository.save(evaluatee);
@@ -93,11 +93,11 @@ class EvaluationRepositoryTest {
     @Test
     void findAverageOfEvaluation() throws InterruptedException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        List<User> evaluators = new ArrayList<>();
+        List<Member> evaluators = new ArrayList<>();
         for(int i = 0; i<5; i++){
-            evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
+            evaluators.add(createMember("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
         memberRepository.save(evaluatee);
@@ -119,11 +119,11 @@ class EvaluationRepositoryTest {
     @Test
     void findAverageOfEvaluationWithoutEvaluation() throws InterruptedException {
         // given
-        User evaluatee = createUser("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
+        Member evaluatee = createMember("testEvaluatee", "testEvaluateePassword", "testEvaluateePUUID", "testEvaluateeName");
 
-        List<User> evaluators = new ArrayList<>();
+        List<Member> evaluators = new ArrayList<>();
         for(int i = 0; i<5; i++){
-            evaluators.add(createUser("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
+            evaluators.add(createMember("testEvaluator" + i, "testEvaluatorPassword" + i, "testEvaluatorPUUID" + i, "testEvaluatorName" + i));
         }
 
         memberRepository.save(evaluatee);
@@ -136,7 +136,7 @@ class EvaluationRepositoryTest {
         Assertions.assertThat(average).isEqualTo(0.0f);
     }
 
-    private Evaluation createEvaluation(User evaluatee, User evaluator, int i, int score) {
+    private Evaluation createEvaluation(Member evaluatee, Member evaluator, int i, int score) {
         return Evaluation.builder()
                 .evaluatee(evaluatee)
                 .evaluation("testEvaluation" + i)
@@ -145,8 +145,8 @@ class EvaluationRepositoryTest {
                 .build();
     }
 
-    private User createUser(String clientId, String password, String puuid, String name) {
-        return User.builder()
+    private Member createMember(String clientId, String password, String puuid, String name) {
+        return Member.builder()
                 .clientId(clientId)
                 .password(password)
                 .puuid(puuid)
