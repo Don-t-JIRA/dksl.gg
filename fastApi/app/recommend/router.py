@@ -178,17 +178,49 @@ def get_recommend_list(
     for i in range(len(ans[0][0])):
         dict['champ' + str(i)] = ans[0][0][i]
 
-    if mode_value==0:
-        name = '맞으면서 때린다'
-    elif mode_value==1:
-        name = '날렵한 격투가'
-    else:
-        name = '딜링머신'
-
     dict['celeb'] = ans[0][1]
     dict['minion_avg'] = minion_avg
     dict['cluster_no'] = str(result)
-    dict['name'] = name
+
+    if mode_value == 0:
+        dict['name'] = '맞으면서 때린다'
+        dict['챔피언 레벨'] = '3'
+        dict['솔로킬'] = '1'
+        dict['dpm'] = '1'
+        dict['받은 피해'] = '3'
+        dict['kda'] = '3'
+        dict['10분 미니언'] = '0'
+        dict['챔피언 딜량'] = '1'
+        dict['시야 점수'] = '4'
+        dict['핑크와드 구매'] = '4'
+        dict['분 당 어시'] = '4'
+    elif mode_value == 1:
+        dict['name'] = '날렵한 격투가'
+        dict['챔피언 레벨'] = '3'
+        dict['솔로킬'] = '3'
+        dict['dpm'] = '3'
+        dict['받은 피해'] = '1'
+        dict['kda'] = '2'
+        dict['10분 미니언'] = '4'
+        dict['챔피언 딜량'] = '3'
+        dict['시야 점수'] = '1'
+        dict['핑크와드 구매'] = '2'
+        dict['분 당 어시'] = '3'
+    elif mode_value == 2:
+        dict['name'] = '딜링머신'
+        dict['챔피언 레벨'] = '4'
+        dict['솔로킬'] = '5'
+        dict['dpm'] = '4'
+        dict['받은 피해'] = '3'
+        dict['kda'] = '3'
+        dict['10분 미니언'] = '4'
+        dict['챔피언 딜량'] = '4'
+        dict['시야 점수'] = '2'
+        dict['핑크와드 구매'] = '2'
+        dict['분 당 어시'] = '1'
+    else:
+        pass
+
     len(ans[0][0])
 
     return dict
