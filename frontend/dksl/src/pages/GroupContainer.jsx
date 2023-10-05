@@ -128,20 +128,27 @@ const GroupContainer = () => {
         }
 
         const data = await setNewGroup(formData);
-
+        console.log(data);
+        if (data) {
+          Swal.fire({
+            title: '요청 성공',
+            text: '소속 생성이 요청되었습니다.',
+            iconColor: 'var(--maincolor-depth1)',
+            icon: 'success',
+            confirmButtonColor: 'var(--maincolor-depth1)',
+            confirmButtonText: '확인',
+          });
+        } else {
+          Swal.fire({
+            title: '요청 실패',
+            text: '소속 생성이 잘못되었습니다.',
+            icon: 'error',
+            confirmButtonColor: 'var(--maincolor-depth1)',
+            confirmButtonText: '확인',
+          });
+        }
         return data;
       },
-    }).then((res) => {
-      if (res.value) {
-        Swal.fire({
-          title: '요청 성공',
-          text: '소속 생성이 요청되었습니다.',
-          iconColor: 'var(--maincolor-depth1)',
-          icon: 'success',
-          confirmButtonColor: 'var(--maincolor-depth1)',
-          confirmButtonText: '확인',
-        });
-      }
     });
   }, []);
 

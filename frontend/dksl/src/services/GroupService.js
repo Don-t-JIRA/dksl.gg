@@ -21,6 +21,8 @@ const setNewGroup = async (formData) => {
       },
     });
 
+    if (response.status != 200) return null;
+
     return response;
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
