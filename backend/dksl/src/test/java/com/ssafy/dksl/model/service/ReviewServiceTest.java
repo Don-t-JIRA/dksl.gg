@@ -1,5 +1,6 @@
 package com.ssafy.dksl.model.service;
 
+import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.util.exception.NonExistReviewException;
 import com.ssafy.dksl.util.exception.UserNotExistException;
 import com.ssafy.dksl.model.dto.response.ReviewSearchResponseDto;
@@ -9,7 +10,6 @@ import com.ssafy.dksl.model.dto.request.ReviewUpdateRequestDto;
 import com.ssafy.dksl.model.dto.response.ReviewDeleteResponseDto;
 import com.ssafy.dksl.model.dto.response.ReviewUpdateResponseDto;
 import com.ssafy.dksl.model.entity.Review;
-import com.ssafy.dksl.model.entity.User;
 import com.ssafy.dksl.model.repository.ReviewRepository;
 import com.ssafy.dksl.model.repository.MemberRepository;
 import jakarta.persistence.EntityManager;
@@ -48,12 +48,12 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
 
-        User savedUser = memberRepository.save(user);
+        Member savedMember = memberRepository.save(member);
 
         for(int i = 0; i< 40; i++) {
-            reviewRepository.save(createReview("testContent" + i, matchId, savedUser));
+            reviewRepository.save(createReview("testContent" + i, matchId, savedMember));
             Thread.sleep(1);
         }
 
@@ -77,8 +77,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = memberRepository.save(user);
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
+        Member savedUser = memberRepository.save(member);
 
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .clientId(savedUser.getClientId())
@@ -101,8 +101,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        Member member = createUser("existedClientId", "testPassword", "testName", "testPUUID");
-        memberRepository.save(user);
+        Member member = createMember("existedClientId", "testPassword", "testName", "testPUUID");
+        memberRepository.save(member);
 
         ReviewSaveRequestDto requestDto = ReviewSaveRequestDto.builder()
                 .clientId("nonExistedClientId")
@@ -121,8 +121,8 @@ class ReviewServiceTest {
     void updateReview() throws NonExistReviewException {
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = memberRepository.save(user);
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
+        Member savedUser = memberRepository.save(member);
 
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
@@ -154,8 +154,8 @@ class ReviewServiceTest {
     void updateNonExistReview() {
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = memberRepository.save(user);
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
+        Member savedUser = memberRepository.save(member);
 
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
@@ -182,8 +182,8 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = memberRepository.save(user);
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
+        Member savedUser = memberRepository.save(member);
 
         Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
 
@@ -214,10 +214,10 @@ class ReviewServiceTest {
         // given
         String matchId = "KR_66990325";
 
-        Member member = createUser("testClientId", "testPassword", "testName", "testPUUID");
-        User savedUser = memberRepository.save(user);
+        Member member = createMember("testClientId", "testPassword", "testName", "testPUUID");
+        Member savedMember = memberRepository.save(member);
 
-        Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedUser));
+        Review savedReview = reviewRepository.save(createReview("testContent", matchId, savedMember));
 
         Long nonExistReviewId = savedReview.getId() + 1L;
 
@@ -231,8 +231,8 @@ class ReviewServiceTest {
                 .hasMessage("존재하지 않는 댓글입니다.");
     }
 
-    private User createUser(String clientId, String password, String name, String puuid) {
-        return User.builder()
+    private Member createMember(String clientId, String password, String name, String puuid) {
+        return Member.builder()
                 .clientId(clientId)
                 .password(password)
                 .name(name)
@@ -240,9 +240,9 @@ class ReviewServiceTest {
                 .build();
     }
 
-    private Review createReview(String testContent, String matchId, User savedUser) {
+    private Review createReview(String testContent, String matchId, Member savedMember) {
         return Review.builder()
-                .member(savedUser)
+                .member(savedMember)
                 .matchId(matchId)
                 .content(testContent)
                 .deletedAt(null)
