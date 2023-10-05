@@ -12,114 +12,22 @@ router = APIRouter()
 
 
 @router.get("")
-def get_my_lol_profile(
-    summoner_name: str,
-    db_session=Depends(get_db),
-):
-    """
-    1. LOL_PROFILES, CURRENT_SEASON_SUMMARIES
-    2. MOST CHAMP 3개 가져오고
-    3. MOST LINE 3개 가져오기
-    4. Merge
+def get_challengers():
+    riot_api = RiotApiController(summoner_name="톰 클랜시")
 
+    challengers = riot_api.get_challengers_info()
 
-    summonerName: string;
-    tierName: string;
-    rank: number;
-    winRate: number;
-    wins: number;
-    loses: number;
-    champions: {img: string, win_rate: number, kda: number}[];
-    positions: {img: string, win_rate: number, kda: number}[];
-    """
+    # 'entries' 키를 사용하여 항목들에 접근
+    entries = challengers.get("entries", [])
 
-    # 1번 쿼리
-    query = """
-            SELECT LP.summoner_name, LP.profile_icon_id, T.name_en as tier_name, CSS.queue_id, CSS.rank , CSS.wins, CSS.losses, CSS.puu_id as current_season_summary_id, CSS.queue_id as queue_id FROM LOL_PROFILES U
-              LEFT OUTER JOIN LOL_PROFILES LP
-                ON U.puu_id = LP.puu_id
-              LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
-                ON CSS.puu_id = LP.puu_id
-              LEFT OUTER JOIN TIERS T
-                ON T.name_en = CSS.tier_name
-             WHERE LP.summoner_name = %(summoner_name)s
-             ;
-        """
+    # 'leaguePoints'를 기준으로 내림차순 정렬
+    sorted_challengers = sorted(entries, key=lambda x: int(x["leaguePoints"]), reverse=True)
 
-    summoner_info = exec_query(db_session, query, input_params={"summoner_name": summoner_name})
-    current_season_summary_id = summoner_info[0]['current_season_summary_id']
+    # 상위 30개 항목 선택
+    top_30_challengers = sorted_challengers[:30]
 
-    query_2 = f"""
-        SELECT MCS.*, C.image_url as image_url, CSS.queue_id as queue_id
-          FROM MOST_CHAMPION_SUMMARIES MCS
-          LEFT OUTER JOIN CHAMPIONS C
-            ON C.name_en = MCS.champion_name
-          LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
-            ON CSS.puu_id = MCS.current_season_summary_id
-        WHERE MCS.current_season_summary_id = '{current_season_summary_id}';
-    """
+    # 'leaguePoints'와 'summonerName'만 추출
+    result = [{"summonerName": entry["summonerName"], "leaguePoints": int(entry["leaguePoints"])} for entry in top_30_challengers]
 
-    most_champs = exec_query(db_session, query_2)
+    return result
 
-    most_champs = list(
-        map(
-            lambda item: {
-                "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
-                "win_rate": item.get("win_rate", 0),
-                "kda": item.get("kda", 0),
-                "champion_name": item.get("champion_name"),
-            },
-            most_champs,
-        )
-    )
-
-    query_3 = f"""
-        SELECT MLS.*, L.image_url as image_url, CSS.queue_id as queue_id, L.name as line_name
-          FROM MOST_LINE_SUMMARIES MLS
-          LEFT OUTER JOIN `LINES` L
-            ON L.name = MLS.line_name
-          LEFT OUTER JOIN CURRENT_SEASON_SUMMARIES CSS
-            ON CSS.puu_id = MLS.current_season_summary_id
-         WHERE MLS.current_season_summary_id in ('{current_season_summary_id}')
-
-         ;
-    """
-    most_lines = exec_query(db_session, query_3)
-
-    most_lines = list(
-        map(
-            lambda item: {
-                "queue_id": item.get("queue_id"),
-                "img": item.get("image_url"),
-                "win_rate": item.get("win_rate", 0),
-                "kda": item.get("kda", 0),
-                "line": item.get("line_name", "NONE"),
-            },
-            most_lines,
-        )
-    )
-
-    ret = []
-
-    for info in summoner_info:
-        champs = list(
-            filter(
-                lambda item: item.get("queue_id") == info.get("queue_id"), most_champs
-            )
-        )
-        lines = list(
-            filter(
-                lambda item: item.get("queue_id") == info.get("queue_id"), most_lines
-            )
-        )
-
-        ret.append(
-            {
-                **info,
-                "champions": champs,
-                "positions": lines,
-            }
-        )
-
-    return ret
