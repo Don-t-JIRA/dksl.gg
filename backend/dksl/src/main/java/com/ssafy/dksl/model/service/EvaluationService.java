@@ -33,7 +33,7 @@ public class EvaluationService {
     public EvaluationSearchInfoResponseDto findEvaluations(String summonerName, int page) throws NoEvaluationException {
         List<Evaluation> findEvaluations = evaluationRepository.findAllByEvaluateeSummonerName(summonerName, PageRequest.of(page - 1, 10));
 
-        float average = evaluationRepository.findAverageOfEvaluation(summonerName).orElseThrow(() -> new NoEvaluationException("아직 등록된 댓글이 없습니다."));
+        float average = evaluationRepository.findAverageOfEvaluation(summonerName).orElse(0f);
 
         List<EvaluationSearchResponseDto> evaluationList = findEvaluations.stream().map(evaluation -> evaluation.to()).collect(Collectors.toList());
 
