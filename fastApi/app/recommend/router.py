@@ -106,6 +106,8 @@ def get_recommend_list(
     ans = []
     dict = {}
 
+    minion_ave = None
+
     min_max_scaler = MinMaxScaler()
 
     class CustomPreprocessor(BaseEstimator, TransformerMixin):
@@ -136,6 +138,8 @@ def get_recommend_list(
             X = X[X["assists_per_minutes"] > 0]
 
             X.drop(['Assists', 'min'], axis=1, inplace=True)
+
+            minion_ave = X['LaneMinions10Min'].sum() / 20
 
             return X
 
@@ -172,5 +176,8 @@ def get_recommend_list(
         dict['champ' + str(i)] = ans[0][0][i]
 
     dict['celeb'] = ans[0][1]
+    dict['minion_ave'] = minion_ave
+    dict['cluster'] = mode_value
+    len(ans[0][0])
 
     return dict

@@ -79,5 +79,7 @@ class RiotApiController:
     def get_match_info_by_id(self, match_id: str):
         return self.lol_watcher.match.by_id(region=self.my_region, match_id=match_id)
 
+    def get_challengers_info(self):
+        return LolWatcher.league.challenger_by_queue(self.my_region, "RANKED_SOLO_5x5")
 
 riot_api = RiotApiController("Hide on bush")
