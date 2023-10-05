@@ -11,6 +11,9 @@ import lombok.Getter;
 public class TeamResponse {
     @NotNull
     private String name;
+    @NotNull
+    private long memberCount;
+    @NotNull
     private String description;
     @JsonProperty(value = "img")
     private byte[] imgByteArray;

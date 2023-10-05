@@ -55,7 +55,7 @@ const SearchComponent = () => {
         <p className="title">
           &#128161; 나의 <b>롤BTI</b>는 무엇일까?
         </p>
-        <button className="btn" onClick={() => onSearch('noname')}>
+        <button className="btn" onClick={() => navigate('/lbti/main')}>
           검사하기
         </button>
       </S.TaggingContainer>

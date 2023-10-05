@@ -16,6 +16,7 @@ import {
   setNewGroup,
   searchGroup,
   groupDetail,
+  joinGroup,
 } from '../services/GroupService';
 import { useAuth } from '../jotai/auth';
 
@@ -152,6 +153,34 @@ const GroupContainer = () => {
     });
   }, []);
 
+  const onJoinGroup = async () => {
+    Swal.fire({
+      icon: 'info',
+      title: `${detailList.name}에 가입하시겠습니까?`,
+      showDenyButton: true,
+      confirmButtonText: '확인',
+      denyButtonText: `취소`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const data = await joinGroup(detailList.name);
+
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            title: `${detailList.name}에 가입되셨습니다.`,
+
+          }).then(() => {
+            location.reload();
+          })
+        } else {
+          Swal.fire('가입을 실패했습니다.', '', 'error');
+        }
+      } else if (result.isDenied) {
+        Swal.fire('가입이 취소 되었습니다.', '', 'info');
+      }
+    })
+  };
+
   return path == '/group/main' ? (
     <>
       <HeaderComponent />
@@ -169,6 +198,7 @@ const GroupContainer = () => {
         auth={auth}
         detailList={detailList}
         getByteToImage={getByteToImage}
+        onJoinGroup={onJoinGroup}
       />
     </>
   ) : (

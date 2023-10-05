@@ -1,7 +1,7 @@
 // Styled
 import * as S from '@/styles/group/detail.style';
 
-const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
+const GroupDetailComponent = ({ detailList, getByteToImage, auth, onJoinGroup }) => {
   return (
     <S.DetailLayout>
       <S.DetailContainer>
@@ -53,7 +53,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth }) => {
                   이미 가입되셨습니다.
                 </button>
               ) : (
-                <button className="group-join">이 소속에 가입하기</button>
+                <button className="group-join" onClick={onJoinGroup}>이 소속에 가입하기</button>
               )
             ) : (
               <button className="group-join" disabled>
