@@ -167,6 +167,7 @@ const RecordContainer = () => {
         leaveTeam={leaveTeam}
         getByteToImage={getByteToImage}
         fetchChampData={fetchChampData}
+        searchSummonerName={summoner}
         // lbti={lbti}
       />
     </>
