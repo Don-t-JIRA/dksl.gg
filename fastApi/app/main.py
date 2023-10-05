@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 from fastapi import Depends, FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from requests import Session
 from sqlalchemy import select
 
@@ -24,6 +25,19 @@ Base.metadata.create_all(bind=engine)
 app.include_router(match_history_router, prefix="/match-histories", tags=["유저 매치 히스토리"])
 app.include_router(recommend_router, prefix="/recommend", tags=["추천 시스템"])
 app.include_router(challenger_router, prefix="/challengers", tags=["챌린저 목록"])
+
+origins = [
+    "http://127.0.0.1:3000"
+    "https://j9a703.p.ssafy.io"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root(request: Request):
