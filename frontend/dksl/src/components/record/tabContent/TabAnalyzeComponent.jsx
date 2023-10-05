@@ -45,28 +45,43 @@ const TabAnalyzeComponent = () => {
   useEffect(() => {
     const arr = ['Zed', 'Aatrox', 'Yasuo'];
 
-    arr.forEach(async e => {
-      const data = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${e}.json`);
-      console.log(data.data);
-      const obj = {
-        en_name: e,
-        name: data.data.data[e].name,
-        title: data.data.data[e].title,
-        tags: data.data.data[e].tags,
-        tips: data.data.data[e].allytips,
-      };
-      if (champ)
-        setChamp(...champ, [obj]);
-      else 
-        setChamp([obj]);
-    })
-  }, []);
+    const fetchData = async (championName) => {
+      try {
+        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`);
+        const data = response.data.data[championName];
+        return {
+          en_name: championName,
+          name: data.name,
+          title: data.title,
+          tags: data.tags,
+          tips: data.allytips,
+        };
+      } catch (error) {
+        console.error('데이터 가져오기 실패:', error);
+        return null;
+      }
+    };
 
-  useEffect(() => {
+    const fetchChampionData = async () => {
+      const newArr = [];
 
-  }, [champ])
+      for (const championName of arr) {
+        const championData = await fetchData(championName);
+        if (championData) {
+          newArr.push(championData);
+        }
+      }
 
-  return (
+      setChamp(newArr);
+    };
+
+    // champ가 null일 때만 데이터 가져오기
+    if (champ === null) {
+      fetchChampionData();
+    }
+  }, [champ]);
+
+  return ( 
     <S.TabAnalyzeLayout>
       <S.LeftLayout>
         <S.AnalyzeCard>
@@ -155,13 +170,16 @@ const TabAnalyzeComponent = () => {
                   <div
                     className="card front"
                     style={{
-                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.origin}_0.jpg)`,
+                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.en_name}_0.jpg)`,
                     }}
                   ></div>
                   <div className="card back">
                     <div className="name">{e.name}</div>
-                    <p className="tags">{e.tags}</p>
-                    <p className="tips">{e.allytips}</p>
+                    <p className="tags">{e.tags.map((v, j) => {
+                      if (j == e.tags.length - 1) return v;
+                      else return v+', ';
+                    })}</p>
+                    <p className="tips">{e.tips[Math.floor(Math.random() * e.tips.length)]}</p>
                   </div>
                 </div>
               ))
