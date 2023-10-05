@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ReviewSearchResponseDto {
+    private Long id;
     private LocalDateTime createdAt;
-    private String clientId;
+    private String summonerName;
     private String matchId;
     private String content;
 }
