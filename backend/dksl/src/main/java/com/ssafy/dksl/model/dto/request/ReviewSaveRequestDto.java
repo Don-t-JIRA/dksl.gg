@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ReviewSaveRequestDto {
-    private String clientId;
+    private String summonerName;
     private String matchId;
     private String content;
 }

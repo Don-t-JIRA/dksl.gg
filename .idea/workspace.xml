@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="705f0321-61dc-4b77-9b9f-d4bd9c342284" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fastApi/app/alembic/env.py" beforeDir="false" afterPath="$PROJECT_DIR$/fastApi/app/alembic/env.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fastApi/app/common/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/fastApi/app/common/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fastApi/scripts/run_local.sh" beforeDir="false" afterPath="$PROJECT_DIR$/fastApi/scripts/run_local.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/components/record/tabContent/TabAnalyzeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/components/record/tabContent/TabAnalyzeComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/components/record/tabContent/TabGroupComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/components/record/tabContent/TabGroupComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/components/user/SignupComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/components/user/SignupComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/jotai/group.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/jotai/group.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/pages/GroupContainer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/pages/GroupContainer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/dksl/src/services/GroupService.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/src/services/GroupService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/dksl/Jenkinsfile" beforeDir="false" afterPath="$PROJECT_DIR$/backend/dksl/Jenkinsfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,9 +110,7 @@
       <workItem from="1695776765053" duration="540000" />
       <workItem from="1695777318706" duration="212000" />
       <workItem from="1695777542998" duration="3708000" />
-      <workItem from="1696378673951" duration="18250000" />
-      <workItem from="1696486514177" duration="2063000" />
-      <workItem from="1696493333947" duration="495000" />
+      <workItem from="1696378673951" duration="20628000" />
     </task>
     <servers />
   </component>
