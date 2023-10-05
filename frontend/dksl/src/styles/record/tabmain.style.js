@@ -500,8 +500,9 @@ export const TeamDetail = styled.div`
 
   & .detail-body {
     width: 94%;
-    height: 19.5%;
+    height: 38.14px;
     display: flex;
+    align-items: center;
     margin: 0 3%;
     border-bottom: 1px solid #dfdfdf;
 
@@ -536,9 +537,20 @@ export const TeamDetail = styled.div`
       }
 
       & .summoner {
+        flex-basis: 50%;
         & p {
           margin: 0;
           font-size: xx-small;
+        }
+
+        & .name {
+          width: 100%;
+          b {
+            width: 100%;
+            height: 11px;
+            display: block;
+            overflow: hidden;
+          }
         }
       }
     }
