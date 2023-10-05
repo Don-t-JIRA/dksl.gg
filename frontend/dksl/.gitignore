@@ -31,6 +31,11 @@ dist-ssr
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+<<<<<<< HEAD
 *.yaml
 
 .env
+=======
+
+pnpm-lock.yaml
+>>>>>>> 87db40cca3b6e2dfba80485f14b75742037c7555

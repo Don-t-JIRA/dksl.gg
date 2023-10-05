@@ -16,6 +16,7 @@ import {
   setNewGroup,
   searchGroup,
   groupDetail,
+  joinGroup,
 } from '../services/GroupService';
 import { useAuth } from '../jotai/auth';
 
@@ -31,12 +32,12 @@ const GroupContainer = () => {
   useEffect(() => {
     const fetchAllGroupData = async () => {
       const data = await getGroupList();
-        setTeamList((prevTeamList) => {
-          if (prevTeamList === data) {
-            return prevTeamList;
-          }
-          return data;
-        })
+      setTeamList((prevTeamList) => {
+        if (prevTeamList === data) {
+          return prevTeamList;
+        }
+        return data;
+      });
     };
 
     const fetchDetailGroupData = async (name) => {
@@ -82,27 +83,24 @@ const GroupContainer = () => {
     return URL.createObjectURL(img);
   }, []);
 
-  const onSearch = useCallback(
-    async (word) => {
-      const data = await searchGroup(word);
+  const onSearch = useCallback(async (word) => {
+    const data = await searchGroup(word);
 
-      if (data.status == 200) {
-        Swal.fire({
-          title: '검색 완료',
-          text: '검색 요청이 완료되었습니다.',
-          icon: 'success',
-          iconColor: '#6E8387',
-          confirmButtonColor: '#6E8387',
-          confirmButtonText: '확인',
-        });
-        setTeamList({
-          ...teamList,
-          teamList: data.data,
-        });
-      }
-    },
-    []
-  );
+    if (data.status == 200) {
+      Swal.fire({
+        title: '검색 완료',
+        text: '검색 요청이 완료되었습니다.',
+        icon: 'success',
+        iconColor: '#6E8387',
+        confirmButtonColor: '#6E8387',
+        confirmButtonText: '확인',
+      });
+      setTeamList({
+        ...teamList,
+        teamList: data.data,
+      });
+    }
+  }, []);
 
   const getNewGroup = useCallback(() => {
     MySWal.fire({
@@ -160,6 +158,33 @@ const GroupContainer = () => {
     });
   }, []);
 
+  const onJoinGroup = async () => {
+    Swal.fire({
+      icon: 'info',
+      title: `${detailList.name}에 가입하시겠습니까?`,
+      showDenyButton: true,
+      confirmButtonText: '확인',
+      denyButtonText: `취소`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const data = await joinGroup(detailList.name);
+
+        if (data === true) {
+          Swal.fire({
+            icon: 'success',
+            title: `${detailList.name}에 가입되셨습니다.`,
+          }).then(() => {
+            location.reload();
+          });
+        } else {
+          Swal.fire('가입을 실패했습니다.', '', 'error');
+        }
+      } else if (result.isDenied) {
+        Swal.fire('가입이 취소 되었습니다.', '', 'info');
+      }
+    });
+  };
+
   return path == '/group/main' ? (
     <>
       <HeaderComponent />
@@ -177,6 +202,7 @@ const GroupContainer = () => {
         auth={auth}
         detailList={detailList}
         getByteToImage={getByteToImage}
+        onJoinGroup={onJoinGroup}
       />
     </>
   ) : (

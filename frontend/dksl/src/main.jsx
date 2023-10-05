@@ -12,8 +12,10 @@ import MainContainer from './pages/MainContainer.jsx';
 import UserContainer from './pages/UserContainer.jsx';
 import RecordContainer from './pages/RecordContainer.jsx';
 import GroupContainer from './pages/GroupContainer.jsx';
+import LbtiContainer from './pages/LbtiContainer.jsx';
 import LoadingComponent from './components/common/LoadingComponent.jsx';
 import NotFound from './components/common/NotFound.jsx';
+import ArenaContainer from './pages/ArenaContainer.jsx';     
 // Styled
 import GlobalStyles from './styles/globalStyles.style.js';
 
@@ -23,7 +25,10 @@ const router = createBrowserRouter([
   { path: '/user/:type', element: <UserContainer /> },
   { path: '/record/:summoner', element: <RecordContainer /> },
   { path: '/group/:type', element: <GroupContainer /> },
+  { path: '/lbti/:type', element: <LbtiContainer /> },
   { path: '*', element: <NotFound /> },
+  { path: '/test', element: <TestContainer /> },
+  { path: '/arena/:matchId', element: <ArenaContainer /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
