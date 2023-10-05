@@ -14,6 +14,7 @@ from app.database import get_db
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+from app.recommend.celebrity_data import celebrity_data
 
 router = APIRouter()
 
@@ -93,21 +94,17 @@ def get_recommend_list(
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
 
-    print(df_train)
-
     Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
     Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
     Cluster2 = ["Ezreal", "Xerath", "Zed", "Darius", "Olaf", "Talon", "LeBlanc",
                 "Kennen", "Warwick", 'Khazix']
 
     celebrity0 = ['Insec', "oyo", "destiny", "Zeus", "Kingen"]
-    celebrity1 = ['Thal', 'paka', 'Irelking', "Rich", "Kanavi"]
+    celebrity1 = ['Thal', 'paka', 'Irelking', "Soondangmoo", "Kanavi"]
     celebrity2 = ['The Shy', "Pz_zzang", 'Baekk', "Showmaker", "Ruler"]
 
     ans = []
     dict = {}
-
-    min_max_scaler = MinMaxScaler()
 
     class CustomPreprocessor(BaseEstimator, TransformerMixin):
 
@@ -158,8 +155,6 @@ def get_recommend_list(
 
     mode_value = statistics.mode(cluster_labels)
 
-    print(minion_avg)
-
     def cluster_result(value):
         if value == 0:
             ans.append((random.sample(Cluster0, 3), random.choice(celebrity0)))
@@ -178,7 +173,12 @@ def get_recommend_list(
     for i in range(len(ans[0][0])):
         dict['champ' + str(i)] = ans[0][0][i]
 
+    celeb_data = celebrity_data[ans[0][1]]
+
     dict['celeb'] = ans[0][1]
+    dict['line'] = celeb_data['line']
+    dict['desc'] = celeb_data['desc']
+    dict['url'] = celeb_data['url']
     dict['minion_avg'] = minion_avg
     dict['cluster_no'] = str(result)
 
