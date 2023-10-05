@@ -30,7 +30,10 @@ const GroupContainer = () => {
 
   useEffect(() => {
     const fetchAllGroupData = async () => {
-      setTeamList(await getGroupList());
+      const data = await getGroupList();
+      if (teamList == null || data != teamList) {
+        setTeamList(data);
+      }
     };
 
     const fetchDetailGroupData = async (name) => {
