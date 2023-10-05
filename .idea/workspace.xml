@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="705f0321-61dc-4b77-9b9f-d4bd9c342284" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/dksl/front.conf" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/dksl/front.conf" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,12 +80,15 @@
       <workItem from="1695776765053" duration="540000" />
       <workItem from="1695777318706" duration="212000" />
       <workItem from="1695777542998" duration="3708000" />
-      <workItem from="1696378673951" duration="16786000" />
+      <workItem from="1696378673951" duration="18159000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.conf" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
