@@ -1,9 +1,12 @@
 import * as S from '@/styles/arena/arena.style';
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
+import { common, auth } from '../../services/api.js';
 
 const TimelineComponent = () => {
     const [isDotHovered, setIsDotHovered] = useState([false, false, false, false, false, false, false, false, false, false, false]);
     let summonerNameChampionNameMap = new Map();
+    const matchId = useParams();
 
     const [reviews, setReviews] = useState([
         {
@@ -152,153 +155,155 @@ const TimelineComponent = () => {
     //     console.log(timelineInfo.championNames)
     // }
 
-    useEffect(() => {
+    useEffect(async () => {
         // timeline axios response
-        let timelineResponse = {
-            matchId: "KR_6725750646",
-            championNames: [
-                "Pantheon",
-                "Karthus",
-                "Jayce",
-                "Draven",
-                "Thresh",
-                "Gwen",
-                "Belveth",
-                "Tristana",
-                "Jhin",
-                "FiddleSticks"
-            ],
-            summonerNames: [
-                "name1",
-                "name2",
-                "name3",
-                "name4",
-                "name5",
-                "name6",
-                "name7",
-                "name8",
-                "name9",
-                "name10"
-            ],
-            timelines: [
-                {
-                    minute: 2,
-                    second: 35,
-                    killerId: 4,
-                    killedId: 9,
-                    x: 13170,
-                    y: 3876
-                },
-                {
-                    minute: 2,
-                    second: 40,
-                    killerId: 7,
-                    killedId: 2,
-                    x: 6684,
-                    y: 4437
-                },
-                {
-                    "minute": 3,
-                    "second": 55,
-                    "killerId": 7,
-                    "killedId": 5,
-                    "x": 8057,
-                    "y": 5813
-                },
-                {
-                    "minute": 4,
-                    "second": 7,
-                    "killerId": 7,
-                    "killedId": 3,
-                    "x": 6267,
-                    "y": 6256
-                },
-                {
-                    "minute": 4,
-                    "second": 9,
-                    "killerId": 3,
-                    "killedId": 7,
-                    "x": 6954,
-                    "y": 6351
-                },
-                {
-                    "minute": 5,
-                    "second": 4,
-                    "killerId": 8,
-                    "killedId": 3,
-                    "x": 5693,
-                    "y": 6494
-                },
-                {
-                    "minute": 5,
-                    "second": 7,
-                    "killerId": 3,
-                    "killedId": 8,
-                    "x": 6913,
-                    "y": 6948
-                },
-                {
-                    "minute": 7,
-                    "second": 39,
-                    "killerId": 5,
-                    "killedId": 8,
-                    "x": 8601,
-                    "y": 7637
-                },
-                {
-                    "minute": 8,
-                    "second": 10,
-                    "killerId": 4,
-                    "killedId": 9,
-                    "x": 13347,
-                    "y": 3893
-                },
-                {
-                    "minute": 8,
-                    "second": 22,
-                    "killerId": 4,
-                    "killedId": 10,
-                    "x": 12346,
-                    "y": 3281
-                },
-                {
-                    "minute": 8,
-                    "second": 28,
-                    "killerId": 5,
-                    "killedId": 7,
-                    "x": 13214,
-                    "y": 3238
-                }
-            ]
-        }
+        // let timelineResponse = {
+        //     matchId: "KR_6725750646",
+        //     championNames: [
+        //         "Pantheon",
+        //         "Karthus",
+        //         "Jayce",
+        //         "Draven",
+        //         "Thresh",
+        //         "Gwen",
+        //         "Belveth",
+        //         "Tristana",
+        //         "Jhin",
+        //         "FiddleSticks"
+        //     ],
+        //     summonerNames: [
+        //         "name1",
+        //         "name2",
+        //         "name3",
+        //         "name4",
+        //         "name5",
+        //         "name6",
+        //         "name7",
+        //         "name8",
+        //         "name9",
+        //         "name10"
+        //     ],
+        //     timelines: [
+        //         {
+        //             minute: 2,
+        //             second: 35,
+        //             killerId: 4,
+        //             killedId: 9,
+        //             x: 13170,
+        //             y: 3876
+        //         },
+        //         {
+        //             minute: 2,
+        //             second: 40,
+        //             killerId: 7,
+        //             killedId: 2,
+        //             x: 6684,
+        //             y: 4437
+        //         },
+        //         {
+        //             "minute": 3,
+        //             "second": 55,
+        //             "killerId": 7,
+        //             "killedId": 5,
+        //             "x": 8057,
+        //             "y": 5813
+        //         },
+        //         {
+        //             "minute": 4,
+        //             "second": 7,
+        //             "killerId": 7,
+        //             "killedId": 3,
+        //             "x": 6267,
+        //             "y": 6256
+        //         },
+        //         {
+        //             "minute": 4,
+        //             "second": 9,
+        //             "killerId": 3,
+        //             "killedId": 7,
+        //             "x": 6954,
+        //             "y": 6351
+        //         },
+        //         {
+        //             "minute": 5,
+        //             "second": 4,
+        //             "killerId": 8,
+        //             "killedId": 3,
+        //             "x": 5693,
+        //             "y": 6494
+        //         },
+        //         {
+        //             "minute": 5,
+        //             "second": 7,
+        //             "killerId": 3,
+        //             "killedId": 8,
+        //             "x": 6913,
+        //             "y": 6948
+        //         },
+        //         {
+        //             "minute": 7,
+        //             "second": 39,
+        //             "killerId": 5,
+        //             "killedId": 8,
+        //             "x": 8601,
+        //             "y": 7637
+        //         },
+        //         {
+        //             "minute": 8,
+        //             "second": 10,
+        //             "killerId": 4,
+        //             "killedId": 9,
+        //             "x": 13347,
+        //             "y": 3893
+        //         },
+        //         {
+        //             "minute": 8,
+        //             "second": 22,
+        //             "killerId": 4,
+        //             "killedId": 10,
+        //             "x": 12346,
+        //             "y": 3281
+        //         },
+        //         {
+        //             "minute": 8,
+        //             "second": 28,
+        //             "killerId": 5,
+        //             "killedId": 7,
+        //             "x": 13214,
+        //             "y": 3238
+        //         }
+        //     ]
+        // }
+        const timelineResponse = await common.get('/riot/timeline/' + matchId)
 
         // setTimelineInfo
         setTimelineInfo(timelineResponse)
 
         // review axios response
-        let reviewResponse = [
-            {
-                id: 3,
-                createdAt: "2023.10.10",
-                summonerName: "name3",
-                matchId: "KR_0000000000",
-                content: "content3"
-            },
-            {
-                id: 2,
-                createdAt: "2023.10.10",
-                summonerName: "name2",
-                matchId: "KR_0000000000",
-                content: "content2"
-            },
-            {
-                id: 1,
-                createdAt: "2023.10.10",
-                summonerName: "name1",
-                matchId: "KR_0000000000",
-                content: "content1"
-            }
-        ]
+        const reviewResponse = await common.get('/review/' + matchId + "/" + 1)
+        // let reviewResponse = [
+        //     {
+        //         id: 3,
+        //         createdAt: "2023.10.10",
+        //         summonerName: "name3",
+        //         matchId: "KR_0000000000",
+        //         content: "content3"
+        //     },
+        //     {
+        //         id: 2,
+        //         createdAt: "2023.10.10",
+        //         summonerName: "name2",
+        //         matchId: "KR_0000000000",
+        //         content: "content2"
+        //     },
+        //     {
+        //         id: 1,
+        //         createdAt: "2023.10.10",
+        //         summonerName: "name1",
+        //         matchId: "KR_0000000000",
+        //         content: "content1"
+        //     }
+        // ]
         
         // setReviews
         setReviews(reviewResponse)
