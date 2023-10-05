@@ -28,6 +28,10 @@ public class Lbti {
     @Comment("소개")
     private String description;
 
+    @Column(name = "champion_name", nullable = false, columnDefinition = "VARCHAR(20) CHARACTER SET UTF8")
+    @Comment("챔피언 이름")
+    private String championName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "first_tendency_id", nullable = false)
     @Comment("첫번째 단어")
@@ -53,6 +57,7 @@ public class Lbti {
                 .id(this.id)
                 .name(this.name)
                 .description(this.description)
+                .championName(this.championName)
                 .firstTendency(TendencyResponse.builder()
                         .id(this.firstTendency.getId())
                         .name(this.firstTendency.getName())

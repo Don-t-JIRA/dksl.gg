@@ -9,9 +9,11 @@ import LbtiTestComponent from "../components/lbti/LbtiTestComponent";
 import LbtiResultComponent from "../components/lbti/LbtiResultComponent";
 // Service
 import { getQuestionList, getLbti } from '../services/LbtiService';
+import { useAuth } from "../jotai/auth";
 
 const LbtiContainer = () => {
   const navigate = useNavigate();
+  const auth = useAuth();
   const [path, setPath] = useState(null);
   const url = useLocation();
   const [index, setIndex] = useState(0);
@@ -37,7 +39,7 @@ const LbtiContainer = () => {
   }, [lbti]);
 
   const fetchLbtiData  = async () => {
-    setLbti(await getLbti(selectList));
+    setLbti(await getLbti(selectList, (auth)? true:false));
   };
 
 
