@@ -50,6 +50,11 @@ export const ContentItem = styled.div`
   margin-top: 5px;
   margin-bottom: 5px;
 
+  & b {
+    display: inline-block;
+    margin-bottom: 6px;
+  }
+
   & .idx {
     flex-basis: 5%;
     margin-top: 0;
@@ -79,5 +84,6 @@ export const ContentItem = styled.div`
     flex-basis: 25%;
     margin-top: 0;
     margin-bottom: 0;
+    text-align: center;
   }
 `;

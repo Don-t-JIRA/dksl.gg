@@ -68,6 +68,10 @@ button:hover {
   filter: drop-shadow(0 0 .1rem var(--maincolor-depth1));
 }
 
+button:disabled {
+  background-color: var(--maincolor-depth2);
+}
+
 a {
   text-decoration: none;
   color: black;

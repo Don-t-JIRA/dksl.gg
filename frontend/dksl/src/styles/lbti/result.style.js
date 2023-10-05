@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card } from '../globalStyles.style';
+import { Card, Tag } from '../globalStyles.style';
 
 export const LbtiResultLayout = styled.div`
     width: 100%;
@@ -40,14 +40,12 @@ export const ResultContainer = styled.div`
     & .result-content {
         margin-top: 5vh;
     }
+
     & .tag-box {
-        margin-bottom: 5vh;
-        & button {
-            margin-right: 1rem;
-        }
-        & button:last-child {
-            margin-right: 0;
-        }
+      display: flex;
+      justify-content: space-around;
+      margin: 0 0.5rem;
+      margin-bottom: 1rem;
     }
 
     & .description-content {
@@ -56,4 +54,10 @@ export const ResultContainer = styled.div`
         text-align: left;
     }
   }
+`;
+
+export const TagItem = styled.div`
+  ${Tag};
+  background-color: ${(props) => props.$bg};
+  margin-right: 0.5rem;
 `;
