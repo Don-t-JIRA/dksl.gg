@@ -39,6 +39,7 @@ export const ResultContainer = styled.div`
     }
     & .result-content {
         margin-top: 5vh;
+        font-size: 1.3rem;
     }
 
     & .tag-box {
@@ -49,9 +50,11 @@ export const ResultContainer = styled.div`
     }
 
     & .description-content {
-        width: 50%;
+        width: 60%;
         margin-bottom: 5vh;
         text-align: left;
+        white-space: pre-line;
+        line-height: 1.5rem;
     }
   }
 `;
