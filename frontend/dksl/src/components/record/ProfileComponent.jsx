@@ -14,7 +14,7 @@ const ProfileComponent = ({ data }) => {
         <S.ProfileContainer>
           <img
             className="logo"
-            src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${data.profile_icon_id}.png`}
+            src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${data.profile_icon_id}.png`}
           />
           <div className="userBox">
             <div className="title">

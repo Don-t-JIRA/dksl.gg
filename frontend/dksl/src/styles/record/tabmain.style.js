@@ -208,6 +208,7 @@ export const RecentCard = styled.div`
 
     & .most-champ {
       width: 80%;
+      height: 70%;
       display: flex;
       margin-left: auto;
       margin-right: auto;
@@ -225,6 +226,10 @@ export const RecentCard = styled.div`
         margin: 0;
         margin-left: 0.5rem;
       }
+    }
+    & .no-record {
+      padding-top: 1rem;
+      height: 100%;
     }
   }
 
@@ -248,6 +253,10 @@ export const RecentCard = styled.div`
         justify-content: start;
         align-items: center;
       }
+
+      & .no-record {
+        height: 100%;
+      }
     }
   }
 `;
@@ -256,7 +265,7 @@ export const LineGraph = styled.div`
   width: 70%;
   height: 75%;
   display: flex;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
 
   & .gray-area {
     flex-basis: ${(props) => props.$gray}%;
@@ -572,11 +581,12 @@ export const TeamDetail = styled.div`
         margin-right: 3%;
 
         & .text {
+          max-height: 20px;
           display: flex;
-          font-size: xx-small;
           justify-content: space-between;
 
           & p {
+            font-size: 4pt;
             margin: 0;
             margin-top: 0.3rem;
           }

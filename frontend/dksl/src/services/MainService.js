@@ -1,14 +1,24 @@
 // Axios
-import { common, auth } from './api.js';
+import { record } from './api.js';
 
 const getRankData = async () => {
-    try {
-        const response = await common.get('/team/main');
-        if (response.status != 200) new Error('서버 오류');
-        return response.data;
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    const response = await record.get('/challengers');
+    if (response.status != 200) new Error('서버 오류');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-export { getRankData };
+const getGroupRankData = async () => {
+  try {
+    const response = await record.get('/team/main');
+    if (response.status != 200) new Error('서버 오류');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getRankData, getGroupRankData };

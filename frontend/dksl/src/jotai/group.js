@@ -8,9 +8,10 @@ const getGroup = async (name) => {
   if (name == null || name == undefined || typeof name != 'string') {
     return null;
   }
-  console.log(name);
+
   const data = await getSummonerGroup(name);
-  console.log(data);
+
+  if (data == 'NoData') return 'NoData';
   if (data != undefined && data.status == 200) {
     return data.data;
   } else {

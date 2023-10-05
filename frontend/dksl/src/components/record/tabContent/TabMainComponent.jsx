@@ -17,6 +17,14 @@ const options = [
 
 const animatedComponent = makeAnimated();
 
+const setRound = (num) => {
+  return +(Math.round(num + 'e+2') + 'e-2');
+};
+
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
+
 const RecordCardComponent = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -47,7 +55,7 @@ const RecordCardComponent = (props) => {
               <div className="another">
                 <img
                   className="image"
-                  src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${
+                  src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${
                     props.data[props.curIdx].spell_0_id
                   }.png`}
                 />
@@ -59,7 +67,7 @@ const RecordCardComponent = (props) => {
                 />
                 <img
                   className="image"
-                  src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${
+                  src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${
                     props.data[props.curIdx].spell_1_id
                   }.png`}
                 />
@@ -78,7 +86,7 @@ const RecordCardComponent = (props) => {
                 <p>{props.data[props.curIdx].assist}</p>
               </div>
               <p className="red">
-                <b>{props.data[props.curIdx].kda}</b> 평점
+                <b>{setRound(props.data[props.curIdx].kda)}</b> 평점
               </p>
               <p className="tag">
                 <b>{props.data[props.curIdx].line_name}</b>
@@ -87,7 +95,10 @@ const RecordCardComponent = (props) => {
             <div className="area-4">
               <p>
                 킬 관여{' '}
-                <b>{props.data[props.curIdx].kill_participation * 100}</b>%
+                <b>
+                  {setRound(props.data[props.curIdx].kill_participation * 100)}
+                </b>
+                %
               </p>
               <p>
                 CS <b>{props.data[props.curIdx].CS}</b>
@@ -99,45 +110,73 @@ const RecordCardComponent = (props) => {
             <div className="area-5">
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_0_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_0_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_0_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_1_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_1_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_1_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_2_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_2_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_2_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_6_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_6_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_6_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_4_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_4_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_4_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_5_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_5_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_5_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
               <img
                 className="image"
-                src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${
-                  props.data[props.curIdx].item_3_id
-                }.png`}
+                src={
+                  props.data[props.curIdx].item_3_id != 0
+                    ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${
+                        props.data[props.curIdx].item_3_id
+                      }.png`
+                    : '/image/no_item.png'
+                }
               />
             </div>
           </div>
@@ -193,7 +232,7 @@ const RecordCardComponent = (props) => {
                     <div className="another">
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${e.spell_0_id}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${e.spell_0_id}.png`}
                       />
                       <img
                         className="image"
@@ -201,7 +240,7 @@ const RecordCardComponent = (props) => {
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${e.spell_1_id}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${e.spell_1_id}.png`}
                       />
                       <img
                         className="image"
@@ -221,7 +260,7 @@ const RecordCardComponent = (props) => {
                         <p>{e.kill}</p>/<p className="red">{e.death}</p>/
                         <p>{e.assist}</p>
                       </div>
-                      <p className="score">{e.kda}</p>
+                      <p className="score">{setRound(e.kda)}</p>
                     </div>
                     <div className="result">
                       <div className="text">
@@ -253,31 +292,59 @@ const RecordCardComponent = (props) => {
                     <div className="item-list">
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_0_id}.png`}
+                        src={
+                          e.item_0_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_0_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_1_id}.png`}
+                        src={
+                          e.item_1_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_1_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_2_id}.png`}
+                        src={
+                          e.item_2_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_2_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_3_id}.png`}
+                        src={
+                          e.item_3_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_3_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_4_id}.png`}
+                        src={
+                          e.item_4_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_4_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_5_id}.png`}
+                        src={
+                          e.item_5_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_5_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_6_id}.png`}
+                        src={
+                          e.item_6_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_6_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                     </div>
                   </div>
@@ -300,7 +367,7 @@ const RecordCardComponent = (props) => {
                     <div className="another">
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${e.spell_0_id}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${e.spell_0_id}.png`}
                       />
                       <img
                         className="image"
@@ -308,7 +375,7 @@ const RecordCardComponent = (props) => {
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/spell/${e.spell_1_id}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/spell/${e.spell_1_id}.png`}
                       />
                       <img
                         className="image"
@@ -328,7 +395,7 @@ const RecordCardComponent = (props) => {
                         <p>{e.kill}</p>/<p className="red">{e.death}</p>/
                         <p>{e.assist}</p>
                       </div>
-                      <p className="score">{e.kda}</p>
+                      <p className="score">{setRound(e.kda)}</p>
                     </div>
                     <div className="result">
                       <div className="text">
@@ -360,31 +427,59 @@ const RecordCardComponent = (props) => {
                     <div className="item-list">
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_0_id}.png`}
+                        src={
+                          e.item_0_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_0_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_1_id}.png`}
+                        src={
+                          e.item_1_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_1_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_2_id}.png`}
+                        src={
+                          e.item_2_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_2_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_3_id}.png`}
+                        src={
+                          e.item_3_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_3_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_4_id}.png`}
+                        src={
+                          e.item_4_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_4_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_5_id}.png`}
+                        src={
+                          e.item_5_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_5_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                       <img
                         className="image"
-                        src={`https://ddragon.leagueoflegends.com/cdn/13.9.1/img/item/${e.item_6_id}.png`}
+                        src={
+                          e.item_6_id != 0
+                            ? `https://ddragon.leagueoflegends.com/cdn/13.19.1/img/item/${e.item_6_id}.png`
+                            : '/image/no_item.png'
+                        }
                       />
                     </div>
                   </div>
@@ -398,15 +493,8 @@ const RecordCardComponent = (props) => {
   );
 };
 
-const setRound = (num) => {
-  return +(Math.round(num + 'e+2') + 'e-2');
-};
-
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-};
-
 const TabMainComponent = ({ data, piedata }) => {
+  console.log('data: ', data);
   if (data == null) {
     return <LoadingComponent />;
   }
@@ -420,13 +508,19 @@ const TabMainComponent = ({ data, piedata }) => {
               <div className="rank-type">솔로 랭크</div>
               <div className="rank-detail">
                 <img
-                  src={`/image/rank-icons/${data.profile.tier_name.toLowerCase()}.png`}
+                  src={`/image/rank-icons/${
+                    data.profile.tier_name
+                      ? data.profile.tier_name.toLowerCase()
+                      : 'unranked'
+                  }.png`}
                 />
                 <div className="description">
                   <p className="tier">
-                    {capitalizeFirstLetter(
-                      data.profile.tier_name.toLowerCase()
-                    )}
+                    {data.profile.tier_name
+                      ? capitalizeFirstLetter(
+                          data.profile.tier_name.toLowerCase()
+                        )
+                      : `Unranked`}
                   </p>
                 </div>
               </div>
@@ -534,38 +628,46 @@ const TabMainComponent = ({ data, piedata }) => {
             </div>
             <div className="recent-played">
               <p className="sub-title">플레이한 챔피언&nbsp;</p>
-              {data.profile.champions.map((e, i) => (
-                <div className="most-champ" key={`current_Card_Champ_${i}`}>
-                  <img
-                    className="image"
-                    src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champion_name}.png`}
-                  />
-                  <p className="percent">{e.win_rate * 100}%</p>
-                  <p className="grade">
-                    <b>{setRound(e.kda)}&nbsp;평점</b>
-                  </p>
-                  <p className="cnt">
-                    {e.cnt}
-                    <b>&nbsp;판</b>
-                  </p>
-                </div>
-              ))}
+              {data.profile.champions.length != 0 ? (
+                data.profile.champions.map((e, i) => (
+                  <div className="most-champ" key={`current_Card_Champ_${i}`}>
+                    <img
+                      className="image"
+                      src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${e.champion_name}.png`}
+                    />
+                    <p className="percent">{e.win_rate * 100}%</p>
+                    <p className="grade">
+                      <b>{setRound(e.kda)}&nbsp;평점</b>
+                    </p>
+                    <p className="cnt">
+                      {e.cnt}
+                      <b>&nbsp;판</b>
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <p className="no-record">랭크 전적이 부족합니다.</p>
+              )}
             </div>
             <div className="favo-position">
               <p className="sub-title">선호 포지션</p>
               <div className="position-area">
-                {data.profile.positions.map((e, i) => (
-                  <div className="line" key={`positions_${i}`}>
-                    <S.LineGraph
-                      $gray={100 - (e.cnt / data.profile.positions_cnt) * 100}
-                      $blue={(e.cnt / data.profile.positions_cnt) * 100}
-                    >
-                      <div className="gray-area"></div>
-                      <div className="blue-area"></div>
-                    </S.LineGraph>
-                    <p>{e.line}</p>
-                  </div>
-                ))}
+                {data.profile.positions.length != 0 ? (
+                  data.profile.positions.map((e, i) => (
+                    <div className="line" key={`positions_${i}`}>
+                      <S.LineGraph
+                        $gray={100 - (e.cnt / data.profile.positions_cnt) * 100}
+                        $blue={(e.cnt / data.profile.positions_cnt) * 100}
+                      >
+                        <div className="gray-area"></div>
+                        <div className="blue-area"></div>
+                      </S.LineGraph>
+                      <p>{e.line}</p>
+                    </div>
+                  ))
+                ) : (
+                  <p className="no-record">랭크 전적이 부족합니다.</p>
+                )}
               </div>
             </div>
           </div>

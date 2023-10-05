@@ -31,5 +31,6 @@ dist-ssr
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+*.yaml
 
-pnpm-lock.yaml
+.env
