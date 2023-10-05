@@ -31,24 +31,32 @@ const GroupContainer = () => {
 
   useEffect(() => {
     const fetchAllGroupData = async () => {
-      setTeamList(await getGroupList());
+      const data = await getGroupList();
+      setTeamList((prevTeamList) => {
+        if (prevTeamList === data) {
+          return prevTeamList;
+        }
+        return data;
+      });
     };
 
     const fetchDetailGroupData = async (name) => {
       const data = await groupDetail(name, auth ? true : false);
 
       const current = data.data.chairman;
-      console.log(data.data);
+      
       data.data.summonerResponse = data.data.summonerResponse.filter((e) => {
         if (e.name == current) {
           data.data.currentSummoner = e;
         } else return e;
       });
 
-      console.log(data);
-
-      if (data.data != detailList)
-        setDetailList(data.data);
+      setDetailList((prevDetailList) => {
+        if (prevDetailList === data.data) {
+          return prevDetailList;
+        }
+        return data.data;
+      });
     };
 
     setPath(url.pathname);
@@ -58,7 +66,7 @@ const GroupContainer = () => {
     } else if (url.pathname == '/group/detail') {
       fetchDetailGroupData(url.search.split('=')[1]);
     }
-  }, [url, teamList, detailList, auth]);
+  }, [url.pathname, teamList]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);
@@ -75,27 +83,24 @@ const GroupContainer = () => {
     return URL.createObjectURL(img);
   }, []);
 
-  const onSearch = useCallback(
-    async (word) => {
-      const data = await searchGroup(word);
+  const onSearch = useCallback(async (word) => {
+    const data = await searchGroup(word);
 
-      if (data.status == 200) {
-        Swal.fire({
-          title: '검색 완료',
-          text: '검색 요청이 완료되었습니다.',
-          icon: 'success',
-          iconColor: '#6E8387',
-          confirmButtonColor: '#6E8387',
-          confirmButtonText: '확인',
-        });
-        setTeamList({
-          ...teamList,
-          teamList: data.data,
-        });
-      }
-    },
-    [teamList]
-  );
+    if (data.status == 200) {
+      Swal.fire({
+        title: '검색 완료',
+        text: '검색 요청이 완료되었습니다.',
+        icon: 'success',
+        iconColor: '#6E8387',
+        confirmButtonColor: '#6E8387',
+        confirmButtonText: '확인',
+      });
+      setTeamList({
+        ...teamList,
+        teamList: data.data,
+      });
+    }
+  }, []);
 
   const getNewGroup = useCallback(() => {
     MySWal.fire({
@@ -153,7 +158,7 @@ const GroupContainer = () => {
     });
   }, []);
 
-  const onJoinGroup = async () => {
+  const onJoinGroup = useCallback(async () => {
     Swal.fire({
       icon: 'info',
       title: `${detailList.name}에 가입하시겠습니까?`,
@@ -168,18 +173,17 @@ const GroupContainer = () => {
           Swal.fire({
             icon: 'success',
             title: `${detailList.name}에 가입되셨습니다.`,
-
           }).then(() => {
             location.reload();
-          })
+          });
         } else {
           Swal.fire('가입을 실패했습니다.', '', 'error');
         }
       } else if (result.isDenied) {
         Swal.fire('가입이 취소 되었습니다.', '', 'info');
       }
-    })
-  };
+    });
+  }, [detailList]);
 
   return path == '/group/main' ? (
     <>

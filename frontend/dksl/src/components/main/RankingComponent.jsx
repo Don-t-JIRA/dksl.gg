@@ -15,7 +15,6 @@ const RankingComponent = ({
   setRankTab,
   rankData,
 }) => {
-
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);
     const bytes = new Uint8Array(binaryString.length);
@@ -37,35 +36,28 @@ const RankingComponent = ({
         <p className="title">&#127942; 명예의 전당</p>
         <S.TabBox>
           <S.TabItem $istab={hofTab == 0 ? 1 : 0} onClick={() => setHofTab(0)}>
-            일간
+            1~10위
           </S.TabItem>
           <S.TabItem $istab={hofTab == 1 ? 1 : 0} onClick={() => setHofTab(1)}>
-            주간
+            11~20위
           </S.TabItem>
           <S.TabItem $istab={hofTab == 2 ? 1 : 0} onClick={() => setHofTab(2)}>
-            월간
+            21~30위
           </S.TabItem>
         </S.TabBox>
-        {hofData ? (
-          <S.ContentTable>
-            <S.ContentItem>
-              <p className="idx">1</p>
-              <img className="image" src="image/dkslhead.svg" />
-              <p className="name">닉네임</p>
-              <p className="tier">Challenger</p>
-            </S.ContentItem>
-            <S.ContentItem>
-              <p className="idx">1</p>
-              <img className="image" src="image/dkslhead.svg" />
-              <p className="name">닉네임</p>
-              <p className="tier">Challenger</p>
-            </S.ContentItem>
-          </S.ContentTable>
-        ) : (
-          <S.ContentTable>
+        <S.ContentTable>
+          {hofData ? (
+            hofData[hofTab].map((e, i) => (
+              <S.ContentItem key={i}>
+                <p className="idx">{hofTab * 10 + (i + 1)}</p>
+                <p className="name">{e.summonerName}</p>
+                <p className="tier">{e.leaguePoints}점</p>
+              </S.ContentItem>
+            ))
+          ) : (
             <LoadingComponent />
-          </S.ContentTable>
-        )}
+          )}
+        </S.ContentTable>
       </div>
       <div className="container">
         <p className="title">&#127969; 소속 별 순위</p>
@@ -89,43 +81,47 @@ const RankingComponent = ({
             최근 가입
           </S.TabItem>
         </S.TabBox>
-            <S.ContentTable>
+        <S.ContentTable>
           <S.ContentItem>
-          <p className="idx"></p>
-          <p className="image"></p>
-          <p className="name"><b>소속 이름</b></p>
-          <p className="tier"><b>평균 티어</b></p>
-        </S.ContentItem>
-        {rankData && rankTab == 0 ? 
-          rankData.tierTeamList.map((e, i) => (
-              <S.ContentItem>
+            <p className="idx"></p>
+            <p className="image"></p>
+            <p className="name">
+              <b>소속 이름</b>
+            </p>
+            <p className="tier">
+              <b>평균 티어</b>
+            </p>
+          </S.ContentItem>
+          {rankData && rankTab == 0 ? (
+            rankData.tierTeamList.map((e, i) => (
+              <S.ContentItem key={i}>
                 <p className="idx">{i + 1}</p>
                 <img className="image" src={getByteToImage(e.img)} />
                 <p className="name">{e.name}</p>
                 <p className="tier">{e.avgTier.name}</p>
               </S.ContentItem>
-          )
-        ) : rankData && rankTab == 1 ? 
-        rankData.memberCountTeamList.map((e, i) => (
-            <S.ContentItem>
-              <p className="idx">{i + 1}</p>
-              <img className="image" src={getByteToImage(e.img)} />
-              <p className="name">{e.name}</p>
-              <p className="tier">{e.avgTier.name}</p>
-            </S.ContentItem>
-        )
-      ) : rankData && rankTab == 2 ? 
-      rankData.recentTeamList.map((e, i) => (
-          <S.ContentItem>
-            <p className="idx">{i + 1}</p>
-            <img className="image" src={getByteToImage(e.img)} />
-            <p className="name">{e.name}</p>
-            <p className="tier">{e.avgTier.name}</p>
-          </S.ContentItem>
-      )
-    ) : (
+            ))
+          ) : rankData && rankTab == 1 ? (
+            rankData.memberCountTeamList.map((e, i) => (
+              <S.ContentItem key={i}>
+                <p className="idx">{i + 1}</p>
+                <img className="image" src={getByteToImage(e.img)} />
+                <p className="name">{e.name}</p>
+                <p className="tier">{e.avgTier.name}</p>
+              </S.ContentItem>
+            ))
+          ) : rankData && rankTab == 2 ? (
+            rankData.recentTeamList.map((e, i) => (
+              <S.ContentItem key={i}>
+                <p className="idx">{i + 1}</p>
+                <img className="image" src={getByteToImage(e.img)} />
+                <p className="name">{e.name}</p>
+                <p className="tier">{e.avgTier.name}</p>
+              </S.ContentItem>
+            ))
+          ) : (
             <LoadingComponent />
-        )}
+          )}
         </S.ContentTable>
       </div>
     </S.RankingLayout>

@@ -1,35 +1,38 @@
-// React
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // Component
 import HeaderComponent from '../components/common/HeaderComponent';
 import RankingComponent from '../components/main/RankingComponent';
 import SearchComponent from '../components/main/SearchComponent';
 // Service
-import { getRankData } from '../services/MainService';
+import { getGroupRankData, getRankData } from '../services/MainService';
 
 const MainContainer = () => {
   const [hofTab, setHofTab] = useState(0);
   const [rankTab, setRankTab] = useState(0);
   const [rankData, setRankData] = useState(null);
-  /**
-   * 플레이어의 순위 데이터 요청해야하고
-   * 소속 순위 데이터 요청해야함.
-   * 플레이어 순위 데이터는 세 가지 탭으로 나뉘기
-   * 일간 주간 월간
-   * 소속 순위는
-   * 랭킹 최다플레이 내 순위
-   */
+  const [groupRankData, setGroupRankData] = useState(null);
 
-  const fetchRankData = async () => {
-    const data = await getRankData();
-    setRankData(data);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const rankData = await getRankData();
+      const dividedRankData = [];
 
-  useState(() => {
-    if (!rankData) {
-      fetchRankData();
-    }
-  }, [rankData]);
+      for (let i = 0; i < rankData.length; i += 10) {
+        dividedRankData.push(rankData.slice(i, i + 10));
+      }
+
+      setRankData(dividedRankData);
+    };
+
+    fetchData();
+
+    const groupRankData = async () => {
+      const data = await getGroupRankData();
+      setGroupRankData(data);
+    };
+
+    groupRankData();
+  }, []);
 
   return (
     <>
@@ -38,10 +41,10 @@ const MainContainer = () => {
       <RankingComponent
         hofTab={hofTab}
         setHofTab={setHofTab}
-        hofData={null}
+        hofData={rankData}
         rankTab={rankTab}
         setRankTab={setRankTab}
-        rankData={rankData}
+        rankData={groupRankData}
       />
     </>
   );

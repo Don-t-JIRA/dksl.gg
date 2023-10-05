@@ -51,7 +51,9 @@ const RecordBodyComponent = (props) => {
           {props.tab == 0 && (
             <TabMainComponent data={props.recorddata} piedata={props.piedata} />
           )}
-          {props.tab == 1 && <TabAnalyzeComponent data={props.analyzedata} />}
+          {props.tab == 1 && (
+            <TabAnalyzeComponent fetchData={props.fetchChampData} />
+          )}
           {props.tab == 2 && (
             <TabGroupComponent
               leave={props.leaveTeam}

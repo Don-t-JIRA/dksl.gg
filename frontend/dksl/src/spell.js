@@ -1,6 +1,6 @@
 export const spell = {
   type: 'summoner',
-  version: '13.9.1',
+  version: '13.19.1',
   data: {
     21: {
       id: 'SummonerBarrier',

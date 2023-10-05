@@ -77,7 +77,8 @@ const getSummonerGroup = async (name) => {
     const response = await common.get(`/summoner/team/${name}`);
     return response;
   } catch (error) {
-    Swal.fire('Error', error.response.data, 'error');
+    console.error(error.response.data);
+    return 'NoData';
   }
 }
 

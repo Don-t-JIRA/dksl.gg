@@ -11,6 +11,7 @@ const getGroup = async (name) => {
 
   const data = await getSummonerGroup(name);
 
+  if (data == 'NoData') return 'NoData';
   if (data != undefined && data.status == 200) {
     return data.data;
   } else {

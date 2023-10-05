@@ -6,11 +6,12 @@ import Swal from 'sweetalert2';
 import { reAccessToken } from './UserService';
 
 // 맥북
-// const BASE_URL = 'http://192.168.79.239:8080';
+// const BASE_URL = VITE_NOTEBBOOK_SPRING_URL;
 // 싸피
-const BASE_URL = 'https://j9a703.p.ssafy.io/api';
+const BASE_URL = import.meta.env.VITE_SPRING_URL;
+// const BASE_URL = 'http://192.168.1.115:8080';
 // FastAPI
-const RECORD_URL = 'http://127.0.0.1:8000';
+const RECORD_URL = import.meta.env.VITE_RECORD_URL;
 
 const common = Axios.create({
   baseURL: BASE_URL,

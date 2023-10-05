@@ -60,6 +60,7 @@ export const ContentItem = styled.div`
     margin-top: 0;
     margin-bottom: 0;
     font-weight: bold;
+    text-align: center;
     color: var(--text-gray);
   }
 
