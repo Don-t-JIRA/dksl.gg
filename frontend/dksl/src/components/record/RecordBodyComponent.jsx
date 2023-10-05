@@ -52,7 +52,12 @@ const RecordBodyComponent = (props) => {
             <TabMainComponent data={props.recorddata} piedata={props.piedata} />
           )}
           {props.tab == 1 && <TabAnalyzeComponent data={props.analyzedata} />}
-          {props.tab == 2 && <TabGroupComponent />}
+          {props.tab == 2 && (
+            <TabGroupComponent
+              leave={props.leaveTeam}
+              image={props.getByteToImage}
+            />
+          )}
           {props.tab == 3 && <TabReviewComponent />}
         </div>
       </S.TabLayout>

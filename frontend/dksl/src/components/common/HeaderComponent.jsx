@@ -15,7 +15,7 @@ const HeaderComponent = () => {
   const search = useRef();
   const url = useLocation();
   const navigate = useNavigate();
-  const token = useMemo(() => (auth ? auth.name : null), [auth]);
+  const token = useMemo(() => (auth ? auth : null), [auth]);
   const [user, setUser] = useState(null);
   useEffect(() => {
     setUser(token);
@@ -34,11 +34,16 @@ const HeaderComponent = () => {
         confirmButtonColor: 'var(--maincolor-depth1)',
       });
       return;
+    } else if (name.includes('/')) {
+      Swal.fire({
+        title: 'Error',
+        text: '잘못된 검색어입니다!',
+        icon: 'error',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+      return;
     }
-    // const data = await searchUser(name);
-    // if (data.status == 200) {
-    //   navigate(`/record?name=${name}`);
-    // }
+    
     console.log('검색 소환사 명 : ', name);
     navigate(`/record/${name}`);
   };
@@ -55,7 +60,11 @@ const HeaderComponent = () => {
         confirmButtonColor: '#6E8387',
         confirmButtonText: '확인',
       }).then((res) => {
-        if (res.isConfirmed) location.reload();
+        if (res.isConfirmed) {
+          console.log("Success, Logout!");
+          navigate('/');
+          location.reload();
+        }
       });
     }
   };
@@ -90,7 +99,7 @@ const HeaderComponent = () => {
       ) : (
         <S.LogoutContainer>
           <div className="profile">
-            <img src="/image/Riot.svg" alt="profile" className="image" />
+            <img src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${user.profileIconId}.png`} alt="profile" className="image" />
             <p className="name">{auth.name}</p>
             <button onClick={logout}>로그아웃</button>
           </div>

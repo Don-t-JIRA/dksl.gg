@@ -21,6 +21,8 @@ const setNewGroup = async (formData) => {
       },
     });
 
+    if (response.status != 200) return null;
+
     return response;
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
@@ -52,4 +54,31 @@ const groupDetail = async (name, hasToken) => {
   }
 };
 
-export { getGroupList, setNewGroup, searchGroup, groupDetail };
+const joinGroup = async (data) => {
+  try {
+    const response = await auth.post('/team/join', JSON.stringify(data));
+    return response.data;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
+
+const groupLeave = async (name) => {
+  try {
+    const response = await auth.post('/team/leave', { name });
+    return response.data;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+}
+
+const getSummonerGroup = async (name) => {
+  try {
+    const response = await common.get(`/summoner/team/${name}`);
+    return response;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+}
+
+export { getGroupList, setNewGroup, searchGroup, groupDetail, groupLeave, getSummonerGroup, joinGroup };

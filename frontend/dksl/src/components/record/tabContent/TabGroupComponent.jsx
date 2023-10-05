@@ -1,3 +1,5 @@
+// React
+import { useEffect, useState } from 'react';
 // Styled
 import * as S from '@/styles/record/tabgroup.style';
 // Select
@@ -5,24 +7,39 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 // Component
 import LoadingComponent from '../../common/LoadingComponent';
-
-const options = [
-  { value: 'SSAFY 9기', label: 'SSAFY 9기' },
-  { value: 'SKT T1', label: 'SKT T1' },
-  { value: '환일고등학교', label: '환일고등학교' },
-];
+// Jotai
+import { useAuth } from '../../../jotai/auth';
+import { useGroup } from '../../../jotai/group';
 
 const animatedComponent = makeAnimated();
 
-const TabGroupComponent = () => {
-  let groupList = null;
-  // test Code
-  groupList = ['NoDasta'];
+const TabGroupComponent = ({ leave, image }) => {
+  const auth = useAuth();
+  const group = useGroup();
+  const [options, setOptions] = useState([
+    
+  ]);
+  const [currentIdx, setCurrentIdx] = useState({ value: 0, label: '' });
+  const [currentGroup, setCurrentGroup] = useState(null);
+
+  useEffect(() => {
+    if (group) {
+      console.log(group.teamList[currentIdx.value], currentGroup);
+      const arr = group.teamList.map((e, i) => {
+        return {
+          value: i,
+          label: e.name,
+        };
+      });
+      setCurrentGroup(group.teamList[currentIdx.value]);
+      setOptions([...arr]);
+    }
+  }, [group, currentIdx, currentGroup]);
 
   return (
     <S.TabGroupLayout>
-      {groupList ? (
-        groupList[0] == 'NoData' ? (
+      {group ? (
+        group.teamList.length == 0 ? (
           <S.EmptyGroupLayout>
             <h1 className="icon">&#127969;</h1>
             <p className="head">소속이 존재하지 않습니다.</p>
@@ -35,44 +52,57 @@ const TabGroupComponent = () => {
             <S.LeftLayout>
               <div className="select-box">
                 <Select
-                  closeMenuOnSelect={false}
+                  closeMenuOnSelect={true}
                   components={animatedComponent}
-                  defaultValue={options[0]}
+                  defaultValue={group.teamList[currentIdx.value].name}
                   options={options}
+                  onChange={setCurrentIdx}
                 />
               </div>
-              <div className="group-profile">
-                <p className="title">&#127969; 소속</p>
-                <div className="profile-body">
-                  <div className="profile-img">
-                    <img
-                      className="image"
-                      src="/image/lbti-img.svg"
-                      alt="group-profile_img"
-                    />
-                  </div>
-                  <div className="profile-desc">
-                    <p className="group-name">SSAFY 9기</p>
-                    <p className="group-personnel">
-                      <b>인원</b> 297명
-                    </p>
-                    <p className="group-tier">
-                      <b>평균티어</b> 플레티넘
-                    </p>
-                    <p className="group-leader">
-                      <b>소속장</b> 싸진남
-                    </p>
-                    <button className="quit-btn">탈퇴</button>
-                  </div>
-                  <div className="group-desc">
-                    <p className="desc-title">&#127775; SSAFY 9기 모여라잇</p>
-                    <p className="desc-content">
-                      Samsung Software Academy For Youth의 9기 교육생들이 모인
-                      소속입니다.
-                    </p>
+              {currentGroup ? (
+                <div className="group-profile">
+                  <p className="title">&#127969; 소속</p>
+                  <div className="profile-body">
+                    <div className="profile-img">
+                      <img
+                        className="image"
+                        src={image(currentGroup.img)}
+                        alt="group-profile_img"
+                      />
+                    </div>
+                    <div className="profile-desc">
+                      <p className="group-name">{currentGroup.name}</p>
+                      <p className="group-personnel">
+                        <b>인원</b> {currentGroup.summonerResponse.length}명
+                      </p>
+                      <p className="group-tier">
+                        <b>평균티어</b> {currentGroup.avgTier.name}
+                      </p>
+                      <p className="group-leader">
+                        <b>소속장</b> {currentGroup.chairman}
+                      </p>
+                      {auth && currentGroup.joined && (
+                        <button
+                          className="quit-btn"
+                          onClick={() => leave('유한이')}
+                        >
+                          탈퇴
+                        </button>
+                      )}
+                    </div>
+                    <div className="group-desc">
+                      <p className="desc-title">
+                        &#127775; <b>소속 소개</b>
+                      </p>
+                      <p className="desc-content">{currentGroup.description}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                <div className="group-profile">
+                  <LoadingComponent />
+                </div>
+              )}
               <div className="group-ranking">
                 <p className="title">&#128587; 소속 순위</p>
                 <div className="ranking-table">
@@ -84,37 +114,27 @@ const TabGroupComponent = () => {
                     </div>
                   </div>
                   <div className="table-body">
-                    <div className="table-row current">
-                      <p className="rank">35</p>
-                      <div className="group-name">
-                        <img
-                          className="image"
-                          src="/image/lbti-img.svg"
-                          alt="group-profile_img"
-                        />
-                        SSAFY 9기
+                    {group.teamRankList.map((e, i) => (
+                      <div className="table-row" key={`group_rank_${i}`}>
+                        <p className="rank">{i + 1}</p>
+                        <div className="group-name">
+                          <img
+                            className="image"
+                            src={image(e.img)}
+                            alt="group-profile_img"
+                          />
+                          {e.name}
+                        </div>
+                        <p className="group-tier">{e.avgTier.name}</p>
                       </div>
-                      <p className="group-tier">플레티넘</p>
-                    </div>
-                    <div className="table-row">
-                      <p className="rank">1</p>
-                      <div className="group-name">
-                        <img
-                          className="image"
-                          src="/image/lbti-img.svg"
-                          alt="group-profile_img"
-                        />
-                        KT
-                      </div>
-                      <p className="group-tier">챌린저</p>
-                    </div>
+                    ))}
                   </div>
                 </div>
               </div>
             </S.LeftLayout>
             <S.RightLayout>
               <div className="mygroup-ranking">
-                <p className="title">&#127942; 우리 소속원 손위</p>
+                <p className="title">&#127942; 우리 소속원 순위</p>
 
                 <div className="radio-group">
                   <input type="radio" name="rank-type" />
@@ -132,7 +152,7 @@ const TabGroupComponent = () => {
                     </div>
                   </div>
                   <div className="table-body">
-                    <div className="table-row current">
+                    {/* <div className="table-row current">
                       <p className="rank">297</p>
                       <div className="member-name">
                         <img
@@ -145,21 +165,27 @@ const TabGroupComponent = () => {
                       </div>
                       <p className="member-tier">Unranked</p>
                       <p className="member-persent">99%</p>
-                    </div>
-                    <div className="table-row">
-                      <p className="rank">1</p>
-                      <div className="member-name">
-                        <img
-                          className="image"
-                          src="/image/lbti-img.svg"
-                          alt="member-profile_img"
-                        />
-                        <p className="member-level">400레벨</p>
-                        롤진남
-                      </div>
-                      <p className="member-tier">챌린저</p>
-                      <p className="member-persent">1%</p>
-                    </div>
+                    </div> */}
+                    {currentGroup ? (
+                      currentGroup.summonerResponse.map((e, i) => (
+                        <div className="table-row" key={`summoner_rank_${i}`}>
+                          <p className="rank">{i + 1}</p>
+                          <div className="member-name">
+                            <img
+                              className="image"
+                              src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${e.profileIconId}.png`}
+                              alt="member-profile_img"
+                            />
+                            <p className="member-level">{e.level}레벨</p>
+                            {e.name}
+                          </div>
+                          <p className="member-tier">{e.tier.name}</p>
+                          <p className="member-persent">{101 - Math.floor(((i+1) / currentGroup.summonerResponse.length) * 100)}%</p>
+                        </div>
+                      ))
+                    ) : (
+                      <LoadingComponent />
+                    )}
                   </div>
                 </div>
               </div>

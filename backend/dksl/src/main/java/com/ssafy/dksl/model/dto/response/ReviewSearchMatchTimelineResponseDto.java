@@ -14,5 +14,6 @@ import java.util.List;
 public class ReviewSearchMatchTimelineResponseDto {
     private String matchId;
     private List<String> championNames;
+    private List<String> summonerNames;
     private List<TimelineInfoResponseDto> timelines;
 }

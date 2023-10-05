@@ -107,8 +107,9 @@ export const LogoutContainer = styled.div`
     align-items: center;
 
     & .image {
-      height: 50%;
+      height: 60%;
       margin-right: 1rem;
+      border-radius: 50%;
     }
 
     & .name {

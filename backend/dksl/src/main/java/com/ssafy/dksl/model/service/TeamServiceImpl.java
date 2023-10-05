@@ -1,17 +1,17 @@
 package com.ssafy.dksl.model.service;
 
 // Command
-import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
-import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.command.CreateTeamCommand;
+import com.ssafy.dksl.model.dto.command.member.TeamMemberCommand;
+import com.ssafy.dksl.model.dto.command.team.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.command.team.CreateTeamCommand;
 
 // Response
-import com.ssafy.dksl.model.dto.response.SummonerResponse;
-import com.ssafy.dksl.model.dto.response.TeamDetailResponse;
-import com.ssafy.dksl.model.dto.response.TeamResponse;
+import com.ssafy.dksl.model.dto.response.common.SummonerResponse;
+import com.ssafy.dksl.model.dto.response.team.TeamDetailResponse;
+import com.ssafy.dksl.model.dto.response.team.TeamResponse;
 
 // Entity
-import com.ssafy.dksl.model.dto.response.TierResponse;
+import com.ssafy.dksl.model.dto.response.common.TierResponse;
 import com.ssafy.dksl.model.entity.Team;
 import com.ssafy.dksl.model.entity.Member;
 import com.ssafy.dksl.model.entity.MemberTeam;
@@ -123,7 +123,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean createTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
         Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
-        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName().replace("\"", "")).orElseThrow(TeamNotFoundException::new);
 
         try {
             memberTeamRepository.save(MemberTeam.builder().member(member).team(team).build());
@@ -161,6 +161,7 @@ public class TeamServiceImpl implements TeamService {
             try {
                 teamResponseList.add(TeamResponse.builder()
                         .name(team.getName())
+                        .memberCount(team.getMembers().size())
                         .description(team.getDescription())
                         .imgByteArray(imageByteArray)
                         .tierResponse(calAvgTier(team.getMembers()))
@@ -174,8 +175,9 @@ public class TeamServiceImpl implements TeamService {
         return teamResponseList;
     }
 
+    @Override
     public List<TeamResponse> getAllTeamList() throws CustomException {
-        List<Team> teamList = new ArrayList<>();
+        List<Team> teamList;
         try {
             teamList = teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc();
         } catch (Exception e) {
@@ -185,20 +187,52 @@ public class TeamServiceImpl implements TeamService {
         return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getOrderTeamList() throws CustomException {
-        List<TeamResponse> teamResponseList = new ArrayList<>();
+    @Override
+    public List<TeamResponse> getTeamRankList() throws CustomException {
+        List<Team> teamList;
         try {
-            teamResponseList = getAllTeamList();
-            teamResponseList.sort((o1, o2) -> o2.getTierResponse().getOrderNum() - o1.getTierResponse().getOrderNum());
+            teamList = teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc();
+            teamList.sort((o1, o2) -> {
+                int o1OrderNum = calAvgTier(o1.getMembers()).getOrderNum();
+                int o2OrderNum = calAvgTier(o2.getMembers()).getOrderNum();
+
+                if (o1OrderNum < o2OrderNum) return 1;
+                else if (o1OrderNum > o2OrderNum) return -1;
+
+                return o1.getName().compareTo(o2.getName());
+            });
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new TeamInvalidException();
         }
-        return teamResponseList;
+        if(10 < teamList.size()) teamList = teamList.subList(0, 10);
+        return getTeamList(teamList);
+    }
+    @Override
+    public List<TeamResponse> getMemberCountTeamList() throws CustomException {
+        List<Team> teamList;
+        try {
+            teamList = teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc();
+            teamList.sort((o1, o2) -> {
+                int o1MemberCount = o1.getMembers().size();
+                int o2MemberCount = o2.getMembers().size();
+
+                if (o1MemberCount < o2MemberCount) return -1;
+                else if (o1MemberCount > o2MemberCount) return -1;
+
+                return o1.getName().compareTo(o2.getName());
+            });
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new TeamInvalidException();
+        }
+        if(10 < teamList.size()) teamList = teamList.subList(0, 10);
+        return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getRecentTeamList() throws CustomException {
-        List<MemberTeam> memberTeamList = new ArrayList<>();
+    @Override
+    public List<TeamResponse> getRecentTeamList(int length) throws CustomException {
+        List<MemberTeam> memberTeamList;
         List<Team> teamList = new ArrayList<>();
 
         try {
@@ -219,7 +253,7 @@ public class TeamServiceImpl implements TeamService {
                 }
 
                 if (flag) teamList.add(memberTeam.getTeam());  // 중복 아니면 add
-                if (3 <= teamList.size()) break;  // 길이 3 채워지면 break
+                if (length <= teamList.size()) break;  // 길이 10 채워지면 break
             }
 
             return getTeamList(teamList);
@@ -239,18 +273,39 @@ public class TeamServiceImpl implements TeamService {
         return getTeamList(teamList);
     }
 
-    public List<TeamResponse> getSummonerTeamList(SearchTeamCommand searchTeamCommand) throws CustomException {
+    @Override
+    public List<TeamDetailResponse> getSummonerTeamList(SearchTeamCommand searchTeamCommand) throws CustomException {
         List<MemberTeam> memberTeamList = memberRepository
                 .findByName(searchTeamCommand.getSearchStr())
                 .orElseThrow(MemberNotFoundException::new)
                 .getTeams();
 
-        List<Team> teamList = new ArrayList<>();
+        List<TeamDetailResponse> teamDetailResponseList = new ArrayList<>();
         for (MemberTeam team : memberTeamList) {
-            teamList.add(team.getTeam());
+            // 멤버 추가
+            List<SummonerResponse> summonerResponseList = new ArrayList<>();
+            for (MemberTeam memberTeam : team.getTeam().getMembers()) {
+                summonerResponseList.add(SummonerResponse.builder()
+                        .name(memberTeam.getMember().getName())
+                        .profileIconId(memberTeam.getMember().getProfileIconId())
+                        .tier(memberTeam.getMember().getTier().toTierResponse())
+                        .rank(memberTeam.getMember().getRank())
+                        .level(memberTeam.getMember().getLevel())
+                        .build());
+            }
+
+            teamDetailResponseList.add(TeamDetailResponse.builder()
+                    .isJoined(true)
+                    .name(team.getTeam().getName())
+                    .chairman(team.getTeam().getChairman().getName())
+                    .description(team.getTeam().getDescription())
+                    .imgByteArray(imgToByteArray(team.getTeam().getImg()))
+                    .tierResponse(calAvgTier(team.getTeam().getMembers()))
+                    .summonerResponse(summonerResponseList)
+                    .build());
         }
 
-        return getTeamList(teamList);
+        return teamDetailResponseList;
     }
 
     public TeamDetailResponse getTeamDetail(TeamMemberCommand teamMemberCommand) throws CustomException {

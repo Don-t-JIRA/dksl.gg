@@ -40,6 +40,7 @@ const signout = async () => {
 
     if (response.data) {
       sessionStorage.clear();
+      localStorage.clear();
     }
 
     return response;
@@ -55,9 +56,7 @@ const getMember = async () => {
     return response;
   } catch (error) {
     console.log(error.response);
-    if (error.response.status == 401) {
-      sessionStorage.removeItem('accessToken');
-    }
+    sessionStorage.removeItem('accessToken');
   }
 };
 
@@ -73,6 +72,7 @@ const reAccessToken = async (refreshToken) => {
     return response;
   } catch (error) {
     console.log(error.response);
+    localStorage.removeItem('refreshToken');
   }
 };
 

@@ -5,6 +5,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from decouple import config
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -38,9 +40,18 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    # .env 파일에서 설정 읽어오기
+    RDS_HOSTNAME = config('RDS_HOSTNAME')
+    RDS_PORT = config('RDS_PORT')
+    RDS_DB_NAME = config('RDS_DB_NAME')
+    RDS_USERNAME = config('RDS_USERNAME')
+    RDS_PASSWORD = config('RDS_PASSWORD')
+
+    # SQLAlchemy URL 생성
+    sqlalchemy_url = f"mysql+mysqlconnector://{RDS_USERNAME}:{RDS_PASSWORD}@{RDS_HOSTNAME}:{RDS_PORT}/{RDS_DB_NAME}"
+
     context.configure(
-        url=url,
+        url=sqlalchemy_url,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},

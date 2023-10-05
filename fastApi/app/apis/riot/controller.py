@@ -30,7 +30,7 @@ class RiotApiController:
         self.signin_id = signin_id
         self.summoner_name = parse.quote(summoner_name)
         self.api_key = settings.RIOT_API_KEY
-        self.my_region = "kr"
+        self.my_region = "KR"
         self.lol_watcher = LolWatcher(self.api_key)
 
         self.summoner_info = self.lol_watcher.summoner.by_name(
@@ -48,11 +48,10 @@ class RiotApiController:
             "Content-Type": "application/x-www-form-urlencoded",
             "api_key": self.api_key,
         }
-        print("API에서 데이터 불러오기")
+
         self.base_params = {}
 
     def get_summoner_info(self):
-        print("소환사 정보 가져오기")
         return self.lol_watcher._summoner.by_name(
             region=self.my_region, summoner_name=self.summoner_name
         )
@@ -69,8 +68,18 @@ class RiotApiController:
         )
         return ret
 
+    def get_match_list_timeless(self, count: int):
+        ret = self.lol_watcher.match.matchlist_by_puuid(
+            puuid=self.puu_id,
+            region=self.my_region,
+            count=count,
+        )
+        return ret
+
     def get_match_info_by_id(self, match_id: str):
         return self.lol_watcher.match.by_id(region=self.my_region, match_id=match_id)
 
+    def get_challengers_info(self):
+        return self.lol_watcher.league.challenger_by_queue(region=self.my_region, queue="RANKED_SOLO_5x5")
 
-riot_api = RiotApiController("Hide on bush")
+riot_api = RiotApiController("톰 클랜시")

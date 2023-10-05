@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 
   /* --maincolor-depth1: #3E7CB1; */
   --maincolor-depth1: #6E8387;
@@ -65,6 +66,10 @@ button {
 button:hover {
   transform: scale(.25rem);
   filter: drop-shadow(0 0 .1rem var(--maincolor-depth1));
+}
+
+button:disabled {
+  background-color: var(--maincolor-depth2);
 }
 
 a {
@@ -169,12 +174,13 @@ export const Card = css`
   margin-right: auto;
   border: 2px solid #dfdfdf;
   border-radius: 10px;
+  box-sizing: border-box;
 
   & .title {
     width: 98%;
     margin-top: 0.2rem;
     padding: 1.2rem 0;
-    padding-left: 3%;
+    padding-left: 1rem;
     border-bottom: 1px solid #dfdfdf;
     font-size: large;
     font-weight: bold;

@@ -1,18 +1,15 @@
 package com.ssafy.dksl.model.service;
 
-import com.ssafy.dksl.model.dto.command.LoginCommand;
-import com.ssafy.dksl.model.dto.command.TokenCommand;
-import com.ssafy.dksl.model.dto.command.RegisterCommand;
-import com.ssafy.dksl.model.dto.command.UpdateSummonerCommand;
-import com.ssafy.dksl.model.dto.response.LoginResponse;
-import com.ssafy.dksl.model.dto.response.MemberResponse;
-import com.ssafy.dksl.model.dto.response.SummonerResponse;
+import com.ssafy.dksl.model.dto.command.member.LoginCommand;
+import com.ssafy.dksl.model.dto.command.common.TokenCommand;
+import com.ssafy.dksl.model.dto.command.member.RegisterCommand;
+import com.ssafy.dksl.model.dto.command.common.UpdateSummonerCommand;
+import com.ssafy.dksl.model.dto.response.member.LoginResponse;
+import com.ssafy.dksl.model.dto.response.member.MemberResponse;
+import com.ssafy.dksl.model.dto.response.common.SummonerResponse;
 import com.ssafy.dksl.model.entity.Member;
-import com.ssafy.dksl.util.exception.*;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.stereotype.Service;
-
-import javax.security.auth.login.LoginException;
 
 @Service
 public interface MemberService {

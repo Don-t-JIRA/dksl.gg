@@ -1,9 +1,11 @@
 package com.ssafy.dksl.controller;
 
-import com.ssafy.dksl.model.dto.command.TeamMemberCommand;
-import com.ssafy.dksl.model.dto.command.SearchTeamCommand;
-import com.ssafy.dksl.model.dto.request.CreateTeamRequest;
-import com.ssafy.dksl.model.dto.response.AllTeamResponse;
+import com.ssafy.dksl.model.dto.command.member.TeamMemberCommand;
+import com.ssafy.dksl.model.dto.command.team.SearchTeamCommand;
+import com.ssafy.dksl.model.dto.request.team.CreateTeamRequest;
+import com.ssafy.dksl.model.dto.response.team.AllTeamResponse;
+import com.ssafy.dksl.model.dto.response.team.MainTeamResponse;
+import com.ssafy.dksl.model.dto.response.team.TeamResponse;
 import com.ssafy.dksl.model.service.TeamService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("team")
@@ -31,8 +35,8 @@ public class TeamController {
         }
     }
 
-    @PostMapping("add")
-    private ResponseEntity<?> addTeamMember(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
+    @PostMapping("join")
+    private ResponseEntity<?> joinMember(@RequestHeader("Authorization") String token, @RequestBody String teamName) {
         try {
             return ResponseEntity.ok(teamService.createTeamMember(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
@@ -49,12 +53,25 @@ public class TeamController {
         }
     }
 
+    @GetMapping("main")
+    private ResponseEntity<?> getMainTeamList() {  // 최초 한 번 불러오기
+        try {
+            return ResponseEntity.ok(MainTeamResponse.builder()
+                    .tierTeamList(teamService.getTeamRankList())
+                    .memberCountTeamList(teamService.getMemberCountTeamList())
+                    .recentTeamList(teamService.getRecentTeamList(10))
+                    .build());
+        } catch (CustomException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
+        }
+    }
+
     @GetMapping
     private ResponseEntity<?> getFirstTeamList() {  // 최초 한 번 불러오기
         try {
             AllTeamResponse allTeamResponse = AllTeamResponse.builder()
                     .teamList(teamService.getAllTeamList())  // 모든 팀 리스트
-                    .recentTeamList(teamService.getRecentTeamList())  // 최근 가입 팀 리스트
+                    .recentTeamList(teamService.getRecentTeamList(3))  // 최근 가입 팀 리스트
                     .build();
             return ResponseEntity.ok(allTeamResponse);
         } catch (CustomException e) {
@@ -63,9 +80,9 @@ public class TeamController {
     }
 
     @GetMapping("recent")
-    private ResponseEntity<?> getRecentTeamList() {  // 최초 한 번 불러오기
+    private ResponseEntity<?> getRecentTeamList() {
         try {
-            return ResponseEntity.ok(teamService.getRecentTeamList());
+            return ResponseEntity.ok(teamService.getRecentTeamList(10));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
