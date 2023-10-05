@@ -6,6 +6,15 @@ pipeline {
 	}
 
 	stages {
+
+        // 보안상 중요한 정보는 git에 저장하지 않았기 때문에 ec2=>컨테이너로 직접 복사
+        stage("Set environment") {
+            steps {
+                echo "Copy require file to pipeline folder"
+                sh 'cp /var/jenkins_home/util/frontend/.env ./frontend/dksl/.env'
+            }
+        }
+
 		stage('React Build') {
 			steps {
 				dir('frontend/dksl') {
