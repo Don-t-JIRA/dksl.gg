@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const HeaderLayout = styled.div`
   width: 100vw;
   height: 12.5vh;
+  min-width: 550px;
   min-height: 90px;
   position: fixed;
   background-color: #ffffff;
@@ -31,7 +32,7 @@ export const HeaderLayout = styled.div`
 
 export const MenuContainer = styled.div`
   display: flex;
-  width: 30%;
+  width: 40%;
   height: inherit;
   justify-content: space-around;
   flex-basis: 50%;
@@ -39,8 +40,10 @@ export const MenuContainer = styled.div`
   text-align: center;
 
   & a {
+    width: 30%;
     font-size: large;
     font-weight: 600;
+    text-align: center;
   }
 
   & .search-input {
@@ -104,8 +107,9 @@ export const LogoutContainer = styled.div`
     align-items: center;
 
     & .image {
-      height: 50%;
+      height: 60%;
       margin-right: 1rem;
+      border-radius: 50%;
     }
 
     & .name {

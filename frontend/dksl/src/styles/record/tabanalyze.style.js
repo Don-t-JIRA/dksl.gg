@@ -39,11 +39,6 @@ export const LeftLayout = styled.div`
   height: 100%;
 `;
 
-export const RightLayout = styled.div`
-  width: 70%;
-  height: 100%;
-`;
-
 export const AnalyzeCard = styled.div`
   ${Card}
   width: 95%;
@@ -63,33 +58,31 @@ export const AnalyzeCard = styled.div`
     & .subtitle {
       display: flex;
       justify-content: center;
-      margin-top: .1rem;
+      margin-top: 0.1rem;
 
       & p {
-        margin: 0 .2rem;
+        margin: 0.2rem 0.2rem;
         font-size: large;
         font-weight: bold;
       }
 
       & .lbti {
-        color: var(--maincolor-depth1)
+        color: var(--maincolor-depth1);
       }
     }
 
     & .tag-box {
       display: flex;
       justify-content: space-around;
-      margin: 0 .5rem;
-      margin-bottom: 1rem;
+      margin: 1rem 0.5rem;
     }
   }
 `;
 
 export const TagItem = styled.div`
   ${Tag};
-  background-color: ${(props) => props.bg};
-  
-`
+  background-color: ${(props) => props.$bg};
+`;
 
 export const GraphCard = styled.div`
   ${Card}
@@ -105,7 +98,6 @@ export const GraphCard = styled.div`
     width: 100%;
     height: 100%;
   }
-  
 `;
 
 export const RecentCard = styled.div`
@@ -140,7 +132,7 @@ export const RecentCard = styled.div`
 
     & .sub-title {
       margin-left: 1rem;
-      margin-bottom: 0;
+      margin-bottom: 1rem;
     }
 
     & p {
@@ -219,4 +211,84 @@ export const RecentCard = styled.div`
       }
     }
   }
+`;
+
+export const RightLayout = styled.div`
+  width: 70%;
+  height: 100%;
+`;
+
+export const ChampionCard = styled.div`
+  ${Card}
+  width: 100%;
+  height: 50vh;
+
+  & .champion-box {
+    width: 100%;
+    height: 95%;
+    display: flex;
+    justify-content: space-evenly;
+
+    & .container {
+      width: 100px;
+      /* flex-basis: 30%; */
+      height: 80%;
+      margin: 0 auto;
+      /* display: flex;
+      justify-content: center; */
+      perspective: 300px;
+    }
+
+    & .container .card {
+        width: 137px;
+        height: 250px;
+        border: 1px solid black;
+        border-radius: 10px;
+        transition: all 0.75s;
+        backface-visibility: hidden;
+        /* background-size: cover; */
+      }
+
+      & .container .card.front {
+        position: absolute;
+        background-size: cover;
+        transform: rotateY(0deg);
+      }
+
+      & .container:hover .card.front {
+        transform: rotateY(180deg) scale(1.1);
+      }
+
+      & .container .card.back {
+        padding: .3rem;
+        box-sizing: border-box;
+        text-align: center;
+        background-color: #202020;
+        color: white;
+        transform: rotateY(-180deg);
+        font-size: medium;fff
+
+        & .name {
+          margin-top: .3rem;
+          font-size: large;
+          font-weight: 600;
+        }
+
+        & .tips {
+          font-size: small;
+        }
+      }
+
+      & .container:hover .card.back {
+        transform: rotateY(0deg) scale(1.1);
+      }
+  }
+`;
+
+export const FamousCard = styled.div`
+  ${Card}
+  width: 100%;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
 `;

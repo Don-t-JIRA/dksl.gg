@@ -3,7 +3,7 @@ import { createGlobalStyle, css } from 'styled-components';
 const GlobalStyles = createGlobalStyle`
 
 #root {
-  width: 100vw;
+  width: 100%;
   height: 100%;
 }
 
@@ -15,8 +15,8 @@ const GlobalStyles = createGlobalStyle`
   width: 100vw !important;
   height: 100vh !important;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  /* color-scheme: light dark; */
+  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #f0f0f0;
   background-attachment: fixed;
 
@@ -25,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
 
   /* --maincolor-depth1: #3E7CB1; */
   --maincolor-depth1: #6E8387;
@@ -39,8 +40,9 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 720px;
   min-height: 100vh;
+
 }
 
 body.swal2-shown > [aria-hidden="true"] {
@@ -64,6 +66,10 @@ button {
 button:hover {
   transform: scale(.25rem);
   filter: drop-shadow(0 0 .1rem var(--maincolor-depth1));
+}
+
+button:disabled {
+  background-color: var(--maincolor-depth2);
 }
 
 a {
@@ -168,12 +174,13 @@ export const Card = css`
   margin-right: auto;
   border: 2px solid #dfdfdf;
   border-radius: 10px;
+  box-sizing: border-box;
 
   & .title {
     width: 98%;
     margin-top: 0.2rem;
     padding: 1.2rem 0;
-    padding-left: 3%;
+    padding-left: 1rem;
     border-bottom: 1px solid #dfdfdf;
     font-size: large;
     font-weight: bold;

@@ -1,30 +1,34 @@
+// jotai
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { atomWithDefault } from 'jotai/utils';
+// Service
 import { getMember, reAccessToken } from '../services/UserService';
 
 const getAuth = async () => {
   const token = {
     access: sessionStorage.getItem('accessToken'),
-    refresh: sessionStorage.getItem('refreshToken'),
+    refresh: localStorage.getItem('refreshToken'),
   };
 
   if (token.access) {
     const reAuth = await getMember();
-    if (reAuth.status == 200) return reAuth.data;
+    
+    if (reAuth != undefined && reAuth.status == 200) return reAuth.data;
   }
 
   if (token.refresh) {
     const reAccess = await reAccessToken(token.refresh);
-    if (reAccess.status == 200) {
-      sessionStorage.setItem('accessToken', reAccess.data.accessToken);
+    
+    if (reAccess != undefined && reAccess.status == 200) {
+      sessionStorage.setItem('accessToken', reAccess.data);
 
       const reAuth = await getMember();
-      if (reAuth.status == 200) return reAuth.data;
+      if (reAuth != undefined && reAuth.status == 200) return reAuth.data;
     }
   }
 
   return null;
-}
+};
 
 const authAtom = atomWithDefault(getAuth);
 
@@ -35,5 +39,3 @@ const updateAuthAtom = atom(null, async (get, set) => {
 export const useUpdateAuth = () => useSetAtom(updateAuthAtom);
 
 export const useAuth = () => useAtomValue(authAtom);
-
-

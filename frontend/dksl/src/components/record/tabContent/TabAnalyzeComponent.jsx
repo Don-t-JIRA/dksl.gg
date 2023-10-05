@@ -1,93 +1,74 @@
+// React
+import { useEffect, useState } from 'react';
+// Axios
+import axios from 'axios';
 // Styled
 import * as S from '@/styles/record/tabanalyze.style';
-// Select
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 // Chart
 import { ResponsiveRadar } from '@nivo/radar';
+import LoadingComponent from '../../common/LoadingComponent';
 
 const data = [
   {
-    "taste": "fruity",
-    "carmenere1": 120,
-    "carmenere2": 60,
-    "carmenere3": 90,
-    "carmenere4": 50,
+    taste: 'fruity',
+    carmenere1: 120,
+    carmenere2: 60,
+    carmenere3: 90,
+    carmenere4: 50,
   },
   {
-    "taste": "bitter",
-    "carmenere1": 35,
-    "carmenere2": 80,
-    "carmenere3": 20,
-    "carmenere4": 100,
+    taste: 'bitter',
+    carmenere1: 35,
+    carmenere2: 80,
+    carmenere3: 20,
+    carmenere4: 100,
   },
   {
-    "taste": "heavy",
-    "carmenere1": 20,
-    "carmenere2": 30,
-    "carmenere3": 50,
-    "carmenere4": 40,
+    taste: 'heavy',
+    carmenere1: 20,
+    carmenere2: 30,
+    carmenere3: 50,
+    carmenere4: 40,
   },
   {
-    "taste": "strong",
-    "carmenere1": 80,
-    "carmenere2": 2,
-    "carmenere3": 70,
-    "carmenere4": 40,
-  }
+    taste: 'strong',
+    carmenere1: 80,
+    carmenere2: 2,
+    carmenere3: 70,
+    carmenere4: 40,
+  },
 ];
 
-const options = [{ value: 'default', label: '큐 타입' }];
+const TabAnalyzeComponent = ({ data }) => {
 
-const animatedComponent = makeAnimated();
-
-const TabAnalyzeComponent = () => {
-  return (
+  return ( 
     <S.TabAnalyzeLayout>
-      <div className="rank-type">
-        <div className="radio-group">
-          <input type="radio" name="rank-type" />
-          <label>랭크 전체</label>
-          <input type="radio" name="rank-type" />
-          <label>솔로 랭크</label>
-          <input type="radio" name="rank-type" />
-          <label>자유 랭크</label>
-        </div>
-        <div className="select-group">
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponent}
-            defaultValue={options[0]}
-            options={options}
-          />
-        </div>
-      </div>
       <S.LeftLayout>
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
           <div className="analyze-box">
-            <img src="image/lbti-img.svg" />
-            <p className="subtitle">
+            <img src="/image/lbti-img.svg" />
+            <div className="subtitle">
               <p>킹받는 티모 원챔</p>
               <p className="lbti">CVSD</p>
-            </p>
+            </div>
             <div className="tag-box">
-              <S.TagItem bg="red">
+              <S.TagItem $bg="red">
                 <div className="text">
                   #<b>공격</b>적인
                 </div>
               </S.TagItem>
-              <S.TagItem bg="green">
+              <S.TagItem $bg="green">
                 <div className="text">
                   #<b>올드</b>한
                 </div>
               </S.TagItem>
-              <S.TagItem bg="violet">
+              <S.TagItem $bg="violet">
                 <div className="text">
                   #많이<b>때린</b>
                 </div>
               </S.TagItem>
-              <S.TagItem bg="var(--maincolor-depth1)">
+              <S.TagItem $bg="var(--maincolor-depth1)">
                 <div className="text">
                   #<b>철거</b>반장
                 </div>
@@ -100,7 +81,7 @@ const TabAnalyzeComponent = () => {
           <div className="graph-box">
             <ResponsiveRadar
               data={data}
-              keys={['carmenere1','carmenere2','carmenere3','carmenere4']}
+              keys={['carmenere1', 'carmenere2', 'carmenere3', 'carmenere4']}
               indexBy="taste"
               valueFormat=">-.2f"
               margin={{ top: -40, right: 80, bottom: 0, left: 80 }}
@@ -139,7 +120,43 @@ const TabAnalyzeComponent = () => {
           </div>
         </S.GraphCard>
       </S.LeftLayout>
-      <S.RightLayout></S.RightLayout>
+      <S.RightLayout>
+        <S.ChampionCard>
+          <p className="title">&#128077; 이 챔피언을 추천해요!</p>
+          <div className="champion-box">
+            {data ? (
+              data.map((e, i) => (
+                <div className="container" key={`champion_card_${i}`}>
+                  <div
+                    className="card front"
+                    style={{
+                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.en_name}_0.jpg)`,
+                    }}
+                  ></div>
+                  <div className="card back">
+                    <div className="name">{e.name}</div>
+                    <p className="tags">{e.tags.map((v, j) => {
+                      if (j == e.tags.length - 1) return v;
+                      else return v+', ';
+                    })}</p>
+                    <p className="tips">{e.tips[Math.floor(Math.random() * e.tips.length)]}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <LoadingComponent />
+            )}
+          </div>
+        </S.ChampionCard>
+        <S.FamousCard>
+          <p className="title">&#128071; 이 사람은 어때요?</p>
+          <div className="content-box">
+            <div className="img">
+              <img src={`/image/star/Baekk.webp`} alt="star_img" />
+            </div>
+          </div>
+        </S.FamousCard>
+      </S.RightLayout>
     </S.TabAnalyzeLayout>
   );
 };
