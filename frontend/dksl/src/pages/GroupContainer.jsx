@@ -31,9 +31,12 @@ const GroupContainer = () => {
   useEffect(() => {
     const fetchAllGroupData = async () => {
       const data = await getGroupList();
-      if (teamList == null || data != teamList) {
-        setTeamList(data);
-      }
+        setTeamList((prevTeamList) => {
+          if (prevTeamList === data) {
+            return prevTeamList;
+          }
+          return data;
+        })
     };
 
     const fetchDetailGroupData = async (name) => {
@@ -47,10 +50,12 @@ const GroupContainer = () => {
         } else return e;
       });
 
-      console.log(data);
-
-      if (data.data != detailList)
-        setDetailList(data.data);
+      setDetailList((prevDetailList) => {
+        if (prevDetailList === data.data) {
+          return prevDetailList;
+        }
+        return data.data;
+      });
     };
 
     setPath(url.pathname);
@@ -60,7 +65,7 @@ const GroupContainer = () => {
     } else if (url.pathname == '/group/detail') {
       fetchDetailGroupData(url.search.split('=')[1]);
     }
-  }, [url, teamList, detailList, auth]);
+  }, [url.pathname, teamList]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);
@@ -96,7 +101,7 @@ const GroupContainer = () => {
         });
       }
     },
-    [teamList]
+    []
   );
 
   const getNewGroup = useCallback(() => {
