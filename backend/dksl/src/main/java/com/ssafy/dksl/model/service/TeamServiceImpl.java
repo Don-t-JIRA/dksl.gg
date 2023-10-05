@@ -207,9 +207,30 @@ public class TeamServiceImpl implements TeamService {
         if(10 < teamList.size()) teamList = teamList.subList(0, 10);
         return getTeamList(teamList);
     }
+    @Override
+    public List<TeamResponse> getMemberCountTeamList() throws CustomException {
+        List<Team> teamList;
+        try {
+            teamList = teamRepository.findAllBySubmitAtIsNotNullOrderByNameAsc();
+            teamList.sort((o1, o2) -> {
+                int o1MemberCount = o1.getMembers().size();
+                int o2MemberCount = o2.getMembers().size();
+
+                if (o1MemberCount < o2MemberCount) return -1;
+                else if (o1MemberCount > o2MemberCount) return -1;
+
+                return o1.getName().compareTo(o2.getName());
+            });
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw new TeamInvalidException();
+        }
+        if(10 < teamList.size()) teamList = teamList.subList(0, 10);
+        return getTeamList(teamList);
+    }
 
     @Override
-    public List<TeamResponse> getRecentTeamList() throws CustomException {
+    public List<TeamResponse> getRecentTeamList(int length) throws CustomException {
         List<MemberTeam> memberTeamList;
         List<Team> teamList = new ArrayList<>();
 
@@ -231,7 +252,7 @@ public class TeamServiceImpl implements TeamService {
                 }
 
                 if (flag) teamList.add(memberTeam.getTeam());  // 중복 아니면 add
-                if (3 <= teamList.size()) break;  // 길이 3 채워지면 break
+                if (length <= teamList.size()) break;  // 길이 10 채워지면 break
             }
 
             return getTeamList(teamList);

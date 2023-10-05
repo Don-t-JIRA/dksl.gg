@@ -6,6 +6,7 @@ import com.ssafy.dksl.model.dto.response.lbti.LbtiQuestionResponse;
 import com.ssafy.dksl.model.entity.*;
 import com.ssafy.dksl.model.repository.*;
 import com.ssafy.dksl.util.JwtUtil;
+import com.ssafy.dksl.util.exception.MemberNotFoundException;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import com.ssafy.dksl.util.exception.common.InvalidException;
 import lombok.extern.slf4j.Slf4j;
@@ -83,8 +84,8 @@ public class LbtiServiceImpl implements LbtiService {
         Lbti lbti = lbtiRepository.findByFirstTendencyAndSecondTendencyAndThirdTendencyAndFourthTendency(first, second, third, fourth)
                 .orElseThrow(() -> new InvalidException("롤BTI"));
 
-        if (setLbtiCommand.getAccessToken() == null) return lbti.toLbtiResponse();
-        Member member = memberRepository.findByClientId(jwtUtil.getClientId(setLbtiCommand.getAccessToken())).orElse(null);
+        if (setLbtiCommand.getAccessToken() == null || setLbtiCommand.getAccessToken().trim().equals("")) return lbti.toLbtiResponse();
+        Member member = memberRepository.findByClientId(jwtUtil.getClientId(jwtUtil.getToken(setLbtiCommand.getAccessToken()))).orElseThrow(MemberNotFoundException::new);
         memberRepository.save(Member.builder()
                 .id(member.getId())
                 .clientId(member.getClientId())
