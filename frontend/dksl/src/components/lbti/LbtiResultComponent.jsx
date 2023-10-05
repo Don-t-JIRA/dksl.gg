@@ -1,12 +1,11 @@
 import * as S from '@/styles/lbti/result.style';
 
-const LbtiResultComponent = ({lbti}) => {
-    console.log(lbti);
-    const lbtiStr = (lbti)? (lbti.firstTendency.initial + 
-    lbti.secondTendency.initial + 
-    lbti.thirdTendency.initial + 
-    lbti.fourthTendency.initial + 
-    " - " + lbti.name) : null;
+const LbtiResultComponent = ({ lbti }) => {
+    const lbtiStr = (lbti) ? (lbti.firstTendency.initial +
+        lbti.secondTendency.initial +
+        lbti.thirdTendency.initial +
+        lbti.fourthTendency.initial +
+        " - " + lbti.name) : null;
 
     return (
         <S.LbtiResultLayout>
@@ -16,12 +15,28 @@ const LbtiResultComponent = ({lbti}) => {
                     <img src={`https://http.cat/200`} />
                     <div className="result-title">💡 {lbtiStr}</div>
                     <div className="tag-box">
-                        <button disabled>{(lbti)? lbti.firstTendency.name : null}</button>
-                        <button disabled>{(lbti)? lbti.secondTendency.name : null}</button>
-                        <button disabled>{(lbti)? lbti.thirdTendency.name : null}</button>
-                        <button disabled>{(lbti)? lbti.fourthTendency.name : null}</button>
+                        <S.TagItem $bg="red">
+                            <div className="text">
+                            {(lbti) ? lbti.firstTendency.name : null}
+                            </div>
+                        </S.TagItem>
+                        <S.TagItem $bg="green">
+                            <div className="text">
+                            {(lbti) ? lbti.secondTendency.name : null}
+                            </div>
+                        </S.TagItem>
+                        <S.TagItem $bg="violet">
+                            <div className="text">
+                            {(lbti) ? lbti.thirdTendency.name : null}
+                            </div>
+                        </S.TagItem>
+                        <S.TagItem $bg="var(--maincolor-depth1)">
+                            <div className="text">
+                            {(lbti) ? lbti.fourthTendency.name : null}
+                            </div>
+                        </S.TagItem>
                     </div>
-                    <div className="description-content">{(lbti)? lbti.description : null}</div>
+                    <div className="description-content">{(lbti) ? lbti.description : null}</div>
                 </div>
             </S.ResultContainer>
         </S.LbtiResultLayout>
