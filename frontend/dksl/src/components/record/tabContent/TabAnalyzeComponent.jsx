@@ -39,47 +39,7 @@ const data = [
   },
 ];
 
-const TabAnalyzeComponent = () => {
-  const [champ, setChamp] = useState(null);
-
-  useEffect(() => {
-    const arr = ['Zed', 'Aatrox', 'Yasuo'];
-
-    const fetchData = async (championName) => {
-      try {
-        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`);
-        const data = response.data.data[championName];
-        return {
-          en_name: championName,
-          name: data.name,
-          title: data.title,
-          tags: data.tags,
-          tips: data.allytips,
-        };
-      } catch (error) {
-        console.error('데이터 가져오기 실패:', error);
-        return null;
-      }
-    };
-
-    const fetchChampionData = async () => {
-      const newArr = [];
-
-      for (const championName of arr) {
-        const championData = await fetchData(championName);
-        if (championData) {
-          newArr.push(championData);
-        }
-      }
-
-      setChamp(newArr);
-    };
-
-    // champ가 null일 때만 데이터 가져오기
-    if (champ === null) {
-      fetchChampionData();
-    }
-  }, [champ]);
+const TabAnalyzeComponent = ({ data }) => {
 
   return ( 
     <S.TabAnalyzeLayout>
@@ -164,8 +124,8 @@ const TabAnalyzeComponent = () => {
         <S.ChampionCard>
           <p className="title">&#128077; 이 챔피언을 추천해요!</p>
           <div className="champion-box">
-            {champ ? (
-              champ.map((e, i) => (
+            {data ? (
+              data.map((e, i) => (
                 <div className="container" key={`champion_card_${i}`}>
                   <div
                     className="card front"
@@ -192,7 +152,7 @@ const TabAnalyzeComponent = () => {
           <p className="title">&#128071; 이 사람은 어때요?</p>
           <div className="content-box">
             <div className="img">
-              <img src="/image/star/Baekk.webp" alt="sample_img" />
+              <img src={`/image/star/Baekk.webp`} alt="star_img" />
             </div>
           </div>
         </S.FamousCard>
