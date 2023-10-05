@@ -1,10 +1,12 @@
+// React
+import { useEffect, useState } from 'react';
+// Axios
+import axios from 'axios';
 // Styled
 import * as S from '@/styles/record/tabanalyze.style';
-// Select
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 // Chart
 import { ResponsiveRadar } from '@nivo/radar';
+import LoadingComponent from '../../common/LoadingComponent';
 
 const data = [
   {
@@ -37,31 +39,35 @@ const data = [
   },
 ];
 
-const options = [{ value: 'default', label: '큐 타입' }];
-
-const animatedComponent = makeAnimated();
-
 const TabAnalyzeComponent = () => {
+  const [champ, setChamp] = useState(null);
+
+  useEffect(() => {
+    const arr = ['Zed', 'Aatrox', 'Yasuo'];
+
+    arr.forEach(async e => {
+      const data = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${e}.json`);
+      console.log(data.data);
+      const obj = {
+        en_name: e,
+        name: data.data.data[e].name,
+        title: data.data.data[e].title,
+        tags: data.data.data[e].tags,
+        tips: data.data.data[e].allytips,
+      };
+      if (champ)
+        setChamp(...champ, [obj]);
+      else 
+        setChamp([obj]);
+    })
+  }, []);
+
+  useEffect(() => {
+
+  }, [champ])
+
   return (
     <S.TabAnalyzeLayout>
-      <div className="rank-type">
-        <div className="radio-group">
-          <input type="radio" name="rank-type" />
-          <label>랭크 전체</label>
-          <input type="radio" name="rank-type" />
-          <label>솔로 랭크</label>
-          <input type="radio" name="rank-type" />
-          <label>자유 랭크</label>
-        </div>
-        <div className="select-group">
-          <Select
-            closeMenuOnSelect={false}
-            components={animatedComponent}
-            defaultValue={options[0]}
-            options={options}
-          />
-        </div>
-      </div>
       <S.LeftLayout>
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
@@ -139,7 +145,40 @@ const TabAnalyzeComponent = () => {
           </div>
         </S.GraphCard>
       </S.LeftLayout>
-      <S.RightLayout></S.RightLayout>
+      <S.RightLayout>
+        <S.ChampionCard>
+          <p className="title">&#128077; 이 챔피언을 추천해요!</p>
+          <div className="champion-box">
+            {champ ? (
+              champ.map((e, i) => (
+                <div className="container" key={`champion_card_${i}`}>
+                  <div
+                    className="card front"
+                    style={{
+                      backgroundImage: `url(http://ddragon.leagueoflegends.com/cdn/img/champion/loading/${e.origin}_0.jpg)`,
+                    }}
+                  ></div>
+                  <div className="card back">
+                    <div className="name">{e.name}</div>
+                    <p className="tags">{e.tags}</p>
+                    <p className="tips">{e.allytips}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <LoadingComponent />
+            )}
+          </div>
+        </S.ChampionCard>
+        <S.FamousCard>
+          <p className="title">&#128071; 이 사람은 어때요?</p>
+          <div className="content-box">
+            <div className="img">
+              <img src="/image/lbti-img.svg" alt="sample_img" />
+            </div>
+          </div>
+        </S.FamousCard>
+      </S.RightLayout>
     </S.TabAnalyzeLayout>
   );
 };

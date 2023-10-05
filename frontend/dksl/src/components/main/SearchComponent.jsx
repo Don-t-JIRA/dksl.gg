@@ -21,7 +21,16 @@ const SearchComponent = () => {
         confirmButtonColor: 'var(--maincolor-depth1)',
       });
       return;
+    } else if (name.includes('/')) {
+      Swal.fire({
+        title: 'Error',
+        text: '잘못된 검색어입니다!',
+        icon: 'error',
+        confirmButtonColor: 'var(--maincolor-depth1)',
+      });
+      return;
     }
+    
     console.log('검색 소환사 명 : ', name);
     navigate(`/record/${name}`);
   };

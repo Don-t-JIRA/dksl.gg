@@ -99,7 +99,7 @@ export const ReviewContainer = styled.div`
     margin-bottom: 0.5rem;
     margin-top: 1rem;
     font-size: medium;
-    border: 1px solid black;
+    border: 1px solid var(--text-gray);
     border-radius: 10px;
   }
 

@@ -3,7 +3,6 @@ import { auth, common } from './api';
 // Swal
 import Swal from 'sweetalert2';
 
-
 // 회원가입 API
 const register = async (data) => {
   try {
@@ -57,12 +56,9 @@ const getMember = async () => {
     return response;
   } catch (error) {
     console.log(error.response);
-    if (error.response.status == 401) {
-      sessionStorage.removeItem('accessToken');
-    }
+    sessionStorage.removeItem('accessToken');
   }
 };
-
 
 // Access 만료 시 재요청 토큰
 const reAccessToken = async (refreshToken) => {
@@ -76,9 +72,7 @@ const reAccessToken = async (refreshToken) => {
     return response;
   } catch (error) {
     console.log(error.response);
-    if (error.response.status == 400) {
-      localStorage.removeItem('refreshToken');
-    }
+    localStorage.removeItem('refreshToken');
   }
 };
 
