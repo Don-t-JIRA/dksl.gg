@@ -6,7 +6,7 @@ pipeline {
         stage("Set environment") {
             steps {
                 echo "Copy require file to pipeline folder"
-                sh 'cp /var/jenkins_home/util/backend/application.properties ./backend/dksl/src/main/resources/application.yml'
+                sh 'cp /var/jenkins_home/util/backend/application.properties ./backend/dksl/src/main/resources/application.properties'
             }
         }
         // Gradle 빌드 스테이지: Spring Boot 프로젝트를 빌드합니다.
