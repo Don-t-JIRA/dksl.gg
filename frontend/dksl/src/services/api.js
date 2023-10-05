@@ -9,6 +9,8 @@ import { reAccessToken } from './UserService';
 // const BASE_URL = 'http://192.168.79.239:8080';
 // 싸피
 const BASE_URL = 'http://70.12.247.95:8080';
+// 태훈꺼
+// const BASE_URL = 'http://localhost:8080';
 // FastAPI
 const RECORD_URL = 'http://70.12.246.196:8000';
 

@@ -58,7 +58,7 @@ const UserContainer = () => {
       });
       return;
     }
-    const data = await register(signup);
+    const data = await register({clientId: signup.clientId, password: signup.password, name: signup.name, phone: signup.phone, email:signup.email});
     if (data.status == 200) {
       Swal.fire({
         title: '알림',
