@@ -9,7 +9,7 @@ import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // import { laderData } from '../data';
 // Jotai
 import { useRecord, useUpdateRecord } from '../jotai/record';
-import { useGroup, useUpdateGroup } from '../jotai/group';
+import { useUpdateGroup } from '../jotai/group';
 import { groupLeave } from '../services/GroupService';
 // Swal
 import Swal from 'sweetalert2';
@@ -51,13 +51,7 @@ const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
   const [recorddata, setRecorddata] = useState(null);
   const [piedata, setPiedata] = useState([{ id: '', label: '', value: 0 }]);
-  const [profile, setProfile] = useState({
-    name: '유 용',
-    level: '800',
-    lbti: 'CVSD',
-    iconId: 6,
-    tier: 'master',
-  });
+  const [profile, setProfile] = useState(null);
   const { summoner } = useParams();
   const navigate = useNavigate();
   const data = useRecord();
