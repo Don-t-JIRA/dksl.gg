@@ -362,7 +362,7 @@ export const RecordCard = styled.div`
       }
 
       & .area-3 {
-        flex-basis: 20%;
+        flex-basis: 16%;
         justify-content: center;
         align-self: center;
 
@@ -390,7 +390,7 @@ export const RecordCard = styled.div`
 
       & .area-5 {
         display: flex;
-        flex-basis: 20%;
+        flex-basis: 24%;
         flex-wrap: wrap;
         justify-content: content;
         align-self: center;
