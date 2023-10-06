@@ -1,7 +1,6 @@
 package com.ssafy.dksl.controller;
 
 import com.ssafy.dksl.model.dto.command.lbti.SetLbtiCommand;
-import com.ssafy.dksl.model.dto.response.lbti.LbtiResponse;
 import com.ssafy.dksl.model.service.LbtiService;
 import com.ssafy.dksl.util.exception.common.CustomException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +32,7 @@ public class LbtiController {
     @PostMapping
     private ResponseEntity<?> setLbti(@RequestHeader(value = "Authorization", required = false) String accessToken, @RequestBody List<Long> selectedList) {
         try {
-            LbtiResponse lbtiResponse = lbtiService.setLbti(SetLbtiCommand.builder().accessToken(accessToken).selectedIndexList(selectedList).build());
-            System.out.println(lbtiResponse);
-            return ResponseEntity.ok(lbtiResponse);
+            return ResponseEntity.ok(lbtiService.setLbti(SetLbtiCommand.builder().accessToken(accessToken).selectedIndexList(selectedList).build()));
         } catch (CustomException e) {
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
