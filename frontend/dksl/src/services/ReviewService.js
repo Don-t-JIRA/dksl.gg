@@ -3,7 +3,6 @@ import { common, auth } from './api.js';
 // Swal
 import Swal from 'sweetalert2';
 
-// 매치가 아닌 소환사별 리뷰가 있어야할듯.
 const getReviews = async (match) => {
   try {
     const response = await common.get(`/review/${match}`);

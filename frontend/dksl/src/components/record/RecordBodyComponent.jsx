@@ -6,15 +6,6 @@ import TabAnalyzeComponent from './tabContent/TabAnalyzeComponent';
 import TabGroupComponent from './tabContent/TabGroupComponent';
 import TabReviewComponent from './tabContent/TabReviewComponent';
 
-/**
- *
- * @param props
- * @tab
- * 0 -> main
- * 1 -> analyze
- * 2 -> group
- * 3 -> review
- */
 const RecordBodyComponent = (props) => {
   return (
     <S.RecordLayout>

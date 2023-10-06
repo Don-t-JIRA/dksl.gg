@@ -21,7 +21,6 @@ const TabGroupComponent = ({ leave, image }) => {
   const [currentGroup, setCurrentGroup] = useState(null);
 
   useEffect(() => {
-    console.log(group);
     if (group != 'NoData') {
       const arr = group.teamList.map((e, i) => {
         return {
@@ -30,7 +29,6 @@ const TabGroupComponent = ({ leave, image }) => {
         };
       });
       if (group.teamList.length > 0) {
-        console.log(currentIdx);
         setCurrentGroup(group.teamList[currentIdx.value]);
         setOptions([...arr]);
       }
@@ -86,7 +84,7 @@ const TabGroupComponent = ({ leave, image }) => {
                     {auth && currentGroup.joined && (
                       <button
                         className="quit-btn"
-                        onClick={() => leave('유한이')}
+                        onClick={() => leave(currentGroup.name)}
                       >
                         탈퇴
                       </button>

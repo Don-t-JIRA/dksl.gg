@@ -1,7 +1,5 @@
 // Axios
 import { common, auth } from './api.js';
-// Swal
-import Swal from 'sweetalert2';
 
 const getQuestionList = async () => {
   try {

@@ -65,7 +65,7 @@ const joinGroup = async (data) => {
 
 const groupLeave = async (name) => {
   try {
-    const response = await auth.post('/team/leave', { name });
+    const response = await auth.post('/team/leave', JSON.stringify(name));
     return response.data;
   } catch (error) {
     Swal.fire('Error', error.response.data, 'error');
