@@ -212,6 +212,7 @@ const RecordCardComponent = (props) => {
             onClick={openDetail}
           />
         </div>
+        <button onClick={location.href='/arena/' + props.matchId}/>
       </S.RecordCard>
       <div className={`start ${isOpen && `end`}`}>
         {isOpen && (
@@ -682,6 +683,7 @@ const TabMainComponent = ({ data, piedata }) => {
               summary={e.summary}
               winner={e.winner}
               loser={e.loser}
+              matchId={e.matchId}
             />
           ))}
         </S.RecordTable>
