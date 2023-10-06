@@ -5,11 +5,9 @@ dnspython==2.2.1
 fastapi==0.78.0
 h11==0.13.0
 idna==3.3
-mongo==0.2.0
 motor
 mysql-connector-python==8.0.32
 pydantic==1.9.1
-pymongo==4.1.1
 PyMySQL==1.0.2
 python-dotenv==0.20.0
 sniffio==1.2.0
