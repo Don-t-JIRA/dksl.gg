@@ -89,7 +89,20 @@ const TabAnalyzeComponent = ({ fetchData }) => {
     }
   }, [analyze, champ, fetchData]);
 
-  return (
+  if (analyze == null) return (<LoadingComponent />)
+
+  return analyze == 'NoData' ? (
+    <S.TabAnalyzeLayout>
+      <S.CenterLayout>
+        <S.NoDataLayout>
+          <p className="info">
+            분석 데이터가 존재하지 않습니다.
+          </p>
+        </S.NoDataLayout>
+      </S.CenterLayout>
+    </S.TabAnalyzeLayout>
+  ) : (
+    
     <S.TabAnalyzeLayout>
       <S.CenterLayout>
         <S.AnalyzeCard>

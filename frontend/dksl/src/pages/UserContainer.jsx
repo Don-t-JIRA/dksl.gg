@@ -104,6 +104,12 @@ const UserContainer = () => {
     if (path == null) {
       setPath(url.pathname);
     }
+    setPath((prevPath) => {
+      if (prevPath === url.pathname) {
+        return prevPath;
+      }
+      return url.pathname;
+    });
   }, [auth, url, path, navigate]);
 
   return (

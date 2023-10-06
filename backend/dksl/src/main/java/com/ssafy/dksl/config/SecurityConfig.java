@@ -55,6 +55,11 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/team/add", HttpMethod.POST.name())).authenticated()
                                 .requestMatchers(new AntPathRequestMatcher("/member", HttpMethod.POST.name())).authenticated()
                                 .requestMatchers(new AntPathRequestMatcher("/member/logout", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/**", HttpMethod.OPTIONS.name())).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/team/create", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/team/add", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/member", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/member/logout", HttpMethod.POST.name())).authenticated()
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
@@ -69,15 +74,13 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        //configuration.setAllowedOrigins(Arrays.asList("https://j9a703.p.ssafy.io", "https://j9a703.p.ssafy.io:3000", "http://127.0.0.1", "http://localhost", "http://127.0.0.1:3000", "http://localhost:3000"));
-        configuration.addAllowedOrigin("https://j9a703.p.ssafy.io");
-        configuration.addAllowedOriginPattern("https://j9a703.p.ssafy.io");
+        configuration.setAllowedOrigins(Arrays.asList("https://j9a703.p.ssafy.io", "http://127.0.0.1", "http://localhost", "http://127.0.0.1:3000", "http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name()));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
 
     }
