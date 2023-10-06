@@ -29,7 +29,7 @@ then
 echo "venv activated by . app/venv/Scripts/activate"
 else
 . venv/bin/activate
-echo "venv activated by . app/venv/bin/activate "
+echo "venv activated by . app/venv/bin/activate"
 fi
 
 
