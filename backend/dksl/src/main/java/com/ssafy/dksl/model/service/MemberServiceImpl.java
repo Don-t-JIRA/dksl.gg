@@ -105,9 +105,9 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
         }
 
         // 중복 로그인 되었는지 확인 (redis에 refreshToken 존재하는지)
-        if (refreshTokenRepository.findById(member.getClientId()).isPresent()) {
-            throw new LoginDuplicateException();
-        }
+//        if (refreshTokenRepository.findById(member.getClientId()).isPresent()) {
+//            throw new LoginDuplicateException();
+//        }
 
         memberResponse = updateMember(member);  // Member 정보 가져오기
 
