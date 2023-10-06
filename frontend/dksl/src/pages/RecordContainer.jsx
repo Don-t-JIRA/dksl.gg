@@ -15,7 +15,6 @@ import { groupLeave } from '../services/GroupService';
 import Swal from 'sweetalert2';
 // Axios
 import axios from 'axios';
-import { common } from '../services/api';
 import { useUpdateAnalyze } from '../jotai/analyze';
 
 // eslint-disable-next-line react/display-name
@@ -78,19 +77,6 @@ const RecordContainer = () => {
       return null;
     }
   }, []);
-
-  const registerEvaluation = useCallback(async (evaluation, summonerName, evaluationScore) => {
-    let requestBody = {
-      evaluation: evaluation,
-      evaluatorName: summonerName,
-      evaluateeName: summoner,
-      score: evaluationScore
-    }
-
-    requestBody = JSON.stringify(requestBody)
-
-    await common.post('/evaluation/create', requestBody)
-  }, [summoner]);
 
   useEffect(() => {
     if (data != null) {
@@ -163,7 +149,6 @@ const RecordContainer = () => {
         getByteToImage={getByteToImage}
         fetchChampData={fetchChampData}
         searchSummonerName={summoner}
-        setReview={registerEvaluation}
         // lbti={lbti}
       />
     </>
