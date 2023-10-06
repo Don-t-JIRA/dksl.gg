@@ -17,6 +17,20 @@ export const CenterLayout = styled.div`
   flex-wrap: wrap;
 `;
 
+export const NoDataLayout = styled.div`
+  ${Card}
+  width: 70%;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  & .info {
+    font-size: x-large;
+    font-weight: bold;
+  }
+`
+
 export const AnalyzeCard = styled.div`
   ${Card}
   width: 30%;
