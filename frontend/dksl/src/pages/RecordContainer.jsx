@@ -1,5 +1,5 @@
 // React
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // Component
 import ProfileComponent from '../components/record/ProfileComponent';
@@ -15,6 +15,37 @@ import { groupLeave } from '../services/GroupService';
 import Swal from 'sweetalert2';
 // Axios
 import axios from 'axios';
+import { useUpdateAnalyze } from '../jotai/analyze';
+
+// eslint-disable-next-line react/display-name
+const MemoizedProfileComponent = React.memo(({ data }) => {
+  return <ProfileComponent data={data} />;
+});
+
+// eslint-disable-next-line react/display-name
+const MemoizedRecordBodyComponent = React.memo(
+  ({
+    recorddata,
+    piedata,
+    tab,
+    setTab,
+    leaveTeam,
+    getByteToImage,
+    fetchChampData,
+  }) => {
+    return (
+      <RecordBodyComponent
+        recorddata={recorddata}
+        piedata={piedata}
+        tab={tab}
+        setTab={setTab}
+        leaveTeam={leaveTeam}
+        getByteToImage={getByteToImage}
+        fetchChampData={fetchChampData}
+      />
+    );
+  }
+);
 
 const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
@@ -31,51 +62,30 @@ const RecordContainer = () => {
   const navigate = useNavigate();
   const data = useRecord();
   const setRecord = useUpdateRecord();
+  const setAnalyze = useUpdateAnalyze();
   // LBTI 뽑기 위한 group Atom
   // const group = useGroup();
   // const [lbti, setLbti] = useState(null);
   const setGroup = useUpdateGroup();
 
-  const [champ, setChamp] = useState(null);
-
-  useEffect(() => {
-    const arr = ['Zed', 'Aatrox', 'Yasuo'];
-
-    const fetchData = async (championName) => {
-      try {
-        const response = await axios.get(`https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`);
-        const data = response.data.data[championName];
-        return {
-          en_name: championName,
-          name: data.name,
-          title: data.title,
-          tags: data.tags,
-          tips: data.allytips,
-        };
-      } catch (error) {
-        console.error('데이터 가져오기 실패:', error);
-        return null;
-      }
-    };
-
-    const fetchChampionData = async () => {
-      const newArr = [];
-
-      for (const championName of arr) {
-        const championData = await fetchData(championName);
-        if (championData) {
-          newArr.push(championData);
-        }
-      }
-
-      setChamp(newArr);
-    };
-
-    // champ가 null일 때만 데이터 가져오기
-    if (champ === null) {
-      fetchChampionData();
+  const fetchChampData = useCallback(async (championName) => {
+    try {
+      const response = await axios.get(
+        `https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`
+      );
+      const data = response.data.data[championName];
+      return {
+        en_name: championName,
+        name: data.name,
+        title: data.title,
+        tags: data.tags,
+        tips: data.allytips,
+      };
+    } catch (error) {
+      console.error('데이터 가져오기 실패:', error);
+      return null;
     }
-  }, [champ]);
+  }, []);
 
   useEffect(() => {
     if (data != null) {
@@ -83,8 +93,8 @@ const RecordContainer = () => {
         Swal.fire('이런!', '정보가 없는 소환사입니다!', 'info');
         navigate('/');
       }
-      setProfile(data.profile);
       setRecorddata(data);
+      setProfile(data.profile);
       setPiedata([
         {
           id: '승리',
@@ -101,14 +111,15 @@ const RecordContainer = () => {
     // if (group && group.summoner_lbti) {
     //   setLbti(group.summoner_lbti);
     // }
+  }, [data, navigate]);
+
+  useEffect(() => {
     if (summoner != null || summoner != undefined) {
-      console.log(summoner);
       setGroup(summoner);
       setRecord(summoner);
+      setAnalyze(summoner);
     }
-    // Test
-    // setGroup('유한이');
-  }, [summoner, setGroup, setRecord, navigate]);
+  }, [summoner, setGroup, setRecord, setAnalyze]);
 
   const getByteToImage = useCallback((imgSrc) => {
     const binaryString = atob(imgSrc);
@@ -137,25 +148,19 @@ const RecordContainer = () => {
     }
   }, []);
 
-  /**
-   * 여기서는 search 메서드를 통해 소환사명 입력 받으면
-   * 소환사명으로 전적 요청을 FastAPI 서버로 보내서
-   * 불러온 전적을 RecordBodyComponent에 레코드 데이터로 보내주기
-   * 해당 소환사에 대한 정보도 받아와서 ProfileComponent에 보내주기
-   */
-
   return (
     <>
       <HeaderComponent />
-      <ProfileComponent data={profile} />
-      <RecordBodyComponent
+      <MemoizedProfileComponent data={profile} />
+      <MemoizedRecordBodyComponent
         recorddata={recorddata}
         piedata={piedata}
-        analyzedata={champ}
         tab={recordTab}
         setTab={setRecordTab}
         leaveTeam={leaveTeam}
         getByteToImage={getByteToImage}
+        fetchChampData={fetchChampData}
+        searchSummonerName={summoner}
         // lbti={lbti}
       />
     </>

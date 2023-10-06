@@ -1,49 +1,97 @@
 // React
 import { useEffect, useState } from 'react';
-// Axios
-import axios from 'axios';
 // Styled
 import * as S from '@/styles/record/tabanalyze.style';
 // Chart
-import { ResponsiveRadar } from '@nivo/radar';
+import { ResponsiveBar } from '@nivo/bar';
+// Component
 import LoadingComponent from '../../common/LoadingComponent';
+// Jotai
+import { useAnalyze } from '../../../jotai/analyze';
+// Data
+import { star } from '../../../star';
 
-const data = [
-  {
-    taste: 'fruity',
-    carmenere1: 120,
-    carmenere2: 60,
-    carmenere3: 90,
-    carmenere4: 50,
-  },
-  {
-    taste: 'bitter',
-    carmenere1: 35,
-    carmenere2: 80,
-    carmenere3: 20,
-    carmenere4: 100,
-  },
-  {
-    taste: 'heavy',
-    carmenere1: 20,
-    carmenere2: 30,
-    carmenere3: 50,
-    carmenere4: 40,
-  },
-  {
-    taste: 'strong',
-    carmenere1: 80,
-    carmenere2: 2,
-    carmenere3: 70,
-    carmenere4: 40,
-  },
-];
+const openLink = (url) => {
+  window.open(url, '_blank');
+};
 
-const TabAnalyzeComponent = ({ data }) => {
+const TabAnalyzeComponent = ({ fetchData }) => {
+  const analyze = useAnalyze();
+  const [champ, setChamp] = useState(null);
+  const [chart, setChart] = useState(null);
+  useEffect(() => {
+    console.log('analyze: ', analyze);
+    if (analyze && analyze != 'NoData') {
+      const data = analyze.cluster;
+      console.log(typeof parseInt(data.cs));
+      setChart([
+        {
+          id: 'cs',
+          value: parseInt(data.cs),
+        },
+        {
+          id: 'dealt',
+          value: parseInt(data.dealt),
+        },
+        {
+          id: 'dpm',
+          value: parseInt(data.dpm),
+        },
+        {
+          id: 'kda',
+          value: parseFloat(data.kda),
+        },
+        {
+          id: 'level',
+          value: parseInt(data.level),
+        },
+        {
+          id: 'no',
+          value: parseInt(data.no),
+        },
+        {
+          id: 'receive',
+          value: parseInt(data.receive),
+        },
+        {
+          id: 'soloKill',
+          value: parseInt(data.soloKill),
+        },
+        {
+          id: 'vision',
+          value: parseInt(data.vision),
+        },
+        {
+          id: 'ward',
+          value: parseInt(data.ward),
+        },
+      ]);
+    }
+  }, [analyze]);
+  useEffect(() => {
+    const arr = analyze.chapmions;
 
-  return ( 
+    const fetchChampionData = async () => {
+      const newArr = [];
+
+      for (const championName of arr) {
+        const championData = await fetchData(championName);
+        if (championData) {
+          newArr.push(championData);
+        }
+      }
+
+      setChamp(newArr);
+    };
+
+    if (champ === null) {
+      fetchChampionData();
+    }
+  }, [analyze, champ, fetchData]);
+
+  return (
     <S.TabAnalyzeLayout>
-      <S.LeftLayout>
+      <S.CenterLayout>
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
           <div className="analyze-box">
@@ -77,55 +125,42 @@ const TabAnalyzeComponent = ({ data }) => {
           </div>
         </S.AnalyzeCard>
         <S.GraphCard>
-          <p className="title">&#128195; 롤BTI 그래프</p>
+          <p className="title">&#128195; 소환사 분석 그래프</p>
           <div className="graph-box">
-            <ResponsiveRadar
-              data={data}
-              keys={['carmenere1', 'carmenere2', 'carmenere3', 'carmenere4']}
-              indexBy="taste"
-              valueFormat=">-.2f"
-              margin={{ top: -40, right: 80, bottom: 0, left: 80 }}
-              borderColor={{ from: 'color' }}
-              gridLevels={4}
-              gridShape="linear"
-              gridLabelOffset={36}
-              dotSize={10}
-              dotColor={{ theme: 'background' }}
-              dotBorderWidth={2}
-              colors={{ scheme: 'nivo' }}
-              blendMode="multiply"
-              motionConfig="wobbly"
-              legends={[
-                {
-                  anchor: 'top-left',
-                  direction: 'column',
-                  translateX: -50,
-                  translateY: -40,
-                  itemWidth: 80,
-                  itemHeight: 20,
-                  itemTextColor: '#999',
-                  symbolSize: 12,
-                  symbolShape: 'circle',
-                  effects: [
-                    {
-                      on: 'hover',
-                      style: {
-                        itemTextColor: '#000',
-                      },
-                    },
-                  ],
-                },
-              ]}
-            />
+            {chart ? (
+              <ResponsiveBar
+                data={chart}
+                keys={['value']}
+                indexBy="id"
+                margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
+                padding={0.3}
+                layout="vertical"
+                colors={{ scheme: 'nivo' }}
+                axisBottom={{
+                  tickSize: 5,
+                  tickPadding: 0,
+                  tickRotation: 0,
+                }}
+                enableGridX={false}
+                enableGridY={true}
+                enableLabel={false}
+              />
+            ) : (
+              <LoadingComponent />
+            )}
+            <div className="desc">
+              <p className="cluster-name">{analyze.cluster.name}</p>
+              <p className="minion">
+                평균 미니언: {analyze.cluster.minion_avg}
+              </p>
+            </div>
           </div>
         </S.GraphCard>
-      </S.LeftLayout>
-      <S.RightLayout>
         <S.ChampionCard>
           <p className="title">&#128077; 이 챔피언을 추천해요!</p>
           <div className="champion-box">
-            {data ? (
-              data.map((e, i) => (
+            {champ ? (
+              champ.map((e, i) => (
                 <div className="container" key={`champion_card_${i}`}>
                   <div
                     className="card front"
@@ -135,11 +170,15 @@ const TabAnalyzeComponent = ({ data }) => {
                   ></div>
                   <div className="card back">
                     <div className="name">{e.name}</div>
-                    <p className="tags">{e.tags.map((v, j) => {
-                      if (j == e.tags.length - 1) return v;
-                      else return v+', ';
-                    })}</p>
-                    <p className="tips">{e.tips[Math.floor(Math.random() * e.tips.length)]}</p>
+                    <p className="tags">
+                      {e.tags.map((v, j) => {
+                        if (j == e.tags.length - 1) return v;
+                        else return v + ', ';
+                      })}
+                    </p>
+                    <p className="tips">
+                      {e.tips[Math.floor(Math.random() * e.tips.length)]}
+                    </p>
                   </div>
                 </div>
               ))
@@ -150,13 +189,27 @@ const TabAnalyzeComponent = ({ data }) => {
         </S.ChampionCard>
         <S.FamousCard>
           <p className="title">&#128071; 이 사람은 어때요?</p>
-          <div className="content-box">
-            <div className="img">
-              <img src={`/image/star/Baekk.webp`} alt="star_img" />
+
+          {analyze ? (
+            <div className="content-box">
+              <div className="img">
+                <img
+                  src={`/image/star/${star[analyze.celeb.name].img}`}
+                  alt="star_img"
+                  onClick={() => openLink(analyze.celeb.url)}
+                />
+              </div>
+              <div className="desc">
+                <p className="name">이름: {analyze.celeb.name}</p>
+                <p className="line">라인: {analyze.celeb.line}</p>
+                <p className="description">{analyze.celeb.desc}</p>
+              </div>
             </div>
-          </div>
+          ) : (
+            <LoadingComponent />
+          )}
         </S.FamousCard>
-      </S.RightLayout>
+      </S.CenterLayout>
     </S.TabAnalyzeLayout>
   );
 };

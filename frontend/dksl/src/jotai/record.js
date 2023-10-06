@@ -1,17 +1,16 @@
 // data
-import { sample } from '../data';
 import { spell } from '../spell';
 import { rune } from '../rune';
 // Jotai
 import { atomWithDefault } from 'jotai/utils';
 import { useAtomValue, useSetAtom, atom } from 'jotai';
-// import { getSearchData } from '../services/RecordService';
+import { getSearchData } from '../services/RecordService';
 // Swal
-// import Swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 
 // 함께한 소환사 아이콘, 이름, 게임 수, 승-패, 승률 메서드
 // 20 게임의 매치 데이터와 검색된 소환사 받기
-const getDuoPlayer = (data, cur) => {
+function getDuoPlayer(data, cur) {
   const map = new Map();
 
   let recentData = {
@@ -116,7 +115,7 @@ const getDuoPlayer = (data, cur) => {
   );
 
   return { result, recentData };
-};
+}
 
 // 획득 골드량 포맷팅 메서드
 const formatGold = (number) => {
@@ -135,14 +134,26 @@ const formatGold = (number) => {
 const formattingData = async (user) => {
   let win = 0;
 
-  user = sample.profile[0].summoner_name;
-  
-  // if (user == null || user == undefined || typeof user != 'string') return null;
-  // const sample = await getSearchData(user).catch((error) => {
-  //   Swal.fire('Error', error.message, 'error');
-  // });
+  if (user == null || user == undefined || typeof user != 'string') return null;
+  const sample = await getSearchData(user).catch((error) => {
+    Swal.fire('Error', error.message, 'error');
+  });
   if (sample == 'NoData') return sample;
-  const arr = sample.match_histories.map((e) => {
+  console.log(sample);
+  const record = {
+    profile: sample.profile,
+    match_histories: [],
+  };
+  let tempArr = [];
+  for (let i = sample.match_histories.length - 1; i >= 0; i--) {
+    tempArr.push(sample.match_histories[i]);
+    if (i % 10 == 0) {
+      record.match_histories.push(tempArr);
+      tempArr = [];
+    }
+  }
+  console.log(record);
+  const arr = record.match_histories.map((e) => {
     let cur;
     let summary = [[], []];
     // 매치마다 시간 계산
@@ -225,6 +236,15 @@ const formattingData = async (user) => {
     });
 
     // 계산된 매치 시간대 저장
+    if (cur === undefined) {
+      Swal.fire({
+        title: '이런!',
+        text: '정확한 소환사명을 입력해주세요!',
+        icon: 'error',
+      }).then((result) => {
+        if (result.isConfirmed) window.location.href = '/';
+      });
+    }
     e[cur].play_time = match_ago;
 
     // 객체 배열로 리턴
@@ -250,10 +270,10 @@ const formattingData = async (user) => {
 
   let positions_cnt = 0;
 
-  sample.profile[0].positions.forEach(e => positions_cnt += e.cnt);
+  record.profile[0].positions.forEach((e) => (positions_cnt += e.cnt));
 
   const now = new Date();
-  const recordTime = new Date(sample.profile[0].last_updated_at);
+  const recordTime = new Date(record.profile[0].last_updated_at);
 
   const refreshAgo = now - recordTime;
   let refreshResult;
@@ -274,12 +294,12 @@ const formattingData = async (user) => {
   }
 
   const profileData = {
-    ...sample.profile[0],
+    ...record.profile[0],
     positions_cnt,
-    last_updated_at: refreshResult
-  }
+    last_updated_at: refreshResult,
+  };
 
-  const freeRank = sample.profile[1] ? sample.profile[1] : null;
+  const freeRank = record.profile[1] ? record.profile[1] : null;
 
   // 가공된 데이터 리턴
   return {

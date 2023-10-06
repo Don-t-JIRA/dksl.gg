@@ -43,7 +43,7 @@ const HeaderComponent = () => {
       });
       return;
     }
-    
+
     console.log('검색 소환사 명 : ', name);
     navigate(`/record/${name}`);
   };
@@ -61,7 +61,7 @@ const HeaderComponent = () => {
         confirmButtonText: '확인',
       }).then((res) => {
         if (res.isConfirmed) {
-          console.log("Success, Logout!");
+          console.log('Success, Logout!');
           navigate('/');
           location.reload();
         }
@@ -99,7 +99,11 @@ const HeaderComponent = () => {
       ) : (
         <S.LogoutContainer>
           <div className="profile">
-            <img src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${user.profileIconId}.png`} alt="profile" className="image" />
+            <img
+              src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${user.profileIconId}.png`}
+              alt="profile"
+              className="image"
+            />
             <p className="name">{auth.name}</p>
             <button onClick={logout}>로그아웃</button>
           </div>
