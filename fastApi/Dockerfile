@@ -18,4 +18,4 @@ COPY ./app/requirements.txt .
 RUN pip install -r requirements.txt
 
 # 서버 실행
-CMD ["uvicorn", "main:app", "--port", "8000"]
+CMD ["uvicorn", "app.main:app", "--port", "8000"]

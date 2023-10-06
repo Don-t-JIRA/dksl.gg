@@ -5,6 +5,8 @@ FROM openjdk:17-jdk-slim
 # 이것은 빌드된 JAR 파일의 위치를 나타냅니다.
 ARG JAR_FILE=build/libs/*.jar
 
+RUN mkdir images
+
 # 지정된 JAR 파일을 'app.jar'라는 이름으로 컨테이너 내부에 복사합니다.
 COPY ${JAR_FILE} app.jar
 
