@@ -71,12 +71,13 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         //configuration.setAllowedOrigins(Arrays.asList("https://j9a703.p.ssafy.io", "https://j9a703.p.ssafy.io:3000", "http://127.0.0.1", "http://localhost", "http://127.0.0.1:3000", "http://localhost:3000"));
         configuration.addAllowedOrigin("https://j9a703.p.ssafy.io");
+        configuration.addAllowedOriginPattern("https://j9a703.p.ssafy.io");
         configuration.setAllowedMethods(Arrays.asList(HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name()));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/api/**", configuration);
         return source;
 
     }
