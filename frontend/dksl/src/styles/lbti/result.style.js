@@ -56,6 +56,10 @@ export const ResultContainer = styled.div`
         white-space: pre-line;
         line-height: 1.5rem;
     }
+
+    & button {
+      margin-bottom: 1rem;
+    }
   }
 `;
 
