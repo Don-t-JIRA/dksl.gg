@@ -104,7 +104,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth, onJoinGroup })
                       <div className="member-name">
                         <img
                           className="image"
-                          src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${detailList.currentSummoner.profileIconId}.png`}
+                          src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${detailList.currentSummoner.profileIconId}.png`}
                           alt="!"
                         />
                         <p className="member-level">
@@ -127,7 +127,7 @@ const GroupDetailComponent = ({ detailList, getByteToImage, auth, onJoinGroup })
                       <div className="member-name">
                         <img
                           className="image"
-                          src={`http://ddragon.leagueoflegends.com/cdn/13.9.1/img/profileicon/${e.profileIconId}.png`}
+                          src={`http://ddragon.leagueoflegends.com/cdn/13.19.1/img/profileicon/${e.profileIconId}.png`}
                           alt="!"
                         />
                         <p className="member-level">{e.level}레벨</p>

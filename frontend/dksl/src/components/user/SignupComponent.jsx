@@ -4,6 +4,7 @@ import { useMemo, useState, useEffect } from 'react';
 import * as S from '@/styles/user/signup.style';
 // Swal
 import Swal from 'sweetalert2';
+// Validation
 import {
   emailVaildationCheck,
   idValidationCheck,
@@ -13,10 +14,6 @@ import {
   pwValidationCheck,
 } from '../../services/ValidationService';
 
-/**
- * @param getter // 회원가입 시 서버에 전송할 유저 객체
- * @param setter // 유저 객체에 값 저장할 Setter 메서드
- */
 const SignupComponent = ({ getter, setter, onSignup }) => {
   const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
   const [checked, setChecked] = useState({
