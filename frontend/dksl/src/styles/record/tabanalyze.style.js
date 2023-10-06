@@ -46,12 +46,12 @@ export const AnalyzeCard = styled.div`
 
   & .analyze-box {
     & img {
-      width: 90%;
+      width: 60%;
+      margin: 1rem;
+      border-radius: 5px;
     }
 
     & .subtitle {
-      display: flex;
-      justify-content: center;
       margin-top: 0.1rem;
 
       & p {
@@ -66,15 +66,19 @@ export const AnalyzeCard = styled.div`
     }
 
     & .tag-box {
+      width: 100%;
       display: flex;
-      justify-content: space-around;
-      margin: 1rem 0.5rem;
+      justify-content: space-evenly;
+      margin: 1rem 0;
+      margin-top: 2rem;
     }
   }
 `;
 
 export const TagItem = styled.div`
   ${Tag};
+  width: 20%;
+  font-size: small;
   background-color: ${(props) => props.$bg};
 `;
 
@@ -92,13 +96,33 @@ export const GraphCard = styled.div`
   & .graph-box {
     width: 100%;
     height: 70%;
+
+    & .graph {
+      width: 96%;
+      height: 90%;
+    }
+
+    & .desc {
+      width: 70%;
+      margin: 0 auto;
+      text-align: center;
+
+      & p {
+        margin-top: 0;
+      }
+
+      & .cluster-name {
+        font-size: large;
+        font-weight: bold;
+      }
+    }
   }
 `;
 
 export const ChampionCard = styled.div`
   ${Card}
   width: 92%;
-  height: 50vh;
+  height: 55vh;
 
   & .champion-box {
     width: 100%;
