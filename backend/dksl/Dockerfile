@@ -6,6 +6,7 @@ FROM openjdk:17-jdk-slim
 ARG JAR_FILE=build/libs/*.jar
 
 RUN mkdir images
+RUN mkdir images/team
 
 # 지정된 JAR 파일을 'app.jar'라는 이름으로 컨테이너 내부에 복사합니다.
 COPY ${JAR_FILE} app.jar
