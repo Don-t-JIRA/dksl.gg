@@ -71,7 +71,6 @@ const SignupComponent = ({ getter, setter, onSignup }) => {
         ['passwordCheck']: pwCheck,
       })
     }
-    console.log(checked);
   };
 
   const onInfo = async () => {

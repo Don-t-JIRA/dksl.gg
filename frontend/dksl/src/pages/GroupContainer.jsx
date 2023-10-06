@@ -128,13 +128,8 @@ const GroupContainer = () => {
 
         formData.append('team', blob);
         formData.append('img', document.getElementById('img').files[0]);
-        for (const [key, value] of formData.entries()) {
-          console.log(key, value);
-          console.log(typeof value);
-        }
 
         const data = await setNewGroup(formData);
-        console.log(data);
         if (data) {
           Swal.fire({
             title: '요청 성공',

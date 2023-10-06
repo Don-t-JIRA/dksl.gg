@@ -5,12 +5,7 @@ import Swal from 'sweetalert2';
 /// Service
 import { reAccessToken } from './UserService';
 
-// 맥북
-// const BASE_URL = VITE_NOTEBBOOK_SPRING_URL;
-// 싸피
 const BASE_URL = import.meta.env.VITE_SERVER_API_URL;
-// const BASE_URL = 'http://192.168.1.115:8080';
-// FastAPI
 const RECORD_URL = import.meta.env.VITE_SERVER_API_URL;
 
 const common = Axios.create({
@@ -51,25 +46,11 @@ auth.interceptors.request.use(
         Swal.fire('이런!', '로그인이 필요합니다', 'info');
       }
     }
-    // config.withCredentials = false;
     return config;
   },
   function (error) {
     return Promise.reject(error);
   }
 );
-
-// // 응답 인터셉터 추가
-// auth.interceptors.response.use(
-//   function (response) {
-//     // 응답 데이터를 가공
-//     // ...
-//     return response;
-//   },
-//   function (error) {
-//     // 오류 응답을 처리
-//     // ...
-//     return Promise.reject(error);
-//   });
 
 export { auth, common, record };

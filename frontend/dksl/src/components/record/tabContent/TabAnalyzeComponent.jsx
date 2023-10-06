@@ -8,9 +8,9 @@ import { ResponsiveBar } from '@nivo/bar';
 import LoadingComponent from '../../common/LoadingComponent';
 // Jotai
 import { useAnalyze } from '../../../jotai/analyze';
+import { useGroup } from '../../../jotai/group';
 // Data
 import { star } from '../../../star';
-import { useGroup } from '../../../jotai/group';
 
 const openLink = (url) => {
   window.open(url, '_blank');
@@ -22,42 +22,10 @@ const TabAnalyzeComponent = ({ fetchData }) => {
   const group = useGroup();
   const [champ, setChamp] = useState(null);
   const [chart, setChart] = useState(null);
-  const [lbti, setLbti] = useState(
-    
-      {
-          "id": 16,
-          "name": "원딜보다 딜 더 넣으려 하는 파이크",
-          "description": "허깅이나 한타 같은 안정적인 플레이를 좋아하는 당신!\n 챔프 폭이 넓고, 상향된 챔피언은 그때 그때 즐겨야 하는 성격입니다.\n\n후반 한타에서는 더욱 집중하고,\n결국 본인의 캐리로 게임을 승리로 이끄는 성향이군요!",
-          "championName": "Pyke",
-          "firstTendency": {
-              "id": "stable",
-              "name": "#안정적인",
-              "initial": "S"
-          },
-          "secondTendency": {
-              "id": "mz",
-              "name": "#MZ한",
-              "initial": "M"
-          },
-          "thirdTendency": {
-              "id": "lately",
-              "name": "#후반형",
-              "initial": "L"
-          },
-          "fourthTendency": {
-              "id": "killer",
-              "name": "#장의사",
-              "initial": "K"
-          },
-          "lbtiStr": "SMLK"
-      }
-  
-  );
+  const [lbti, setLbti] = useState(null);
   useEffect(() => {
-    console.log('analyze: ', analyze);
     if (analyze && analyze != 'NoData') {
       const data = analyze.cluster;
-      console.log(typeof parseInt(data.cs));
       setChart([
         {
           id: 'CS',

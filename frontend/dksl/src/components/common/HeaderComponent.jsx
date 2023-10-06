@@ -44,7 +44,6 @@ const HeaderComponent = () => {
       return;
     }
 
-    console.log('검색 소환사 명 : ', name);
     navigate(`/record/${name}`);
   };
 

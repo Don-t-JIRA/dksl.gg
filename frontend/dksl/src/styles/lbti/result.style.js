@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { Card, Tag } from '../globalStyles.style';
 
 export const LbtiResultLayout = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
 `;
-
 
 export const ResultContainer = styled.div`
   width: 80%;
@@ -28,18 +27,18 @@ export const ResultContainer = styled.div`
     align-items: center;
 
     & img {
-        height: 40vh;
-        margin: 2vh 0;
+      height: 40vh;
+      margin: 2vh 0;
     }
 
     & .result-title {
-        font-size: xx-large;
-        font-weight: bold;
-        margin-bottom: 2vh;
+      font-size: xx-large;
+      font-weight: bold;
+      margin-bottom: 2vh;
     }
     & .result-content {
-        margin-top: 5vh;
-        font-size: 1.3rem;
+      margin-top: 5vh;
+      font-size: 1.3rem;
     }
 
     & .tag-box {
@@ -50,11 +49,11 @@ export const ResultContainer = styled.div`
     }
 
     & .description-content {
-        width: 60%;
-        margin-bottom: 5vh;
-        text-align: left;
-        white-space: pre-line;
-        line-height: 1.5rem;
+      width: 60%;
+      margin-bottom: 5vh;
+      text-align: left;
+      white-space: pre-line;
+      line-height: 1.5rem;
     }
 
     & button {

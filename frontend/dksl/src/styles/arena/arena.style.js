@@ -89,7 +89,6 @@ export const ArenaBox = styled.div`
   border: 1px solid #E7E7E7;
   border-radius: 5px;
   font-weight: 600;
-  /* filter: drop-shadow(1px 2px 2px hsl(0deg 0% 0% / 0.38)); */
 
   & .profile-section {
     width: 95%;

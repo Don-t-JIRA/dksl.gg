@@ -4,6 +4,7 @@ import { useMemo, useEffect, useState } from 'react';
 import * as S from '@/styles/record/profile.style';
 // Component
 import LoadingComponent from '../common/LoadingComponent';
+// Jotai
 import { useGroup } from '../../jotai/group';
 
 const ProfileComponent = ({ data }) => {
