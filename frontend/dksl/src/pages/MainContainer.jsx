@@ -15,6 +15,8 @@ const MainContainer = () => {
   useEffect(() => {
     const fetchData = async () => {
       const rankData = await getRankData();
+
+      if (!rankData) return;
       const dividedRankData = [];
 
       for (let i = 0; i < rankData.length; i += 10) {
@@ -28,6 +30,7 @@ const MainContainer = () => {
 
     const groupRankData = async () => {
       const data = await getGroupRankData();
+      console.log(data);
       setGroupRankData(data);
     };
 
