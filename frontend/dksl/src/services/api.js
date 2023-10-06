@@ -5,8 +5,8 @@ import Swal from 'sweetalert2';
 /// Service
 import { reAccessToken } from './UserService';
 
-const BASE_URL = import.meta.env.VITE_SERVER_API_URL;
-const RECORD_URL = import.meta.env.VITE_SERVER_API_URL;
+const BASE_URL = import.meta.env.VITE_SPRING_API_URL;
+const RECORD_URL = import.meta.env.VITE_FAST_API_URL;
 
 const common = Axios.create({
   baseURL: BASE_URL,

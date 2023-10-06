@@ -3,10 +3,6 @@ import { useMemo } from 'react';
 // Styled
 import * as S from '@/styles/user/signin.style';
 
-/**
- * @param getter // 로그인 시 서버에 전송할 유저 객체
- * @param setter // 유저 객체에 값 저장할 Setter 메서드
- */
 const SigninComponent = ({ getter, setter, onSignIn }) => {
   const num = useMemo(() => Math.floor(Math.random() * 5) + 1, []);
 

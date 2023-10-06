@@ -62,7 +62,7 @@ const RecordContainer = () => {
   const fetchChampData = useCallback(async (championName) => {
     try {
       const response = await axios.get(
-        `https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/champion/${championName}.json`
+        `https://ddragon.leagueoflegends.com/cdn/13.19.1/data/ko_KR/champion/${championName}.json`
       );
       const data = response.data.data[championName];
       return {

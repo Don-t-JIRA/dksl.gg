@@ -1,15 +1,16 @@
 // React
-import { useEffect, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 // Component
 import LoadingComponent from '../components/common/LoadingComponent';
-import HeaderComponent from "../components/common/HeaderComponent";
-import LbtiMainComponent from "../components/lbti/LbtiMainComponent";
-import LbtiTestComponent from "../components/lbti/LbtiTestComponent";
-import LbtiResultComponent from "../components/lbti/LbtiResultComponent";
+import HeaderComponent from '../components/common/HeaderComponent';
+import LbtiMainComponent from '../components/lbti/LbtiMainComponent';
+import LbtiTestComponent from '../components/lbti/LbtiTestComponent';
+import LbtiResultComponent from '../components/lbti/LbtiResultComponent';
 // Service
 import { getQuestionList, getLbti } from '../services/LbtiService';
-import { useAuth } from "../jotai/auth";
+// Jotai
+import { useAuth } from '../jotai/auth';
 
 const LbtiContainer = () => {
   const navigate = useNavigate();
@@ -18,35 +19,48 @@ const LbtiContainer = () => {
   const url = useLocation();
   const [index, setIndex] = useState(0);
   const [questionList, setQuestionList] = useState(null);
-  const [lbti, setLbti] = useState(null); 
+  const [lbti, setLbti] = useState(null);
   const [selectList, setSelectList] = useState([]);
 
   useEffect(() => {
     const fetchAllQuestionData = async () => {
-      setQuestionList(await getQuestionList());
+      const data = await getQuestionList();
+      if (data)
+        setQuestionList((prevList) => {
+          if (prevList === data) {
+            return prevList;
+          }
+          return data;
+        });
     };
 
     setPath(url.pathname);
-    if(url.pathname == '/lbti/test' && !questionList) {
+    if (url.pathname == '/lbti/test' && !questionList) {
       fetchAllQuestionData();
     }
-  }, [url]);
+  }, [url, questionList]);
 
   useEffect(() => {
-    if(lbti) {
+    if (lbti) {
       navigate('/lbti/result');
     }
-  }, [lbti]);
+  }, [navigate, lbti]);
 
-  const fetchLbtiData  = async () => {
-    setLbti(await getLbti(selectList, (auth)? true:false));
+  const fetchLbtiData = async () => {
+    setLbti(await getLbti(selectList, auth ? true : false));
   };
-
 
   return path == '/lbti/test' ? (
     <>
       <HeaderComponent />
-      <LbtiTestComponent questionList={questionList} index={index} setIndex={setIndex} fetchLbtiData={fetchLbtiData} selectList={selectList} setSelectList={setSelectList} />
+      <LbtiTestComponent
+        questionList={questionList}
+        index={index}
+        setIndex={setIndex}
+        fetchLbtiData={fetchLbtiData}
+        selectList={selectList}
+        setSelectList={setSelectList}
+      />
     </>
   ) : '/lbti/result' && lbti ? (
     <>
@@ -58,9 +72,9 @@ const LbtiContainer = () => {
       <HeaderComponent />
       <LbtiMainComponent />
     </>
-  ): (
+  ) : (
     <LoadingComponent />
   );
-}
+};
 
 export default LbtiContainer;
