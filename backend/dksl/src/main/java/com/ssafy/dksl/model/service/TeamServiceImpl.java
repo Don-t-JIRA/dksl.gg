@@ -89,7 +89,7 @@ public class TeamServiceImpl implements TeamService {
                     .name(createTeamCommand.getName())
                     .description(createTeamCommand.getDescription())
                     .chairman(chairman)
-                    .submitAt(null)
+                    .submitAt(LocalDateTime.now())
                     .img("tmp")  // 임시 img 이름
                     .build();
             team = teamRepository.save(team);  // ID를 받기 위한 임시 저장
