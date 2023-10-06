@@ -132,11 +132,8 @@ export const ChampionCard = styled.div`
 
     & .container {
       width: 100px;
-      /* flex-basis: 30%; */
       height: 80%;
       margin: 0 auto;
-      /* display: flex;
-      justify-content: center; */
       perspective: 300px;
     }
 
@@ -147,7 +144,6 @@ export const ChampionCard = styled.div`
       border-radius: 10px;
       transition: all 0.75s;
       backface-visibility: hidden;
-      /* background-size: cover; */
     }
 
     & .container .card.front {

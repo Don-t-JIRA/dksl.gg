@@ -15,14 +15,10 @@ import { userValidationCheck } from '../services/ValidationService';
 
 const UserContainer = () => {
   const navigate = useNavigate();
-  // 로그인 시 유저 정보 담을 상태 객체
-  // id: string, pw: string
   const [signin, setSignin] = useState({
     clientId: '',
     password: '',
   });
-  // 회원가입 시 유저 정보 담을 상태 객체
-  // id: string, pw: string, name: string, email: string, group: string
   const [signup, setSignup] = useState({
     clientId: '',
     password: '',
@@ -37,14 +33,6 @@ const UserContainer = () => {
 
   const auth = useAuth();
   const updateAuth = useUpdateAuth();
-
-  // const onSubmit = async () => {
-  //   const data = await register(signup);
-  //   if (data.status == 200) {
-  //     Swal.fire('알림', '회원가입에 성공하셨습니다.', 'success');
-  //     navigate('/');
-  //   }
-  // }
 
   const onSignup = useCallback(async () => {
     const validation = await userValidationCheck(signup);
@@ -70,17 +58,6 @@ const UserContainer = () => {
       navigate('/');
     }
   }, [navigate, signup]);
-
-  // const onSignIn = async () => {
-  //   const data = await signIn(signin);
-  //   if (data.status == 200) {
-  //     console.log(data);
-  //     updateAuth();
-  //     Swal.fire('알림', '로그인에 성공하셨습니다.', 'success');
-  //     navigate('/');
-
-  //   }
-  // }
 
   const onSignin = useCallback(async () => {
     const data = await signIn(signin);

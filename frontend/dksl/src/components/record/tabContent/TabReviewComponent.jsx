@@ -15,16 +15,15 @@ const TabReviewComponent = ({ evaluateeName }) => {
   const [summonerName, setSummonerName] = useState("")
   const [evaluation, setEvaluation] = useState(null)
   const [selectList, setSelectList] = useState([1, 2, 3, 4, 5])
-  // reviewList = ['NoDasdta'];
 
   useEffect(()=>{
-    async function getMemberInfo(){
+    async function getMemberInfo() {
       let memberResponse = await getMember();
       setSummonerName(memberResponse.data.name)
       return memberResponse.data.name
     }
 
-    async function getEvaluationList(){
+    async function getEvaluationList() {
       let splitSummonerName = evaluateeName.split();
 
       let realSummonerName = splitSummonerName[0]
@@ -51,9 +50,6 @@ const TabReviewComponent = ({ evaluateeName }) => {
       evaluateeName: evaluateeName,
       score: evaluationScore
     }
-
-    console.log("requestBody")
-    console.log(requestBody)
 
     requestBody = JSON.stringify(requestBody)
 
@@ -99,7 +95,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
                 {
                   reviewList.map((review, index) => {
                     return(
-                      <S.CommentBox id={review.id}>
+                      <S.CommentBox id={review.id} key={index}>
                         <div className="profile-section">
                           <div className="profile">
                             <img src="/image/react.svg" alt="icons" className="icon" />
