@@ -7,7 +7,6 @@ import * as S from '../../styles/main/search.style';
 import Swal from 'sweetalert2';
 
 const SearchComponent = () => {
-  // 하단 랭킹의 탭 state가 변경되어도 값이 바뀌지 않게 하기 위해
   const num = useMemo(() => Math.floor(Math.random() * 10) + 1, []);
   const navigate = useNavigate();
   const search = useRef();
