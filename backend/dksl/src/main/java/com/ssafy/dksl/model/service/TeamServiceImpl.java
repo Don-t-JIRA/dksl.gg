@@ -353,11 +353,11 @@ public class TeamServiceImpl implements TeamService {
         // 이미지를 byte array로 변환 (blob)
         byte[] imageByteArray;
         try {
-            InputStream imageStream = new FileInputStream(BASE_IMG_URI + "team" + File.separator + imgName);
+            InputStream imageStream = new FileInputStream(BASE_IMG_URI + File.separator + imgName);
             imageByteArray = imageStream.readAllBytes();
             imageStream.close();
         } catch (IOException e) {
-            log.error("파일 URL : " + BASE_IMG_URI + "team" + File.separator + imgName);
+            log.error("파일 URL : " + BASE_IMG_URI + File.separator + imgName);
             throw new FileInvalidException();
         }
 
