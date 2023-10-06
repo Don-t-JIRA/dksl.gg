@@ -55,6 +55,11 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/team/add", HttpMethod.POST.name())).authenticated()
                                 .requestMatchers(new AntPathRequestMatcher("/member", HttpMethod.POST.name())).authenticated()
                                 .requestMatchers(new AntPathRequestMatcher("/member/logout", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/**", HttpMethod.OPTIONS.name())).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/api/team/create", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/team/add", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/member", HttpMethod.POST.name())).authenticated()
+                                .requestMatchers(new AntPathRequestMatcher("/api/member/logout", HttpMethod.POST.name())).authenticated()
                                 .anyRequest().permitAll()
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
@@ -77,7 +82,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
 
     }
