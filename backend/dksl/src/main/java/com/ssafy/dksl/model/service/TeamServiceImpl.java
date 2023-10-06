@@ -249,7 +249,7 @@ public class TeamServiceImpl implements TeamService {
             for (MemberTeam memberTeam : memberTeamList) {
                 flag = true;
                 for (Team team : teamList) {
-                    if (team.getName().equals(memberTeam.getTeam().getName())) {  // 중복 제거
+                    if (team.getName().equals(memberTeam.getTeam().getName()) || memberTeam.getTeam().getSubmitAt() == null) {  // 중복 제거
                         flag = false;
                         break;
                     }
