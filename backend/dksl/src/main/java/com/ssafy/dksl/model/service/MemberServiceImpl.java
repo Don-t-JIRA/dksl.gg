@@ -213,6 +213,7 @@ public class MemberServiceImpl extends RiotServiceImpl implements MemberService,
                     .puuid(summonerNode.get("puuid").asText())  // puuid 정보 업데이트
                     .phone(member.getPhone().replace("-", ""))
                     .email(member.getEmail())
+                    .lbti(member.getLbti())
                     .tier(tier)  // 티어 정보 업데이트
                     .rank(rank)  // 랭크 정보 업데이트
                     .profileIconId(summonerNode.get("profileIconId").asInt())  // 프로필 아이콘 정보 업데이트

@@ -8,6 +8,7 @@ import { ResponsiveBar } from '@nivo/bar';
 import LoadingComponent from '../../common/LoadingComponent';
 // Jotai
 import { useAnalyze } from '../../../jotai/analyze';
+import { useGroup } from '../../../jotai/group';
 // Data
 import { star } from '../../../star';
 
@@ -17,52 +18,49 @@ const openLink = (url) => {
 
 const TabAnalyzeComponent = ({ fetchData }) => {
   const analyze = useAnalyze();
+  // LBTI Data get
+  const group = useGroup();
   const [champ, setChamp] = useState(null);
   const [chart, setChart] = useState(null);
+  const [lbti, setLbti] = useState(null);
   useEffect(() => {
-    console.log('analyze: ', analyze);
     if (analyze && analyze != 'NoData') {
       const data = analyze.cluster;
-      console.log(typeof parseInt(data.cs));
       setChart([
         {
-          id: 'cs',
+          id: 'CS',
           value: parseInt(data.cs),
         },
         {
-          id: 'dealt',
+          id: '딜량',
           value: parseInt(data.dealt),
         },
         {
-          id: 'dpm',
+          id: '분당 딜량',
           value: parseInt(data.dpm),
         },
         {
-          id: 'kda',
+          id: 'KDA',
           value: parseFloat(data.kda),
         },
         {
-          id: 'level',
+          id: '레벨',
           value: parseInt(data.level),
         },
         {
-          id: 'no',
-          value: parseInt(data.no),
-        },
-        {
-          id: 'receive',
+          id: '받은 피해량',
           value: parseInt(data.receive),
         },
         {
-          id: 'soloKill',
+          id: '솔로킬',
           value: parseInt(data.soloKill),
         },
         {
-          id: 'vision',
+          id: '시야점수',
           value: parseInt(data.vision),
         },
         {
-          id: 'ward',
+          id: '핑크 와드',
           value: parseInt(data.ward),
         },
       ]);
@@ -89,69 +87,103 @@ const TabAnalyzeComponent = ({ fetchData }) => {
     }
   }, [analyze, champ, fetchData]);
 
-  return (
+  useEffect(() => {
+    if (group && group.lbti) {
+      const newObj = {
+        ...group.lbti,
+        lbtiStr: group.lbti.firstTendency.initial +
+        group.lbti.secondTendency.initial +
+        group.lbti.thirdTendency.initial +
+        group.lbti.fourthTendency.initial
+      }
+      setLbti((prevLbti) => {
+        if (prevLbti == newObj) {
+          return prevLbti;
+        }
+        return newObj;
+      });
+    }
+  }, [group]);
+
+  if (analyze == null) return <LoadingComponent />;
+
+  return analyze == 'NoData' ? (
+    <S.TabAnalyzeLayout>
+      <S.CenterLayout>
+        <S.NoDataLayout>
+          <p className="info">분석 데이터가 존재하지 않습니다.</p>
+        </S.NoDataLayout>
+      </S.CenterLayout>
+    </S.TabAnalyzeLayout>
+  ) : (
     <S.TabAnalyzeLayout>
       <S.CenterLayout>
         <S.AnalyzeCard>
           <p className="title">&#128195; 롤BTI 분석</p>
-          <div className="analyze-box">
-            <img src="/image/lbti-img.svg" />
-            <div className="subtitle">
-              <p>킹받는 티모 원챔</p>
-              <p className="lbti">CVSD</p>
+          {lbti ? (
+            <div className="analyze-box">
+              <img src={`https://ddragon.leagueoflegends.com/cdn/13.19.1/img/champion/${lbti.championName}.png`} />
+              <div className="subtitle">
+                <p>{lbti.name}</p>
+                <p className="lbti">💡 {lbti.lbtiStr}</p>
+              </div>
+              <div className="tag-box">
+                <S.TagItem $bg="red">
+                  <div className="text">
+                    {lbti.firstTendency.name}
+                  </div>
+                </S.TagItem>
+                <S.TagItem $bg="green">
+                  <div className="text">
+                    {lbti.secondTendency.name}
+                  </div>
+                </S.TagItem>
+                <S.TagItem $bg="violet">
+                  <div className="text">
+                    {lbti.thirdTendency.name}
+                  </div>
+                </S.TagItem>
+                <S.TagItem $bg="var(--maincolor-depth1)">
+                  <div className="text">
+                    {lbti.fourthTendency.name}
+                  </div>
+                </S.TagItem>
+              </div>
             </div>
-            <div className="tag-box">
-              <S.TagItem $bg="red">
-                <div className="text">
-                  #<b>공격</b>적인
-                </div>
-              </S.TagItem>
-              <S.TagItem $bg="green">
-                <div className="text">
-                  #<b>올드</b>한
-                </div>
-              </S.TagItem>
-              <S.TagItem $bg="violet">
-                <div className="text">
-                  #많이<b>때린</b>
-                </div>
-              </S.TagItem>
-              <S.TagItem $bg="var(--maincolor-depth1)">
-                <div className="text">
-                  #<b>철거</b>반장
-                </div>
-              </S.TagItem>
-            </div>
-          </div>
+          ) : (
+            <LoadingComponent />
+          )}
         </S.AnalyzeCard>
         <S.GraphCard>
           <p className="title">&#128195; 소환사 분석 그래프</p>
           <div className="graph-box">
             {chart ? (
-              <ResponsiveBar
-                data={chart}
-                keys={['value']}
-                indexBy="id"
-                margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
-                padding={0.3}
-                layout="vertical"
-                colors={{ scheme: 'nivo' }}
-                axisBottom={{
-                  tickSize: 5,
-                  tickPadding: 0,
-                  tickRotation: 0,
-                }}
-                enableGridX={false}
-                enableGridY={true}
-                enableLabel={false}
-              />
+              <div className="graph">
+                <ResponsiveBar
+                  data={chart}
+                  keys={['value']}
+                  indexBy="id"
+                  margin={{ top: 50, right: 30, bottom: 50, left: 60 }}
+                  padding={0.3}
+                  layout="vertical"
+                  colors={{ scheme: 'nivo' }}
+                  axisBottom={{
+                    tickSize: 5,
+                    tickPadding: 0,
+                    tickRotation: 0,
+                  }}
+                  enableGridX={false}
+                  enableGridY={true}
+                  enableLabel={false}
+                />
+              </div>
             ) : (
               <LoadingComponent />
             )}
             <div className="desc">
               <p className="cluster-name">{analyze.cluster.name}</p>
               <p className="minion">
-                평균 미니언: {analyze.cluster.minion_avg}
+                평균 <b>미니언</b> 처치 수: <b>{analyze.cluster.minion_avg}</b>
               </p>
             </div>
           </div>

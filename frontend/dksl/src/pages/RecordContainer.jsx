@@ -9,7 +9,7 @@ import RecordBodyComponent from '../components/record/RecordBodyComponent';
 // import { laderData } from '../data';
 // Jotai
 import { useRecord, useUpdateRecord } from '../jotai/record';
-import { useGroup, useUpdateGroup } from '../jotai/group';
+import { useUpdateGroup } from '../jotai/group';
 import { groupLeave } from '../services/GroupService';
 // Swal
 import Swal from 'sweetalert2';
@@ -51,21 +51,12 @@ const RecordContainer = () => {
   const [recordTab, setRecordTab] = useState(0);
   const [recorddata, setRecorddata] = useState(null);
   const [piedata, setPiedata] = useState([{ id: '', label: '', value: 0 }]);
-  const [profile, setProfile] = useState({
-    name: '유 용',
-    level: '800',
-    lbti: 'CVSD',
-    iconId: 6,
-    tier: 'master',
-  });
+  const [profile, setProfile] = useState(null);
   const { summoner } = useParams();
   const navigate = useNavigate();
   const data = useRecord();
   const setRecord = useUpdateRecord();
   const setAnalyze = useUpdateAnalyze();
-  // LBTI 뽑기 위한 group Atom
-  // const group = useGroup();
-  // const [lbti, setLbti] = useState(null);
   const setGroup = useUpdateGroup();
 
   const fetchChampData = useCallback(async (championName) => {
@@ -108,9 +99,6 @@ const RecordContainer = () => {
         },
       ]);
     }
-    // if (group && group.summoner_lbti) {
-    //   setLbti(group.summoner_lbti);
-    // }
   }, [data, navigate]);
 
   useEffect(() => {
@@ -137,14 +125,14 @@ const RecordContainer = () => {
   }, []);
 
   const leaveTeam = useCallback(async (name) => {
-    if (name == 'test') {
-      console.log('Call leaveTeam');
-      return;
-    }
     const result = await groupLeave(name);
 
     if (result) {
-      Swal.fire('Success', name + '소속에서 탈퇴되셨습니다.', 'success');
+      Swal.fire('탈퇴', name + '소속에서 탈퇴되셨습니다.', 'success').then((result) => {
+        if (result.isConfirmed || result.isConfirmed || result.isDenied) {
+          location.reload();
+        }
+      });
     }
   }, []);
 

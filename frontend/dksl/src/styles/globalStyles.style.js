@@ -15,8 +15,6 @@ const GlobalStyles = createGlobalStyle`
   width: 100vw !important;
   height: 100vh !important;
 
-  /* color-scheme: light dark; */
-  /* color: rgba(255, 255, 255, 0.87); */
   background-color: #f0f0f0;
   background-attachment: fixed;
 
@@ -27,9 +25,7 @@ const GlobalStyles = createGlobalStyle`
   -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
 
-  /* --maincolor-depth1: #3E7CB1; */
   --maincolor-depth1: #6E8387;
-  /* --maincolor-depth2: #DBE4EE; */
   --maincolor-depth2: #C8D3D5;
 
   --mainbg: #f0f0f0;
@@ -153,7 +149,7 @@ export const Tag = css`
   height: 1.75rem;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 50vw;
+  border-radius: 15px;
   color: white;
   font-size: small;
   display: flex;

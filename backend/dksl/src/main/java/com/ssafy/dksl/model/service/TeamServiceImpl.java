@@ -138,10 +138,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean leaveTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
         Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
-        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName().replace("\"", "")).orElseThrow(TeamNotFoundException::new);
+
 
         try {
-            memberTeamRepository.delete(MemberTeam.builder().member(member).team(team).build());
+            memberTeamRepository.delete(memberTeamRepository.findByMemberAndTeam(member, team).orElseThrow(MemberTeamDeleteException::new));
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());

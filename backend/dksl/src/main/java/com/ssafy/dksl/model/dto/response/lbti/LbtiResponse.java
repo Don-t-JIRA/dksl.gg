@@ -2,6 +2,7 @@ package com.ssafy.dksl.model.dto.response.lbti;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 @Getter
 @Builder
