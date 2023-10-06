@@ -30,7 +30,6 @@ const MainContainer = () => {
 
     const groupRankData = async () => {
       const data = await getGroupRankData();
-      console.log(data);
       setGroupRankData(data);
     };
 

@@ -139,7 +139,6 @@ const formattingData = async (user) => {
     Swal.fire('Error', error.message, 'error');
   });
   if (sample == 'NoData') return sample;
-  console.log(sample);
   const record = {
     profile: sample.profile,
     match_histories: [],
@@ -152,7 +151,6 @@ const formattingData = async (user) => {
       tempArr = [];
     }
   }
-  console.log(record);
   const arr = record.match_histories.map((e) => {
     let cur;
     let summary = [[], []];

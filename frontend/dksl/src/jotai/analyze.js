@@ -12,9 +12,7 @@ const capitalizeStr = (string) => {
 const getAnalyze = async (name) => {
   if (name == null || name == undefined || typeof name != 'string') return null;
   if (name) {
-    console.log(name);
     const data = await getAnalyzeData(name);
-    console.log(data);
 
     if (data) {
       return {
