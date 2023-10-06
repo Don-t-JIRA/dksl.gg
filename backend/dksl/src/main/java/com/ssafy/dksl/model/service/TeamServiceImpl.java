@@ -89,7 +89,7 @@ public class TeamServiceImpl implements TeamService {
                     .name(createTeamCommand.getName())
                     .description(createTeamCommand.getDescription())
                     .chairman(chairman)
-                    .submitAt(LocalDateTime.now())
+                    .submitAt(null)
                     .img("tmp")  // 임시 img 이름
                     .build();
             team = teamRepository.save(team);  // ID를 받기 위한 임시 저장
@@ -138,10 +138,11 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean leaveTeamMember(TeamMemberCommand teamMemberCommand) throws CustomException {
         Member member = memberRepository.findByClientId(jwtUtil.getClientId(teamMemberCommand.getToken())).orElseThrow(MemberNotFoundException::new);
-        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName()).orElseThrow(TeamNotFoundException::new);
+        Team team = teamRepository.findByNameAndSubmitAtIsNotNull(teamMemberCommand.getTeamName().replace("\"", "")).orElseThrow(TeamNotFoundException::new);
+
 
         try {
-            memberTeamRepository.delete(MemberTeam.builder().member(member).team(team).build());
+            memberTeamRepository.delete(memberTeamRepository.findByMemberAndTeam(member, team).orElseThrow(MemberTeamDeleteException::new));
             return true;
         } catch (Exception e) {
             log.error(e.getMessage());
