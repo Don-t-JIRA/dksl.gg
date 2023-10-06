@@ -7,7 +7,7 @@ import LoadingComponent from '../../common/LoadingComponent';
 import { common, auth } from '../../../services/api.js';
 import { getMember } from '../../../services/UserService';
 
-const TabReviewComponent = ({ evaluateeName }) => {
+const TabReviewComponent = ({ evaluateeName, onSetEvaluation }) => {
   const search = useRef();
   const [reviewList, setReviewList] = useState(["noData"])
   const [score, setScore] = useState(5)
@@ -15,15 +15,16 @@ const TabReviewComponent = ({ evaluateeName }) => {
   const [summonerName, setSummonerName] = useState("")
   const [evaluation, setEvaluation] = useState(null)
   const [selectList, setSelectList] = useState([1, 2, 3, 4, 5])
+  // reviewList = ['NoDasdta'];
 
   useEffect(()=>{
-    async function getMemberInfo() {
+    async function getMemberInfo(){
       let memberResponse = await getMember();
       setSummonerName(memberResponse.data.name)
       return memberResponse.data.name
     }
 
-    async function getEvaluationList() {
+    async function getEvaluationList(){
       let splitSummonerName = evaluateeName.split();
 
       let realSummonerName = splitSummonerName[0]
@@ -50,6 +51,9 @@ const TabReviewComponent = ({ evaluateeName }) => {
       evaluateeName: evaluateeName,
       score: evaluationScore
     }
+
+    console.log("requestBody")
+    console.log(requestBody)
 
     requestBody = JSON.stringify(requestBody)
 
@@ -83,7 +87,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
             </select>
             <div className="search-input">
               <input placeholder="" onChange={handleEvaluation} />
-              <img src="/image/send.png" onClick={() => registerEvaluation()} />
+              <img src="/image/send.png" onClick={() => {onSetEvaluation(score, evaluation);}} />
             </div>
           </S.EmptyReviewLayout>
         ) : (
@@ -95,7 +99,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
                 {
                   reviewList.map((review, index) => {
                     return(
-                      <S.CommentBox id={review.id} key={index}>
+                      <S.CommentBox id={review.id}>
                         <div className="profile-section">
                           <div className="profile">
                             <img src="/image/react.svg" alt="icons" className="icon" />
