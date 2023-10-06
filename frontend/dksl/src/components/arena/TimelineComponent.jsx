@@ -218,7 +218,7 @@ const TimelineComponent = () => {
                     {
                         reviews.length>0 ? reviews.map((review, index) => {
                             return(
-                                <S.ArenaBox>
+                                <S.ArenaBox key={index}>
                                     <div className="profile-section">
                                         <div className="profile">
                                             <img src={"/image/champion/" + timelineInfo.championNames[timelineInfo.summonerNames.indexOf(review.summonerName)] + ".png"} alt="icons" className="icon" />
