@@ -75,7 +75,7 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/member/**", configuration);
+        source.registerCorsConfiguration("/**", configuration);
         return source;
 
     }
