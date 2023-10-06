@@ -51,7 +51,7 @@ const RecordBodyComponent = (props) => {
               image={props.getByteToImage}
             />
           )}
-          {props.tab == 3 && <TabReviewComponent evaluateeName={props.searchSummonerName} />}
+          {props.tab == 3 && <TabReviewComponent evaluateeName={props.searchSummonerName} onSetEvaluation={props.onSetEvaluation} />}
         </div>
       </S.TabLayout>
     </S.RecordLayout>

@@ -27,4 +27,18 @@ const setReview = async (data) => {
   }
 };
 
-export { getReviews, setReview };
+const setEvaluation = async (data) => {
+  try {
+    const response = await auth.post('/evaluation/create', JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+      },
+    });
+
+    return response;
+  } catch (error) {
+    Swal.fire('Error', error.response.data, 'error');
+  }
+};
+
+export { getReviews, setReview, setEvaluation };
