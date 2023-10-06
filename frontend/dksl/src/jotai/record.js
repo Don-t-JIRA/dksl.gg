@@ -172,7 +172,10 @@ const formattingData = async (user) => {
     // 매치 별 플레이 시간 가공
     const str = e[0].play_duration.split('');
     if (str.length < 5) {
-      e[0].play_duration = str[0] + str[1] + ':' + str[2] + str[3];
+      if (str.length == 4)
+        e[0].play_duration = str[0] + str[1] + ':' + str[2] + str[3];
+      else (str.length == 3)
+      e[0].play_duration = str[0] + ':' + str[1] + str[2];
     }
 
     const winner = [];
