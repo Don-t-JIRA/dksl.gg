@@ -94,9 +94,9 @@ def get_recommend_list(
     # match_histories_mapped 리스트를 DataFrame으로 변환
     df_train = pd.DataFrame(match_histories_mapped)
 
-    Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "Jarvan IV", "Karma", "Volibear", "Sion", "Braum"]
-    Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "Master Yi"]
-    Cluster2 = ["Ezreal", "Xerath", "Zed", "Darius", "Olaf", "Talon", "LeBlanc",
+    Cluster0 = ["Ornn", "Blitzcrank", "Nautilus", "Maokai", "Zac", "JarvanIV", "Karma", "Volibear", "Sion", "Braum"]
+    Cluster1 = ["Fiora", "Nasus", "Trundle", "Jax", "Yorick", "Wukong", "Camille", "Garen", "Sett", "MasterYi"]
+    Cluster2 = ["Ezreal", "Xerath", "Zed", "Darius", "Olaf", "Talon", "Leblanc",
                 "Kennen", "Warwick", 'Khazix']
 
     celebrity0 = ['Insec', "oyo", "destiny", "Zeus", "Kingen"]
