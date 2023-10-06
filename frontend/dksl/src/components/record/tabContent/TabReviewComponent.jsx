@@ -4,10 +4,10 @@ import { useRef, useEffect, useState } from 'react';
 import * as S from '@/styles/record/tabreview.style';
 // Componnet
 import LoadingComponent from '../../common/LoadingComponent';
-import { common, auth } from '../../../services/api.js';
+import { common } from '../../../services/api.js';
 import { getMember } from '../../../services/UserService';
 
-const TabReviewComponent = ({ evaluateeName }) => {
+const TabReviewComponent = ({ evaluateeName, setReview }) => {
   const search = useRef();
   const [reviewList, setReviewList] = useState(["noData"])
   const [score, setScore] = useState(5)
@@ -43,18 +43,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
     getEvaluationList()
   }, [])
 
-  const registerEvaluation = () => {
-    let requestBody = {
-      evaluation: evaluation,
-      evaluatorName: summonerName,
-      evaluateeName: evaluateeName,
-      score: evaluationScore
-    }
 
-    requestBody = JSON.stringify(requestBody)
-
-    common.post('/evaluation/create', requestBody)
-  };
 
   const handleEvaluation = (e) => {
     let newEvaluation = e.target.value
@@ -83,7 +72,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
             </select>
             <div className="search-input">
               <input placeholder="" onChange={handleEvaluation} />
-              <img src="/image/send.png" onClick={() => registerEvaluation()} />
+              <img src="/image/send.png" onClick={() => setReview(evaluation, summonerName, evaluationScore)} />
             </div>
           </S.EmptyReviewLayout>
         ) : (
@@ -128,7 +117,7 @@ const TabReviewComponent = ({ evaluateeName }) => {
 
             <div className="search-input">
               <input placeholder="" onChange={handleEvaluation} />
-              <img src="/image/send.png" onClick={() => registerEvaluation()} />
+              <img src="/image/send.png" onClick={() => setReview(evaluation, summonerName, evaluationScore)} />
             </div>
           </S.ReviewContainer>
         )
