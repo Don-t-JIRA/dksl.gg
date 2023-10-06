@@ -153,7 +153,7 @@ export const Tag = css`
   height: 1.75rem;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 50vw;
+  border-radius: 15px;
   color: white;
   font-size: small;
   display: flex;
