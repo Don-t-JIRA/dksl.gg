@@ -21,7 +21,7 @@ const getSearchData = async (word) => {
     console.error(error);
     Swal.fire({
       title: '이런!',
-      text: '정확한 소환사명을 입력해주세요!',
+      text: '전적 조회 중 오류 발생!',
       icon: 'error',
     }).then((result) => {
       if (result.isConfirmed) window.location.href = '/';
