@@ -212,7 +212,7 @@ const RecordCardComponent = (props) => {
             onClick={openDetail}
           />
         </div>
-        <button onClick={location.href='/arena/' + props.matchId}/>
+        <button onClick={() => {location.href='/arena/' + props.matchId}}/>
       </S.RecordCard>
       <div className={`start ${isOpen && `end`}`}>
         {isOpen && (
