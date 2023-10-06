@@ -98,7 +98,7 @@ public class TeamServiceImpl implements TeamService {
 
             String imgName = team.getId() + originalFileExtension;
             log.info("파일 URL: " + BASE_IMG_URI + "team" + File.separator + imgName);
-            File imgFile = new File(BASE_IMG_URI + "team" + File.separator + imgName);
+            File imgFile = new File(BASE_IMG_URI + File.separator + imgName);
             log.info("파일 URL: " + imgFile.getAbsolutePath());
             flag = imgFile.setExecutable(false);  // 실행 권한 없애기
             createTeamCommand.getImg().transferTo(imgFile);  // 이미지 저장
