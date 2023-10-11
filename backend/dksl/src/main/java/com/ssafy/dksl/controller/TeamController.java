@@ -8,14 +8,14 @@ import com.ssafy.dksl.model.dto.response.team.MainTeamResponse;
 import com.ssafy.dksl.model.dto.response.team.TeamResponse;
 import com.ssafy.dksl.model.service.TeamService;
 import com.ssafy.dksl.util.exception.common.CustomException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("team")
 public class TeamController {
@@ -31,6 +31,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.createTeam(createTeamRequest.toCreateTeamCommand(token, img)));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -40,6 +41,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.createTeamMember(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -49,6 +51,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.leaveTeamMember(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -62,6 +65,7 @@ public class TeamController {
                     .recentTeamList(teamService.getRecentTeamList(10))
                     .build());
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -75,6 +79,7 @@ public class TeamController {
                     .build();
             return ResponseEntity.ok(allTeamResponse);
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -84,6 +89,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.getRecentTeamList(10));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -93,6 +99,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.getSearchTeamList(SearchTeamCommand.builder().searchStr(searchStr.trim()).build()));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
@@ -102,6 +109,7 @@ public class TeamController {
         try {
             return ResponseEntity.ok(teamService.getTeamDetail(TeamMemberCommand.builder().token(token).teamName(teamName).build()));
         } catch (CustomException e) {
+            log.error(e.getMessage());
             return new ResponseEntity<>(e.getMessage(), e.getHttpStatus());
         }
     }
